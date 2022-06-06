@@ -1,7 +1,7 @@
-"""npm install"""
-"""npm start"""
-"""npm install --include=dev eslint-config-react-app"""
-"""npm i stylis-plugin-rtl@2.0.2"""
+>npm install
+>npm start
+>npm install --include=dev eslint-config-react-app
+>npm i stylis-plugin-rtl@2.0.2
 
 
 <!-- # [Material Dashboard 2 React](http://demos.creative-tim.com/material-dashboard-react/#/dashboard?ref=readme-mdr) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?url=https://www.creative-tim.com/product/material-dashboard-react&text=Check%20Material%20Dashboard%202%20react%20made%20by%20@CreativeTim%20#webdesign%20#dashboard%20#materialdesign%20#react%20https://www.creative-tim.com/product/material-dashboard-react)
