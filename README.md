@@ -1,6 +1,12 @@
 >npm install
+
+
 >npm start
+
+
 >npm install --include=dev eslint-config-react-app
+
+
 >npm i stylis-plugin-rtl@2.0.2
 
 
