@@ -35,7 +35,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 // Images
 // import bgImage from "assets/images/bg-sign-up-cover.jpeg";
 
-function Cover() {
+function SupervisorRegistration() {
   return (
     <DashboardLayout>
       <Card>
@@ -51,7 +51,7 @@ function Cover() {
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Driver registration
+            Supervisor registration
           </MDTypography>
           {/* <MDTypography display="block" variant="button" color="white" my={1}>
             Enter your email and password to register
@@ -124,4 +124,4 @@ function Cover() {
   );
 }
 
-export default Cover;
+export default SupervisorRegistration;

@@ -42,8 +42,11 @@ import Billing from "layouts/billing";
 import RTL from "layouts/rtl";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
-import SignIn from "layouts/authentication/sign-in";
-import SignUp from "layouts/authentication/sign-up";
+// import SignIn from "layouts/authentication/sign-in";
+// import SignUp from "layouts/authentication/sign-up";
+import SignUpAdmin from "layouts/authentication/registration-forms/admin";
+import SignUpDriver from "layouts/authentication/registration-forms/driver";
+import SignUpSupervisor from "layouts/authentication/registration-forms/supervisor";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -97,22 +100,79 @@ const routes = [
     route: "/profile",
     component: <Profile />,
   },
+  // {
+  //   type: "collapse",
+  //   name: "Sign In",
+  //   key: "sign-in",
+  //   icon: <Icon fontSize="small">login</Icon>,
+  //   route: "/",
+  //   component: <SignIn />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Sign Up",
+  //   key: "sign-up",
+  //   icon: <Icon fontSize="small">assignment</Icon>,
+  //   route: "/authentication/sign-up",
+  //   component: <SignUp />,
+  // },
   {
     type: "collapse",
-    name: "Sign In",
-    key: "sign-in",
-    icon: <Icon fontSize="small">login</Icon>,
-    route: "/",
-    component: <SignIn />,
+    name: "Supervisor registration",
+    key: "SignUpSupervisor",
+    icon: <Icon fontSize="small">assignment</Icon>,
+    route: "/authentication/registration/supervisor",
+    component: <SignUpSupervisor />,
   },
   {
     type: "collapse",
-    name: "Sign Up",
-    key: "sign-up",
+    name: "Driver registration",
+    key: "SignUpDriver",
     icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/authentication/sign-up",
-    component: <SignUp />,
+    route: "/authentication/registration/driver",
+    component: <SignUpDriver />,
+  },
+  {
+    type: "collapse",
+    name: "Admin registration",
+    key: "SignUpAdmin",
+    icon: <Icon fontSize="small">assignment</Icon>,
+    route: "/authentication/registration/admin",
+    component: <SignUpAdmin />,
   },
 ];
 
 export default routes;
+// {
+//   type: "collapse",
+//   name: "Registrations",
+//   key: "authentication",
+//   icon: <Icon fontSize="small">assignment</Icon>,
+//   // route: "/authentication/sign-up",
+//   collapse: [
+//     {
+//       // type: "title",
+//       name: "Supervisor registration",
+//       key: "SignUpSupervisor",
+//       // icon: <Icon fontSize="small">assignment</Icon>,
+//       route: "/authentication/registration/supervisor",
+//       component: <SignUpSupervisor />,
+//     },
+//     {
+//       // type: "title",
+//       name: "Driver registration",
+//       key: "SignUpDriver",
+//       // icon: <Icon fontSize="small">assignment</Icon>,
+//       route: "/authentication/registration/driver",
+//       component: <SignUpDriver />,
+//     },
+//     {
+//       // type: "title",
+//       name: "Admin registration",
+//       key: "SignUpAdmin",
+//       // icon: <Icon fontSize="small">assignment</Icon>,
+//       route: "/authentication/registration/admin",
+//       component: <SignUpAdmin />,
+//     },
+//   ],
+// },
