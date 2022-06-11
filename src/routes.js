@@ -38,16 +38,21 @@ Coded by www.creative-tim.com
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
+import AllAdmins from "layouts/all-users/admin";
+import AllDrivers from "layouts/all-users/driver";
+import AllSupervisors from "layouts/all-users/supervisor";
+// import DriverProfile from "layouts/user-profiles/driver";
+// import AdminProfile from "layouts/user-profiles/admin";
+// import SupervisorProfile from "layouts/user-profiles/supervisor";
 import Billing from "layouts/billing";
 import RTL from "layouts/rtl";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
-// import SignIn from "layouts/authentication/sign-in";
+import SignIn from "layouts/authentication/sign-in";
 // import SignUp from "layouts/authentication/sign-up";
 import SignUpAdmin from "layouts/authentication/registration-forms/admin";
 import SignUpDriver from "layouts/authentication/registration-forms/driver";
 import SignUpSupervisor from "layouts/authentication/registration-forms/supervisor";
-
 // @mui icons
 import Icon from "@mui/material/Icon";
 
@@ -67,6 +72,30 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/tables",
     component: <Tables />,
+  },
+  {
+    type: "collapse",
+    name: "Drivers",
+    key: "drivers",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/drivers",
+    component: <AllDrivers />,
+  },
+  {
+    type: "collapse",
+    name: "Admins",
+    key: "admins",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/admins",
+    component: <AllAdmins />,
+  },
+  {
+    type: "collapse",
+    name: "Supervisors",
+    key: "supervisors",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/supervisors",
+    component: <AllSupervisors />,
   },
   {
     type: "collapse",
@@ -100,14 +129,14 @@ const routes = [
     route: "/profile",
     component: <Profile />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "Sign In",
-  //   key: "sign-in",
-  //   icon: <Icon fontSize="small">login</Icon>,
-  //   route: "/",
-  //   component: <SignIn />,
-  // },
+  {
+    type: "collapse",
+    name: "Sign In",
+    key: "sign-in",
+    icon: <Icon fontSize="small">login</Icon>,
+    route: "/",
+    component: <SignIn />,
+  },
   // {
   //   type: "collapse",
   //   name: "Sign Up",
@@ -119,7 +148,7 @@ const routes = [
   {
     type: "collapse",
     name: "Supervisor registration",
-    key: "SignUpSupervisor",
+    key: "signUpSupervisor",
     icon: <Icon fontSize="small">assignment</Icon>,
     route: "/authentication/registration/supervisor",
     component: <SignUpSupervisor />,

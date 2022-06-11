@@ -116,6 +116,14 @@ function DefaultNavbar({ transparent, light, action }) {
         <MDBox color="inherit" display={{ xs: "none", lg: "flex" }} m={0} p={0}>
           <DefaultNavbarLink icon="donut_large" name="dashboard" route="/dashboard" light={light} />
           <DefaultNavbarLink icon="person" name="profile" route="/profile" light={light} />
+          <DefaultNavbarLink icon="table_view" name="drivers" route="/drivers" light={light} />
+          <DefaultNavbarLink
+            icon="table_view"
+            name="supervisors"
+            route="/supervisors"
+            light={light}
+          />
+          <DefaultNavbarLink icon="table_view" name="admins" route="/admins" light={light} />
           <DefaultNavbarLink
             icon="account_circle"
             name="sign up"
