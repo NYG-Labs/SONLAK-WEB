@@ -126,7 +126,7 @@ function Dashboard() {
                       (<strong>+15%</strong>) increase in today sales.
                     </>
                   }
-                  date="updated 4 min ago"
+                  date="updat 4 min ago"
                   chart={sales}
                 />
               </MDBox>

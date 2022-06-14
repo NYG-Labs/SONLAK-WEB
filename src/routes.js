@@ -47,7 +47,7 @@ import AllSupervisors from "layouts/all-users/supervisor";
 import Billing from "layouts/billing";
 // import RTL from "layouts/rtl";
 import Notifications from "layouts/notifications";
-import Profile from "layouts/profile";
+// import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 // import SignUp from "layouts/authentication/sign-up";
 import SignUpAdmin from "layouts/authentication/registration-forms/admin";
@@ -56,6 +56,8 @@ import SignUpSupervisor from "layouts/authentication/registration-forms/supervis
 import AdminProfile from "layouts/user-profiles/admin";
 import DriverProfile from "layouts/user-profiles/driver";
 import SupervisorProfile from "layouts/user-profiles/supervisor";
+import AllUsers from "layouts/all-users";
+import AllUserRegistrations from "layouts/authentication/registration-forms";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -69,43 +71,61 @@ const routes = [
     route: "/dashboard",
     component: <Dashboard />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "Tables",
-  //   key: "tables",
-  //   icon: <Icon fontSize="small">table_view</Icon>,
-  //   route: "/tables",
-  //   component: <Tables />,
-  // },
   {
     type: "collapse",
+    name: "Users",
+    key: "users",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/users",
+    component: <AllUsers />,
+  },
+  {
     name: "Drivers",
     key: "drivers",
-    icon: <Icon fontSize="small">table_view</Icon>,
     route: "/drivers",
     component: <AllDrivers />,
   },
   {
-    type: "collapse",
     name: "Admins",
     key: "admins",
-    icon: <Icon fontSize="small">table_view</Icon>,
     route: "/admins",
     component: <AllAdmins />,
   },
   {
-    type: "collapse",
     name: "Supervisors",
     key: "supervisors",
-    icon: <Icon fontSize="small">table_view</Icon>,
     route: "/supervisors",
     component: <AllSupervisors />,
   },
   {
+    name: "Supervisor Profile",
+    key: "supervisor-profile",
+    route: "/supervisors/supervisor-profile",
+    component: <SupervisorProfile />,
+  },
+  {
+    name: "Admin Profile",
+    key: "admin-profile",
+    route: "/admins/admin-profile",
+    component: <AdminProfile />,
+  },
+  {
+    name: "Driver Profile",
+    key: "driver-profile",
+    route: "/drivers/driver-profile",
+    component: <DriverProfile />,
+  },
+  {
     type: "collapse",
+    name: "Add users",
+    key: "addUsers",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/add-user",
+    component: <AllUserRegistrations />,
+  },
+  {
     name: "Billing",
     key: "billing",
-    icon: <Icon fontSize="small">receipt_long</Icon>,
     route: "/billing",
     component: <Billing />,
   },
@@ -125,76 +145,34 @@ const routes = [
     route: "/notifications",
     component: <Notifications />,
   },
+  // {
+  //   name: "Profile",
+  //   key: "profile",
+  //   route: "/profile",
+  //   component: <Profile />,
+  // },
   {
-    // type: "collapse",
-    // name: "Profile",
-    key: "profile",
-    // icon: <Icon fontSize="small">person</Icon>,
-    route: "/profile",
-    component: <Profile />,
-  },
-  {
-    // type: "collapse",
-    // name: "Profile",
-    key: "supervisor-profile",
-    // icon: <Icon fontSize="small">person</Icon>,
-    route: "/supervisor-profile",
-    component: <SupervisorProfile />,
-  },
-  {
-    // type: "collapse",
-    // name: "Profile",
-    key: "admin-profile",
-    // icon: <Icon fontSize="small">person</Icon>,
-    route: "/admin-profile",
-    component: <AdminProfile />,
-  },
-  {
-    // type: "collapse",
-    // name: "Profile",
-    key: "driver-profile",
-    // icon: <Icon fontSize="small">person</Icon>,
-    route: "/driver-profile",
-    component: <DriverProfile />,
-  },
-  {
-    // type: "collapse",
-    // name: "Sign In",
+    name: "Sign In",
     key: "sign-in",
-    // icon: <Icon fontSize="small">login</Icon>,
     route: "/",
     component: <SignIn />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "Sign Up",
-  //   key: "sign-up",
-  //   icon: <Icon fontSize="small">assignment</Icon>,
-  //   route: "/authentication/sign-up",
-  //   component: <SignUp />,
-  // },
   {
-    type: "collapse",
     name: "Supervisor registration",
     key: "signUpSupervisor",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/authentication/registration/supervisor",
+    route: "/add-user/supervisor",
     component: <SignUpSupervisor />,
   },
   {
-    type: "collapse",
     name: "Driver registration",
     key: "SignUpDriver",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/authentication/registration/driver",
+    route: "/add-user/driver",
     component: <SignUpDriver />,
   },
   {
-    type: "collapse",
     name: "Admin registration",
     key: "SignUpAdmin",
-    icon: <Icon fontSize="small">assignment</Icon>,
-    route: "/authentication/registration/admin",
+    route: "/add-user/admin",
     component: <SignUpAdmin />,
   },
 ];

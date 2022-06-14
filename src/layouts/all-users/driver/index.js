@@ -28,11 +28,12 @@ import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
 // Data
-import authorsTableData from "layouts/tables/data/authorsTableData";
+// import authorsTableData from "layouts/tables/data/authorsTableData";
+import allDriverData from "./allDriverData";
 // import projectsTableData from "layouts/tables/data/projectsTableData";
 
 function AllDrivers() {
-  const { columns, rows } = authorsTableData();
+  const { columns, rows } = allDriverData();
   //   const { columns: pColumns, rows: pRows } = projectsTableData();
 
   return (

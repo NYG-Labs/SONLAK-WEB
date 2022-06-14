@@ -28,11 +28,12 @@ import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
 // Data
-import authorsTableData from "layouts/tables/data/authorsTableData";
+// import authorsTableData from "layouts/tables/data/authorsTableData";
+import allSupervisorData from "./allSupervisorData";
 // import projectsTableData from "layouts/tables/data/projectsTableData";
 
 function AllSupervisors() {
-  const { columns, rows } = authorsTableData();
+  const { columns, rows } = allSupervisorData();
   //   const { columns: pColumns, rows: pRows } = projectsTableData();
 
   return (

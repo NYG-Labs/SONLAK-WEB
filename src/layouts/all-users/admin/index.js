@@ -28,12 +28,13 @@ import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
 // Data
-import authorsTableData from "layouts/tables/data/authorsTableData";
+// import authorsTableData from "layouts/tables/data/authorsTableData";
+import allAdminData from "./allAdminData";
 // import projectsTableData from "layouts/tables/data/projectsTableData";
 // import projectsTableData from "layouts/tables/data/projectsTableData";
 
 function AllAdmins() {
-  const { columns, rows } = authorsTableData();
+  const { columns, rows } = allAdminData();
   //   const { columns: pColumns, rows: pRows } = projectsTableData();
 
   return (

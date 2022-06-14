@@ -28,6 +28,7 @@ import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 // Authentication layout components
 // import CoverLayout from "layouts/authentication/components/CoverLayout";
@@ -38,6 +39,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 function AdminRegistration() {
   return (
     <DashboardLayout>
+      <DashboardNavbar />
       <Card>
         <MDBox
           variant="gradient"
