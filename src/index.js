@@ -20,7 +20,6 @@ import App from "App";
 
 // Material Dashboard 2 React Context Provider
 import { MaterialUIControllerProvider } from "context";
-// import SignIn from "layouts/authentication/sign-in";
 
 ReactDOM.render(
   <BrowserRouter>

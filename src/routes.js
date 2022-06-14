@@ -37,7 +37,7 @@ Coded by www.creative-tim.com
 
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
-import Tables from "layouts/tables";
+// import Tables from "layouts/tables";
 import AllAdmins from "layouts/all-users/admin";
 import AllDrivers from "layouts/all-users/driver";
 import AllSupervisors from "layouts/all-users/supervisor";
@@ -45,7 +45,7 @@ import AllSupervisors from "layouts/all-users/supervisor";
 // import AdminProfile from "layouts/user-profiles/admin";
 // import SupervisorProfile from "layouts/user-profiles/supervisor";
 import Billing from "layouts/billing";
-import RTL from "layouts/rtl";
+// import RTL from "layouts/rtl";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
@@ -53,6 +53,10 @@ import SignIn from "layouts/authentication/sign-in";
 import SignUpAdmin from "layouts/authentication/registration-forms/admin";
 import SignUpDriver from "layouts/authentication/registration-forms/driver";
 import SignUpSupervisor from "layouts/authentication/registration-forms/supervisor";
+import AdminProfile from "layouts/user-profiles/admin";
+import DriverProfile from "layouts/user-profiles/driver";
+import SupervisorProfile from "layouts/user-profiles/supervisor";
+
 // @mui icons
 import Icon from "@mui/material/Icon";
 
@@ -65,14 +69,14 @@ const routes = [
     route: "/dashboard",
     component: <Dashboard />,
   },
-  {
-    type: "collapse",
-    name: "Tables",
-    key: "tables",
-    icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/tables",
-    component: <Tables />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "Tables",
+  //   key: "tables",
+  //   icon: <Icon fontSize="small">table_view</Icon>,
+  //   route: "/tables",
+  //   component: <Tables />,
+  // },
   {
     type: "collapse",
     name: "Drivers",
@@ -105,14 +109,14 @@ const routes = [
     route: "/billing",
     component: <Billing />,
   },
-  {
-    type: "collapse",
-    name: "RTL",
-    key: "rtl",
-    icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
-    route: "/rtl",
-    component: <RTL />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "RTL",
+  //   key: "rtl",
+  //   icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
+  //   route: "/rtl",
+  //   component: <RTL />,
+  // },
   {
     type: "collapse",
     name: "Notifications",
@@ -122,18 +126,42 @@ const routes = [
     component: <Notifications />,
   },
   {
-    type: "collapse",
-    name: "Profile",
+    // type: "collapse",
+    // name: "Profile",
     key: "profile",
-    icon: <Icon fontSize="small">person</Icon>,
+    // icon: <Icon fontSize="small">person</Icon>,
     route: "/profile",
     component: <Profile />,
   },
   {
-    type: "collapse",
-    name: "Sign In",
+    // type: "collapse",
+    // name: "Profile",
+    key: "supervisor-profile",
+    // icon: <Icon fontSize="small">person</Icon>,
+    route: "/supervisor-profile",
+    component: <SupervisorProfile />,
+  },
+  {
+    // type: "collapse",
+    // name: "Profile",
+    key: "admin-profile",
+    // icon: <Icon fontSize="small">person</Icon>,
+    route: "/admin-profile",
+    component: <AdminProfile />,
+  },
+  {
+    // type: "collapse",
+    // name: "Profile",
+    key: "driver-profile",
+    // icon: <Icon fontSize="small">person</Icon>,
+    route: "/driver-profile",
+    component: <DriverProfile />,
+  },
+  {
+    // type: "collapse",
+    // name: "Sign In",
     key: "sign-in",
-    icon: <Icon fontSize="small">login</Icon>,
+    // icon: <Icon fontSize="small">login</Icon>,
     route: "/",
     component: <SignIn />,
   },
