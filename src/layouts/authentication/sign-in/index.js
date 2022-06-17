@@ -40,6 +40,7 @@ import BasicLayout from "layouts/authentication/components/BasicLayout";
 
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
+import signIn from "api/apiCalls";
 
 function Basic() {
   const [rememberMe, setRememberMe] = useState(false);
@@ -47,7 +48,12 @@ function Basic() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  console.log(email, password);
+  const signInData = { email, password };
+
+  function sendSignInData() {
+    const test = signIn(signInData);
+    console.log(test);
+  }
 
   return (
     <BasicLayout image={bgImage}>
@@ -115,7 +121,14 @@ function Basic() {
               </MDTypography>
             </MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton component={Link} variant="gradient" color="info" fullWidth to="/dashboard">
+              <MDButton
+                onClick={() => sendSignInData()}
+                component={Link}
+                variant="gradient"
+                color="info"
+                fullWidth
+                to="/dashboard"
+              >
                 sign in
               </MDButton>
             </MDBox>

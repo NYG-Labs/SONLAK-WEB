@@ -14,7 +14,7 @@ Coded by www.creative-tim.com
 */
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -59,52 +59,268 @@ function DriverRegistration() {
             Enter your email and password to register
           </MDTypography> */}
         </MDBox>
-        <MDBox pt={4} pb={3} px={3}>
+        <MDBox pt={-2} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox p={2}>
+              <MDBox pb={2}>Personal Details</MDBox>
               <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
-                  <MDBox mb={2}>
-                    <MDInput type="text" label="Name" variant="standard" fullWidth />
+                <br />
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={3}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="text"
+                      label="First Name"
+                      // variant="standard"
+                      fullWidth
+                    />
                   </MDBox>
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
-                    <MDInput type="email" label="Email" variant="standard" fullWidth />
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="text"
+                      label="Middle Name"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="text"
+                      label="Last Name"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+              </Grid>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="date"
+                      label="DOB"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="text"
+                      label="Address"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="email"
+                      label="Email"
+                      // variant="standard"
+                      fullWidth
+                    />
                   </MDBox>
                 </Grid>
               </Grid>
             </MDBox>
-            <MDBox mb={2}>
-              <MDInput type="password" label="Password" variant="standard" fullWidth />
+
+            <MDBox p={2}>
+              <MDBox pb={2}>AUSPOST ID Details</MDBox>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="text"
+                      label="ID no"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="file"
+                      label="Scanned copy"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={3}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="date"
+                      label="Expiery date"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+              </Grid>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="text"
+                      label="Vehicle details"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+              </Grid>
             </MDBox>
-            <MDBox display="flex" alignItems="center" ml={-1}>
-              <Checkbox />
-              <MDTypography
-                variant="button"
-                fontWeight="regular"
-                color="text"
-                sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
-              >
-                &nbsp;&nbsp;I agree the&nbsp;
-              </MDTypography>
-              <MDTypography
-                component="a"
-                href="#"
-                variant="button"
-                fontWeight="bold"
-                color="info"
-                textGradient
-              >
-                Terms and Conditions
-              </MDTypography>
+
+            <MDBox p={2}>
+              <MDBox pb={2}>Visa Details</MDBox>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="text"
+                      label="Visa status"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="file"
+                      label="Scanned copy"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="date"
+                      label="Expiery date"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+              </Grid>
             </MDBox>
+
+            <MDBox p={2}>
+              <MDBox pb={2}>Driver licence details</MDBox>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="text"
+                      label="ID no"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="file"
+                      label="Scanned copy"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="date"
+                      label="Expiery date"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+              </Grid>
+            </MDBox>
+
+            <MDBox p={2}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="password"
+                      label="Password"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="password"
+                      label="Confirm Password"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+              </Grid>
+              <MDBox display="flex" alignItems="center" ml={-1}>
+                <Checkbox />
+                <MDTypography
+                  variant="button"
+                  fontWeight="regular"
+                  color="text"
+                  sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
+                >
+                  &nbsp;&nbsp;I agree the&nbsp;
+                </MDTypography>
+                <MDTypography
+                  component="a"
+                  href="#"
+                  variant="button"
+                  fontWeight="bold"
+                  color="info"
+                  textGradient
+                >
+                  Terms and Conditions
+                </MDTypography>
+              </MDBox>
+            </MDBox>
+
             <MDBox mt={4} mb={1}>
               <MDButton variant="gradient" color="info" fullWidth>
                 sign in
               </MDButton>
             </MDBox>
-            <MDBox mt={3} mb={1} textAlign="center">
+            {/* <MDBox mt={3} mb={1} textAlign="center">
               <MDTypography variant="button" color="text">
                 Already have an account?{" "}
                 <MDTypography
@@ -118,7 +334,7 @@ function DriverRegistration() {
                   Sign In
                 </MDTypography>
               </MDTypography>
-            </MDBox>
+            </MDBox> */}
           </MDBox>
         </MDBox>
       </Card>
