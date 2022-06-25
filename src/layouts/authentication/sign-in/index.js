@@ -14,9 +14,10 @@ Coded by www.creative-tim.com
 */
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -40,19 +41,33 @@ import BasicLayout from "layouts/authentication/components/BasicLayout";
 
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
-import signIn from "api/apiCalls";
+// import adminSignIn from "api/apiCalls";
+import axios from "axios";
 
 function Basic() {
+  const navigate = useNavigate();
   const [rememberMe, setRememberMe] = useState(false);
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const baseURL = "https://c3b5d726-7ce8-4e1f-b7f9-11878a7055de.mock.pstmn.io/signin";
 
   const signInData = { email, password };
 
-  function sendSignInData() {
-    const test = signIn(signInData);
-    console.log(test);
+  async function sendSignInData() {
+    axios
+      .post(baseURL, {
+        email: signInData.email,
+        password: signInData.password,
+      })
+      .then((response) => {
+        if (response.data === "admin") {
+          console.log("response = ", response);
+          navigate("/dashboard");
+        } else {
+          console.log("response = ERROR");
+        }
+      });
   }
 
   return (
@@ -123,11 +138,11 @@ function Basic() {
             <MDBox mt={4} mb={1}>
               <MDButton
                 onClick={() => sendSignInData()}
-                component={Link}
+                // component={Link}
                 variant="gradient"
                 color="info"
                 fullWidth
-                to="/dashboard"
+                // to="/dashboard"
               >
                 sign in
               </MDButton>

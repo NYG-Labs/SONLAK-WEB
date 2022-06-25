@@ -60,6 +60,7 @@ import AllUsers from "layouts/all-users";
 import AllUserRegistrations from "layouts/authentication/registration-forms";
 import AllETAPerformances from "layouts/eta-performance";
 import AddETAPerformance from "layouts/eta-performance/add-eta-performance";
+import DriverETAPerformance from "layouts/eta-performance/driver-eta-performance";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -84,7 +85,7 @@ const routes = [
   {
     type: "collapse",
     name: "ETA Performance",
-    key: "eta-performance",
+    key: "all-eta-performance",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/ETA-performance",
     component: <AllETAPerformances />,
@@ -94,6 +95,12 @@ const routes = [
     key: "add-eta-performance",
     route: "/ETA-performance/Add-ETA-performance",
     component: <AddETAPerformance />,
+  },
+  {
+    name: "ETA Performance",
+    key: "driver-eta-performance",
+    route: "/ETA-performance/ETA-performance",
+    component: <DriverETAPerformance />,
   },
   {
     name: "Drivers",
