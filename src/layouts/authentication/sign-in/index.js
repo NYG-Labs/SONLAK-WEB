@@ -50,19 +50,18 @@ function Basic() {
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const baseURL = "https://c3b5d726-7ce8-4e1f-b7f9-11878a7055de.mock.pstmn.io/signin";
-
-  const signInData = { email, password };
+  const baseURL = "/api/LoginUsers/Login";
 
   async function sendSignInData() {
     axios
       .post(baseURL, {
-        email: signInData.email,
-        password: signInData.password,
+        email,
+        password,
       })
       .then((response) => {
-        if (response.data === "admin") {
-          console.log("response = ", response);
+        if (response.data.roleKey === "driver    ") {
+          window.localStorage.setItem("roleKey", response.data.roleKey);
+          window.localStorage.setItem("token", response.data.token);
           navigate("/dashboard");
         } else {
           console.log("response = ERROR");
