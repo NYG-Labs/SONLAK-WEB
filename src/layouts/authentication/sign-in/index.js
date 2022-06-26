@@ -59,7 +59,7 @@ function Basic() {
         password,
       })
       .then((response) => {
-        if (response.data.roleKey === "driver    ") {
+        if (response.data.roleKey === "admin     ") {
           window.localStorage.setItem("roleKey", response.data.roleKey);
           window.localStorage.setItem("token", response.data.token);
           navigate("/dashboard");

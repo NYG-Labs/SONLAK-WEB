@@ -14,7 +14,8 @@ Coded by www.creative-tim.com
 */
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+// import {  } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -37,6 +38,14 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 // import bgImage from "assets/images/bg-sign-up-cover.jpeg";
 
 function AdminRegistration() {
+  const navigate = useNavigate();
+
+  if (
+    window.localStorage.getItem("token") === null ||
+    window.localStorage.getItem("roleKey") !== "admin     "
+  ) {
+    navigate("/");
+  }
   return (
     <DashboardLayout>
       <DashboardNavbar />
