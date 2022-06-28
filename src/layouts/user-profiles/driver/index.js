@@ -12,36 +12,25 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-
-// @mui material components
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
-
-// @mui icons
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import InstagramIcon from "@mui/icons-material/Instagram";
-
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-
-// Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
-import ProfilesList from "examples/Lists/ProfilesList";
+// import ProfilesList from "examples/Lists/ProfilesList";
 import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
-
-// Overview page components
+import AppBar from "@mui/material/AppBar";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Icon from "@mui/material/Icon";
 import Header from "layouts/profile/components/Header";
-import PlatformSettings from "layouts/profile/components/PlatformSettings";
-
-// Data
-import profilesListData from "layouts/profile/data/profilesListData";
-
-// Images
+// import PlatformSettings from "layouts/profile/components/PlatformSettings";
+// import profilesListData from "layouts/profile/data/profilesListData";
 import homeDecor1 from "assets/images/home-decor-1.jpg";
 import homeDecor2 from "assets/images/home-decor-2.jpg";
 import homeDecor3 from "assets/images/home-decor-3.jpg";
@@ -50,56 +39,183 @@ import team1 from "assets/images/team-1.jpg";
 import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
+import MDAvatar from "components/MDAvatar";
+import burceMars from "assets/images/bruce-mars.jpg";
+import breakpoints from "assets/theme/base/breakpoints";
+
+import axios from "axios";
 
 function DriverProfile() {
+  const { id } = useParams();
+  const [driver, setDriver] = useState([]);
+  const baseURL = `/api/drivers/${id}`;
+  const [tabsOrientation, setTabsOrientation] = useState("horizontal");
+  const [tabValue, setTabValue] = useState(0);
+
+  const config = {
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+    },
+  };
+
+  const getTheDriver = () => {
+    axios.get(baseURL, config).then((response) => {
+      const tempDriver = response.data;
+      setDriver(tempDriver);
+    });
+  };
+
+  useEffect(() => {
+    getTheDriver();
+    // A function that sets the orientation state of the tabs.
+    function handleTabsOrientation() {
+      return window.innerWidth < breakpoints.values.sm
+        ? setTabsOrientation("vertical")
+        : setTabsOrientation("horizontal");
+    }
+
+    /** 
+         The event listener that's calling the handleTabsOrientation function when resizing the window.
+        */
+    window.addEventListener("resize", handleTabsOrientation);
+
+    // Call the handleTabsOrientation function to set the state with the initial value.
+    handleTabsOrientation();
+
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleTabsOrientation);
+  }, [tabsOrientation]);
+
+  const handleSetTabValue = (event, newValue) => setTabValue(newValue);
+
+  // console.log("id = ", id, "/n driver = ", driver);
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox mb={2} />
+      <MDBox />
       <Header>
-        <MDBox mt={5} mb={3}>
+        <Grid container spacing={3} alignItems="center">
+          <Grid item>
+            <MDAvatar src={burceMars} alt="profile-image" size="xxl" shadow="sm" />
+          </Grid>
+          <Grid item>
+            <MDBox height="100%" mt={0.5} lineHeight={1}>
+              <MDTypography variant="h5" fontWeight="medium">
+                {driver.fname} {driver.mname} {driver.lname}
+              </MDTypography>
+              <MDTypography variant="button" color="text" fontWeight="regular">
+                {driver.workStatus} DRIVER | Supervisor - {driver.supervisorEmail}
+              </MDTypography>
+            </MDBox>
+          </Grid>
+
+          <Grid item xs={12} md={6} lg={4} sx={{ ml: "auto" }}>
+            <AppBar position="static">
+              <Tabs orientation={tabsOrientation} value={tabValue} onChange={handleSetTabValue}>
+                <Tab
+                  label="App"
+                  icon={
+                    <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                      home
+                    </Icon>
+                  }
+                />
+                <Tab
+                  label="Message"
+                  icon={
+                    <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                      email
+                    </Icon>
+                  }
+                />
+                <Tab
+                  label="Settings"
+                  icon={
+                    <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                      settings
+                    </Icon>
+                  }
+                />
+              </Tabs>
+            </AppBar>
+          </Grid>
+        </Grid>
+
+        <MDBox mt={5}>
           <Grid container spacing={1}>
-            <Grid item xs={12} md={6} xl={4}>
-              <PlatformSettings />
+            <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+              <Divider orientation="vertical" sx={{ mx: 0 }} />
+              <ProfileInfoCard
+                title="profile information"
+                info={{
+                  gender: driver.gender,
+                  address: driver.address,
+                  email: driver.email,
+                  DOB: driver.dob,
+                }}
+                shadow={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+              <Divider orientation="vertical" sx={{ mx: 0 }} />
+              <ProfileInfoCard
+                title="AUS Post Details"
+                info={{
+                  AusPostScan: driver.ausPostScan,
+                  AusPostID: driver.ausPostId,
+                  AusPostExpp: driver.ausPostExpiry,
+                  // DOB: driver.dob,
+                }}
+                shadow={false}
+              />
             </Grid>
             <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
               <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
               <ProfileInfoCard
-                title="profile information"
-                description="Hi, I’m Alec Thompson, Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality)."
+                title="Licence Details"
+                description=""
                 info={{
-                  fullName: "Alec M. Thompson",
-                  mobile: "(44) 123 1234 123",
-                  email: "alecthompson@mail.com",
-                  location: "USA",
+                  LicenceScan: driver.licenceScan,
+                  LicenceID: driver.licenceId,
+                  LicenceEXP: driver.licenceExpiry,
+                  // DOB: driver.dob,
                 }}
-                social={[
-                  {
-                    link: "https://www.facebook.com/CreativeTim/",
-                    icon: <FacebookIcon />,
-                    color: "facebook",
-                  },
-                  {
-                    link: "https://twitter.com/creativetim",
-                    icon: <TwitterIcon />,
-                    color: "twitter",
-                  },
-                  {
-                    link: "https://www.instagram.com/creativetimofficial/",
-                    icon: <InstagramIcon />,
-                    color: "instagram",
-                  },
-                ]}
-                action={{ route: "", tooltip: "Edit Profile" }}
                 shadow={false}
               />
-              <Divider orientation="vertical" sx={{ mx: 0 }} />
-            </Grid>
-            <Grid item xs={12} xl={4}>
-              <ProfilesList title="conversations" profiles={profilesListData} shadow={false} />
             </Grid>
           </Grid>
         </MDBox>
+
+        <MDBox mt={5}>
+          <Grid container spacing={1}>
+            <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+              <Divider orientation="vertical" sx={{ mx: 0 }} />
+              <ProfileInfoCard
+                title="Vehicle Details"
+                info={{
+                  VehicalType: driver.vehicalType,
+                  VehicleNo: driver.vehicleNo,
+                }}
+                shadow={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+              <Divider orientation="vertical" sx={{ mx: 0 }} />
+              <ProfileInfoCard
+                title="Visa Details"
+                info={{
+                  VisaExpiry: driver.visaExpiry,
+                  VisaNo: driver.visaNo,
+                  VisaScan: driver.visaScan,
+                }}
+                shadow={false}
+              />
+            </Grid>
+          </Grid>
+        </MDBox>
+
         <MDBox pt={2} px={2} lineHeight={1.25}>
           <MDTypography variant="h6" fontWeight="medium">
             Projects

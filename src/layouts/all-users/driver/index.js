@@ -16,25 +16,61 @@ Coded by www.creative-tim.com
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
+import { useState, useEffect } from "react";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
+import MDInput from "components/MDInput";
 
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import DataTable from "examples/Tables/DataTable";
+// import DataTable from "examples/Tables/DataTable";
+import { Link } from "react-router-dom";
 
-// Data
-// import authorsTableData from "layouts/tables/data/authorsTableData";
-import allDriverData from "./allDriverData";
-// import projectsTableData from "layouts/tables/data/projectsTableData";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import MDBadge from "components/MDBadge";
+
+import axios from "axios";
+// import allDriverData from "./allDriverData";
 
 function AllDrivers() {
-  const { columns, rows } = allDriverData();
-  //   const { columns: pColumns, rows: pRows } = projectsTableData();
+  // const { rows } = allDriverData();
+  const [search, setSearch] = useState("");
+  const [allDrivers, setAllDrivers] = useState([]);
+  const baseURL = "/api/Drivers";
+
+  const config = {
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+    },
+  };
+
+  const getAllDrivers = () => {
+    axios.get(baseURL, config).then((response) => {
+      const tempDrivers = response.data;
+      setAllDrivers(tempDrivers);
+    });
+  };
+
+  useEffect(() => {
+    getAllDrivers();
+  }, []);
+
+  console.log("ALl Drivers = ", allDrivers, search);
+
+  const filteredData = allDrivers.filter((driver) =>
+    driver.fname.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <DashboardLayout>
@@ -58,13 +94,71 @@ function AllDrivers() {
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
-                <DataTable
+                <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
+                  <MDBox pr={2} pb={1} pl={2}>
+                    <MDInput
+                      fullWidth
+                      onChange={(e) => setSearch(e.target.value)}
+                      label="Search here"
+                      justify="space-between"
+                      spacing={24}
+                      raised
+                    />
+                  </MDBox>
+                </Grid>
+                {/* <DataTable
                   table={{ columns, rows }}
                   isSorted={false}
                   entriesPerPage={false}
                   showTotalEntries={false}
                   noEndBorder
-                />
+                /> */}
+                <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
+                  <TableContainer component={Paper}>
+                    <Table aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>First name</TableCell>
+                          <TableCell align="left">Middle name</TableCell>
+                          <TableCell align="left">Lase Name</TableCell>
+                          <TableCell align="left">Email</TableCell>
+                          <TableCell align="left">Vehicle type</TableCell>
+                          <TableCell align="left">Vehicle No</TableCell>
+                          <TableCell align="left">Driver type</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {filteredData.map((row) => (
+                          <TableRow key="s">
+                            <TableCell component="th" scope="row">
+                              {row.fname}
+                            </TableCell>
+                            <TableCell align="left">{row.mname}</TableCell>
+                            <TableCell align="left">{row.lname}</TableCell>
+                            <TableCell align="left">{row.email}</TableCell>
+                            <TableCell align="left">{row.vehicalType}</TableCell>
+                            <TableCell align="left">{row.vehicleNo}</TableCell>
+                            <TableCell align="left">{row.driverType}</TableCell>
+                            <TableCell align="center">
+                              <MDBox ml={-1}>
+                                <Link to={{ pathname: `/drivers/${row.email}` }}>
+                                  <MDBadge
+                                    badgeContent="view"
+                                    color="success"
+                                    variant="gradient"
+                                    size="sm"
+                                    // component={Link}
+                                    // to={`/drivers/${row.email}`}
+                                  />
+                                </Link>
+                              </MDBox>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Grid>
               </MDBox>
             </Card>
           </Grid>

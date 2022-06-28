@@ -123,19 +123,19 @@ const routes = [
   {
     name: "Supervisor Profile",
     key: "supervisor-profile",
-    route: "/supervisors/supervisor-profile",
+    route: "/supervisors/:id",
     component: <SupervisorProfile />,
   },
   {
     name: "Admin Profile",
     key: "admin-profile",
-    route: "/admins/admin-profile",
+    route: "/admins/:id",
     component: <AdminProfile />,
   },
   {
     name: "Driver Profile",
     key: "driver-profile",
-    route: "/drivers/driver-profile",
+    route: "/drivers/:id",
     component: <DriverProfile />,
   },
   {
