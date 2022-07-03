@@ -12,7 +12,8 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+// import {  } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
@@ -42,6 +43,8 @@ import team4 from "assets/images/team-4.jpg";
 import MDAvatar from "components/MDAvatar";
 import burceMars from "assets/images/bruce-mars.jpg";
 import breakpoints from "assets/theme/base/breakpoints";
+// import { IconButton } from "@mui/material";
+// import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 import axios from "axios";
 
@@ -108,6 +111,9 @@ function DriverProfile() {
               <MDTypography variant="button" color="text" fontWeight="regular">
                 {driver.workStatus} DRIVER | Supervisor - {driver.supervisorEmail}
               </MDTypography>
+              {/* <IconButton size="large">
+                <ArrowDropDownIcon />
+              </IconButton> */}
             </MDBox>
           </Grid>
 
@@ -115,7 +121,7 @@ function DriverProfile() {
             <AppBar position="static">
               <Tabs orientation={tabsOrientation} value={tabValue} onChange={handleSetTabValue}>
                 <Tab
-                  label="App"
+                  label="Profile"
                   icon={
                     <Icon fontSize="small" sx={{ mt: -0.25 }}>
                       home
@@ -123,21 +129,23 @@ function DriverProfile() {
                   }
                 />
                 <Tab
-                  label="Message"
+                  component={Link}
+                  to={`/drivers/${id}/edit-driver`}
+                  label="Edit"
                   icon={
                     <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                      email
+                      edit
                     </Icon>
                   }
                 />
-                <Tab
+                {/* <Tab
                   label="Settings"
                   icon={
                     <Icon fontSize="small" sx={{ mt: -0.25 }}>
                       settings
                     </Icon>
                   }
-                />
+                /> */}
               </Tabs>
             </AppBar>
           </Grid>

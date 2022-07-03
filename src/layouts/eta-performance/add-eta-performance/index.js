@@ -29,7 +29,12 @@ import MDButton from "components/MDButton";
 
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-
+import { useState, useEffect } from "react";
+import MenuItem from "@mui/material/MenuItem";
+import InputAdornment from "@mui/material/InputAdornment";
+import { IconButton } from "@mui/material";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import axios from "axios";
 // Authentication layout components
 // import CoverLayout from "layouts/authentication/components/CoverLayout";
 
@@ -37,6 +42,44 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 // import bgImage from "assets/images/bg-sign-up-cover.jpeg";
 
 function AddETAPerformance() {
+  const SelectFieldStyle = {
+    padding: 12,
+    // fontSize: "0.75rem",
+  };
+
+  const baseURL = "/api/Drivers";
+  const config = {
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+    },
+  };
+
+  const [user, setUser] = useState("");
+  const [route, setRoute] = useState("");
+  const [deviceID, setDeviceID] = useState("");
+  const [articles, setArticles] = useState("");
+  const [early, setEarly] = useState("");
+  const [onTime, setOnTime] = useState("");
+  const [late, setLate] = useState("");
+  const [notDelivered, setNotDelivered] = useState("");
+  const [onTimePercentage, setOnTimePercentage] = useState("");
+  const [allDrivers, setAllDrivers] = useState([]);
+
+  const getAllDrivers = () => {
+    axios.get(baseURL, config).then((response) => {
+      const tempDrivers = response.data;
+      setAllDrivers(tempDrivers);
+    });
+  };
+
+  useEffect(() => {
+    getAllDrivers();
+  }, []);
+
+  console.log(user, route, deviceID, articles, early, onTime, late, notDelivered, onTimePercentage);
+  console.log(allDrivers);
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -66,11 +109,54 @@ function AddETAPerformance() {
               <Grid container spacing={3}>
                 <br />
                 <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    {/* <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="text"
+                      label="User"
+                      onChange={(e) => setUser(e.target.value)}
+                      value={user}
+                      // variant="standard"
+                      fullWidth
+                    /> */}
+                    <MDInput
+                      SelectProps={{
+                        style: SelectFieldStyle,
+                      }}
+                      select
+                      id="full-width-text-field"
+                      IconComponent={<ArrowDropDownIcon />}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton>
+                              <ArrowDropDownIcon />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setUser(e.target.value)}
+                      value={user}
+                      type="email"
+                      label="User"
+                      // variant="standard"
+                      fullWidth
+                    >
+                      {allDrivers.map((driver) => (
+                        <MenuItem value={driver.email}>{driver.email}</MenuItem>
+                      ))}
+                      {/* <MenuItem value="z">driveremail</MenuItem> */}
+                    </MDInput>
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
                   <MDBox mb={8}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       type="text"
                       label="Route"
+                      onChange={(e) => setRoute(e.target.value)}
                       // variant="standard"
                       fullWidth
                     />
@@ -82,17 +168,7 @@ function AddETAPerformance() {
                       InputLabelProps={{ shrink: true }}
                       type="text"
                       label="Device ID"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      type="text"
-                      label="Users"
+                      onChange={(e) => setDeviceID(e.target.value)}
                       // variant="standard"
                       fullWidth
                     />
@@ -106,6 +182,7 @@ function AddETAPerformance() {
                       InputLabelProps={{ shrink: true }}
                       type="text"
                       label="Articles"
+                      onChange={(e) => setArticles(e.target.value)}
                       // variant="standard"
                       fullWidth
                     />
@@ -117,6 +194,7 @@ function AddETAPerformance() {
                       InputLabelProps={{ shrink: true }}
                       type="text"
                       label="Early"
+                      onChange={(e) => setEarly(e.target.value)}
                       // variant="standard"
                       fullWidth
                     />
@@ -128,6 +206,7 @@ function AddETAPerformance() {
                       InputLabelProps={{ shrink: true }}
                       type="text"
                       label="On Time"
+                      swewonChange={(e) => setOnTime(e.target.value)}
                       // variant="standard"
                       fullWidth
                     />
@@ -139,6 +218,7 @@ function AddETAPerformance() {
                       InputLabelProps={{ shrink: true }}
                       type="text"
                       label="Late"
+                      onChange={(e) => setLate(e.target.value)}
                       // variant="standard"
                       fullWidth
                     />
@@ -152,6 +232,7 @@ function AddETAPerformance() {
                       InputLabelProps={{ shrink: true }}
                       type="text"
                       label="Not Delivered"
+                      onChange={(e) => setNotDelivered(e.target.value)}
                       // variant="standard"
                       fullWidth
                     />
@@ -163,6 +244,7 @@ function AddETAPerformance() {
                       InputLabelProps={{ shrink: true }}
                       type="text"
                       label="On Time %"
+                      onChange={(e) => setOnTimePercentage(e.target.value)}
                       // variant="standard"
                       fullWidth
                     />

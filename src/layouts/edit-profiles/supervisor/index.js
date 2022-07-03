@@ -16,8 +16,9 @@ Coded by www.creative-tim.com
 // react-router-dom components
 // import { Link } from "react-router-dom";
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 // import { useEffect } from "react";
+// import {  } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -34,63 +35,20 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
-// import DropDownMenu from "material-ui/DropDownMenu";
-// import MenuItem from "material-ui/MenuItem";
-
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+// import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
-// import Box from "@mui/material/Box";
-// import InputLabel from "@mui/material/InputLabel";
-
-// import FormControl from "@mui/material/FormControl";
-// import Select from "@mui/material/Select";
-// import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import MenuItem from "@mui/material/MenuItem";
 import InputAdornment from "@mui/material/InputAdornment";
 import { IconButton } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-// import ClearIcon from "@mui/icons-material/ClearIcon";
-// import AccountCircle from "@mui/icons-material/AccountCircle";
-// import Icon from "@mui/material/Icon";
-// import FaceIcon from "@mui/icons-material/Face";
 
-function DriverRegistration() {
+function EditSupervisor() {
   const SelectFieldStyle = {
     padding: 12,
     // fontSize: "0.75rem",
   };
-
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [fname, setFname] = useState("");
-  const [mname, setMname] = useState("");
-  const [lname, setLname] = useState("");
-  const [address, setAddress] = useState("");
-  const [dob, setDob] = useState("");
-  const [gender, setGender] = useState("");
-  const [ausPostId, setAusPostId] = useState("");
-  const [ausPostScan, setAusPostScan] = useState("");
-  const [ausPostExpiry, setAusPostExpiry] = useState("");
-  const [vehicleNo, setVehicleNo] = useState("");
-  const [vehicalType, setVehicalType] = useState("");
-  const [visaNo, setVisaNo] = useState("");
-  const [visaScan, setVisaScan] = useState("");
-  const [visaExpiry, setVisaExpiry] = useState("");
-  const [licenceId, setLicenceId] = useState("");
-  const [licenceScan, setLicenceScan] = useState("");
-  const [licenceExpiry, setLicenceExpiry] = useState("");
-  const [driverType, setDriverType] = useState("");
-  const [username, setUsername] = useState("");
-  // const [phoneNo, setPhoneNo] = useState("");
-  const [profilePhoto, setProfilePhoto] = useState("");
-  const [supervisorEmail, setSupervisroEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [allSupervisors, setAllSupervisors] = useState([]);
-  const baseURL = "/api/Drivers";
-  const baseURLSupervisors = "/api/Supervisors";
 
   const config = {
     headers: {
@@ -99,38 +57,111 @@ function DriverRegistration() {
     },
   };
 
-  const getAllSupervisors = () => {
-    axios.get(baseURLSupervisors, config).then((response) => {
-      const tempSupervisors = response.data;
-      setAllSupervisors(tempSupervisors);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  //   const [allSupervisors, setAllSupervisors] = useState([]);
+  const [supervisor, setSupervisor] = useState([]);
+  const baseURL = `/api/Supervisors/${id}`;
+  //   const baseURLSupervisors = "/api/SuperFvisors";
+  const baseURLSupervisor = `/api/Supervisors/${id}`;
+  const [fname, setFname] = useState(supervisor.fname);
+  const [mname, setMname] = useState(supervisor.mname);
+  const [lname, setLname] = useState(supervisor.lname);
+  const [address, setAddress] = useState(supervisor.address);
+  const [dob, setDob] = useState(supervisor.dob);
+  const [gender, setGender] = useState(supervisor.gender);
+  //   const [ausPostId, setAusPostId] = useState(supervisor.ausPostId);
+  //   const [ausPostScan, setAusPostScan] = useState(supervisor.ausPostScan);
+  //   const [ausPostExpiry, setAusPostExpiry] = useState(supervisor.ausPostExpiry);
+  //   const [vehicleNo, setVehicleNo] = useState(supervisor.vehicleNo);
+  //   const [vehicalType, setVehicalType] = useState(supervisor.vehicalType);
+  const [visaNo, setVisaNo] = useState(supervisor.visaNo);
+  const [visaScan, setVisaScan] = useState(supervisor.visaScan);
+  const [visaExpiry, setVisaExpiry] = useState(supervisor.visaExpiry);
+  //   const [licenceId, setLicenceId] = useState(supervisor.licenceId);
+  //   const [licenceScan, setLicenceScan] = useState(supervisor.licenceScan);
+  //   const [licenceExpiry, setLicenceExpiry] = useState(supervisor.licenceExpiry);
+  const [supervisorType, setSupervisorType] = useState(supervisor.supervisorType);
+  const [username, setUsername] = useState(supervisor.username);
+  // const [phoneNo, setPhoneNo] = useState("");
+  const [profilePhoto, setProfilePhoto] = useState(supervisor.profilePhoto);
+  //   const [supervisorEmail, setSupervisroEmail] = useState(supervisor.supervisorEmail);
+  const [workStatus, setWorkstatus] = useState(supervisor.workStatus);
+  const [password, setPassword] = useState(supervisor.password);
+  const [oldPassword, setOldPassword] = useState("");
+
+  //   const getAllSupervisors = () => {
+  //     axios.get(baseURLSupervisors, config).then((response) => {
+  //       const tempSupervisors = response.data;
+  //       setAllSupervisors(tempSupervisors);
+  //     });
+  //   };
+
+  const getSupervisorDetails = async () => {
+    await axios.get(baseURLSupervisor, config).then((response) => {
+      const tempSupervisor = response.data;
+      setSupervisor(tempSupervisor);
+      setFname(response.data.fname);
+      setMname(response.data.mname);
+      setLname(response.data.lname);
+      setAddress(response.data.address);
+      setDob(response.data.dob);
+      setGender(response.data.gender);
+      //   setAusPostId(response.data.ausPostId);
+      //   setAusPostScan(response.data.ausPostScan);
+      //   setAusPostExpiry(response.data.ausPostExpiry);
+      //   setVehicleNo(response.data.vehicleNo);
+      //   setVehicalType(response.data.vehicalType);
+      setVisaNo(response.data.visaNo);
+      setVisaScan(response.data.visaScan);
+      setVisaExpiry(response.data.visaExpiry);
+      //   setLicenceId(response.data.licenceId);
+      //   setLicenceScan(response.data.ausPostScan);
+      //   setLicenceExpiry(response.data.licenceExpiry);
+      setSupervisorType(response.data.supervisorType);
+      setUsername(response.data.username);
+      setProfilePhoto(response.data.profilePhoto);
+      //   setSupervisroEmail(response.data.supervisorEmail);
+      setWorkstatus(response.data.workStatus);
+      setPassword(response.data.setPassword);
+      console.log("data = ++", response.data);
     });
   };
 
   useEffect(() => {
-    getAllSupervisors();
+    getSupervisorDetails();
+    // getAllSupervisors();
   }, []);
 
+  //   console.log("Supervisor = ", Supervisor);
+  //   console.log("allsupervisors = ", allSupervisors);
+
+  const supervisorEmail = supervisor.email;
+
+  console.log("pw = ", oldPassword, password);
+
   const bodyParameters = {
-    email,
+    email: supervisorEmail,
     fname,
     mname,
     lname,
     address,
     dob,
     gender,
-    ausPostId,
-    ausPostScan,
-    ausPostExpiry,
-    vehicleNo,
-    vehicalType,
+    // ausPostId,
+    // ausPostScan,
+    // ausPostExpiry,
+    // vehicleNo,
+    // vehicalType,
     visaNo,
     visaScan,
     visaExpiry,
-    licenceId,
-    licenceScan,
-    licenceExpiry,
-    driverType,
-    password,
+    // licenceId,
+    // licenceScan,
+    // licenceExpiry,
+    supervisorType,
+    workStatus,
+    // password,
     supervisorEmail,
     username,
     // phoneNo,
@@ -138,24 +169,23 @@ function DriverRegistration() {
     profilePhoto,
   };
 
-  // console.log(gender);
+  //   console.log("==> ", bodyParameters.fname);
 
-  function registerDriver() {
+  function editSupervisor() {
     axios
-      .post(baseURL, bodyParameters, config)
+      .put(baseURL, bodyParameters, config)
       .then((response) => {
-        console.log(response.status);
-        if (response.status === 201) {
-          alert("Driver registered successfully");
-          navigate("/drivers");
+        // console.log("response = ", response.status);
+        console.log(bodyParameters);
+        if (response.status === 204) {
+          alert("Supervisor Updated successfully");
+          navigate(`/supervisors/${id}`);
         }
       })
       .catch((error) => {
-        if (error.response.status === 409) {
-          alert("A driver with this email is already available");
-        } else {
-          alert("An unexpected error occured! please check the values and try again");
-        }
+        console.log("error = ", error.response);
+        console.log(bodyParameters);
+        alert("An unexpected error occured! please check the values and try again");
       });
   }
 
@@ -167,7 +197,7 @@ function DriverRegistration() {
   }
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      {/* <DashboardNavbar /> */}
       <Card>
         <MDBox
           variant="gradient"
@@ -181,7 +211,7 @@ function DriverRegistration() {
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Driver registration
+            Edit Supervisor
           </MDTypography>
           {/* <MDTypography display="block" variant="button" color="white" my={1}>
             Enter your email and password to register
@@ -199,6 +229,7 @@ function DriverRegistration() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setFname(e.target.value)}
+                      placeholder={supervisor.fname}
                       type="text"
                       label="First Name"
                       // variant="standard"
@@ -211,6 +242,7 @@ function DriverRegistration() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setMname(e.target.value)}
+                      placeholder={supervisor.mname}
                       type="text"
                       label="Middle Name"
                       // variant="standard"
@@ -223,6 +255,7 @@ function DriverRegistration() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setLname(e.target.value)}
+                      placeholder={supervisor.lname}
                       type="select"
                       label="Last Name"
                       // variant="standard"
@@ -253,7 +286,9 @@ function DriverRegistration() {
                       }}
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setGender(e.target.value)}
-                      value={gender}
+                      defaultValue={gender}
+                      helperText={gender}
+                      //   placeholder={supervisor.gender}
                       type="text"
                       label="Gender"
                       // variant="standard"
@@ -269,6 +304,7 @@ function DriverRegistration() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setAddress(e.target.value)}
+                      placeholder={supervisor.address}
                       type="text"
                       label="Address"
                       // variant="standard"
@@ -279,8 +315,10 @@ function DriverRegistration() {
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
+                      inputProps={{ readOnly: true }}
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setEmail(e.target.value)}
+                      //   onChange={(e) => setEmail(e.target.value)}
+                      placeholder={supervisor.email}
                       type="email"
                       label="Email"
                       // variant="standard"
@@ -296,6 +334,7 @@ function DriverRegistration() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setDob(e.target.value)}
+                      placeholder={supervisor.dob}
                       type="date"
                       label="DOB"
                       // variant="standard"
@@ -308,8 +347,23 @@ function DriverRegistration() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setUsername(e.target.value)}
+                      placeholder={supervisor.username}
                       type="text"
                       label="Username"
+                      // value={username}
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setWorkstatus(e.target.value)}
+                      placeholder={supervisor.workStatus}
+                      type="text"
+                      label="Work Status"
                       // value={username}
                       // variant="standard"
                       fullWidth
@@ -319,7 +373,7 @@ function DriverRegistration() {
               </Grid>
             </MDBox>
 
-            <MDBox p={2}>
+            {/* <MDBox p={2}>
               <MDBox pb={2}>AUSPOST ID Details</MDBox>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
@@ -327,6 +381,7 @@ function DriverRegistration() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setAusPostId(e.target.value)}
+                      placeholder={supervisor.ausPostId}
                       type="text"
                       label="ID no"
                       // variant="standard"
@@ -340,6 +395,7 @@ function DriverRegistration() {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setAusPostScan(e.target.value)}
                       // onChange={ausPostScanHnadler}
+                      placeholder={supervisor.ausPostScan}
                       type="text"
                       label="Scanned copy"
                       // variant="standard"
@@ -352,6 +408,7 @@ function DriverRegistration() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setAusPostExpiry(e.target.value)}
+                      placeholder={supervisor.ausPostExpiry}
                       type="date"
                       label="Expiery date"
                       // variant="standard"
@@ -360,9 +417,9 @@ function DriverRegistration() {
                   </MDBox>
                 </Grid>
               </Grid>
-            </MDBox>
+            </MDBox> */}
 
-            <MDBox p={2}>
+            {/* <MDBox p={2}>
               <MDBox pb={2}>Vehicle Details</MDBox>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
@@ -370,6 +427,7 @@ function DriverRegistration() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setVehicleNo(e.target.value)}
+                      placeholder={supervisor.vehicleNo}
                       type="text"
                       label="Vehicle No"
                       // variant="standard"
@@ -382,14 +440,15 @@ function DriverRegistration() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setVehicalType(e.target.value)}
+                      placeholder={supervisor.vehicalType}
                       type="texy"
                       label="Vehicle type"
                       // variant="standard"
                       fullWidth
                     />
                   </MDBox>
-                </Grid>
-                {/* <Grid item xs={12} md={4}>
+                </Grid> */}
+            {/* <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
@@ -400,8 +459,8 @@ function DriverRegistration() {
                     />
                   </MDBox>
                 </Grid> */}
-              </Grid>
-            </MDBox>
+            {/* </Grid>
+            </MDBox> */}
 
             <MDBox p={2}>
               <MDBox pb={2}>Visa Details</MDBox>
@@ -411,6 +470,7 @@ function DriverRegistration() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setVisaNo(e.target.value)}
+                      placeholder={supervisor.visaNo}
                       type="text"
                       label="Visa No"
                       // variant="standard"
@@ -423,6 +483,7 @@ function DriverRegistration() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setVisaScan(e.target.value)}
+                      placeholder={supervisor.visaScan}
                       type="text"
                       label="Scanned copy"
                       // variant="standard"
@@ -435,6 +496,7 @@ function DriverRegistration() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setVisaExpiry(e.target.value)}
+                      placeholder={supervisor.visaExpiry}
                       type="date"
                       label="Expiery date"
                       // variant="standard"
@@ -445,14 +507,15 @@ function DriverRegistration() {
               </Grid>
             </MDBox>
 
-            <MDBox p={2}>
-              <MDBox pb={2}>Driver licence details</MDBox>
+            {/* <MDBox p={2}>
+              <MDBox pb={2}>Supervisor licence details</MDBox>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setLicenceId(e.target.value)}
+                      placeholder={supervisor.licenceId}
                       type="text"
                       label="ID no"
                       // variant="standard"
@@ -465,6 +528,7 @@ function DriverRegistration() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setLicenceScan(e.target.value)}
+                      placeholder={supervisor.licenceScan}
                       type="text"
                       label="Scanned copy"
                       // variant="standard"
@@ -477,6 +541,7 @@ function DriverRegistration() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setLicenceExpiry(e.target.value)}
+                      placeholder={supervisor.licenceExpiry}
                       type="date"
                       label="Expiery date"
                       // variant="standard"
@@ -485,7 +550,7 @@ function DriverRegistration() {
                   </MDBox>
                 </Grid>
               </Grid>
-            </MDBox>
+            </MDBox> */}
 
             <MDBox p={2}>
               <MDBox pb={2}>Other Details</MDBox>
@@ -494,24 +559,17 @@ function DriverRegistration() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setDriverType(e.target.value)}
+                      onChange={(e) => setSupervisorType(e.target.value)}
+                      placeholder={supervisor.supervisorType}
                       type="text"
-                      label="Driver type"
+                      label="supervisor type"
                       // variant="standard"
                       fullWidth
                     />
                   </MDBox>
                 </Grid>
-                <Grid item xs={12} md={4}>
+                {/* <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
-                    {/* <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setSupervisroEmail(e.target.value)}
-                      type="email"
-                      label="Supervisor email"
-                      // variant="standard"
-                      fullWidth
-                    /> */}
                     <MDInput
                       SelectProps={{
                         style: SelectFieldStyle,
@@ -530,7 +588,8 @@ function DriverRegistration() {
                       }}
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setSupervisroEmail(e.target.value)}
-                      value={supervisorEmail}
+                      default={supervisorEmail}
+                      helperText={supervisorEmail}
                       type="email"
                       label="Supervisor email"
                       // variant="standard"
@@ -541,12 +600,13 @@ function DriverRegistration() {
                       ))}
                     </MDInput>
                   </MDBox>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setProfilePhoto(e.target.value)}
+                      placeholder={supervisor.profilePhoto}
                       type="text"
                       label="Profile Photo"
                       // variant="standard"
@@ -563,9 +623,22 @@ function DriverRegistration() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setOldPassword(e.target.value)}
+                      type="password"
+                      label="Old Password"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
                       onChange={(e) => setPassword(e.target.value)}
                       type="password"
-                      label="Password"
+                      label="New Password"
                       // variant="standard"
                       fullWidth
                     />
@@ -577,7 +650,7 @@ function DriverRegistration() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       type="password"
-                      label="Confirm Password"
+                      label="Confirm New Password"
                       // variant="standard"
                       fullWidth
                     />
@@ -607,10 +680,39 @@ function DriverRegistration() {
               </MDBox>
             </MDBox>
 
-            <MDBox mt={4} mb={1}>
-              <MDButton onClick={() => registerDriver()} variant="gradient" color="info" fullWidth>
-                sign in
+            {/* <MDBox mt={4} mb={1}>
+              <MDButton onClick={() => editSupervisor()} variant="gradient" color="info" fullWidth>
+                Update
               </MDButton>
+            </MDBox> */}
+            <MDBox p={2}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={6}>
+                  <MDBox mb={2}>
+                    <MDButton
+                      component={Link}
+                      to={`/supervisors/${id}`}
+                      variant="gradient"
+                      color="light"
+                      fullWidth
+                    >
+                      Cancel
+                    </MDButton>
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <MDBox mb={2}>
+                    <MDButton
+                      onClick={() => editSupervisor()}
+                      variant="gradient"
+                      color="info"
+                      fullWidth
+                    >
+                      Update
+                    </MDButton>
+                  </MDBox>
+                </Grid>
+              </Grid>
             </MDBox>
             {/* <MDBox mt={3} mb={1} textAlign="center">
               <MDTypography variant="button" color="text">
@@ -634,4 +736,4 @@ function DriverRegistration() {
   );
 }
 
-export default DriverRegistration;
+export default EditSupervisor;

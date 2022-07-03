@@ -61,6 +61,9 @@ import AllUserRegistrations from "layouts/authentication/registration-forms";
 import AllETAPerformances from "layouts/eta-performance";
 import AddETAPerformance from "layouts/eta-performance/add-eta-performance";
 import DriverETAPerformance from "layouts/eta-performance/driver-eta-performance";
+import EditDriver from "layouts/edit-profiles/driver";
+import EditSupervisor from "layouts/edit-profiles/supervisor";
+import EditAdmin from "layouts/edit-profiles/admin";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -137,6 +140,24 @@ const routes = [
     key: "driver-profile",
     route: "/drivers/:id",
     component: <DriverProfile />,
+  },
+  {
+    name: "Edit Driver Profile",
+    key: "edit-driver",
+    route: "/drivers/:id/edit-driver",
+    component: <EditDriver />,
+  },
+  {
+    name: "Edit Supervisor Profile",
+    key: "edit-supervisor",
+    route: "/supervisors/:id/edit-supervisor",
+    component: <EditSupervisor />,
+  },
+  {
+    name: "Edit Admin Profile",
+    key: "edit-admin",
+    route: "/admins/:id/edit-admin",
+    component: <EditAdmin />,
   },
   {
     type: "collapse",

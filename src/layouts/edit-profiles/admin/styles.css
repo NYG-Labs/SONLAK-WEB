@@ -1,0 +1,8 @@
+.registerDriver {
+    font-family: sans-serif;
+    text-align: center;
+  }
+
+  .auto-complete button {
+    width: auto !important;
+  }

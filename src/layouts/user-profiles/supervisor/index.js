@@ -23,7 +23,7 @@ import Divider from "@mui/material/Divider";
 // import InstagramIcon from "@mui/icons-material/Instagram";
 
 // Material Dashboard 2 React components
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import MDBox from "components/MDBox";
@@ -137,21 +137,23 @@ function SupervisorProfile() {
                   }
                 />
                 <Tab
-                  label="Message"
+                  component={Link}
+                  to={`/supervisors/${id}/edit-supervisor`}
+                  label="Edit"
                   icon={
                     <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                      email
+                      edit
                     </Icon>
                   }
                 />
-                <Tab
+                {/* <Tab
                   label="Settings"
                   icon={
                     <Icon fontSize="small" sx={{ mt: -0.25 }}>
                       settings
                     </Icon>
                   }
-                />
+                /> */}
               </Tabs>
             </AppBar>
           </Grid>
