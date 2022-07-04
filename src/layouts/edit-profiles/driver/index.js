@@ -40,9 +40,10 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import MenuItem from "@mui/material/MenuItem";
-import InputAdornment from "@mui/material/InputAdornment";
-import { IconButton } from "@mui/material";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+// import InputAdornment from "@mui/material/InputAdornment";
+// import { IconButton } from "@mui/material";
+// import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import "./styles.css";
 
 function EditDriver() {
   const SelectFieldStyle = {
@@ -268,29 +269,20 @@ function EditDriver() {
                 <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
                     <MDInput
-                      SelectProps={{
-                        style: SelectFieldStyle,
-                      }}
-                      select
-                      id="full-width-text-field"
-                      IconComponent={<ArrowDropDownIcon />}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton>
-                              <ArrowDropDownIcon />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
+                      size="large"
                       InputLabelProps={{ shrink: true }}
+                      select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
                       onChange={(e) => setGender(e.target.value)}
-                      defaultValue={gender}
+                      value={gender}
                       helperText={gender}
-                      //   placeholder={driver.gender}
-                      type="text"
                       label="Gender"
-                      // variant="standard"
+                      defaultValue={gender}
+                      // default={gender}
+                      InputProps={{
+                        classes: { root: "select-input-styles" },
+                      }}
                       fullWidth
                     >
                       <MenuItem value="Male">Male</MenuItem>
@@ -583,15 +575,8 @@ function EditDriver() {
                       }}
                       select
                       id="full-width-text-field"
-                      IconComponent={<ArrowDropDownIcon />}
                       InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton>
-                              <ArrowDropDownIcon />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
+                        classes: { root: "select-input-styles" },
                       }}
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setSupervisroEmail(e.target.value)}

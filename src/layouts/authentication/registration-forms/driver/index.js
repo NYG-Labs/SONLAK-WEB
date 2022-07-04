@@ -49,13 +49,14 @@ import axios from "axios";
 // import Select from "@mui/material/Select";
 // import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import MenuItem from "@mui/material/MenuItem";
-import InputAdornment from "@mui/material/InputAdornment";
-import { IconButton } from "@mui/material";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+// import InputAdornment from "@mui/material/InputAdornment";
+// import { IconButton } from "@mui/material";
+// import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 // import ClearIcon from "@mui/icons-material/ClearIcon";
 // import AccountCircle from "@mui/icons-material/AccountCircle";
 // import Icon from "@mui/material/Icon";
 // import FaceIcon from "@mui/icons-material/Face";
+import "./styles.css";
 
 function DriverRegistration() {
   const SelectFieldStyle = {
@@ -138,7 +139,7 @@ function DriverRegistration() {
     profilePhoto,
   };
 
-  // console.log(gender);
+  // console.log(supervisorEmail);
 
   function registerDriver() {
     axios
@@ -236,27 +237,17 @@ function DriverRegistration() {
                 <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
                     <MDInput
-                      SelectProps={{
-                        style: SelectFieldStyle,
-                      }}
-                      select
-                      id="full-width-text-field"
-                      IconComponent={<ArrowDropDownIcon />}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton>
-                              <ArrowDropDownIcon />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
+                      size="large"
                       InputLabelProps={{ shrink: true }}
+                      select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
                       onChange={(e) => setGender(e.target.value)}
                       value={gender}
-                      type="text"
                       label="Gender"
-                      // variant="standard"
+                      InputProps={{
+                        classes: { root: "select-input-styles" },
+                      }}
                       fullWidth
                     >
                       <MenuItem value="Male">Male</MenuItem>
@@ -518,15 +509,8 @@ function DriverRegistration() {
                       }}
                       select
                       id="full-width-text-field"
-                      IconComponent={<ArrowDropDownIcon />}
                       InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton>
-                              <ArrowDropDownIcon />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
+                        classes: { root: "select-input-styles" },
                       }}
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setSupervisroEmail(e.target.value)}
