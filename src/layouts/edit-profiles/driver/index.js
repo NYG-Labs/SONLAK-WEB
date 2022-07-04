@@ -17,6 +17,12 @@ Coded by www.creative-tim.com
 // import { Link } from "react-router-dom";
 import * as React from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+// import Button from "@mui/material/Button";
+// import Dialog from "@mui/material/Dialog";
+// import DialogActions from "@mui/material/DialogActions";
+// import DialogContent from "@mui/material/DialogContent";
+// import DialogContentText from "@mui/material/DialogContentText";
+// import DialogTitle from "@mui/material/DialogTitle";
 // import { useEffect } from "react";
 // import {  } from "react-router-dom";
 
@@ -90,6 +96,16 @@ function EditDriver() {
   const [workStatus, setWorkstatus] = useState(driver.workStatus);
   const [password, setPassword] = useState(driver.password);
   const [oldPassword, setOldPassword] = useState("");
+
+  // const [open, setOpen] = React.useState(false);
+
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
+
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   const getAllSupervisors = () => {
     axios.get(baseURLSupervisors, config).then((response) => {
@@ -220,8 +236,34 @@ function EditDriver() {
         <MDBox pt={-2} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox p={2}>
-              <MDBox pb={2}>Personal Details</MDBox>
-
+              <MDBox pb={2}>
+                Personal Details
+                {/* <Button variant="outlined" onClick={handleClickOpen}>
+                  Open alert dialog
+                </Button>
+                <Dialog
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    Are you sure you want to continue?
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      From this you will delete this driver. And this driver will become an inactive
+                      driver.
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleClose}>Disagree</Button>
+                    <Button onClick={handleClose} autoFocus>
+                      Agree
+                    </Button>
+                  </DialogActions>
+                </Dialog> */}
+              </MDBox>
               <Grid container spacing={3}>
                 <br />
                 <Grid item xs={12} md={4}>

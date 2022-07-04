@@ -12,7 +12,8 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import { useParams, Link } from "react-router-dom";
+import * as React from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 // import {  } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
@@ -43,15 +44,24 @@ import team4 from "assets/images/team-4.jpg";
 import MDAvatar from "components/MDAvatar";
 import burceMars from "assets/images/bruce-mars.jpg";
 import breakpoints from "assets/theme/base/breakpoints";
+
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 // import { IconButton } from "@mui/material";
 // import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 import axios from "axios";
 
 function DriverProfile() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [driver, setDriver] = useState([]);
   const baseURL = `/api/drivers/${id}`;
+  const deleteDriverURL = `/api/Drivers/${id}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
 
@@ -90,7 +100,26 @@ function DriverProfile() {
     return () => window.removeEventListener("resize", handleTabsOrientation);
   }, [tabsOrientation]);
 
+  function deleteDriver() {
+    axios.get(deleteDriverURL, config).then((response) => {
+      console.log(response);
+      navigate("/drivers");
+      // const tempDriver = response.data;
+      // setDriver(tempDriver);
+    });
+  }
+
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   // console.log("id = ", id, "/n driver = ", driver);
 
@@ -138,15 +167,38 @@ function DriverProfile() {
                     </Icon>
                   }
                 />
-                {/* <Tab
-                  label="Settings"
+                <Tab
+                  label="Delete"
+                  onClick={handleClickOpen}
                   icon={
                     <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                      settings
+                      delete
                     </Icon>
                   }
-                /> */}
+                />
               </Tabs>
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">
+                  Are you sure you want to continue?
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    From this you will delete this driver. And this driver will become an inactive
+                    driver.
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Disagree</Button>
+                  <Button onClick={() => deleteDriver()} autoFocus>
+                    Agree
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </AppBar>
           </Grid>
         </Grid>
