@@ -74,6 +74,20 @@ function DriverProfile() {
     },
   };
 
+  // const convertBase64 = (file) =>
+  //   new Promise((resolve, reject) => {
+  //     const fileReader = new FileReader();
+  //     fileReader.readAsDataURL(file);
+
+  //     fileReader.onload(() => {
+  //       resolve(fileReader.result);
+  //     });
+
+  //     fileReader.onerror((error) => {
+  //       reject(error);
+  //     });
+  //   });
+
   const getTheDriver = () => {
     axios.get(baseURL, config).then((response) => {
       const tempDriver = response.data;
@@ -97,6 +111,9 @@ function DriverProfile() {
 
     // Call the handleTabsOrientation function to set the state with the initial value.
     handleTabsOrientation();
+
+    // const base64 = convertBase64(driver.profilePhoto.files[0]);
+    // console.log(base64);
 
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleTabsOrientation);
@@ -123,7 +140,7 @@ function DriverProfile() {
     setOpen(false);
   };
 
-  console.log("id = ", id, "/n driver = ", driver);
+  console.log("id = ", id, "/n driver = ", driver.profilePhoto);
 
   // const reader = new FileReader();
   // reader.readAsDataURL(driver.profilePhoto);
@@ -131,7 +148,6 @@ function DriverProfile() {
   //   const base64data = reader.result;
   //   console.log(base64data);
   // };
-
   return (
     <DashboardLayout>
       <DashboardNavbar />
