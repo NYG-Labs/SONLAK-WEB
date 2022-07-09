@@ -41,28 +41,19 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
-// import Box from "@mui/material/Box";
-// import InputLabel from "@mui/material/InputLabel";
-
-// import FormControl from "@mui/material/FormControl";
-// import Select from "@mui/material/Select";
-// import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import MenuItem from "@mui/material/MenuItem";
-// import InputAdornment from "@mui/material/InputAdornment";
-// import { IconButton } from "@mui/material";
-// import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-// import ClearIcon from "@mui/icons-material/ClearIcon";
-// import AccountCircle from "@mui/icons-material/AccountCircle";
-// import Icon from "@mui/material/Icon";
-// import FaceIcon from "@mui/icons-material/Face";
 import "./styles.css";
-
+// import { BlobServiceClient } from "@azure/storage-blob";
+import { BlobServiceClient } from "@azure/storage-blob";
+// ContainerClient
 function DriverRegistration() {
   const SelectFieldStyle = {
     padding: 12,
     // fontSize: "0.75rem",
   };
+
+  const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
+  const sasToken = process.env.REACT_APP_STORAGESASTOKEN;
 
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -73,25 +64,42 @@ function DriverRegistration() {
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
   const [ausPostId, setAusPostId] = useState("");
-  const [ausPostScan, setAusPostScan] = useState("");
+  // const [ausPostScan, setAusPostScan] = useState("");
   const [ausPostExpiry, setAusPostExpiry] = useState("");
   const [vehicleNo, setVehicleNo] = useState("");
   const [vehicalType, setVehicalType] = useState("");
   const [visaNo, setVisaNo] = useState("");
-  const [visaScan, setVisaScan] = useState("");
+  // const [visaScan, setVisaScan] = useState("");
   const [visaExpiry, setVisaExpiry] = useState("");
   const [licenceId, setLicenceId] = useState("");
-  const [licenceScan, setLicenceScan] = useState("");
+  // const [licenceScan, setLicenceScan] = useState("");
   const [licenceExpiry, setLicenceExpiry] = useState("");
   const [driverType, setDriverType] = useState("");
   const [username, setUsername] = useState("");
   // const [phoneNo, setPhoneNo] = useState("");
-  const [profilePhoto, setProfilePhoto] = useState("");
+  // const [profilePhoto, setProfilePhoto] = useState("");
   const [supervisorEmail, setSupervisroEmail] = useState("");
   const [password, setPassword] = useState("");
   const [allSupervisors, setAllSupervisors] = useState([]);
   const baseURL = "/api/Drivers";
   const baseURLSupervisors = "/api/Supervisors";
+  const currentDate = new Date();
+  const timestamp = currentDate.getTime();
+  const tempFileNameAusPostScan = `${email}_auspostscan_${timestamp}.jpg`;
+  const tempAusPostScanURL = `https://${storageAccountName}.blob.core.windows.net/auspostscan/${tempFileNameAusPostScan}`;
+  const ausPostScan = tempAusPostScanURL;
+
+  const tempFileNameLicenceScan = `${email}_licencescan_${timestamp}.jpg`;
+  const tempLicenceScanURL = `https://${storageAccountName}.blob.core.windows.net/licencescan/${tempFileNameLicenceScan}`;
+  const licenceScan = tempLicenceScanURL;
+
+  const tempFileNameVisaScan = `${email}_licencescan_${timestamp}.jpg`;
+  const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/licencescan/${tempFileNameVisaScan}`;
+  const visaScan = tempVisaScanURL;
+
+  const tempFileProfilePhoto = `${email}_profilephoto_${timestamp}.jpg`;
+  const tempProfilePhotoURL = `https://${storageAccountName}.blob.core.windows.net/licencescan/${tempFileProfilePhoto}`;
+  const profilePhoto = tempProfilePhotoURL;
 
   const config = {
     headers: {
@@ -139,13 +147,101 @@ function DriverRegistration() {
     profilePhoto,
   };
 
-  // console.log(supervisorEmail);
+  const [ausPostScanFile, setAusPostSanFile] = useState([]);
 
-  function registerDriver() {
+  const ausPostScanHnadler = (event) => {
+    setAusPostSanFile(event.target.files[0]);
+  };
+
+  async function uploadAusPostScan() {
+    const blobService = new BlobServiceClient(
+      `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    );
+
+    const containerClient = blobService.getContainerClient("auspostscan");
+    await containerClient.createIfNotExists({
+      access: "container",
+    });
+
+    const blobClient = containerClient.getBlockBlobClient(tempFileNameAusPostScan);
+    const option = { blobHTTPHeader: { blobContentType: ausPostScanFile.type } };
+    await blobClient.uploadBrowserData(ausPostScanFile, option);
+  }
+
+  const [licenceScanFile, setLicenceSanFile] = useState([]);
+
+  const LicenceScanHnadler = (event) => {
+    setLicenceSanFile(event.target.files[0]);
+  };
+
+  async function uploadLicenceScan() {
+    const blobService = new BlobServiceClient(
+      `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    );
+
+    const containerClient = blobService.getContainerClient("licencescan");
+    await containerClient.createIfNotExists({
+      access: "container",
+    });
+
+    const blobClient = containerClient.getBlockBlobClient(tempFileNameLicenceScan);
+    const option = { blobHTTPHeader: { blobContentType: licenceScanFile.type } };
+    await blobClient.uploadBrowserData(licenceScanFile, option);
+  }
+
+  const [visaScanFile, setVisaSanFile] = useState([]);
+
+  const VisaScanHnadler = (event) => {
+    setVisaSanFile(event.target.files[0]);
+  };
+
+  async function uploadVisaScan() {
+    const blobService = new BlobServiceClient(
+      `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    );
+
+    const containerClient = blobService.getContainerClient("visascan");
+    await containerClient.createIfNotExists({
+      access: "container",
+    });
+
+    const blobClient = containerClient.getBlockBlobClient(tempFileNameVisaScan);
+    const option = { blobHTTPHeader: { blobContentType: visaScanFile.type } };
+    await blobClient.uploadBrowserData(visaScanFile, option);
+  }
+
+  const [profilePhotoFile, setProfilePhotoFile] = useState([]);
+
+  const ProfilePhotoHnadler = (event) => {
+    setProfilePhotoFile(event.target.files[0]);
+  };
+
+  async function uploadProfilePhoto() {
+    const blobService = new BlobServiceClient(
+      `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    );
+
+    const containerClient = blobService.getContainerClient("profilephoto");
+    await containerClient.createIfNotExists({
+      access: "container",
+    });
+
+    const blobClient = containerClient.getBlockBlobClient(tempFileProfilePhoto);
+    const option = { blobHTTPHeader: { blobContentType: profilePhotoFile.type } };
+    await blobClient.uploadBrowserData(profilePhotoFile, option);
+  }
+
+  async function registerDriver() {
+    await uploadAusPostScan();
+    await uploadLicenceScan();
+    await uploadVisaScan();
+    await uploadProfilePhoto();
+    console.log(bodyParameters);
+
     axios
       .post(baseURL, bodyParameters, config)
       .then((response) => {
-        console.log(response.status);
+        // console.log(response.status);
         if (response.status === 201) {
           alert("Driver registered successfully");
           navigate("/drivers");
@@ -329,9 +425,9 @@ function DriverRegistration() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setAusPostScan(e.target.value)}
-                      // onChange={ausPostScanHnadler}
-                      type="text"
+                      // onChange={(e) => setAusPostScan(e.target.value)}
+                      onChange={ausPostScanHnadler}
+                      type="file"
                       label="Scanned copy"
                       // variant="standard"
                       fullWidth
@@ -413,8 +509,9 @@ function DriverRegistration() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setVisaScan(e.target.value)}
-                      type="text"
+                      // onChange={(e) => setVisaScan(e.target.value)}
+                      onChange={VisaScanHnadler}
+                      type="file"
                       label="Scanned copy"
                       // variant="standard"
                       fullWidth
@@ -455,8 +552,9 @@ function DriverRegistration() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setLicenceScan(e.target.value)}
-                      type="text"
+                      onChange={LicenceScanHnadler}
+                      // onChange={(e) => setLicenceScan(e.target.value)}
+                      type="file"
                       label="Scanned copy"
                       // variant="standard"
                       fullWidth
@@ -530,8 +628,9 @@ function DriverRegistration() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setProfilePhoto(e.target.value)}
-                      type="text"
+                      // onChange={(e) => setProfilePhoto(e.target.value)}
+                      onChange={ProfilePhotoHnadler}
+                      type="file"
                       label="Profile Photo"
                       // variant="standard"
                       fullWidth

@@ -42,9 +42,10 @@ import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 import MDAvatar from "components/MDAvatar";
-import burceMars from "assets/images/bruce-mars.jpg";
+// import burceMars from "assets/images/bruce-mars.jpg";
 import breakpoints from "assets/theme/base/breakpoints";
-
+// import { Link } from "react-router-dom";
+import MDBadge from "components/MDBadge";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -55,6 +56,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 // import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 import axios from "axios";
+// import data from "layouts/tables/data/authorsTableData";
 
 function DriverProfile() {
   const navigate = useNavigate();
@@ -121,7 +123,14 @@ function DriverProfile() {
     setOpen(false);
   };
 
-  // console.log("id = ", id, "/n driver = ", driver);
+  console.log("id = ", id, "/n driver = ", driver);
+
+  // const reader = new FileReader();
+  // reader.readAsDataURL(driver.profilePhoto);
+  // reader.onloadend = function () {
+  //   const base64data = reader.result;
+  //   console.log(base64data);
+  // };
 
   return (
     <DashboardLayout>
@@ -130,7 +139,7 @@ function DriverProfile() {
       <Header>
         <Grid container spacing={3} alignItems="center">
           <Grid item>
-            <MDAvatar src={burceMars} alt="profile-image" size="xxl" shadow="sm" />
+            <MDAvatar src={driver.profilePhoto} alt="profile-image" size="xxl" shadow="sm" />
           </Grid>
           <Grid item>
             <MDBox height="100%" mt={0.5} lineHeight={1}>
@@ -223,7 +232,20 @@ function DriverProfile() {
               <ProfileInfoCard
                 title="AUS Post Details"
                 info={{
-                  AusPostScan: driver.ausPostScan,
+                  AusPostScan: (
+                    <a href={driver.ausPostScan}>
+                      {/* <Link to={{ pathname: driver.ausPostScan }}> */}
+                      <MDBadge
+                        badgeContent="view"
+                        color="success"
+                        variant="gradient"
+                        size="sm"
+                        // component={Link}
+                        // to={`/drivers/${row.email}`}
+                      />
+                      {/* </Link> */}
+                    </a>
+                  ),
                   AusPostID: driver.ausPostId,
                   AusPostExpp: driver.ausPostExpiry,
                   // DOB: driver.dob,
@@ -237,7 +259,20 @@ function DriverProfile() {
                 title="Licence Details"
                 description=""
                 info={{
-                  LicenceScan: driver.licenceScan,
+                  LicenceScan: (
+                    <a href={driver.licenceScan}>
+                      {/* <Link to={{ pathname: driver.ausPostScan }}> */}
+                      <MDBadge
+                        badgeContent="view"
+                        color="success"
+                        variant="gradient"
+                        size="sm"
+                        // component={Link}
+                        // to={`/drivers/${row.email}`}
+                      />
+                      {/* </Link> */}
+                    </a>
+                  ),
                   LicenceID: driver.licenceId,
                   LicenceEXP: driver.licenceExpiry,
                   // DOB: driver.dob,
@@ -266,9 +301,22 @@ function DriverProfile() {
               <ProfileInfoCard
                 title="Visa Details"
                 info={{
+                  VisaScan: (
+                    <a href={driver.licenceScan}>
+                      {/* <Link to={{ pathname: driver.ausPostScan }}> */}
+                      <MDBadge
+                        badgeContent="view"
+                        color="success"
+                        variant="gradient"
+                        size="sm"
+                        // component={Link}
+                        // to={`/drivers/${row.email}`}
+                      />
+                      {/* </Link> */}
+                    </a>
+                  ),
                   VisaExpiry: driver.visaExpiry,
                   VisaNo: driver.visaNo,
-                  VisaScan: driver.visaScan,
                 }}
                 shadow={false}
               />

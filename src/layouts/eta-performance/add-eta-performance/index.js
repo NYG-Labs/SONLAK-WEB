@@ -31,10 +31,11 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { useState, useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
-import InputAdornment from "@mui/material/InputAdornment";
-import { IconButton } from "@mui/material";
+// import InputAdornment from "@mui/material/InputAdornment";
+// import { IconButton } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import axios from "axios";
+import "./styles.css";
 // Authentication layout components
 // import CoverLayout from "layouts/authentication/components/CoverLayout";
 
@@ -126,14 +127,17 @@ function AddETAPerformance() {
                       select
                       id="full-width-text-field"
                       IconComponent={<ArrowDropDownIcon />}
+                      // InputProps={{
+                      //   endAdornment: (
+                      //     <InputAdornment position="end">
+                      //       <IconButton>
+                      //         <ArrowDropDownIcon />
+                      //       </IconButton>
+                      //     </InputAdornment>
+                      //   ),
+                      // }}
                       InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton>
-                              <ArrowDropDownIcon />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
+                        classes: { root: "select-input-styles" },
                       }}
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setUser(e.target.value)}
