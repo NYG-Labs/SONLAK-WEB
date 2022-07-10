@@ -23,7 +23,7 @@ import Divider from "@mui/material/Divider";
 // import InstagramIcon from "@mui/icons-material/Instagram";
 
 // Material Dashboard 2 React components
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import MDBox from "components/MDBox";
@@ -64,6 +64,7 @@ import MDBadge from "components/MDBadge";
 
 function SupervisorProfile() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [supervisor, setSupervisor] = useState([]);
   const baseURL = `/api/supervisors/${id}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
@@ -110,6 +111,12 @@ function SupervisorProfile() {
 
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
 
+  if (
+    window.localStorage.getItem("token") === null ||
+    window.localStorage.getItem("roleKey") !== "SUPERADMIN"
+  ) {
+    navigate("/");
+  }
   return (
     <DashboardLayout>
       <DashboardNavbar />

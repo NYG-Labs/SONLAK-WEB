@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 // @mui material components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import MDButton from "components/MDButton";
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
@@ -29,6 +29,14 @@ import CardMedia from "@mui/material/CardMedia";
 // import Invoices from "layouts/billing/components/Invoices";
 
 function AllUserRegistrations() {
+  const navigate = useNavigate();
+
+  if (
+    window.localStorage.getItem("token") === null ||
+    window.localStorage.getItem("roleKey") !== "SUPERADMIN"
+  ) {
+    navigate("/");
+  }
   return (
     <DashboardLayout>
       <DashboardNavbar />

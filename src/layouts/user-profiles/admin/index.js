@@ -13,7 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
@@ -47,6 +47,7 @@ import breakpoints from "assets/theme/base/breakpoints";
 import axios from "axios";
 
 function AdminProfile() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [admin, setAdmin] = useState([]);
   const baseURL = `/api/admins/${id}`;
@@ -91,7 +92,12 @@ function AdminProfile() {
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
 
   // console.log("id = ", id, "/n Admin = ", Admin);
-
+  if (
+    window.localStorage.getItem("token") === null ||
+    window.localStorage.getItem("roleKey") !== "SUPERADMIN"
+  ) {
+    navigate("/");
+  }
   return (
     <DashboardLayout>
       <DashboardNavbar />

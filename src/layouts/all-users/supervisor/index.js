@@ -22,7 +22,7 @@ import { useState, useEffect } from "react";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -73,6 +73,15 @@ function AllSupervisors() {
   const filteredData = allSupervisors.filter((Supervisor) =>
     Supervisor.fname.toLowerCase().includes(search.toLowerCase())
   );
+
+  const navigate = useNavigate();
+
+  if (
+    window.localStorage.getItem("token") === null ||
+    window.localStorage.getItem("roleKey") !== "SUPERADMIN"
+  ) {
+    navigate("/");
+  }
   return (
     <DashboardLayout>
       <DashboardNavbar />

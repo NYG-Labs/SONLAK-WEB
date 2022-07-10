@@ -59,12 +59,14 @@ function Basic() {
         password,
       })
       .then((response) => {
-        if (response.data.roleKey === "admin     ") {
+        if (response.data.roleKey === "SUPERADMIN") {
           window.localStorage.setItem("roleKey", response.data.roleKey);
           window.localStorage.setItem("token", response.data.token);
           navigate("/dashboard");
+        } else if (response.data.roleKey === "ADMIN     ") {
+          window.alert("ADMIN");
         } else {
-          console.log("response = ERROR");
+          console.log("response = ERROR", response);
         }
       });
   }

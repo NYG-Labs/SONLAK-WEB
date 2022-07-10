@@ -19,7 +19,7 @@ import Card from "@mui/material/Card";
 import MDInput from "components/MDInput";
 
 import MDButton from "components/MDButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 // import { useTable } from "react-table";
 
@@ -43,6 +43,7 @@ import Footer from "examples/Footer";
 import allETAPerformanceData from "./allETAPerformanceData";
 
 function AllETAPerformance() {
+  const navigate = useNavigate();
   const { rows } = allETAPerformanceData();
   const [search, setSearch] = useState("");
 
@@ -50,6 +51,12 @@ function AllETAPerformance() {
     row.route.props.description.toLowerCase().includes(search.toLowerCase())
   );
 
+  if (
+    window.localStorage.getItem("token") === null ||
+    window.localStorage.getItem("roleKey") !== "SUPERADMIN"
+  ) {
+    navigate("/");
+  }
   return (
     <DashboardLayout>
       <DashboardNavbar />

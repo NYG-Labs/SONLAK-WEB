@@ -30,6 +30,7 @@ import MDButton from "components/MDButton";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import MenuItem from "@mui/material/MenuItem";
 // import InputAdornment from "@mui/material/InputAdornment";
 // import { IconButton } from "@mui/material";
@@ -43,6 +44,7 @@ import "./styles.css";
 // import bgImage from "assets/images/bg-sign-up-cover.jpeg";
 
 function AddETAPerformance() {
+  const navigate = useNavigate();
   const SelectFieldStyle = {
     padding: 12,
     // fontSize: "0.75rem",
@@ -81,6 +83,12 @@ function AddETAPerformance() {
   console.log(user, route, deviceID, articles, early, onTime, late, notDelivered, onTimePercentage);
   console.log(allDrivers);
 
+  if (
+    window.localStorage.getItem("token") === null ||
+    window.localStorage.getItem("roleKey") !== "SUPERADMIN"
+  ) {
+    navigate("/");
+  }
   return (
     <DashboardLayout>
       <DashboardNavbar />

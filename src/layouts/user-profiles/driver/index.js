@@ -150,6 +150,12 @@ function DriverProfile() {
   //   const base64data = reader.result;
   //   console.log(base64data);
   // };
+  if (
+    window.localStorage.getItem("token") === null ||
+    window.localStorage.getItem("roleKey") !== "SUPERADMIN"
+  ) {
+    navigate("/");
+  }
   return (
     <DashboardLayout>
       <DashboardNavbar />

@@ -327,7 +327,7 @@ function EditDriver() {
 
   if (
     window.localStorage.getItem("token") === null ||
-    window.localStorage.getItem("roleKey") !== "admin     "
+    window.localStorage.getItem("roleKey") !== "SUPERADMIN"
   ) {
     navigate("/");
   }

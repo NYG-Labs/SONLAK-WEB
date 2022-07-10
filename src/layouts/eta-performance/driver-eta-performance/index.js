@@ -29,6 +29,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
+import { useNavigate } from "react-router-dom";
 
 // Data
 // import authorsTableData from "layouts/tables/data/authorsTableData";
@@ -38,9 +39,16 @@ import driverETAPerformanceData from "./driverETAPerformanceData";
 // import projectsTableData from "layouts/tables/data/projectsTableData";
 
 function DriverETAPerformance() {
+  const navigate = useNavigate();
   const { columns, rows } = driverETAPerformanceData();
   //   const { columns: pColumns, rows: pRows } = projectsTableData();
 
+  if (
+    window.localStorage.getItem("token") === null ||
+    window.localStorage.getItem("roleKey") !== "SUPERADMIN"
+  ) {
+    navigate("/");
+  }
   return (
     <DashboardLayout>
       <DashboardNavbar />
