@@ -33,6 +33,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 import { useState } from "react";
 import axios from "axios";
+import { BlobServiceClient } from "@azure/storage-blob";
 
 // Authentication layout components
 // import CoverLayout from "layouts/authentication/components/CoverLayout";
@@ -49,12 +50,27 @@ function SupervisorRegistration() {
   const [address, setAddress] = useState("");
   const [dob, setDob] = useState("");
   const [visaNo, setVisaNo] = useState("");
-  const [visaScan, setVisaScan] = useState("");
+  // const [visaScan, setVisaScan] = useState("");
   const [visaExpiry, setVisaExpiry] = useState("");
   const [driverType, setDriverType] = useState("");
-  const [profilePhoto, setProfilePhoto] = useState("");
+  // const [profilePhoto, setProfilePhoto] = useState("");
   const [password, setPassword] = useState("");
   const baseURL = "/api/Supervisors";
+
+  const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
+  const sasToken = process.env.REACT_APP_STORAGESASTOKEN;
+
+  const blobService = new BlobServiceClient(
+    `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+  );
+
+  const tempFileNameVisaScan = `${email}_licencescan.jpg`;
+  const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/supervisorlicencescan/${tempFileNameVisaScan}`;
+  const visaScan = tempVisaScanURL;
+
+  const tempFileProfilePhoto = `${email}_profilephoto.jpg`;
+  const tempProfilePhotoURL = `https://${storageAccountName}.blob.core.windows.net/supervisorprofilephoto/${tempFileProfilePhoto}`;
+  const profilePhoto = tempProfilePhotoURL;
 
   const config = {
     headers: {
@@ -78,7 +94,53 @@ function SupervisorRegistration() {
     profilePhoto,
   };
 
-  function registerSupervisor() {
+  const [visaScanFile, setVisaSanFile] = useState([]);
+
+  const VisaScanHnadler = (event) => {
+    setVisaSanFile(event.target.files[0]);
+  };
+
+  async function uploadVisaScan() {
+    //   const blobService = new BlobServiceClient(
+    //     `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    //   );
+
+    const containerClient = blobService.getContainerClient("supervisorvisascan");
+    await containerClient.createIfNotExists({
+      access: "container",
+    });
+
+    const blobClient = containerClient.getBlockBlobClient(tempFileNameVisaScan);
+    const option = { blobHTTPHeader: { blobContentType: visaScanFile.type } };
+    await blobClient.uploadBrowserData(visaScanFile, option);
+  }
+
+  const [profilePhotoFile, setProfilePhotoFile] = useState([]);
+
+  const ProfilePhotoHnadler = (event) => {
+    setProfilePhotoFile(event.target.files[0]);
+  };
+
+  async function uploadProfilePhoto() {
+    // const blobService = new BlobServiceClient(
+    //   `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    // );
+
+    const containerClient = blobService.getContainerClient("supervisorprofilephoto");
+    await containerClient.createIfNotExists({
+      access: "container",
+    });
+
+    const blobClient = containerClient.getBlockBlobClient(tempFileProfilePhoto);
+    const option = { blobHTTPHeader: { blobContentType: profilePhotoFile.type } };
+    await blobClient.uploadBrowserData(profilePhotoFile, option);
+  }
+
+  async function registerSupervisor() {
+    await uploadVisaScan();
+    await uploadProfilePhoto();
+    console.log(bodyParameters);
+
     axios
       .post(baseURL, bodyParameters, config)
       .then((response) => {
@@ -227,8 +289,9 @@ function SupervisorRegistration() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setVisaScan(e.target.value)}
-                      type="text"
+                      // onChange={(e) => setVisaScan(e.target.value)}
+                      onChange={VisaScanHnadler}
+                      type="file"
                       label="Scanned copy"
                       // variant="standard"
                       fullWidth
@@ -269,8 +332,9 @@ function SupervisorRegistration() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setProfilePhoto(e.target.value)}
-                      type="text"
+                      // onChange={(e) => setProfilePhoto(e.target.value)}
+                      onChange={ProfilePhotoHnadler}
+                      type="file"
                       label="Profile Photo"
                       // variant="standard"
                       fullWidth

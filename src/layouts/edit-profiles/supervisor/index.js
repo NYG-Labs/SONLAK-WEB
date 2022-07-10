@@ -43,6 +43,7 @@ import MenuItem from "@mui/material/MenuItem";
 import InputAdornment from "@mui/material/InputAdornment";
 import { IconButton } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import { BlobServiceClient } from "@azure/storage-blob";
 
 function EditSupervisor() {
   const SelectFieldStyle = {
@@ -56,6 +57,13 @@ function EditSupervisor() {
       Authorization: `Bearer ${window.localStorage.getItem("token")}`,
     },
   };
+
+  const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
+  const sasToken = process.env.REACT_APP_STORAGESASTOKEN;
+
+  const blobService = new BlobServiceClient(
+    `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+  );
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -89,6 +97,15 @@ function EditSupervisor() {
   const [workStatus, setWorkstatus] = useState(supervisor.workStatus);
   const [password, setPassword] = useState(supervisor.password);
   const [oldPassword, setOldPassword] = useState("");
+
+  const supervisorEmail = supervisor.email;
+
+  const tempFileNameVisaScan = `${supervisorEmail}_licencescan.jpg`;
+  const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/supervisorvisascan/${tempFileNameVisaScan}`;
+  // const visaScan = tempVisaScanURL;
+
+  const tempFileProfilePhoto = `${supervisorEmail}_profilephoto.jpg`;
+  const tempProfilePhotoURL = `https://${storageAccountName}.blob.core.windows.net/supervisorprofilephoto/${tempFileProfilePhoto}`;
 
   //   const getAllSupervisors = () => {
   //     axios.get(baseURLSupervisors, config).then((response) => {
@@ -133,10 +150,51 @@ function EditSupervisor() {
     // getAllSupervisors();
   }, []);
 
+  const [visaScanFile, setVisaSanFile] = useState([]);
+
+  const VisaScanHnadler = (event) => {
+    setVisaSanFile(event.target.files[0]);
+    setVisaScan(tempVisaScanURL);
+  };
+
+  async function uploadVisaScan() {
+    //   const blobService = new BlobServiceClient(
+    //     `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    //   );
+
+    const containerClient = blobService.getContainerClient("supervisorvisascan");
+    await containerClient.createIfNotExists({
+      access: "container",
+    });
+
+    const blobClient = containerClient.getBlockBlobClient(tempFileNameVisaScan);
+    const option = { blobHTTPHeader: { blobContentType: visaScanFile.type } };
+    await blobClient.uploadBrowserData(visaScanFile, option);
+  }
+
+  const [profilePhotoFile, setProfilePhotoFile] = useState([]);
+
+  const ProfilePhotoHandler = (event) => {
+    setProfilePhotoFile(event.target.files[0]);
+    setProfilePhoto(tempProfilePhotoURL);
+  };
+
+  async function uploadProfilePhoto() {
+    // const blobService = new BlobServiceClient(
+    //   `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    // );
+
+    const containerClient = blobService.getContainerClient("supervisorprofilephoto");
+    await containerClient.createIfNotExists({
+      access: "container",
+    });
+
+    const blobClient = containerClient.getBlockBlobClient(tempFileProfilePhoto);
+    const option = { blobHTTPHeader: { blobContentType: profilePhotoFile.type } };
+    await blobClient.uploadBrowserData(profilePhotoFile, option);
+  }
   //   console.log("Supervisor = ", Supervisor);
   //   console.log("allsupervisors = ", allSupervisors);
-
-  const supervisorEmail = supervisor.email;
 
   console.log("pw = ", oldPassword, password);
 
@@ -171,7 +229,10 @@ function EditSupervisor() {
 
   //   console.log("==> ", bodyParameters.fname);
 
-  function editSupervisor() {
+  async function editSupervisor() {
+    await uploadVisaScan();
+    await uploadProfilePhoto();
+
     axios
       .put(baseURL, bodyParameters, config)
       .then((response) => {
@@ -482,9 +543,10 @@ function EditSupervisor() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setVisaScan(e.target.value)}
+                      // onChange={(e) => setVisaScan(e.target.value)}
+                      onChange={VisaScanHnadler}
                       placeholder={supervisor.visaScan}
-                      type="text"
+                      type="file"
                       label="Scanned copy"
                       // variant="standard"
                       fullWidth
@@ -605,9 +667,10 @@ function EditSupervisor() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setProfilePhoto(e.target.value)}
+                      // onChange={(e) => setProfilePhoto(e.target.value)}
+                      onChange={ProfilePhotoHandler}
                       placeholder={supervisor.profilePhoto}
-                      type="text"
+                      type="file"
                       label="Profile Photo"
                       // variant="standard"
                       fullWidth

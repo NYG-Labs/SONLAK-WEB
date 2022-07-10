@@ -41,7 +41,7 @@ import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
 // import ProfilesList from "examples/Lists/ProfilesList";
 import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
 import MDAvatar from "components/MDAvatar";
-import burceMars from "assets/images/bruce-mars.jpg";
+// import burceMars from "assets/images/bruce-mars.jpg";
 import breakpoints from "assets/theme/base/breakpoints";
 
 // Overview page components
@@ -60,6 +60,7 @@ import team1 from "assets/images/team-1.jpg";
 import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
+import MDBadge from "components/MDBadge";
 
 function SupervisorProfile() {
   const { id } = useParams();
@@ -67,6 +68,8 @@ function SupervisorProfile() {
   const baseURL = `/api/supervisors/${id}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
+  let tempSupervisorProfilePhoto = supervisor.profilePhoto;
+  console.log(supervisor);
 
   const config = {
     headers: {
@@ -99,6 +102,8 @@ function SupervisorProfile() {
     // Call the handleTabsOrientation function to set the state with the initial value.
     handleTabsOrientation();
 
+    tempSupervisorProfilePhoto = supervisor.profilePhoto;
+
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleTabsOrientation);
   }, [tabsOrientation]);
@@ -112,7 +117,12 @@ function SupervisorProfile() {
       <Header>
         <Grid container spacing={3} alignItems="center">
           <Grid item>
-            <MDAvatar src={burceMars} alt="profile-image" size="xxl" shadow="sm" />
+            <MDAvatar
+              src={`${tempSupervisorProfilePhoto}?${Date.now()}`}
+              alt="profile-image"
+              size="xxl"
+              shadow="sm"
+            />
           </Grid>
           <Grid item>
             <MDBox height="100%" mt={0.5} lineHeight={1}>
@@ -171,6 +181,20 @@ function SupervisorProfile() {
                   email: supervisor.email,
                   DOB: supervisor.dob,
                   PhoneNumber: supervisor.phoneNo,
+                  ProfilePicture: (
+                    <a href={supervisor.profilePhoto}>
+                      {/* <Link to={{ pathname: driver.ausPostScan }}> */}
+                      <MDBadge
+                        badgeContent="view"
+                        color="success"
+                        variant="gradient"
+                        size="sm"
+                        // component={Link}
+                        // to={`/drivers/${row.email}`}
+                      />
+                      {/* </Link> */}
+                    </a>
+                  ),
                 }}
                 shadow={false}
               />
@@ -180,9 +204,22 @@ function SupervisorProfile() {
               <ProfileInfoCard
                 title="Visa Details"
                 info={{
+                  VisaScan: (
+                    <a href={supervisor.visaScan}>
+                      {/* <Link to={{ pathname: driver.ausPostScan }}> */}
+                      <MDBadge
+                        badgeContent="view"
+                        color="success"
+                        variant="gradient"
+                        size="sm"
+                        // component={Link}
+                        // to={`/drivers/${row.email}`}
+                      />
+                      {/* </Link> */}
+                    </a>
+                  ),
                   VisaExpiry: supervisor.visaExpiry,
                   VisaNo: supervisor.visaNo,
-                  VisaScan: supervisor.visaScan,
                 }}
                 shadow={false}
               />

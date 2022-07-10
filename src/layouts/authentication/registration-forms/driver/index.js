@@ -55,6 +55,10 @@ function DriverRegistration() {
   const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
   const sasToken = process.env.REACT_APP_STORAGESASTOKEN;
 
+  const blobService = new BlobServiceClient(
+    `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+  );
+
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [fname, setFname] = useState("");
@@ -83,22 +87,22 @@ function DriverRegistration() {
   const [allSupervisors, setAllSupervisors] = useState([]);
   const baseURL = "/api/Drivers";
   const baseURLSupervisors = "/api/Supervisors";
-  const currentDate = new Date();
-  const timestamp = currentDate.getTime();
-  const tempFileNameAusPostScan = `${email}_auspostscan_${timestamp}.jpg`;
-  const tempAusPostScanURL = `https://${storageAccountName}.blob.core.windows.net/auspostscan/${tempFileNameAusPostScan}`;
+  // const currentDate = new Date();
+  // const timestamp = currentDate.getTime();
+  const tempFileNameAusPostScan = `${email}_auspostscan.jpg`;
+  const tempAusPostScanURL = `https://${storageAccountName}.blob.core.windows.net/driverauspostscan/${tempFileNameAusPostScan}`;
   const ausPostScan = tempAusPostScanURL;
 
-  const tempFileNameLicenceScan = `${email}_licencescan_${timestamp}.jpg`;
-  const tempLicenceScanURL = `https://${storageAccountName}.blob.core.windows.net/licencescan/${tempFileNameLicenceScan}`;
+  const tempFileNameLicenceScan = `${email}_licencescan.jpg`;
+  const tempLicenceScanURL = `https://${storageAccountName}.blob.core.windows.net/driverlicencescan/${tempFileNameLicenceScan}`;
   const licenceScan = tempLicenceScanURL;
 
-  const tempFileNameVisaScan = `${email}_licencescan_${timestamp}.jpg`;
-  const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/licencescan/${tempFileNameVisaScan}`;
+  const tempFileNameVisaScan = `${email}_licencescan.jpg`;
+  const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/driverlicencescan/${tempFileNameVisaScan}`;
   const visaScan = tempVisaScanURL;
 
-  const tempFileProfilePhoto = `${email}_profilephoto_${timestamp}.jpg`;
-  const tempProfilePhotoURL = `https://${storageAccountName}.blob.core.windows.net/licencescan/${tempFileProfilePhoto}`;
+  const tempFileProfilePhoto = `${email}_profilephoto.jpg`;
+  const tempProfilePhotoURL = `https://${storageAccountName}.blob.core.windows.net/driverprofilephoto/${tempFileProfilePhoto}`;
   const profilePhoto = tempProfilePhotoURL;
 
   const config = {
@@ -154,11 +158,11 @@ function DriverRegistration() {
   };
 
   async function uploadAusPostScan() {
-    const blobService = new BlobServiceClient(
-      `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
-    );
+    // const blobService = new BlobServiceClient(
+    //   `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    // );
 
-    const containerClient = blobService.getContainerClient("auspostscan");
+    const containerClient = blobService.getContainerClient("driverauspostscan");
     await containerClient.createIfNotExists({
       access: "container",
     });
@@ -175,11 +179,11 @@ function DriverRegistration() {
   };
 
   async function uploadLicenceScan() {
-    const blobService = new BlobServiceClient(
-      `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
-    );
+    // const blobService = new BlobServiceClient(
+    //   `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    // );
 
-    const containerClient = blobService.getContainerClient("licencescan");
+    const containerClient = blobService.getContainerClient("driverlicencescan");
     await containerClient.createIfNotExists({
       access: "container",
     });
@@ -196,11 +200,11 @@ function DriverRegistration() {
   };
 
   async function uploadVisaScan() {
-    const blobService = new BlobServiceClient(
-      `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
-    );
+    //   const blobService = new BlobServiceClient(
+    //     `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    //   );
 
-    const containerClient = blobService.getContainerClient("visascan");
+    const containerClient = blobService.getContainerClient("drivervisascan");
     await containerClient.createIfNotExists({
       access: "container",
     });
@@ -217,11 +221,11 @@ function DriverRegistration() {
   };
 
   async function uploadProfilePhoto() {
-    const blobService = new BlobServiceClient(
-      `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
-    );
+    // const blobService = new BlobServiceClient(
+    //   `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    // );
 
-    const containerClient = blobService.getContainerClient("profilephoto");
+    const containerClient = blobService.getContainerClient("driverprofilephoto");
     await containerClient.createIfNotExists({
       access: "container",
     });
@@ -236,7 +240,7 @@ function DriverRegistration() {
     await uploadLicenceScan();
     await uploadVisaScan();
     await uploadProfilePhoto();
-    console.log(bodyParameters);
+    // console.log(bodyParameters);
 
     axios
       .post(baseURL, bodyParameters, config)

@@ -46,6 +46,8 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import MenuItem from "@mui/material/MenuItem";
+import { BlobServiceClient } from "@azure/storage-blob";
+
 // import InputAdornment from "@mui/material/InputAdornment";
 // import { IconButton } from "@mui/material";
 // import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -154,6 +156,31 @@ function EditDriver() {
 
   const driverEmail = driver.email;
 
+  const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
+  const sasToken = process.env.REACT_APP_STORAGESASTOKEN;
+
+  const blobService = new BlobServiceClient(
+    `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+  );
+
+  // const currentDate = new Date();
+  // const timestamp = currentDate.getTime();
+  const tempFileNameAusPostScan = `${driverEmail}_auspostscan.jpg`;
+  const tempAusPostScanURL = `https://${storageAccountName}.blob.core.windows.net/driverauspostscan/${tempFileNameAusPostScan}`;
+  // const ausPostScan = tempAusPostScanURL;
+
+  const tempFileNameLicenceScan = `${driverEmail}_licencescan.jpg`;
+  const tempLicenceScanURL = `https://${storageAccountName}.blob.core.windows.net/driverlicencescan/${tempFileNameLicenceScan}`;
+  // const licenceScan = tempLicenceScanURL;
+
+  const tempFileNameVisaScan = `${driverEmail}_licencescan.jpg`;
+  const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/driverlicencescan/${tempFileNameVisaScan}`;
+  // const visaScan = tempVisaScanURL;
+
+  const tempFileProfilePhoto = `${driverEmail}_profilephoto.jpg`;
+  const tempProfilePhotoURL = `https://${storageAccountName}.blob.core.windows.net/driverprofilephoto/${tempFileProfilePhoto}`;
+  // const profilePhoto = tempProfilePhotoURL;
+
   console.log("pw = ", oldPassword, password);
 
   const bodyParameters = {
@@ -185,9 +212,102 @@ function EditDriver() {
     profilePhoto,
   };
 
-  //   console.log("==> ", bodyParameters.fname);
+  const [ausPostScanFile, setAusPostSanFile] = useState([]);
 
-  function editDriver() {
+  const ausPostScanHnadler = (event) => {
+    setAusPostSanFile(event.target.files[0]);
+    setAusPostScan(tempAusPostScanURL);
+    bodyParameters.ausPostScan = tempAusPostScanURL;
+    console.log("APS = ", ausPostScan);
+    console.log("bodyParameters = ", bodyParameters);
+  };
+
+  async function uploadAusPostScan() {
+    // const blobService = new BlobServiceClient(
+    //   `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    // );
+
+    const containerClient = blobService.getContainerClient("driverauspostscan");
+    await containerClient.createIfNotExists({
+      access: "container",
+    });
+
+    const blobClient = containerClient.getBlockBlobClient(tempFileNameAusPostScan);
+    const option = { blobHTTPHeader: { blobContentType: ausPostScanFile.type } };
+    await blobClient.uploadBrowserData(ausPostScanFile, option);
+  }
+
+  const [licenceScanFile, setLicenceSanFile] = useState([]);
+
+  const LicenceScanHnadler = (event) => {
+    setLicenceSanFile(event.target.files[0]);
+    setLicenceScan(tempLicenceScanURL);
+  };
+
+  async function uploadLicenceScan() {
+    // const blobService = new BlobServiceClient(
+    //   `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    // );
+
+    const containerClient = blobService.getContainerClient("driverlicencescan");
+    await containerClient.createIfNotExists({
+      access: "container",
+    });
+
+    const blobClient = containerClient.getBlockBlobClient(tempFileNameLicenceScan);
+    const option = { blobHTTPHeader: { blobContentType: licenceScanFile.type } };
+    await blobClient.uploadBrowserData(licenceScanFile, option);
+  }
+
+  const [visaScanFile, setVisaSanFile] = useState([]);
+
+  const VisaScanHnadler = (event) => {
+    setVisaSanFile(event.target.files[0]);
+    setVisaScan(tempVisaScanURL);
+  };
+
+  async function uploadVisaScan() {
+    //   const blobService = new BlobServiceClient(
+    //     `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    //   );
+
+    const containerClient = blobService.getContainerClient("drivervisascan");
+    await containerClient.createIfNotExists({
+      access: "container",
+    });
+
+    const blobClient = containerClient.getBlockBlobClient(tempFileNameVisaScan);
+    const option = { blobHTTPHeader: { blobContentType: visaScanFile.type } };
+    await blobClient.uploadBrowserData(visaScanFile, option);
+  }
+
+  const [profilePhotoFile, setProfilePhotoFile] = useState([]);
+
+  const ProfilePhotoHandler = (event) => {
+    setProfilePhotoFile(event.target.files[0]);
+    setProfilePhoto(tempProfilePhotoURL);
+  };
+
+  async function uploadProfilePhoto() {
+    // const blobService = new BlobServiceClient(
+    //   `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    // );
+
+    const containerClient = blobService.getContainerClient("driverprofilephoto");
+    await containerClient.createIfNotExists({
+      access: "container",
+    });
+
+    const blobClient = containerClient.getBlockBlobClient(tempFileProfilePhoto);
+    const option = { blobHTTPHeader: { blobContentType: profilePhotoFile.type } };
+    await blobClient.uploadBrowserData(profilePhotoFile, option);
+  }
+
+  async function editDriver() {
+    await uploadAusPostScan();
+    await uploadLicenceScan();
+    await uploadVisaScan();
+    await uploadProfilePhoto();
     axios
       .put(baseURL, bodyParameters, config)
       .then((response) => {
@@ -426,10 +546,10 @@ function EditDriver() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setAusPostScan(e.target.value)}
-                      // onChange={ausPostScanHnadler}
+                      // onChange={(e) => setAusPostScan(e.target.value)}
+                      onChange={ausPostScanHnadler}
                       placeholder={driver.ausPostScan}
-                      type="text"
+                      type="file"
                       label="Scanned copy"
                       // variant="standard"
                       fullWidth
@@ -515,9 +635,10 @@ function EditDriver() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setVisaScan(e.target.value)}
+                      // onChange={(e) => setVisaScan(e.target.value)}
+                      onChange={VisaScanHnadler}
                       placeholder={driver.visaScan}
-                      type="text"
+                      type="file"
                       label="Scanned copy"
                       // variant="standard"
                       fullWidth
@@ -560,9 +681,10 @@ function EditDriver() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setLicenceScan(e.target.value)}
+                      // onChange={(e) => setLicenceScan(e.target.value)}
+                      onChange={LicenceScanHnadler}
                       placeholder={driver.licenceScan}
-                      type="text"
+                      type="file"
                       label="Scanned copy"
                       // variant="standard"
                       fullWidth
@@ -639,9 +761,10 @@ function EditDriver() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setProfilePhoto(e.target.value)}
+                      // onChange={(e) => setProfilePhoto(e.target.value)}
+                      onChange={ProfilePhotoHandler}
                       placeholder={driver.profilePhoto}
-                      type="text"
+                      type="file"
                       label="Profile Photo"
                       // variant="standard"
                       fullWidth

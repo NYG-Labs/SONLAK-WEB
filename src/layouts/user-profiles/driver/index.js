@@ -66,6 +66,7 @@ function DriverProfile() {
   const deleteDriverURL = `/api/Drivers/${id}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
+  let tempDriverProfilePhoto = driver.profilePhoto;
 
   const config = {
     headers: {
@@ -114,6 +115,7 @@ function DriverProfile() {
 
     // const base64 = convertBase64(driver.profilePhoto.files[0]);
     // console.log(base64);
+    tempDriverProfilePhoto = driver.profilePhoto;
 
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleTabsOrientation);
@@ -140,7 +142,7 @@ function DriverProfile() {
     setOpen(false);
   };
 
-  console.log("id = ", id, "/n driver = ", driver.profilePhoto);
+  // console.log("id = ", id, "/n driver = ", driver.profilePhoto);
 
   // const reader = new FileReader();
   // reader.readAsDataURL(driver.profilePhoto);
@@ -155,7 +157,12 @@ function DriverProfile() {
       <Header>
         <Grid container spacing={3} alignItems="center">
           <Grid item>
-            <MDAvatar src={driver.profilePhoto} alt="profile-image" size="xxl" shadow="sm" />
+            <MDAvatar
+              src={`${tempDriverProfilePhoto}?${Date.now()}`}
+              alt="profile-image"
+              size="xxl"
+              shadow="sm"
+            />
           </Grid>
           <Grid item>
             <MDBox height="100%" mt={0.5} lineHeight={1}>
@@ -239,6 +246,20 @@ function DriverProfile() {
                   address: driver.address,
                   email: driver.email,
                   DOB: driver.dob,
+                  ProfilePicture: (
+                    <a href={driver.profilePhoto}>
+                      {/* <Link to={{ pathname: driver.ausPostScan }}> */}
+                      <MDBadge
+                        badgeContent="view"
+                        color="success"
+                        variant="gradient"
+                        size="sm"
+                        // component={Link}
+                        // to={`/drivers/${row.email}`}
+                      />
+                      {/* </Link> */}
+                    </a>
+                  ),
                 }}
                 shadow={false}
               />
