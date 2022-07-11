@@ -12,13 +12,24 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-
-// @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
+import MDInput from "components/MDInput";
 
 // import MDButton from "components/MDButton";
-// import { Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+// import { useState,  } from "react";
+// import { useTable } from "react-table";
+
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import MDBadge from "components/MDBadge";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -28,19 +39,36 @@ import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import DataTable from "examples/Tables/DataTable";
-import { useNavigate } from "react-router-dom";
-
-// Data
-// import authorsTableData from "layouts/tables/data/authorsTableData";
-// import allETAPerformanceData from "./allETAPerformanceData";
-import driverETAPerformanceData from "./driverETAPerformanceData";
-// import projectsTableData from "layouts/tables/data/projectsTableData";
-// import projectsTableData from "layouts/tables/data/projectsTableData";
+import axios from "axios";
 
 function DriverETAPerformance() {
   const navigate = useNavigate();
-  const { columns, rows } = driverETAPerformanceData();
+  const { date } = useParams();
+  const [search, setSearch] = useState("");
+  const [driverETAPerformance, setDriverETAPerformance] = useState([]);
+  const baseURL = `/api/Etaperformances/GetEtaperformancebyDate/${date}`;
+
+  const config = {
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+    },
+  };
+
+  const getDriverETAPerformance = () => {
+    axios.get(baseURL, config).then((response) => {
+      const tempETAPerformance = response.data;
+      setDriverETAPerformance(tempETAPerformance);
+    });
+  };
+
+  useEffect(() => {
+    getDriverETAPerformance();
+  }, []);
+
+  const filteredData = driverETAPerformance.filter((etaPerformance) =>
+    etaPerformance.driverEmail.toLowerCase().includes(search.toLowerCase())
+  );
   //   const { columns: pColumns, rows: pRows } = projectsTableData();
 
   if (
@@ -69,19 +97,88 @@ function DriverETAPerformance() {
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={8.5}>
                     <MDTypography variant="h5" color="white">
-                      ETA Performance
+                      ETA Performance - {date.split("T")[0]}
                     </MDTypography>
                   </Grid>
                 </Grid>
               </MDBox>
               <MDBox pt={3}>
-                <DataTable
-                  table={{ columns, rows }}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
-                  noEndBorder
-                />
+                {/* <Grid container spacing={3}> */}
+                <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
+                  <MDBox pr={2} pb={1} pl={2}>
+                    <MDInput
+                      fullWidth
+                      onChange={(e) => setSearch(e.target.value)}
+                      InputLabelProps={{ shrink: true }}
+                      label="Search here"
+                      type="text"
+                      justify="space-between"
+                      spacing={24}
+                      raised
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
+                  <TableContainer component={Paper}>
+                    <Table aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          {/* <TableCell align="center">Date</TableCell> */}
+                          <TableCell align="center">Users</TableCell>
+                          <TableCell align="center">Route</TableCell>
+                          <TableCell align="center">DeviceID</TableCell>
+                          <TableCell align="center">Articles</TableCell>
+                          <TableCell align="center">Early</TableCell>
+                          <TableCell align="center">OnTime</TableCell>
+                          <TableCell align="center">Late</TableCell>
+                          <TableCell align="center">OnTime Percentage</TableCell>
+                          <TableCell align="left"> </TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {filteredData.map((row) => (
+                          <TableRow key="s">
+                            {/* <TableCell align="center">{row.createDate.split("T")[0]}</TableCell> */}
+                            <TableCell align="center" component="th" scope="row">
+                              {row.driverEmail}
+                            </TableCell>
+                            <TableCell align="center">{row.route}</TableCell>
+                            <TableCell align="center">{row.deviceId}</TableCell>
+                            <TableCell align="center">{row.articles}</TableCell>
+                            <TableCell align="center">{row.early}</TableCell>
+                            <TableCell align="center">{row.onTime}</TableCell>
+                            <TableCell align="center">{row.late}</TableCell>
+                            <TableCell align="center">{row.onTimePresentage}%</TableCell>
+                            <TableCell align="right">
+                              <MDBox ml={-1}>
+                                <MDBadge
+                                  badgeContent="Edit"
+                                  color="success"
+                                  variant="gradient"
+                                  size="m"
+                                  // component={Link}
+                                  // to={`/ETA-performance/${row.createDate}`}
+                                />
+                              </MDBox>
+                            </TableCell>
+                            <TableCell align="left">
+                              <MDBox ml={-1}>
+                                <MDBadge
+                                  badgeContent="Delete"
+                                  color="primary"
+                                  variant="gradient"
+                                  size="m"
+                                  // component={Link}
+                                  // to={`/ETA-performance/${row.createDate}`}
+                                />
+                              </MDBox>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Grid>
               </MDBox>
             </Card>
           </Grid>

@@ -70,7 +70,7 @@ function AllETAPerformance() {
   }, []);
 
   const filteredData = allETAPerformance.filter((etaPerformance) =>
-    etaPerformance.driverEmail.toLowerCase().includes(search.toLowerCase())
+    etaPerformance.createDate.toLowerCase().includes(search.toLowerCase())
   );
 
   console.log(allETAPerformance);
@@ -128,7 +128,9 @@ function AllETAPerformance() {
                     <MDInput
                       fullWidth
                       onChange={(e) => setSearch(e.target.value)}
+                      InputLabelProps={{ shrink: true }}
                       label="Search here"
+                      type="date"
                       justify="space-between"
                       spacing={24}
                       raised
@@ -140,6 +142,7 @@ function AllETAPerformance() {
                     <Table aria-label="simple table">
                       <TableHead>
                         <TableRow>
+                          <TableCell align="center">Date</TableCell>
                           <TableCell align="center">Users</TableCell>
                           <TableCell align="center">Route</TableCell>
                           <TableCell align="center">DeviceID</TableCell>
@@ -150,6 +153,7 @@ function AllETAPerformance() {
                       <TableBody>
                         {filteredData.map((row) => (
                           <TableRow key="s">
+                            <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
                             <TableCell align="center" component="th" scope="row">
                               {row.driverEmail}
                             </TableCell>
@@ -164,7 +168,7 @@ function AllETAPerformance() {
                                   variant="gradient"
                                   size="sm"
                                   component={Link}
-                                  to="/ETA-performance/ETA-performance"
+                                  to={`/ETA-performance/${row.createDate.split("T")[0]}`}
                                 />
                               </MDBox>
                             </TableCell>

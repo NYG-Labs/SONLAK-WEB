@@ -102,7 +102,7 @@ const routes = [
   {
     name: "ETA Performance",
     key: "driver-eta-performance",
-    route: "/ETA-performance/ETA-performance",
+    route: "/ETA-performance/:date",
     component: <DriverETAPerformance />,
   },
   {

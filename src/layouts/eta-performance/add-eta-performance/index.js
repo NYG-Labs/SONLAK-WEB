@@ -68,6 +68,7 @@ function AddETAPerformance() {
   const [late, setLate] = useState();
   const [notDelivered, setNotDelivered] = useState();
   const [onTimePresentage, setOnTimePersentage] = useState();
+  const [createDate, setCreateDate] = useState();
   const [allDrivers, setAllDrivers] = useState([]);
 
   const getAllDrivers = () => {
@@ -91,6 +92,7 @@ function AddETAPerformance() {
     late,
     notDelivered,
     onTimePresentage,
+    createDate,
   };
 
   async function addETAPerformance() {
@@ -148,20 +150,22 @@ function AddETAPerformance() {
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox p={2}>
-              {/* <MDBox pb={2}>Personal Details</MDBox> */}
               <Grid container spacing={3}>
                 <br />
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={3}>
                   <MDBox mb={2}>
-                    {/* <MDInput
+                    <MDInput
                       InputLabelProps={{ shrink: true }}
-                      type="text"
-                      label="User"
-                      onChange={(e) => setUser(e.target.value)}
-                      value={user}
+                      type="date"
+                      label="Date"
+                      onChange={(e) => setCreateDate(e.target.value)}
                       // variant="standard"
                       fullWidth
-                    /> */}
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={3}>
+                  <MDBox mb={2}>
                     <MDInput
                       SelectProps={{
                         style: SelectFieldStyle,
@@ -169,15 +173,6 @@ function AddETAPerformance() {
                       select
                       id="full-width-text-field"
                       IconComponent={<ArrowDropDownIcon />}
-                      // InputProps={{
-                      //   endAdornment: (
-                      //     <InputAdornment position="end">
-                      //       <IconButton>
-                      //         <ArrowDropDownIcon />
-                      //       </IconButton>
-                      //     </InputAdornment>
-                      //   ),
-                      // }}
                       InputProps={{
                         classes: { root: "select-input-styles" },
                       }}
@@ -196,7 +191,7 @@ function AddETAPerformance() {
                     </MDInput>
                   </MDBox>
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={3}>
                   <MDBox mb={8}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
@@ -208,7 +203,7 @@ function AddETAPerformance() {
                     />
                   </MDBox>
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={3}>
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
