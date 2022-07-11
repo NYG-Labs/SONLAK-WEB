@@ -20,7 +20,8 @@ import MDInput from "components/MDInput";
 
 import MDButton from "components/MDButton";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+// import { useState,  } from "react";
 // import { useTable } from "react-table";
 
 import Table from "@material-ui/core/Table";
@@ -40,16 +41,39 @@ import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import allETAPerformanceData from "./allETAPerformanceData";
+import axios from "axios";
+// import allETAPerformanceData from "./allETAPerformanceData";
 
 function AllETAPerformance() {
   const navigate = useNavigate();
-  const { rows } = allETAPerformanceData();
+  // const { rows } = allETAPerformanceData();
   const [search, setSearch] = useState("");
+  const [allETAPerformance, setAllETAPerformance] = useState([]);
+  const baseURL = "/api/Etaperformances";
 
-  const filteredData = rows.filter((row) =>
-    row.route.props.description.toLowerCase().includes(search.toLowerCase())
+  const config = {
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+    },
+  };
+
+  const getAllETAPerformance = () => {
+    axios.get(baseURL, config).then((response) => {
+      const tempETAPerformance = response.data;
+      setAllETAPerformance(tempETAPerformance);
+    });
+  };
+
+  useEffect(() => {
+    getAllETAPerformance();
+  }, []);
+
+  const filteredData = allETAPerformance.filter((etaPerformance) =>
+    etaPerformance.driverEmail.toLowerCase().includes(search.toLowerCase())
   );
+
+  console.log(allETAPerformance);
 
   if (
     window.localStorage.getItem("token") === null ||
@@ -116,21 +140,23 @@ function AllETAPerformance() {
                     <Table aria-label="simple table">
                       <TableHead>
                         <TableRow>
-                          <TableCell>Users</TableCell>
-                          <TableCell align="right">Route</TableCell>
-                          <TableCell align="right">DeviceID</TableCell>
-                          <TableCell align="right"> </TableCell>
+                          <TableCell align="center">Users</TableCell>
+                          <TableCell align="center">Route</TableCell>
+                          <TableCell align="center">DeviceID</TableCell>
+                          <TableCell align="center">OnTime Percentage</TableCell>
+                          <TableCell align="left"> </TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         {filteredData.map((row) => (
                           <TableRow key="s">
-                            <TableCell component="th" scope="row">
-                              {row.users.props.description}
+                            <TableCell align="center" component="th" scope="row">
+                              {row.driverEmail}
                             </TableCell>
-                            <TableCell align="right">{row.route.props.description}</TableCell>
-                            <TableCell align="right">{row.deviceID.props.description}</TableCell>
-                            <TableCell align="right">
+                            <TableCell align="center">{row.route}</TableCell>
+                            <TableCell align="center">{row.deviceId}</TableCell>
+                            <TableCell align="center">{row.onTimePresentage}%</TableCell>
+                            <TableCell align="left">
                               <MDBox ml={-1}>
                                 <MDBadge
                                   badgeContent="view"

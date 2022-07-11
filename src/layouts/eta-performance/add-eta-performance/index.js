@@ -50,7 +50,8 @@ function AddETAPerformance() {
     // fontSize: "0.75rem",
   };
 
-  const baseURL = "/api/Drivers";
+  const getAllDriversURL = "/api/Drivers";
+  const baseURL = "/api/Etaperformances";
   const config = {
     headers: {
       "content-type": "application/json",
@@ -58,19 +59,19 @@ function AddETAPerformance() {
     },
   };
 
-  const [user, setUser] = useState("");
+  const [driverEmail, setDriverEmail] = useState("");
   const [route, setRoute] = useState("");
   const [deviceID, setDeviceID] = useState("");
-  const [articles, setArticles] = useState("");
-  const [early, setEarly] = useState("");
-  const [onTime, setOnTime] = useState("");
-  const [late, setLate] = useState("");
-  const [notDelivered, setNotDelivered] = useState("");
-  const [onTimePercentage, setOnTimePercentage] = useState("");
+  const [articles, setArticles] = useState();
+  const [early, setEarly] = useState();
+  const [onTime, setOnTime] = useState(5);
+  const [late, setLate] = useState();
+  const [notDelivered, setNotDelivered] = useState();
+  const [onTimePresentage, setOnTimePersentage] = useState();
   const [allDrivers, setAllDrivers] = useState([]);
 
   const getAllDrivers = () => {
-    axios.get(baseURL, config).then((response) => {
+    axios.get(getAllDriversURL, config).then((response) => {
       const tempDrivers = response.data;
       setAllDrivers(tempDrivers);
     });
@@ -80,8 +81,41 @@ function AddETAPerformance() {
     getAllDrivers();
   }, []);
 
-  console.log(user, route, deviceID, articles, early, onTime, late, notDelivered, onTimePercentage);
-  console.log(allDrivers);
+  const bodyParameters = {
+    driverEmail,
+    route,
+    deviceID,
+    articles,
+    early,
+    onTime,
+    late,
+    notDelivered,
+    onTimePresentage,
+  };
+
+  async function addETAPerformance() {
+    console.log(bodyParameters);
+    axios
+      .post(baseURL, bodyParameters, config)
+      .then((response) => {
+        console.log(response.status);
+        if (response.status === 201) {
+          alert("ETA-Performacne added successfully");
+          navigate("/ETA-performance");
+        }
+      })
+      .catch((error) => {
+        // if (error.response.status === 409) {
+        //   alert("A supervisor with this email is already available");
+        // } else {
+        console.log(error);
+        alert("An unexpected error occured! please check the values and try again");
+        // }
+      });
+  }
+
+  // console.log(user, route, deviceID, articles, early, onTime, late, notDelivered, onTimePercentage);
+  // console.log(allDrivers);
 
   if (
     window.localStorage.getItem("token") === null ||
@@ -148,8 +182,8 @@ function AddETAPerformance() {
                         classes: { root: "select-input-styles" },
                       }}
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setUser(e.target.value)}
-                      value={user}
+                      onChange={(e) => setDriverEmail(e.target.value)}
+                      value={driverEmail}
                       type="email"
                       label="User"
                       // variant="standard"
@@ -256,7 +290,7 @@ function AddETAPerformance() {
                       InputLabelProps={{ shrink: true }}
                       type="text"
                       label="On Time %"
-                      onChange={(e) => setOnTimePercentage(e.target.value)}
+                      onChange={(e) => setOnTimePersentage(e.target.value)}
                       // variant="standard"
                       fullWidth
                     />
@@ -265,7 +299,12 @@ function AddETAPerformance() {
               </Grid>
             </MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton variant="gradient" color="info" fullWidth>
+              <MDButton
+                onClick={() => addETAPerformance()}
+                variant="gradient"
+                color="info"
+                fullWidth
+              >
                 Add ETA Performance
               </MDButton>
             </MDBox>

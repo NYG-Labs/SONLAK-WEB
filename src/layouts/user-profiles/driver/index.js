@@ -52,6 +52,18 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+// import Paper from "@material-ui/core/Paper";
+import Card from "@mui/material/Card";
+import MDInput from "components/MDInput";
+
+// import MDButton from "components/MDButton";
+// import MDBadge from "components/MDBadge";
 // import { IconButton } from "@mui/material";
 // import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
@@ -64,8 +76,11 @@ function DriverProfile() {
   const [driver, setDriver] = useState([]);
   const baseURL = `/api/drivers/${id}`;
   const deleteDriverURL = `/api/Drivers/${id}`;
+  const ETAPerformanceURL = "/api/Etaperformances";
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
+  const [allETAPerformance, setAllETAPerformance] = useState([]);
+  const [search, setSearch] = useState("");
   let tempDriverProfilePhoto = driver.profilePhoto;
 
   const config = {
@@ -74,6 +89,17 @@ function DriverProfile() {
       Authorization: `Bearer ${window.localStorage.getItem("token")}`,
     },
   };
+
+  const getAllETAPerformance = () => {
+    axios.get(ETAPerformanceURL, config).then((response) => {
+      const tempETAPerformance = response.data;
+      setAllETAPerformance(tempETAPerformance);
+    });
+  };
+
+  const filteredData = allETAPerformance.filter((etaPerformance) =>
+    etaPerformance.driverEmail.toLowerCase().includes(search.toLowerCase())
+  );
 
   // const convertBase64 = (file) =>
   //   new Promise((resolve, reject) => {
@@ -98,6 +124,7 @@ function DriverProfile() {
 
   useEffect(() => {
     getTheDriver();
+    getAllETAPerformance();
     // A function that sets the orientation state of the tabs.
     function handleTabsOrientation() {
       return window.innerWidth < breakpoints.values.sm
@@ -241,7 +268,7 @@ function DriverProfile() {
           </Grid>
         </Grid>
 
-        <MDBox mt={5}>
+        <MDBox mt={4}>
           <Grid container spacing={1}>
             <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
               <Divider orientation="vertical" sx={{ mx: 0 }} />
@@ -326,7 +353,7 @@ function DriverProfile() {
           </Grid>
         </MDBox>
 
-        <MDBox mt={5}>
+        <MDBox mt={2}>
           <Grid container spacing={1}>
             <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
               <Divider orientation="vertical" sx={{ mx: 0 }} />
@@ -363,6 +390,92 @@ function DriverProfile() {
                 }}
                 shadow={false}
               />
+            </Grid>
+          </Grid>
+        </MDBox>
+
+        <MDBox pt={1} pb={1}>
+          <Grid container spacing={6}>
+            <Grid item xs={12}>
+              <Card>
+                <MDBox pt={2} px={2} lineHeight={1.25}>
+                  <MDTypography variant="h6" fontWeight="medium">
+                    ETA Performance
+                  </MDTypography>
+                  <MDBox mb={1}>
+                    <MDTypography variant="button" color="text">
+                      Driver ETA Performance
+                    </MDTypography>
+                  </MDBox>
+                </MDBox>
+                <MDBox pt={3}>
+                  {/* <Grid container spacing={3}> */}
+                  <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
+                    <MDBox pr={2} pb={1} pl={2}>
+                      <MDInput
+                        fullWidth
+                        onChange={(e) => setSearch(e.target.value)}
+                        label="Search here"
+                        justify="space-between"
+                        spacing={24}
+                        raised
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
+                    <TableContainer>
+                      <Table aria-label="simple table">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell align="center">Users</TableCell>
+                            <TableCell align="center">Route</TableCell>
+                            <TableCell align="center">DeviceID</TableCell>
+                            <TableCell align="center">OnTime Percentage</TableCell>
+                            <TableCell align="left"> </TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {filteredData.map((row) => (
+                            <TableRow key="s">
+                              <TableCell align="center" component="th" scope="row">
+                                {row.driverEmail}
+                              </TableCell>
+                              <TableCell align="center">{row.route}</TableCell>
+                              <TableCell align="center">{row.deviceId}</TableCell>
+                              <TableCell align="center">{row.onTimePresentage}%</TableCell>
+                              <TableCell align="left">
+                                <MDBox ml={-1}>
+                                  <MDBadge
+                                    badgeContent="view"
+                                    color="success"
+                                    variant="gradient"
+                                    size="sm"
+                                    component={Link}
+                                    to="/ETA-performance/ETA-performance"
+                                  />
+                                </MDBox>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Grid>
+                  {/* </Grid> */}
+                  {/* <ul>
+                  {filteredData.map((item) => (
+                    <li>{item.route.props.description}</li>
+                  ))}
+                </ul> */}
+                  {/* <DataTable
+                  table={tableInstance}
+                  isSorted={false}
+                  entriesPerPage={false}
+                  showTotalEntries={false}
+                  noEndBorder
+                /> */}
+                </MDBox>
+              </Card>
             </Grid>
           </Grid>
         </MDBox>
