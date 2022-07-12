@@ -64,6 +64,8 @@ import DriverETAPerformance from "layouts/eta-performance/driver-eta-performance
 import EditDriver from "layouts/edit-profiles/driver";
 import EditSupervisor from "layouts/edit-profiles/supervisor";
 import EditAdmin from "layouts/edit-profiles/admin";
+import AllIncidentReports from "layouts/incident-report";
+import AllParcelDeliveries from "layouts/parcel-deliveries";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -106,6 +108,22 @@ const routes = [
     component: <DriverETAPerformance />,
   },
   {
+    type: "collapse",
+    name: "Incident Reports",
+    key: "incident-reports",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/Incident-reports",
+    component: <AllIncidentReports />,
+  },
+  {
+    type: "collapse",
+    name: "Parcel Deliveries",
+    key: "parcel-deliveries",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/Parcel-deliveries",
+    component: <AllParcelDeliveries />,
+  },
+  {
     name: "Drivers",
     key: "drivers",
     route: "/drivers",
@@ -138,7 +156,7 @@ const routes = [
   {
     name: "Driver Profile",
     key: "driver-profile",
-    route: "/drivers/:id",
+    route: "/drivers/:email",
     component: <DriverProfile />,
   },
   {

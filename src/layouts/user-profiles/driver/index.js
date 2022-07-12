@@ -72,14 +72,18 @@ import axios from "axios";
 
 function DriverProfile() {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { email } = useParams();
   const [driver, setDriver] = useState([]);
-  const baseURL = `/api/drivers/${id}`;
-  const deleteDriverURL = `/api/Drivers/${id}`;
-  const ETAPerformanceURL = "/api/Etaperformances";
+  const baseURL = `/api/drivers/${email}`;
+  const deleteDriverURL = `/api/Drivers/${email}`;
+  const ETAPerformanceURL = `/api/Etaperformances/GetEtaperformancebyDriver/${email}`;
+  const IncidentReportURL = `/api/IncidentReports/GetIncidentReportbyDriver/${email}`;
+  const ParcelDeliveryURL = `/api/ParcelDeliveries/GetParcelDeliverybyDriver/${email}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
   const [allETAPerformance, setAllETAPerformance] = useState([]);
+  const [allIncidentReports, setAllIncidentReports] = useState([]);
+  const [allParcelDeliveries, setAllParcelDeliveries] = useState([]);
   const [search, setSearch] = useState("");
   let tempDriverProfilePhoto = driver.profilePhoto;
 
@@ -90,31 +94,6 @@ function DriverProfile() {
     },
   };
 
-  const getAllETAPerformance = () => {
-    axios.get(ETAPerformanceURL, config).then((response) => {
-      const tempETAPerformance = response.data;
-      setAllETAPerformance(tempETAPerformance);
-    });
-  };
-
-  const filteredData = allETAPerformance.filter((etaPerformance) =>
-    etaPerformance.driverEmail.toLowerCase().includes(search.toLowerCase())
-  );
-
-  // const convertBase64 = (file) =>
-  //   new Promise((resolve, reject) => {
-  //     const fileReader = new FileReader();
-  //     fileReader.readAsDataURL(file);
-
-  //     fileReader.onload(() => {
-  //       resolve(fileReader.result);
-  //     });
-
-  //     fileReader.onerror((error) => {
-  //       reject(error);
-  //     });
-  //   });
-
   const getTheDriver = () => {
     axios.get(baseURL, config).then((response) => {
       const tempDriver = response.data;
@@ -122,9 +101,46 @@ function DriverProfile() {
     });
   };
 
+  const getAllETAPerformance = () => {
+    axios.get(ETAPerformanceURL, config).then((response) => {
+      const tempETAPerformance = response.data;
+      setAllETAPerformance(tempETAPerformance);
+    });
+  };
+
+  const getAllIncidentReports = () => {
+    axios.get(IncidentReportURL, config).then((response) => {
+      const tempIncidentReport = response.data;
+      setAllIncidentReports(tempIncidentReport);
+      console.log(allIncidentReports);
+    });
+  };
+
+  const getAllParcelDeliveries = () => {
+    axios.get(ParcelDeliveryURL, config).then((response) => {
+      const tempParcelDelivey = response.data;
+      setAllParcelDeliveries(tempParcelDelivey);
+      console.log(allParcelDeliveries);
+    });
+  };
+
+  const filteredDataETAPerformance = allETAPerformance.filter((etaPerformance) =>
+    etaPerformance.createDate.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const filteredIncidentReports = allIncidentReports.filter((incidentReport) =>
+    incidentReport.createDate.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const filteredParcelDeliveries = allParcelDeliveries.filter((parcelDeliveries) =>
+    parcelDeliveries.createDate.toLowerCase().includes(search.toLowerCase())
+  );
+
   useEffect(() => {
     getTheDriver();
     getAllETAPerformance();
+    getAllIncidentReports();
+    getAllParcelDeliveries();
     // A function that sets the orientation state of the tabs.
     function handleTabsOrientation() {
       return window.innerWidth < breakpoints.values.sm
@@ -224,7 +240,7 @@ function DriverProfile() {
                 />
                 <Tab
                   component={Link}
-                  to={`/drivers/${id}/edit-driver`}
+                  to={`/drivers/${email}/edit-driver`}
                   label="Edit"
                   icon={
                     <Icon fontSize="small" sx={{ mt: -0.25 }}>
@@ -278,7 +294,7 @@ function DriverProfile() {
                   gender: driver.gender,
                   address: driver.address,
                   email: driver.email,
-                  DOB: driver.dob,
+                  DOB: driver.dob.split("T")[0],
                   ProfilePicture: (
                     <a href={driver.profilePhoto}>
                       {/* <Link to={{ pathname: driver.ausPostScan }}> */}
@@ -317,7 +333,7 @@ function DriverProfile() {
                     </a>
                   ),
                   AusPostID: driver.ausPostId,
-                  AusPostExpp: driver.ausPostExpiry,
+                  AusPostExpp: driver.ausPostExpiry.split("T")[0],
                   // DOB: driver.dob,
                 }}
                 shadow={false}
@@ -344,7 +360,7 @@ function DriverProfile() {
                     </a>
                   ),
                   LicenceID: driver.licenceId,
-                  LicenceEXP: driver.licenceExpiry,
+                  LicenceEXP: driver.licenceExpiry.split("T")[0],
                   // DOB: driver.dob,
                 }}
                 shadow={false}
@@ -385,7 +401,7 @@ function DriverProfile() {
                       {/* </Link> */}
                     </a>
                   ),
-                  VisaExpiry: driver.visaExpiry,
+                  VisaExpiry: driver.visaExpiry.split("T")[0],
                   VisaNo: driver.visaNo,
                 }}
                 shadow={false}
@@ -394,19 +410,23 @@ function DriverProfile() {
           </Grid>
         </MDBox>
 
-        <MDBox pt={1} pb={1}>
+        <MDBox pt={1} pb={1} mt={3}>
           <Grid container spacing={6}>
             <Grid item xs={12}>
               <Card>
-                <MDBox pt={2} px={2} lineHeight={1.25}>
-                  <MDTypography variant="h6" fontWeight="medium">
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                >
+                  <MDTypography variant="h6" color="white">
                     ETA Performance
                   </MDTypography>
-                  <MDBox mb={1}>
-                    <MDTypography variant="button" color="text">
-                      Driver ETA Performance
-                    </MDTypography>
-                  </MDBox>
                 </MDBox>
                 <MDBox pt={3}>
                   {/* <Grid container spacing={3}> */}
@@ -414,8 +434,10 @@ function DriverProfile() {
                     <MDBox pr={2} pb={1} pl={2}>
                       <MDInput
                         fullWidth
+                        InputLabelProps={{ shrink: true }}
                         onChange={(e) => setSearch(e.target.value)}
                         label="Search here"
+                        type="date"
                         justify="space-between"
                         spacing={24}
                         raised
@@ -427,23 +449,28 @@ function DriverProfile() {
                       <Table aria-label="simple table">
                         <TableHead>
                           <TableRow>
-                            <TableCell align="center">Users</TableCell>
-                            <TableCell align="center">Route</TableCell>
-                            <TableCell align="center">DeviceID</TableCell>
-                            <TableCell align="center">OnTime Percentage</TableCell>
+                            <TableCell align="center">Date</TableCell>
+                            <TableCell align="center">Articles</TableCell>
+                            <TableCell align="center">Early</TableCell>
+                            <TableCell align="center">OnTime</TableCell>
+                            <TableCell align="center">Not Delivered</TableCell>
+                            <TableCell align="center">On Time %</TableCell>
                             <TableCell align="left"> </TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {filteredData.map((row) => (
+                          {filteredDataETAPerformance.map((row) => (
                             <TableRow key="s">
-                              <TableCell align="center" component="th" scope="row">
+                              {/* <TableCell align="center" component="th" scope="row">
                                 {row.driverEmail}
-                              </TableCell>
-                              <TableCell align="center">{row.route}</TableCell>
-                              <TableCell align="center">{row.deviceId}</TableCell>
+                              </TableCell> */}
+                              <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
+                              <TableCell align="center">{row.articles}</TableCell>
+                              <TableCell align="center">{row.early}</TableCell>
+                              <TableCell align="center">{row.onTime}</TableCell>
+                              <TableCell align="center">{row.notDelivered}</TableCell>
                               <TableCell align="center">{row.onTimePresentage}%</TableCell>
-                              <TableCell align="left">
+                              {/* <TableCell align="left">
                                 <MDBox ml={-1}>
                                   <MDBadge
                                     badgeContent="view"
@@ -454,6 +481,83 @@ function DriverProfile() {
                                     to="/ETA-performance/ETA-performance"
                                   />
                                 </MDBox>
+                              </TableCell> */}
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Grid>
+                </MDBox>
+              </Card>
+            </Grid>
+          </Grid>
+        </MDBox>
+
+        <MDBox pt={1} pb={1} mt={3}>
+          <Grid container spacing={6}>
+            <Grid item xs={12}>
+              <Card>
+                {/* <MDBox pt={2} px={2} lineHeight={1.25}> */}
+                {/* <MDTypography variant="h6" fontWeight="medium">
+                    Incident Reports
+                  </MDTypography> */}
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                >
+                  <MDTypography variant="h6" color="white">
+                    Incident Reports
+                  </MDTypography>
+                </MDBox>
+                <MDBox pt={3}>
+                  <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
+                    <MDBox pr={2} pb={1} pl={2}>
+                      <MDInput
+                        fullWidth
+                        InputLabelProps={{ shrink: true }}
+                        onChange={(e) => setSearch(e.target.value)}
+                        label="Search here"
+                        type="date"
+                        justify="space-between"
+                        spacing={24}
+                        raised
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
+                    <TableContainer>
+                      <Table aria-label="simple table">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell align="center">Date</TableCell>
+                            <TableCell align="center" />
+                            <TableCell align="center" />
+                            <TableCell align="center" />
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {filteredIncidentReports.map((row) => (
+                            <TableRow key="s">
+                              <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
+                              <TableCell align="center" />
+                              <TableCell align="center" />
+                              <TableCell align="center" />
+                              <TableCell align="left">
+                                <a href={row.pdfUrl}>
+                                  <MDBadge
+                                    badgeContent="view"
+                                    color="success"
+                                    variant="gradient"
+                                    size="sm"
+                                  />
+                                </a>
                               </TableCell>
                             </TableRow>
                           ))}
@@ -461,19 +565,66 @@ function DriverProfile() {
                       </Table>
                     </TableContainer>
                   </Grid>
-                  {/* </Grid> */}
-                  {/* <ul>
-                  {filteredData.map((item) => (
-                    <li>{item.route.props.description}</li>
-                  ))}
-                </ul> */}
-                  {/* <DataTable
-                  table={tableInstance}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
-                  noEndBorder
-                /> */}
+                </MDBox>
+              </Card>
+            </Grid>
+          </Grid>
+        </MDBox>
+
+        <MDBox pt={1} pb={1} mt={3}>
+          <Grid container spacing={6}>
+            <Grid item xs={12}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                >
+                  <MDTypography variant="h6" color="white">
+                    Parcel Deliveries
+                  </MDTypography>
+                </MDBox>
+                <MDBox pt={3}>
+                  {/* <Grid container spacing={3}> */}
+                  <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
+                    <MDBox pr={2} pb={1} pl={2}>
+                      <MDInput
+                        fullWidth
+                        InputLabelProps={{ shrink: true }}
+                        onChange={(e) => setSearch(e.target.value)}
+                        label="Search here"
+                        type="date"
+                        justify="space-between"
+                        spacing={24}
+                        raised
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
+                    <TableContainer>
+                      <Table aria-label="simple table">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell align="center">Date</TableCell>
+                            <TableCell align="center">No of parcels</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {filteredParcelDeliveries.map((row) => (
+                            <TableRow key="s">
+                              <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
+                              <TableCell align="center">{row.noParcels}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Grid>
                 </MDBox>
               </Card>
             </Grid>
