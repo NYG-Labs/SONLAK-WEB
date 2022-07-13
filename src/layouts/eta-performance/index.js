@@ -49,7 +49,7 @@ function AllETAPerformance() {
   // const { rows } = allETAPerformanceData();
   const [search, setSearch] = useState("");
   const [allETAPerformance, setAllETAPerformance] = useState([]);
-  const baseURL = "/api/Etaperformances";
+  const baseURL = `/api/Etaperformances/GetEtaperformancebyDateGroup`;
 
   const config = {
     headers: {
@@ -144,10 +144,12 @@ function AllETAPerformance() {
                       <TableHead>
                         <TableRow>
                           <TableCell align="center">Date</TableCell>
-                          <TableCell align="center">Users</TableCell>
-                          <TableCell align="center">Route</TableCell>
-                          <TableCell align="center">DeviceID</TableCell>
-                          <TableCell align="center">OnTime Percentage</TableCell>
+                          <TableCell align="center">Articles</TableCell>
+                          <TableCell align="center">Early</TableCell>
+                          <TableCell align="center">On Time</TableCell>
+                          <TableCell align="center">Late</TableCell>
+                          <TableCell align="center">Not Delivered</TableCell>
+                          <TableCell align="center">On Time %</TableCell>
                           <TableCell align="left"> </TableCell>
                         </TableRow>
                       </TableHead>
@@ -156,10 +158,12 @@ function AllETAPerformance() {
                           <TableRow key="s">
                             <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
                             <TableCell align="center" component="th" scope="row">
-                              {row.driverEmail}
+                              {row.articles}
                             </TableCell>
-                            <TableCell align="center">{row.route}</TableCell>
-                            <TableCell align="center">{row.deviceId}</TableCell>
+                            <TableCell align="center">{row.early}</TableCell>
+                            <TableCell align="center">{row.onTime}</TableCell>
+                            <TableCell align="center">{row.late}</TableCell>
+                            <TableCell align="center">{row.notDelivered}</TableCell>
                             <TableCell align="center">{row.onTimePresentage}%</TableCell>
                             <TableCell align="left">
                               <MDBox ml={-1}>

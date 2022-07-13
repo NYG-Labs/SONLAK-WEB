@@ -12,12 +12,13 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
+import * as React from "react";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import MDInput from "components/MDInput";
 
 // import MDButton from "components/MDButton";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 // import { useState,  } from "react";
 // import { useTable } from "react-table";
@@ -30,7 +31,12 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import MDBadge from "components/MDBadge";
-
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
@@ -62,9 +68,30 @@ function DriverETAPerformance() {
     });
   };
 
+  const deleteDriverETAPerformance = (id) => {
+    // console.log(id);
+    axios.delete(`/api/Etaperformances/${id}`, config).then((response) => {
+      navigate(`/ETA-performance`);
+      // window.location.reload(false);
+      console.log(response);
+      // const tempETAPerformance = response.data;
+      // setDriverETAPerformance(tempETAPerformance);
+    });
+  };
+
   useEffect(() => {
     getDriverETAPerformance();
   }, []);
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const filteredData = driverETAPerformance.filter((etaPerformance) =>
     etaPerformance.driverEmail.toLowerCase().includes(search.toLowerCase())
@@ -132,6 +159,7 @@ function DriverETAPerformance() {
                           <TableCell align="center">Early</TableCell>
                           <TableCell align="center">OnTime</TableCell>
                           <TableCell align="center">Late</TableCell>
+                          <TableCell align="center">Not Delivered</TableCell>
                           <TableCell align="center">OnTime Percentage</TableCell>
                           <TableCell align="left"> </TableCell>
                         </TableRow>
@@ -149,6 +177,7 @@ function DriverETAPerformance() {
                             <TableCell align="center">{row.early}</TableCell>
                             <TableCell align="center">{row.onTime}</TableCell>
                             <TableCell align="center">{row.late}</TableCell>
+                            <TableCell align="center">{row.notDelivered}</TableCell>
                             <TableCell align="center">{row.onTimePresentage}%</TableCell>
                             <TableCell align="right">
                               <MDBox ml={-1}>
@@ -157,8 +186,8 @@ function DriverETAPerformance() {
                                   color="success"
                                   variant="gradient"
                                   size="m"
-                                  // component={Link}
-                                  // to={`/ETA-performance/${row.createDate}`}
+                                  component={Link}
+                                  to={`/ETA-performance/edit-eta-performance/${row.id}`}
                                 />
                               </MDBox>
                             </TableCell>
@@ -169,10 +198,35 @@ function DriverETAPerformance() {
                                   color="primary"
                                   variant="gradient"
                                   size="m"
+                                  onClick={handleClickOpen}
                                   // component={Link}
                                   // to={`/ETA-performance/${row.createDate}`}
                                 />
                               </MDBox>
+                              <Dialog
+                                open={open}
+                                onClose={handleClose}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                              >
+                                <DialogTitle id="alert-dialog-title">
+                                  Are you sure you want to continue?
+                                </DialogTitle>
+                                <DialogContent>
+                                  <DialogContentText id="alert-dialog-description">
+                                    From this you will delete this ETA-performance.
+                                  </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                  <Button onClick={handleClose}>Disagree</Button>
+                                  <Button
+                                    onClick={() => deleteDriverETAPerformance(row.id)}
+                                    autoFocus
+                                  >
+                                    Agree
+                                  </Button>
+                                </DialogActions>
+                              </Dialog>
                             </TableCell>
                           </TableRow>
                         ))}

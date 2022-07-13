@@ -67,6 +67,7 @@ import EditAdmin from "layouts/edit-profiles/admin";
 import AllIncidentReports from "layouts/incident-report";
 import AllParcelDeliveries from "layouts/parcel-deliveries";
 import AllVehicleCheck from "layouts/vehicle-check";
+import EditETAPerformance from "layouts/eta-performance/edit-eta-performance";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -193,6 +194,12 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/add-user",
     component: <AllUserRegistrations />,
+  },
+  {
+    name: "Edit ETA Performance",
+    key: "edit-eta-performance",
+    route: "/ETA-performance/edit-eta-performance/:id",
+    component: <EditETAPerformance />,
   },
   {
     name: "Billing",

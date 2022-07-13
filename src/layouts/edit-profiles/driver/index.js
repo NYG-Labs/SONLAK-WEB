@@ -856,12 +856,6 @@ function EditDriver() {
                 </MDTypography>
               </MDBox>
             </MDBox>
-
-            {/* <MDBox mt={4} mb={1}>
-              <MDButton onClick={() => editDriver()} variant="gradient" color="info" fullWidth>
-                Update
-              </MDButton> */}
-            {/* </MDBox> */}
             <MDBox p={2}>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>

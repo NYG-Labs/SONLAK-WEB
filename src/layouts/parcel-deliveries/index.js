@@ -128,8 +128,11 @@ function AllParcelDeliveries() {
                           {/* <TableCell>First name</TableCell>
                           <TableCell align="left">Middle name</TableCell>
                           <TableCell align="left">Lase Name</TableCell> */}
-                          <TableCell align="left">Driver Email</TableCell>
-                          <TableCell align="left">No of Parcels</TableCell>
+                          <TableCell align="center">Driver Email</TableCell>
+                          <TableCell align="center">Driver FirstName</TableCell>
+                          <TableCell align="center">Driver LastName</TableCell>
+                          <TableCell align="center">Date</TableCell>
+                          <TableCell align="center">No of Parcels</TableCell>
                           {/* <TableCell align="left">Vehicle No</TableCell>
                           <TableCell align="left">IncidentReport type</TableCell> */}
                         </TableRow>
@@ -142,8 +145,11 @@ function AllParcelDeliveries() {
                             </TableCell>
                             <TableCell align="left">{row.mname}</TableCell>
                             <TableCell align="left">{row.lname}</TableCell> */}
-                            <TableCell align="left">{row.driverEmail}</TableCell>
-                            <TableCell align="left">{row.noParcels}</TableCell>
+                            <TableCell align="center">{row.driverEmail}</TableCell>
+                            <TableCell align="center">{row.driverFname}</TableCell>
+                            <TableCell align="center">{row.driverLname}</TableCell>
+                            <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
+                            <TableCell align="center">{row.noParcels}</TableCell>
                             {/* <TableCell align="left">{row.vehicleNo}</TableCell>
                             <TableCell align="left">{row.IncidentReportType}</TableCell> */}
                             {/* <TableCell align="center">
