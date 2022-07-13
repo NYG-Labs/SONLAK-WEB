@@ -28,7 +28,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 // import DataTable from "examples/Tables/DataTable";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -40,13 +40,11 @@ import Paper from "@material-ui/core/Paper";
 import MDBadge from "components/MDBadge";
 
 import axios from "axios";
-// import allDriverData from "./allDriverData";
 
-function AllDrivers() {
-  // const { rows } = allDriverData();
+function AllVehicleCheck() {
   const [search, setSearch] = useState("");
-  const [allDrivers, setAllDrivers] = useState([]);
-  const baseURL = "/api/Drivers";
+  const [allVehicleCheck, setAllVehicleCheck] = useState([]);
+  const baseURL = "/api/VehicleChecks";
 
   const config = {
     headers: {
@@ -55,21 +53,21 @@ function AllDrivers() {
     },
   };
 
-  const getAllDrivers = () => {
+  const getAllVehicleCheck = () => {
     axios.get(baseURL, config).then((response) => {
-      const tempDrivers = response.data;
-      setAllDrivers(tempDrivers);
+      const tempVehicleCheck = response.data;
+      setAllVehicleCheck(tempVehicleCheck);
     });
   };
 
   useEffect(() => {
-    getAllDrivers();
+    getAllVehicleCheck();
   }, []);
 
-  console.log("ALl Drivers = ", allDrivers, search);
+  console.log("ALl VehicleCheck = ", allVehicleCheck, search);
 
-  const filteredData = allDrivers.filter((driver) =>
-    driver.fname.toLowerCase().includes(search.toLowerCase())
+  const filteredData = allVehicleCheck.filter((IncidentReport) =>
+    IncidentReport.driverEmail.toLowerCase().includes(search.toLowerCase())
   );
 
   const navigate = useNavigate();
@@ -99,7 +97,7 @@ function AllDrivers() {
                 coloredShadow="info"
               >
                 <MDTypography variant="h6" color="white">
-                  All drivers
+                  Incident Reports
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -127,30 +125,39 @@ function AllDrivers() {
                     <Table aria-label="simple table">
                       <TableHead>
                         <TableRow>
-                          <TableCell>First name</TableCell>
+                          {/* <TableCell>First name</TableCell>
                           <TableCell align="left">Middle name</TableCell>
-                          <TableCell align="left">Lase Name</TableCell>
-                          <TableCell align="left">Email</TableCell>
-                          <TableCell align="left">Vehicle type</TableCell>
+                          <TableCell align="left">Lase Name</TableCell> */}
+                          <TableCell align="left">Driver Email</TableCell>
+                          {/* <TableCell align="left">Vehicle type</TableCell>
                           <TableCell align="left">Vehicle No</TableCell>
-                          <TableCell align="left">Driver type</TableCell>
+                          <TableCell align="left">IncidentReport type</TableCell> */}
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         {filteredData.map((row) => (
                           <TableRow key="s">
-                            <TableCell component="th" scope="row">
+                            {/* <TableCell component="th" scope="row">
                               {row.fname}
                             </TableCell>
                             <TableCell align="left">{row.mname}</TableCell>
-                            <TableCell align="left">{row.lname}</TableCell>
-                            <TableCell align="left">{row.email}</TableCell>
-                            <TableCell align="left">{row.vehicalType}</TableCell>
-                            <TableCell align="left">{row.vehicleNo}</TableCell>
-                            <TableCell align="left">{row.driverType}</TableCell>
-                            <TableCell align="center">
+                            <TableCell align="left">{row.lname}</TableCell> */}
+                            <TableCell align="left">{row.driverEmail}</TableCell>
+                            <TableCell align="left">
+                              <a href={row.pdfUrl}>
+                                <MDBadge
+                                  badgeContent="view"
+                                  color="success"
+                                  variant="gradient"
+                                  size="sm"
+                                />
+                              </a>
+                            </TableCell>
+                            {/* <TableCell align="left">{row.vehicleNo}</TableCell>
+                            <TableCell align="left">{row.IncidentReportType}</TableCell> */}
+                            {/* <TableCell align="center">
                               <MDBox ml={-1}>
-                                <Link to={{ pathname: `/drivers/${row.email}` }}>
+                                <Link to={{ pathname: `/VehicleCheck/${row.email}` }}>
                                   <MDBadge
                                     badgeContent="view"
                                     color="success"
@@ -161,7 +168,7 @@ function AllDrivers() {
                                   />
                                 </Link>
                               </MDBox>
-                            </TableCell>
+                            </TableCell> */}
                           </TableRow>
                         ))}
                       </TableBody>
@@ -178,4 +185,4 @@ function AllDrivers() {
   );
 }
 
-export default AllDrivers;
+export default AllVehicleCheck;

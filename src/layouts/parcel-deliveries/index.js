@@ -74,7 +74,8 @@ function AllParcelDeliveries() {
 
   if (
     window.localStorage.getItem("token") === null ||
-    window.localStorage.getItem("roleKey") !== "SUPERADMIN"
+    (window.localStorage.getItem("roleKey") !== "SUPERADMIN" &&
+      window.localStorage.getItem("roleKey") !== "OTHERADMIN")
   ) {
     navigate("/");
   }

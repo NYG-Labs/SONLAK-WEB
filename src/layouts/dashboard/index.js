@@ -41,9 +41,11 @@ function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
   const navigate = useNavigate();
 
+  // console.log(window.localStorage.getItem("roleKey"));
   if (
     window.localStorage.getItem("token") === null ||
-    window.localStorage.getItem("roleKey") !== "SUPERADMIN"
+    (window.localStorage.getItem("roleKey") !== "SUPERADMIN" &&
+      window.localStorage.getItem("roleKey") !== "OTHERADMIN")
   ) {
     navigate("/");
   }

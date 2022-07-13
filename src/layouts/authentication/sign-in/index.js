@@ -59,7 +59,7 @@ function Basic() {
         password,
       })
       .then((response) => {
-        if (response.data.roleKey === "SUPERADMIN") {
+        if (response.data.roleKey === "SUPERADMIN" || "OTHERADMIN") {
           window.localStorage.setItem("roleKey", response.data.roleKey);
           window.localStorage.setItem("token", response.data.token);
           navigate("/dashboard");

@@ -66,6 +66,7 @@ import EditSupervisor from "layouts/edit-profiles/supervisor";
 import EditAdmin from "layouts/edit-profiles/admin";
 import AllIncidentReports from "layouts/incident-report";
 import AllParcelDeliveries from "layouts/parcel-deliveries";
+import AllVehicleCheck from "layouts/vehicle-check";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -122,6 +123,14 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/Parcel-deliveries",
     component: <AllParcelDeliveries />,
+  },
+  {
+    type: "collapse",
+    name: "Vehicle Check",
+    key: "vehicle-check",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/vehicle-check",
+    component: <AllVehicleCheck />,
   },
   {
     name: "Drivers",

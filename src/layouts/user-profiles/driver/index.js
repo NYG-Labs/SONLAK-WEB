@@ -14,6 +14,7 @@ Coded by www.creative-tim.com
 */
 import * as React from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
+// import { HashLink } from "react-router-hash-link";
 // import {  } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
@@ -74,17 +75,27 @@ function DriverProfile() {
   const navigate = useNavigate();
   const { email } = useParams();
   const [driver, setDriver] = useState([]);
+  const [ausPostExpDate, setAusPostExpDate] = useState("");
+  const [dob, setDOB] = useState("");
+  const [licenseExp, setLicenseExp] = useState("");
+  const [visaExp, setVisaExp] = useState("");
   const baseURL = `/api/drivers/${email}`;
   const deleteDriverURL = `/api/Drivers/${email}`;
   const ETAPerformanceURL = `/api/Etaperformances/GetEtaperformancebyDriver/${email}`;
   const IncidentReportURL = `/api/IncidentReports/GetIncidentReportbyDriver/${email}`;
   const ParcelDeliveryURL = `/api/ParcelDeliveries/GetParcelDeliverybyDriver/${email}`;
+  const vehicleCheckURL = `/api/VehicleChecks/GetVehicleCheckbyDriver/${email}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
   const [allETAPerformance, setAllETAPerformance] = useState([]);
   const [allIncidentReports, setAllIncidentReports] = useState([]);
   const [allParcelDeliveries, setAllParcelDeliveries] = useState([]);
-  const [search, setSearch] = useState("");
+  const [allVehicleCheck, setAllVehicleCheck] = useState([]);
+  const [searchETA, setSearchETA] = useState("");
+  const [searchIncident, setSearchIncident] = useState("");
+  const [searchParcel, setSearchParcel] = useState("");
+  const [searchVehicleCheck, setSearchVehicleCheck] = useState("");
+
   let tempDriverProfilePhoto = driver.profilePhoto;
 
   const config = {
@@ -98,6 +109,11 @@ function DriverProfile() {
     axios.get(baseURL, config).then((response) => {
       const tempDriver = response.data;
       setDriver(tempDriver);
+      setAusPostExpDate(tempDriver.ausPostExpiry);
+      setDOB(tempDriver.dob);
+      setLicenseExp(tempDriver.licenceExpiry);
+      setVisaExp(tempDriver.visaExpiry);
+      console.log("dob = ", dob);
     });
   };
 
@@ -124,16 +140,28 @@ function DriverProfile() {
     });
   };
 
+  const getAllVehicleCheck = () => {
+    axios.get(vehicleCheckURL, config).then((response) => {
+      const tempVehicleCheck = response.data;
+      setAllVehicleCheck(tempVehicleCheck);
+      console.log("==>", allVehicleCheck);
+    });
+  };
+
   const filteredDataETAPerformance = allETAPerformance.filter((etaPerformance) =>
-    etaPerformance.createDate.toLowerCase().includes(search.toLowerCase())
+    etaPerformance.createDate.toLowerCase().includes(searchETA.toLowerCase())
   );
 
   const filteredIncidentReports = allIncidentReports.filter((incidentReport) =>
-    incidentReport.createDate.toLowerCase().includes(search.toLowerCase())
+    incidentReport.createDate.toLowerCase().includes(searchIncident.toLowerCase())
   );
 
   const filteredParcelDeliveries = allParcelDeliveries.filter((parcelDeliveries) =>
-    parcelDeliveries.createDate.toLowerCase().includes(search.toLowerCase())
+    parcelDeliveries.createDate.toLowerCase().includes(searchParcel.toLowerCase())
+  );
+
+  const filteredVehicleCheck = allVehicleCheck.filter((VehicleCheck) =>
+    VehicleCheck.createDate.toLowerCase().includes(searchVehicleCheck.toLowerCase())
   );
 
   useEffect(() => {
@@ -141,6 +169,7 @@ function DriverProfile() {
     getAllETAPerformance();
     getAllIncidentReports();
     getAllParcelDeliveries();
+    getAllVehicleCheck();
     // A function that sets the orientation state of the tabs.
     function handleTabsOrientation() {
       return window.innerWidth < breakpoints.values.sm
@@ -195,7 +224,8 @@ function DriverProfile() {
   // };
   if (
     window.localStorage.getItem("token") === null ||
-    window.localStorage.getItem("roleKey") !== "SUPERADMIN"
+    (window.localStorage.getItem("roleKey") !== "SUPERADMIN" &&
+      window.localStorage.getItem("roleKey") !== "OTHERADMIN")
   ) {
     navigate("/");
   }
@@ -281,6 +311,7 @@ function DriverProfile() {
                 </DialogActions>
               </Dialog>
             </AppBar>
+            {/* <HashLink to="#ETA">ETA</HashLink> */}
           </Grid>
         </Grid>
 
@@ -294,7 +325,8 @@ function DriverProfile() {
                   gender: driver.gender,
                   address: driver.address,
                   email: driver.email,
-                  DOB: driver.dob.split("T")[0],
+                  DOB: dob.split("T")[0],
+                  // driver.dob,
                   ProfilePicture: (
                     <a href={driver.profilePhoto}>
                       {/* <Link to={{ pathname: driver.ausPostScan }}> */}
@@ -333,7 +365,8 @@ function DriverProfile() {
                     </a>
                   ),
                   AusPostID: driver.ausPostId,
-                  AusPostExpp: driver.ausPostExpiry.split("T")[0],
+                  AusPostExpp: ausPostExpDate.split("T")[0],
+                  // driver.ausPostExpiry,
                   // DOB: driver.dob,
                 }}
                 shadow={false}
@@ -360,7 +393,8 @@ function DriverProfile() {
                     </a>
                   ),
                   LicenceID: driver.licenceId,
-                  LicenceEXP: driver.licenceExpiry.split("T")[0],
+                  LicenceEXP: licenseExp.split("T")[0],
+                  // driver.licenceExpiry,
                   // DOB: driver.dob,
                 }}
                 shadow={false}
@@ -401,7 +435,8 @@ function DriverProfile() {
                       {/* </Link> */}
                     </a>
                   ),
-                  VisaExpiry: driver.visaExpiry.split("T")[0],
+                  VisaExpiry: visaExp.split("T")[0],
+                  // driver.visaExpiry,
                   VisaNo: driver.visaNo,
                 }}
                 shadow={false}
@@ -410,7 +445,7 @@ function DriverProfile() {
           </Grid>
         </MDBox>
 
-        <MDBox pt={1} pb={1} mt={3}>
+        <MDBox pt={1} pb={1} mt={3} id="ETA">
           <Grid container spacing={6}>
             <Grid item xs={12}>
               <Card>
@@ -435,7 +470,7 @@ function DriverProfile() {
                       <MDInput
                         fullWidth
                         InputLabelProps={{ shrink: true }}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={(e) => setSearchETA(e.target.value)}
                         label="Search here"
                         type="date"
                         justify="space-between"
@@ -508,7 +543,7 @@ function DriverProfile() {
                   py={3}
                   px={2}
                   variant="gradient"
-                  bgColor="info"
+                  bgColor="primary"
                   borderRadius="lg"
                   coloredShadow="info"
                 >
@@ -522,7 +557,7 @@ function DriverProfile() {
                       <MDInput
                         fullWidth
                         InputLabelProps={{ shrink: true }}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={(e) => setSearchIncident(e.target.value)}
                         label="Search here"
                         type="date"
                         justify="space-between"
@@ -581,7 +616,7 @@ function DriverProfile() {
                   py={3}
                   px={2}
                   variant="gradient"
-                  bgColor="info"
+                  bgColor="success"
                   borderRadius="lg"
                   coloredShadow="info"
                 >
@@ -596,7 +631,7 @@ function DriverProfile() {
                       <MDInput
                         fullWidth
                         InputLabelProps={{ shrink: true }}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={(e) => setSearchParcel(e.target.value)}
                         label="Search here"
                         type="date"
                         justify="space-between"
@@ -619,6 +654,75 @@ function DriverProfile() {
                             <TableRow key="s">
                               <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
                               <TableCell align="center">{row.noParcels}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Grid>
+                </MDBox>
+              </Card>
+            </Grid>
+          </Grid>
+        </MDBox>
+
+        <MDBox pt={1} pb={1} mt={3}>
+          <Grid container spacing={6}>
+            <Grid item xs={12}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="warning"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                >
+                  <MDTypography variant="h6" color="white">
+                    Vehicle Check
+                  </MDTypography>
+                </MDBox>
+                <MDBox pt={3}>
+                  {/* <Grid container spacing={3}> */}
+                  <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
+                    <MDBox pr={2} pb={1} pl={2}>
+                      <MDInput
+                        fullWidth
+                        InputLabelProps={{ shrink: true }}
+                        onChange={(e) => setSearchVehicleCheck(e.target.value)}
+                        label="Search here"
+                        type="date"
+                        justify="space-between"
+                        spacing={24}
+                        raised
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
+                    <TableContainer>
+                      <Table aria-label="simple table">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell align="center">Date</TableCell>
+                            <TableCell align="center" />
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {filteredVehicleCheck.map((row) => (
+                            <TableRow key="s">
+                              <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
+                              <TableCell align="center">
+                                <a href={row.pdfUrl}>
+                                  <MDBadge
+                                    badgeContent="view"
+                                    color="success"
+                                    variant="gradient"
+                                    size="sm"
+                                  />
+                                </a>
+                              </TableCell>
                             </TableRow>
                           ))}
                         </TableBody>

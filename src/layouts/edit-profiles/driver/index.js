@@ -183,6 +183,14 @@ function EditDriver() {
 
   console.log("pw = ", oldPassword, password);
 
+  const [isPasswordMatching, setIsPasswordMatching] = useState("");
+
+  const confirmPasswordValidation = (event) => {
+    if (password === event) {
+      setIsPasswordMatching("Password and Confirm Password is matching");
+    }
+  };
+
   const bodyParameters = {
     email: driverEmail,
     fname,
@@ -327,7 +335,8 @@ function EditDriver() {
 
   if (
     window.localStorage.getItem("token") === null ||
-    window.localStorage.getItem("roleKey") !== "SUPERADMIN"
+    (window.localStorage.getItem("roleKey") !== "SUPERADMIN" &&
+      window.localStorage.getItem("roleKey") !== "OTHERADMIN")
   ) {
     navigate("/");
   }
@@ -711,16 +720,25 @@ function EditDriver() {
               <MDBox pb={2}>Other Details</MDBox>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
+                  <MDBox mb={3}>
                     <MDInput
+                      size="large"
                       InputLabelProps={{ shrink: true }}
+                      select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
                       onChange={(e) => setDriverType(e.target.value)}
-                      placeholder={driver.driverType}
-                      type="text"
-                      label="Driver type"
-                      // variant="standard"
+                      value={driverType}
+                      helperText={driverType}
+                      label="Drivet Type"
+                      InputProps={{
+                        classes: { root: "select-input-styles" },
+                      }}
                       fullWidth
-                    />
+                    >
+                      <MenuItem value="Male">Active</MenuItem>
+                      <MenuItem value="Female">Inactive</MenuItem>
+                    </MDInput>
                   </MDBox>
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -808,6 +826,8 @@ function EditDriver() {
                       InputLabelProps={{ shrink: true }}
                       type="password"
                       label="Confirm New Password"
+                      onChange={(e) => confirmPasswordValidation(e.target.value)}
+                      helperText={isPasswordMatching}
                       // variant="standard"
                       fullWidth
                     />

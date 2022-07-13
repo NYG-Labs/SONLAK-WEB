@@ -34,7 +34,8 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { useState } from "react";
 import axios from "axios";
 import { BlobServiceClient } from "@azure/storage-blob";
-
+import MenuItem from "@mui/material/MenuItem";
+import "./styles.css";
 // Authentication layout components
 // import CoverLayout from "layouts/authentication/components/CoverLayout";
 
@@ -52,7 +53,7 @@ function SupervisorRegistration() {
   const [visaNo, setVisaNo] = useState("");
   // const [visaScan, setVisaScan] = useState("");
   const [visaExpiry, setVisaExpiry] = useState("");
-  const [driverType, setDriverType] = useState("");
+  const [supervisorType, setSupervisorType] = useState("");
   // const [profilePhoto, setProfilePhoto] = useState("");
   const [password, setPassword] = useState("");
   const baseURL = "/api/Supervisors";
@@ -90,7 +91,7 @@ function SupervisorRegistration() {
     visaNo,
     visaScan,
     visaExpiry,
-    driverType,
+    supervisorType,
     password,
     profilePhoto,
   };
@@ -160,9 +161,18 @@ function SupervisorRegistration() {
       });
   }
 
+  const [isPasswordMatching, setIsPasswordMatching] = useState("");
+
+  const confirmPasswordValidation = (event) => {
+    if (password === event) {
+      setIsPasswordMatching("Password and Confirm Password is matching");
+    }
+  };
+
   if (
     window.localStorage.getItem("token") === null ||
-    window.localStorage.getItem("roleKey") !== "SUPERADMIN"
+    (window.localStorage.getItem("roleKey") !== "SUPERADMIN" &&
+      window.localStorage.getItem("roleKey") !== "OTHERADMIN")
   ) {
     navigate("/");
   }
@@ -318,15 +328,24 @@ function SupervisorRegistration() {
               <MDBox pb={2}>Other Details</MDBox>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
+                  <MDBox mb={3}>
                     <MDInput
+                      size="large"
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setDriverType(e.target.value)}
-                      type="text"
-                      label="Driver type"
-                      // variant="standard"
+                      select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      onChange={(e) => setSupervisorType(e.target.value)}
+                      value={supervisorType}
+                      label="Supervisor Type"
+                      InputProps={{
+                        classes: { root: "select-input-styles" },
+                      }}
                       fullWidth
-                    />
+                    >
+                      <MenuItem value="Male">Active</MenuItem>
+                      <MenuItem value="Female">Inactive</MenuItem>
+                    </MDInput>
                   </MDBox>
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -366,6 +385,8 @@ function SupervisorRegistration() {
                       InputLabelProps={{ shrink: true }}
                       type="password"
                       label="Confirm Password"
+                      onChange={(e) => confirmPasswordValidation(e.target.value)}
+                      helperText={isPasswordMatching}
                       // variant="standard"
                       fullWidth
                     />

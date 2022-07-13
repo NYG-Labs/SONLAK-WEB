@@ -84,9 +84,12 @@ function DriverRegistration() {
   // const [profilePhoto, setProfilePhoto] = useState("");
   const [supervisorEmail, setSupervisroEmail] = useState("");
   const [password, setPassword] = useState("");
+  // const [confirmPassword, setConfirmPassword] = useState("");
   const [allSupervisors, setAllSupervisors] = useState([]);
+
   const baseURL = "/api/Drivers";
   const baseURLSupervisors = "/api/Supervisors";
+
   // const currentDate = new Date();
   // const timestamp = currentDate.getTime();
   const tempFileNameAusPostScan = `${email}_auspostscan.jpg`;
@@ -235,6 +238,14 @@ function DriverRegistration() {
     await blobClient.uploadBrowserData(profilePhotoFile, option);
   }
 
+  const [isPasswordMatching, setIsPasswordMatching] = useState("");
+
+  const confirmPasswordValidation = (event) => {
+    if (password === event) {
+      setIsPasswordMatching("Password and Confirm Password is matching");
+    }
+  };
+
   async function registerDriver() {
     await uploadAusPostScan();
     await uploadLicenceScan();
@@ -262,7 +273,8 @@ function DriverRegistration() {
 
   if (
     window.localStorage.getItem("token") === null ||
-    window.localStorage.getItem("roleKey") !== "SUPERADMIN"
+    (window.localStorage.getItem("roleKey") !== "SUPERADMIN" &&
+      window.localStorage.getItem("roleKey") !== "OTHERADMIN")
   ) {
     navigate("/");
   }
@@ -584,27 +596,28 @@ function DriverRegistration() {
               <MDBox pb={2}>Other Details</MDBox>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
+                  <MDBox mb={3}>
                     <MDInput
+                      size="large"
                       InputLabelProps={{ shrink: true }}
+                      select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
                       onChange={(e) => setDriverType(e.target.value)}
-                      type="text"
-                      label="Driver type"
-                      // variant="standard"
+                      value={driverType}
+                      label="Drivet Type"
+                      InputProps={{
+                        classes: { root: "select-input-styles" },
+                      }}
                       fullWidth
-                    />
+                    >
+                      <MenuItem value="Male">Active</MenuItem>
+                      <MenuItem value="Female">Inactive</MenuItem>
+                    </MDInput>
                   </MDBox>
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
-                    {/* <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setSupervisroEmail(e.target.value)}
-                      type="email"
-                      label="Supervisor email"
-                      // variant="standard"
-                      fullWidth
-                    /> */}
                     <MDInput
                       SelectProps={{
                         style: SelectFieldStyle,
@@ -655,6 +668,7 @@ function DriverRegistration() {
                       label="Password"
                       // variant="standard"
                       fullWidth
+                      // success
                     />
                   </MDBox>
                 </Grid>
@@ -665,8 +679,11 @@ function DriverRegistration() {
                       InputLabelProps={{ shrink: true }}
                       type="password"
                       label="Confirm Password"
+                      onChange={(e) => confirmPasswordValidation(e.target.value)}
+                      helperText={isPasswordMatching}
                       // variant="standard"
                       fullWidth
+                      // success
                     />
                   </MDBox>
                 </Grid>

@@ -79,9 +79,18 @@ function AdminRegistration() {
       });
   }
 
+  const [isPasswordMatching, setIsPasswordMatching] = useState("");
+
+  const confirmPasswordValidation = (event) => {
+    if (password === event) {
+      setIsPasswordMatching("Password and Confirm Password is matching");
+    }
+  };
+
   if (
     window.localStorage.getItem("token") === null ||
     window.localStorage.getItem("roleKey") !== "SUPERADMIN"
+    // window.localStorage.getItem("roleKey") !== "OTHERADMIN")
   ) {
     navigate("/");
   }
@@ -266,6 +275,8 @@ function AdminRegistration() {
                       InputLabelProps={{ shrink: true }}
                       type="password"
                       label="Confirm Password"
+                      onChange={(e) => confirmPasswordValidation(e.target.value)}
+                      helperText={isPasswordMatching}
                       // variant="standard"
                       fullWidth
                     />
