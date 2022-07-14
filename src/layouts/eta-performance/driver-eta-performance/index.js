@@ -46,6 +46,8 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import axios from "axios";
+import { sizeof } from "stylis";
+// import { sizeof } from "stylis";
 
 function DriverETAPerformance() {
   const navigate = useNavigate();
@@ -96,6 +98,27 @@ function DriverETAPerformance() {
   const filteredData = driverETAPerformance.filter((etaPerformance) =>
     etaPerformance.driverEmail.toLowerCase().includes(search.toLowerCase())
   );
+
+  const totalArticle = driverETAPerformance.reduce((prev, current) => prev + +current.articles, 0);
+
+  const totalEarly = driverETAPerformance.reduce((prev, current) => prev + +current.early, 0);
+
+  const totalLate = driverETAPerformance.reduce((prev, current) => prev + +current.late, 0);
+
+  const totalOnTime = driverETAPerformance.reduce((prev, current) => prev + +current.onTime, 0);
+
+  const totalNotDelivered = driverETAPerformance.reduce(
+    (prev, current) => prev + +current.notDelivered,
+    0
+  );
+
+  const tempTotalOnTimePercentage = driverETAPerformance.reduce(
+    (prev, current) => prev + +current.onTimePresentage,
+    0
+  );
+
+  const totalOnTimePercentage = tempTotalOnTimePercentage / sizeof(driverETAPerformance);
+
   //   const { columns: pColumns, rows: pRows } = projectsTableData();
 
   if (
@@ -151,7 +174,6 @@ function DriverETAPerformance() {
                     <Table aria-label="simple table">
                       <TableHead>
                         <TableRow>
-                          {/* <TableCell align="center">Date</TableCell> */}
                           <TableCell align="center">Users</TableCell>
                           <TableCell align="center">Route</TableCell>
                           <TableCell align="center">DeviceID</TableCell>
@@ -161,16 +183,13 @@ function DriverETAPerformance() {
                           <TableCell align="center">Late</TableCell>
                           <TableCell align="center">Not Delivered</TableCell>
                           <TableCell align="center">OnTime Percentage</TableCell>
-                          <TableCell align="left"> </TableCell>
+                          <TableCell align="center"> </TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         {filteredData.map((row) => (
                           <TableRow key="s">
-                            {/* <TableCell align="center">{row.createDate.split("T")[0]}</TableCell> */}
-                            <TableCell align="center" component="th" scope="row">
-                              {row.driverEmail}
-                            </TableCell>
+                            <TableCell align="center">{row.driverEmail}</TableCell>
                             <TableCell align="center">{row.route}</TableCell>
                             <TableCell align="center">{row.deviceId}</TableCell>
                             <TableCell align="center">{row.articles}</TableCell>
@@ -179,7 +198,7 @@ function DriverETAPerformance() {
                             <TableCell align="center">{row.late}</TableCell>
                             <TableCell align="center">{row.notDelivered}</TableCell>
                             <TableCell align="center">{row.onTimePresentage}%</TableCell>
-                            <TableCell align="right">
+                            <TableCell align="center">
                               <MDBox ml={-1}>
                                 <MDBadge
                                   badgeContent="Edit"
@@ -230,9 +249,42 @@ function DriverETAPerformance() {
                             </TableCell>
                           </TableRow>
                         ))}
+                        <TableRow bgColor="">
+                          <TableCell align="center" />
+                          <TableCell colSpan={2} align="center">
+                            <b>Sectioned 2hr ETA - Total</b>
+                          </TableCell>
+                          <TableCell align="center">{totalArticle}</TableCell>
+                          <TableCell align="center">{totalEarly}</TableCell>
+                          <TableCell align="center">{totalOnTime}</TableCell>
+                          <TableCell align="center">{totalLate}</TableCell>
+                          <TableCell align="center">{totalNotDelivered}</TableCell>
+                          <TableCell align="center">{totalOnTimePercentage}%</TableCell>
+                          <TableCell align="center" />
+                          <TableCell align="center" />
+                        </TableRow>
                       </TableBody>
                     </Table>
                   </TableContainer>
+                  {/* <TableContainer component={Paper}>
+                    <Table aria-label="simple table">
+                      <TableBody>
+                        <TableRow>
+                          <TableCell align="center" />
+                          <TableCell align="center" />
+                          <TableCell align="center" />
+                          <TableCell align="center">{totalArticle}</TableCell>
+                          <TableCell align="center">{totalEarly}</TableCell>
+                          <TableCell align="center">{totalOnTime}</TableCell>
+                          <TableCell align="center">{totalLate}</TableCell>
+                          <TableCell align="center">{totalNotDelivered}</TableCell>
+                          <TableCell align="center">{totalOnTimePercentage}%</TableCell>
+                          <TableCell align="center" />
+                          <TableCell align="center" />
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer> */}
                 </Grid>
               </MDBox>
             </Card>
