@@ -68,6 +68,10 @@ import AllIncidentReports from "layouts/incident-report";
 import AllParcelDeliveries from "layouts/parcel-deliveries";
 import AllVehicleCheck from "layouts/vehicle-check";
 import EditETAPerformance from "layouts/eta-performance/edit-eta-performance";
+import AllGuidelines from "layouts/guidelines";
+import SafetyDelivery from "layouts/guidelines/safety-delivery";
+import VehicleSafety from "layouts/guidelines/vehicle-safety";
+import WHSPlan from "layouts/guidelines/whs";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -194,6 +198,32 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/add-user",
     component: <AllUserRegistrations />,
+  },
+  {
+    type: "collapse",
+    name: "Guidelines",
+    key: "guidelines",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/guidelines",
+    component: <AllGuidelines />,
+  },
+  {
+    name: "Safety delivery",
+    key: "safety-delivery",
+    route: "/guidelines/safety-delivery",
+    component: <SafetyDelivery />,
+  },
+  {
+    name: "Vehicle safety",
+    key: "vehicle-safety",
+    route: "/guidelines/vehicle-safety",
+    component: <VehicleSafety />,
+  },
+  {
+    name: "WHS Plan",
+    key: "whs-plan",
+    route: "/guidelines/whs-plan",
+    component: <WHSPlan />,
   },
   {
     name: "Edit ETA Performance",
