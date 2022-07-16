@@ -47,6 +47,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function WHSPlan() {
   const baseURL = "/api/Whsplans";
@@ -54,6 +55,7 @@ function WHSPlan() {
   const navigate = useNavigate();
   const [allWHSPlan, setAllWHSPlan] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
   const sasToken = process.env.REACT_APP_STORAGESASTOKEN;
@@ -120,7 +122,9 @@ function WHSPlan() {
   };
 
   async function addWHSPlan() {
+    setLoading(true);
     if (WHSPlanFile.length === 0) {
+      setLoading(false);
       window.alert("No file to upload");
     } else {
       await uploadWHSPlan();
@@ -135,6 +139,7 @@ function WHSPlan() {
           }
         })
         .catch((error) => {
+          setLoading(false);
           alert("An unexpected error occured! please check the values and try again");
           console.log(error);
         });
@@ -203,7 +208,8 @@ function WHSPlan() {
                 </Grid>
                 <Grid item xs={12} md={2}>
                   <MDButton onClick={() => addWHSPlan()} variant="gradient" color="info" fullWidth>
-                    Add WHS Plan
+                    Add WHS Plan &nbsp;&nbsp;
+                    {loading ? <CircularProgress size={20} color="white" /> : ""}
                   </MDButton>
                 </Grid>
               </Grid>

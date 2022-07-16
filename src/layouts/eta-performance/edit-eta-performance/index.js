@@ -35,6 +35,7 @@ import MenuItem from "@mui/material/MenuItem";
 // import InputAdornment from "@mui/material/InputAdornment";
 // import { IconButton } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 // import "./styles.css";
 // Authentication layout components
@@ -74,6 +75,7 @@ function EditETAPerformance() {
   const [allDrivers, setAllDrivers] = useState([]);
   const [ETAPerformance, setETAPerformance] = useState([]);
   const [initCreatedDate, setInitCreatedDate] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const getAllDrivers = () => {
     axios.get(getAllDriversURL, config).then((response) => {
@@ -119,6 +121,7 @@ function EditETAPerformance() {
   };
 
   function editETAPerformance() {
+    setLoading(true);
     axios
       .put(ETAPerformanceURL, bodyParameters, config)
       .then((response) => {
@@ -126,10 +129,11 @@ function EditETAPerformance() {
         console.log(bodyParameters);
         if (response.status === 204) {
           alert("ETA-Performance Updated successfully");
-          navigate(`/ETA-performance/${initCreatedDate}`);
+          navigate(`/ETA-performance/${initCreatedDate.split("T")[0]}`);
         }
       })
       .catch((error) => {
+        setLoading(false);
         console.log("error = ", error.response);
         console.log(bodyParameters);
         alert("An unexpected error occured! please check the values and try again");
@@ -354,7 +358,8 @@ function EditETAPerformance() {
                       color="info"
                       fullWidth
                     >
-                      Update
+                      Update &nbsp;&nbsp;
+                      {loading ? <CircularProgress size={20} color="white" /> : ""}
                     </MDButton>
                   </MDBox>
                 </Grid>

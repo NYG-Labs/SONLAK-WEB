@@ -47,6 +47,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function SafetyDelivery() {
   const baseURL = "/api/SafeDeliveryProcedures";
@@ -54,6 +55,7 @@ function SafetyDelivery() {
   const navigate = useNavigate();
   const [allSafetyDelivery, setAllSafetyDelivery] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
   const sasToken = process.env.REACT_APP_STORAGESASTOKEN;
@@ -120,7 +122,9 @@ function SafetyDelivery() {
   };
 
   async function addSafetyDelivery() {
+    setLoading(true);
     if (safetyDeliveryFile.length === 0) {
+      setLoading(false);
       window.alert("No file to upload");
     } else {
       await uploadsafetyDelivery();
@@ -135,6 +139,7 @@ function SafetyDelivery() {
           }
         })
         .catch((error) => {
+          setLoading(false);
           alert("An unexpected error occured! please check the values and try again");
           console.log(error);
         });
@@ -201,14 +206,15 @@ function SafetyDelivery() {
                     />
                   </MDBox>
                 </Grid>
-                <Grid item xs={12} md={2}>
+                <Grid item xs={12} md={2.5}>
                   <MDButton
                     onClick={() => addSafetyDelivery()}
                     variant="gradient"
                     color="info"
                     fullWidth
                   >
-                    Add Safety Delivery
+                    Add Safety Delivery &nbsp;&nbsp;
+                    {loading ? <CircularProgress size={20} color="white" /> : ""}
                   </MDButton>
                 </Grid>
               </Grid>
