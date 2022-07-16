@@ -494,29 +494,24 @@ function DriverProfile() {
                           </TableRow>
                         </TableHead>
                         <TableBody>
+                          {filteredDataETAPerformance.length === 0 ? (
+                            <TableRow key="s">
+                              <TableCell align="center">-</TableCell>
+                              <TableCell align="center">-</TableCell>
+                              <TableCell align="center">-</TableCell>
+                              <TableCell align="center">-</TableCell>
+                              <TableCell align="center">-</TableCell>
+                              <TableCell align="center">-</TableCell>
+                            </TableRow>
+                          ) : null}
                           {filteredDataETAPerformance.map((row) => (
                             <TableRow key="s">
-                              {/* <TableCell align="center" component="th" scope="row">
-                                {row.driverEmail}
-                              </TableCell> */}
                               <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
                               <TableCell align="center">{row.articles}</TableCell>
                               <TableCell align="center">{row.early}</TableCell>
                               <TableCell align="center">{row.onTime}</TableCell>
                               <TableCell align="center">{row.notDelivered}</TableCell>
                               <TableCell align="center">{row.onTimePresentage}%</TableCell>
-                              {/* <TableCell align="left">
-                                <MDBox ml={-1}>
-                                  <MDBadge
-                                    badgeContent="view"
-                                    color="success"
-                                    variant="gradient"
-                                    size="sm"
-                                    component={Link}
-                                    to="/ETA-performance/ETA-performance"
-                                  />
-                                </MDBox>
-                              </TableCell> */}
                             </TableRow>
                           ))}
                         </TableBody>
@@ -578,6 +573,14 @@ function DriverProfile() {
                           </TableRow>
                         </TableHead>
                         <TableBody>
+                          {filteredIncidentReports.length === 0 ? (
+                            <TableRow key="s">
+                              <TableCell align="center">-</TableCell>
+                              <TableCell align="center" />
+                              <TableCell align="center" />
+                              <TableCell align="center" />
+                            </TableRow>
+                          ) : null}
                           {filteredIncidentReports.map((row) => (
                             <TableRow key="s">
                               <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
@@ -650,6 +653,12 @@ function DriverProfile() {
                           </TableRow>
                         </TableHead>
                         <TableBody>
+                          {filteredParcelDeliveries.length === 0 ? (
+                            <TableRow key="s">
+                              <TableCell align="center">-</TableCell>
+                              <TableCell align="center">-</TableCell>
+                            </TableRow>
+                          ) : null}
                           {filteredParcelDeliveries.map((row) => (
                             <TableRow key="s">
                               <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
@@ -710,6 +719,11 @@ function DriverProfile() {
                           </TableRow>
                         </TableHead>
                         <TableBody>
+                          {filteredVehicleCheck.length === 0 ? (
+                            <TableRow key="s">
+                              <TableCell align="center">-</TableCell>
+                            </TableRow>
+                          ) : null}
                           {filteredVehicleCheck.map((row) => (
                             <TableRow key="s">
                               <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>

@@ -611,8 +611,8 @@ function DriverRegistration() {
                       }}
                       fullWidth
                     >
-                      <MenuItem value="Male">Active</MenuItem>
-                      <MenuItem value="Female">Inactive</MenuItem>
+                      <MenuItem value="Active">Active</MenuItem>
+                      <MenuItem value="Inactive">Inactive</MenuItem>
                     </MDInput>
                   </MDBox>
                 </Grid>
