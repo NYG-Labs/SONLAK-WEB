@@ -36,6 +36,7 @@ import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import CircularProgress from "@mui/material/CircularProgress";
 // import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -70,6 +71,7 @@ function EditAdmin() {
   const [address, setAddress] = useState(admin.address);
   const [dob, setDob] = useState(admin.dob);
   const [gender, setGender] = useState(admin.gender);
+  const [loading, setLoading] = useState(false);
   //   const [ausPostId, setAusPostId] = useState(admin.ausPostId);
   //   const [ausPostScan, setAusPostScan] = useState(admin.ausPostScan);
   //   const [ausPostExpiry, setAusPostExpiry] = useState(admin.ausPostExpiry);
@@ -172,6 +174,7 @@ function EditAdmin() {
   //   console.log("==> ", bodyParameters.fname);
 
   function editAdmin() {
+    setLoading(true);
     axios
       .put(baseURL, bodyParameters, config)
       .then((response) => {
@@ -183,6 +186,7 @@ function EditAdmin() {
         }
       })
       .catch((error) => {
+        setLoading(false);
         console.log("error = ", error.response);
         console.log(bodyParameters);
         alert("An unexpected error occured! please check the values and try again");
@@ -707,7 +711,8 @@ function EditAdmin() {
                 <Grid item xs={12} md={6}>
                   <MDBox mb={2}>
                     <MDButton onClick={() => editAdmin()} variant="gradient" color="info" fullWidth>
-                      Update
+                      Update &nbsp;&nbsp;
+                      {loading ? <CircularProgress size={20} color="white" /> : ""}
                     </MDButton>
                   </MDBox>
                 </Grid>

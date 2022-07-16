@@ -422,8 +422,7 @@ function DriverProfile() {
                 title="Visa Details"
                 info={{
                   VisaScan: (
-                    <a href={driver.licenceScan}>
-                      {/* <Link to={{ pathname: driver.ausPostScan }}> */}
+                    <a href={driver.visaScan}>
                       <MDBadge
                         badgeContent="view"
                         color="success"

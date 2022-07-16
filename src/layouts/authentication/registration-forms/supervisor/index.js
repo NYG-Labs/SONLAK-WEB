@@ -30,6 +30,7 @@ import MDButton from "components/MDButton";
 
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import { useState } from "react";
 import axios from "axios";
@@ -53,9 +54,11 @@ function SupervisorRegistration() {
   const [visaNo, setVisaNo] = useState("");
   // const [visaScan, setVisaScan] = useState("");
   const [visaExpiry, setVisaExpiry] = useState("");
-  const [supervisorType, setSupervisorType] = useState("");
+  const [driverType, setSupervisorType] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   // const [profilePhoto, setProfilePhoto] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const baseURL = "/api/Supervisors";
 
   const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
@@ -66,8 +69,8 @@ function SupervisorRegistration() {
     `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
   );
 
-  const tempFileNameVisaScan = `${email}_licencescan.jpg`;
-  const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/supervisorlicencescan/${tempFileNameVisaScan}`;
+  const tempFileNameVisaScan = `${email}_visascan.jpg`;
+  const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/supervisorvisascan/${tempFileNameVisaScan}`;
   const visaScan = tempVisaScanURL;
 
   const tempFileProfilePhoto = `${email}_profilephoto.jpg`;
@@ -91,8 +94,9 @@ function SupervisorRegistration() {
     visaNo,
     visaScan,
     visaExpiry,
-    supervisorType,
+    driverType,
     password,
+    phoneNumber,
     profilePhoto,
   };
 
@@ -103,10 +107,6 @@ function SupervisorRegistration() {
   };
 
   async function uploadVisaScan() {
-    //   const blobService = new BlobServiceClient(
-    //     `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
-    //   );
-
     const containerClient = blobService.getContainerClient("supervisorvisascan");
     await containerClient.createIfNotExists({
       access: "container",
@@ -124,10 +124,6 @@ function SupervisorRegistration() {
   };
 
   async function uploadProfilePhoto() {
-    // const blobService = new BlobServiceClient(
-    //   `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
-    // );
-
     const containerClient = blobService.getContainerClient("supervisorprofilephoto");
     await containerClient.createIfNotExists({
       access: "container",
@@ -139,6 +135,7 @@ function SupervisorRegistration() {
   }
 
   async function registerSupervisor() {
+    setLoading(true);
     await uploadVisaScan();
     await uploadProfilePhoto();
     console.log(bodyParameters);
@@ -154,8 +151,10 @@ function SupervisorRegistration() {
       })
       .catch((error) => {
         if (error.response.status === 409) {
+          setLoading(false);
           alert("A supervisor with this email is already available");
         } else {
+          setLoading(false);
           alert("An unexpected error occured! please check the values and try again");
         }
       });
@@ -279,6 +278,20 @@ function SupervisorRegistration() {
                   </MDBox>
                 </Grid>
               </Grid>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={3}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      type="text"
+                      label="Phone number"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+              </Grid>
             </MDBox>
 
             <MDBox p={2}>
@@ -336,7 +349,7 @@ function SupervisorRegistration() {
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       onChange={(e) => setSupervisorType(e.target.value)}
-                      value={supervisorType}
+                      value={driverType}
                       label="Supervisor Type"
                       InputProps={{
                         classes: { root: "select-input-styles" },
@@ -423,7 +436,8 @@ function SupervisorRegistration() {
                 color="info"
                 fullWidth
               >
-                sign in
+                sign in &nbsp;&nbsp;
+                {loading ? <CircularProgress size={20} color="white" /> : ""}
               </MDButton>
             </MDBox>
           </MDBox>

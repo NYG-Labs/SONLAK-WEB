@@ -30,6 +30,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import Card from "@mui/material/Card";
 import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
+import CircularProgress from "@mui/material/CircularProgress";
 // import TextField from "@mui/material/TextField";
 
 // import InputLabel from "@material-ui/core/InputLabel";
@@ -98,6 +99,7 @@ function EditDriver() {
   const [workStatus, setWorkstatus] = useState(driver.workStatus);
   const [password, setPassword] = useState(driver.password);
   const [oldPassword, setOldPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // const [open, setOpen] = React.useState(false);
 
@@ -135,7 +137,7 @@ function EditDriver() {
       setVisaScan(response.data.visaScan);
       setVisaExpiry(response.data.visaExpiry);
       setLicenceId(response.data.licenceId);
-      setLicenceScan(response.data.ausPostScan);
+      setLicenceScan(response.data.licenceScan);
       setLicenceExpiry(response.data.licenceExpiry);
       setDriverType(response.data.driverType);
       setUsername(response.data.username);
@@ -173,8 +175,8 @@ function EditDriver() {
   const tempLicenceScanURL = `https://${storageAccountName}.blob.core.windows.net/driverlicencescan/${tempFileNameLicenceScan}`;
   // const licenceScan = tempLicenceScanURL;
 
-  const tempFileNameVisaScan = `${driverEmail}_licencescan.jpg`;
-  const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/driverlicencescan/${tempFileNameVisaScan}`;
+  const tempFileNameVisaScan = `${driverEmail}_visascan.jpg`;
+  const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/drivervisascan/${tempFileNameVisaScan}`;
   // const visaScan = tempVisaScanURL;
 
   const tempFileProfilePhoto = `${driverEmail}_profilephoto.jpg`;
@@ -226,15 +228,11 @@ function EditDriver() {
     setAusPostSanFile(event.target.files[0]);
     setAusPostScan(tempAusPostScanURL);
     bodyParameters.ausPostScan = tempAusPostScanURL;
-    console.log("APS = ", ausPostScan);
-    console.log("bodyParameters = ", bodyParameters);
+    // console.log("APS = ", ausPostScan);
+    // console.log("bodyParameters = ", bodyParameters);
   };
 
   async function uploadAusPostScan() {
-    // const blobService = new BlobServiceClient(
-    //   `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
-    // );
-
     const containerClient = blobService.getContainerClient("driverauspostscan");
     await containerClient.createIfNotExists({
       access: "container",
@@ -253,10 +251,6 @@ function EditDriver() {
   };
 
   async function uploadLicenceScan() {
-    // const blobService = new BlobServiceClient(
-    //   `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
-    // );
-
     const containerClient = blobService.getContainerClient("driverlicencescan");
     await containerClient.createIfNotExists({
       access: "container",
@@ -275,10 +269,6 @@ function EditDriver() {
   };
 
   async function uploadVisaScan() {
-    //   const blobService = new BlobServiceClient(
-    //     `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
-    //   );
-
     const containerClient = blobService.getContainerClient("drivervisascan");
     await containerClient.createIfNotExists({
       access: "container",
@@ -297,10 +287,6 @@ function EditDriver() {
   };
 
   async function uploadProfilePhoto() {
-    // const blobService = new BlobServiceClient(
-    //   `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
-    // );
-
     const containerClient = blobService.getContainerClient("driverprofilephoto");
     await containerClient.createIfNotExists({
       access: "container",
@@ -312,21 +298,34 @@ function EditDriver() {
   }
 
   async function editDriver() {
-    await uploadAusPostScan();
-    await uploadLicenceScan();
-    await uploadVisaScan();
-    await uploadProfilePhoto();
+    setLoading(true);
+
+    if (ausPostScanFile.length > 0) {
+      await uploadAusPostScan();
+    }
+
+    if (licenceScanFile.length > 0) {
+      await uploadLicenceScan();
+    }
+
+    if (visaScanFile.length > 0) {
+      await uploadVisaScan();
+    }
+
+    if (profilePhotoFile.length > 0) {
+      await uploadProfilePhoto();
+    }
+
     axios
       .put(baseURL, bodyParameters, config)
       .then((response) => {
-        // console.log("response = ", response.status);
-        console.log(bodyParameters);
         if (response.status === 204) {
           alert("Driver Updated successfully");
           navigate(`/drivers/${id}`);
         }
       })
       .catch((error) => {
+        setLoading(false);
         console.log("error = ", error.response);
         console.log(bodyParameters);
         alert("An unexpected error occured! please check the values and try again");
@@ -879,7 +878,8 @@ function EditDriver() {
                       color="info"
                       fullWidth
                     >
-                      Update
+                      Update &nbsp;&nbsp;
+                      {loading ? <CircularProgress size={20} color="white" /> : ""}
                     </MDButton>
                   </MDBox>
                 </Grid>

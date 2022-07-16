@@ -45,6 +45,7 @@ import MenuItem from "@mui/material/MenuItem";
 import "./styles.css";
 // import { BlobServiceClient } from "@azure/storage-blob";
 import { BlobServiceClient } from "@azure/storage-blob";
+import CircularProgress from "@mui/material/CircularProgress";
 // ContainerClient
 function DriverRegistration() {
   const SelectFieldStyle = {
@@ -86,6 +87,7 @@ function DriverRegistration() {
   const [password, setPassword] = useState("");
   // const [confirmPassword, setConfirmPassword] = useState("");
   const [allSupervisors, setAllSupervisors] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const baseURL = "/api/Drivers";
   const baseURLSupervisors = "/api/Supervisors";
@@ -100,8 +102,8 @@ function DriverRegistration() {
   const tempLicenceScanURL = `https://${storageAccountName}.blob.core.windows.net/driverlicencescan/${tempFileNameLicenceScan}`;
   const licenceScan = tempLicenceScanURL;
 
-  const tempFileNameVisaScan = `${email}_licencescan.jpg`;
-  const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/driverlicencescan/${tempFileNameVisaScan}`;
+  const tempFileNameVisaScan = `${email}_visascan.jpg`;
+  const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/drivervisascan/${tempFileNameVisaScan}`;
   const visaScan = tempVisaScanURL;
 
   const tempFileProfilePhoto = `${email}_profilephoto.jpg`;
@@ -247,6 +249,8 @@ function DriverRegistration() {
   };
 
   async function registerDriver() {
+    setLoading(true);
+    console.log(bodyParameters.visaScan);
     await uploadAusPostScan();
     await uploadLicenceScan();
     await uploadVisaScan();
@@ -264,8 +268,10 @@ function DriverRegistration() {
       })
       .catch((error) => {
         if (error.response.status === 409) {
+          setLoading(false);
           alert("A driver with this email is already available");
         } else {
+          setLoading(false);
           alert("An unexpected error occured! please check the values and try again");
         }
       });
@@ -713,7 +719,8 @@ function DriverRegistration() {
 
             <MDBox mt={4} mb={1}>
               <MDButton onClick={() => registerDriver()} variant="gradient" color="info" fullWidth>
-                sign in
+                sign in &nbsp;&nbsp;
+                {loading ? <CircularProgress size={20} color="white" /> : ""}
               </MDButton>
             </MDBox>
             {/* <MDBox mt={3} mb={1} textAlign="center">

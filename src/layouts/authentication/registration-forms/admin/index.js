@@ -27,6 +27,7 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
+import CircularProgress from "@mui/material/CircularProgress";
 
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -43,6 +44,7 @@ function AdminRegistration() {
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const baseURL = "/api/Admins";
   const navigate = useNavigate();
 
@@ -61,6 +63,7 @@ function AdminRegistration() {
   };
 
   function registerAdmin() {
+    setLoading(true);
     axios
       .post(baseURL, bodyParameters, config)
       .then((response) => {
@@ -72,8 +75,10 @@ function AdminRegistration() {
       })
       .catch((error) => {
         if (error.response.status === 409) {
+          setLoading(false);
           alert("A admin with this email is already available");
         } else {
+          setLoading(false);
           alert("An unexpected error occured! please check the values and try again");
         }
       });
@@ -308,7 +313,8 @@ function AdminRegistration() {
 
             <MDBox mt={4} mb={1}>
               <MDButton onClick={() => registerAdmin()} variant="gradient" color="info" fullWidth>
-                sign in
+                sign in &nbsp;&nbsp;
+                {loading ? <CircularProgress size={20} color="white" /> : ""}
               </MDButton>
             </MDBox>
           </MDBox>

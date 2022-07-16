@@ -38,7 +38,7 @@ import MDButton from "components/MDButton";
 
 // Authentication layout components
 import BasicLayout from "layouts/authentication/components/BasicLayout";
-
+import CircularProgress from "@mui/material/CircularProgress";
 // Images
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 // import adminSignIn from "api/apiCalls";
@@ -50,9 +50,13 @@ function Basic() {
   const handleSetRememberMe = () => setRememberMe(!rememberMe);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const baseURL = "/api/LoginUsers/Login";
 
   async function sendSignInData() {
+    setLoading(true);
     axios
       .post(baseURL, {
         email,
@@ -63,11 +67,18 @@ function Basic() {
           window.localStorage.setItem("roleKey", response.data.roleKey);
           window.localStorage.setItem("token", response.data.token);
           navigate("/dashboard");
-        } else if (response.data.roleKey === "ADMIN     ") {
-          window.alert("ADMIN");
         } else {
           console.log("response = ERROR", response);
+          setErrorMessage("An unauthorized login");
+          setIsError(true);
+          navigate("/");
         }
+      })
+      .catch((error) => {
+        console.log("response = ERROR", error);
+        setLoading(false);
+        setErrorMessage("Incorrect username or password");
+        setIsError(true);
       });
   }
 
@@ -88,23 +99,6 @@ function Basic() {
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
             Sign in
           </MDTypography>
-          {/* <Grid container spacing={3} justifyContent="center" sx={{ mt: 1, mb: 2 }}>
-            <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
-                <FacebookIcon color="inherit" />
-              </MDTypography>
-            </Grid>
-            <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
-                <GitHubIcon color="inherit" />
-              </MDTypography>
-            </Grid>
-            <Grid item xs={2}>
-              <MDTypography component={MuiLink} href="#" variant="body1" color="white">
-                <GoogleIcon color="inherit" />
-              </MDTypography>
-            </Grid>
-          </Grid> */}
         </MDBox>
         <MDBox pt={4} pb={3} px={3}>
           <MDBox component="form" role="form">
@@ -145,24 +139,25 @@ function Basic() {
                 fullWidth
                 // to="/dashboard"
               >
-                sign in
+                sign in &nbsp;&nbsp;
+                {loading ? <CircularProgress size={20} color="white" /> : ""}
               </MDButton>
+              {isError ? (
+                <MDBox textAlign="center">
+                  <MDTypography
+                    variant="button"
+                    fontWeight="regular"
+                    color="text"
+                    size="sm"
+                    // sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
+                  >
+                    {errorMessage}
+                  </MDTypography>
+                </MDBox>
+              ) : (
+                ""
+              )}
             </MDBox>
-            {/* <MDBox mt={3} mb={1} textAlign="center">
-              <MDTypography variant="button" color="text">
-                Don&apos;t have an account?{" "}
-                <MDTypography
-                  component={Link}
-                  to="/authentication/sign-up"
-                  variant="button"
-                  color="info"
-                  fontWeight="medium"
-                  textGradient
-                >
-                  Sign up
-                </MDTypography>
-              </MDTypography>
-            </MDBox> */}
           </MDBox>
         </MDBox>
       </Card>

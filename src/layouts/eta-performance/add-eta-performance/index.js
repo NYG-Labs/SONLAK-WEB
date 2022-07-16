@@ -35,6 +35,7 @@ import MenuItem from "@mui/material/MenuItem";
 // import InputAdornment from "@mui/material/InputAdornment";
 // import { IconButton } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 import "./styles.css";
 // Authentication layout components
@@ -70,6 +71,7 @@ function AddETAPerformance() {
   const [onTimePresentage, setOnTimePersentage] = useState();
   const [createDate, setCreateDate] = useState();
   const [allDrivers, setAllDrivers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const getAllDrivers = () => {
     axios.get(getAllDriversURL, config).then((response) => {
@@ -96,6 +98,7 @@ function AddETAPerformance() {
   };
 
   async function addETAPerformance() {
+    setLoading(true);
     console.log(bodyParameters);
     axios
       .post(baseURL, bodyParameters, config)
@@ -107,6 +110,7 @@ function AddETAPerformance() {
         }
       })
       .catch((error) => {
+        setLoading(false);
         // if (error.response.status === 409) {
         //   alert("A supervisor with this email is already available");
         // } else {
@@ -301,7 +305,8 @@ function AddETAPerformance() {
                 color="info"
                 fullWidth
               >
-                Add ETA Performance
+                Add ETA Performance &nbsp;&nbsp;
+                {loading ? <CircularProgress size={20} color="white" /> : ""}
               </MDButton>
             </MDBox>
             {/* <MDBox mt={3} mb={1} textAlign="center">

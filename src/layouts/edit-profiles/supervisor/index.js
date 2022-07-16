@@ -36,6 +36,7 @@ import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import CircularProgress from "@mui/material/CircularProgress";
 // import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -97,10 +98,12 @@ function EditSupervisor() {
   const [workStatus, setWorkstatus] = useState(supervisor.workStatus);
   const [password, setPassword] = useState(supervisor.password);
   const [oldPassword, setOldPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const supervisorEmail = supervisor.email;
 
-  const tempFileNameVisaScan = `${supervisorEmail}_licencescan.jpg`;
+  const tempFileNameVisaScan = `${supervisorEmail}_visascan.jpg`;
+  console.log(tempFileNameVisaScan);
   const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/supervisorvisascan/${tempFileNameVisaScan}`;
   // const visaScan = tempVisaScanURL;
 
@@ -238,8 +241,14 @@ function EditSupervisor() {
   //   console.log("==> ", bodyParameters.fname);
 
   async function editSupervisor() {
-    await uploadVisaScan();
-    await uploadProfilePhoto();
+    setLoading(true);
+    if (visaScanFile.length !== 0) {
+      await uploadVisaScan();
+    }
+
+    if (profilePhotoFile.length !== 0) {
+      await uploadProfilePhoto();
+    }
 
     axios
       .put(baseURL, bodyParameters, config)
@@ -252,6 +261,7 @@ function EditSupervisor() {
         }
       })
       .catch((error) => {
+        setLoading(false);
         console.log("error = ", error.response);
         console.log(bodyParameters);
         alert("An unexpected error occured! please check the values and try again");
@@ -791,7 +801,8 @@ function EditSupervisor() {
                       color="info"
                       fullWidth
                     >
-                      Update
+                      Update &nbsp;&nbsp;
+                      {loading ? <CircularProgress size={20} color="white" /> : ""}
                     </MDButton>
                   </MDBox>
                 </Grid>
