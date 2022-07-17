@@ -72,6 +72,8 @@ import AllGuidelines from "layouts/guidelines";
 import SafetyDelivery from "layouts/guidelines/safety-delivery";
 import VehicleSafety from "layouts/guidelines/vehicle-safety";
 import WHSPlan from "layouts/guidelines/whs";
+import AllInactiveDrivers from "layouts/all-users/driver/inactive-index";
+import AllInactiveSupervisors from "layouts/all-users/supervisor/inactive-index";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -144,6 +146,12 @@ const routes = [
     component: <AllDrivers />,
   },
   {
+    name: "Inactive drivers",
+    key: "inactive-drivers",
+    route: "/drivers/inactive-drivers",
+    component: <AllInactiveDrivers />,
+  },
+  {
     name: "Admins",
     key: "admins",
     route: "/admins",
@@ -154,6 +162,12 @@ const routes = [
     key: "supervisors",
     route: "/supervisors",
     component: <AllSupervisors />,
+  },
+  {
+    name: "Inactive-Supervisors",
+    key: "inactive-supervisors",
+    route: "/supervisors/inactive-supervisors",
+    component: <AllInactiveSupervisors />,
   },
   {
     name: "Supervisor Profile",

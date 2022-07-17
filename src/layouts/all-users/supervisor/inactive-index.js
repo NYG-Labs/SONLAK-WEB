@@ -40,11 +40,13 @@ import Paper from "@material-ui/core/Paper";
 import MDBadge from "components/MDBadge";
 
 import axios from "axios";
+// import allDriverData from "./allDriverData";
 
-function AllAdmins() {
+function AllInactiveSupervisors() {
+  // const { rows } = allDriverData();
   const [search, setSearch] = useState("");
-  const [allAdmins, setAllAdmins] = useState([]);
-  const baseURL = "/api/Admins";
+  const [allInactiveSupervisors, setAllInactiveSupervisors] = useState([]);
+  const baseURL = "/api/Supervisors";
 
   const config = {
     headers: {
@@ -53,29 +55,29 @@ function AllAdmins() {
     },
   };
 
-  const getAllAdmins = () => {
+  const getAllInactiveSupervisors = () => {
     axios.get(baseURL, config).then((response) => {
-      const tempAdmins = response.data;
-      setAllAdmins(tempAdmins);
+      const tempInactiveSupervisors = response.data;
+      setAllInactiveSupervisors(tempInactiveSupervisors);
     });
   };
 
   useEffect(() => {
-    getAllAdmins();
+    getAllInactiveSupervisors();
   }, []);
 
-  // console.log("ALl Admins = ", allAdmins, search);
+  console.log("ALl InactiveSupervisors = ", allInactiveSupervisors, search);
 
-  const filteredData = allAdmins.filter((admin) =>
-    admin.fname.toLowerCase().includes(search.toLowerCase())
+  const filteredData = allInactiveSupervisors.filter((driver) =>
+    driver.fname.toLowerCase().includes(search.toLowerCase())
   );
 
   const navigate = useNavigate();
 
   if (
     window.localStorage.getItem("token") === null ||
-    window.localStorage.getItem("roleKey") !== "SUPERADMIN"
-    // window.localStorage.getItem("roleKey") !== "OTHERADMIN")
+    (window.localStorage.getItem("roleKey") !== "SUPERADMIN" &&
+      window.localStorage.getItem("roleKey") !== "OTHERADMIN")
   ) {
     navigate("/");
   }
@@ -96,8 +98,8 @@ function AllAdmins() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h4" color="white">
-                  All admins
+                <MDTypography variant="h6" color="white">
+                  All InactiveSupervisors
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
@@ -126,12 +128,12 @@ function AllAdmins() {
                       <TableHead>
                         <TableRow>
                           <TableCell>First name</TableCell>
-                          {/* <TableCell align="left">Middle name</TableCell> */}
+                          <TableCell align="left">Middle name</TableCell>
                           <TableCell align="left">Lase Name</TableCell>
                           <TableCell align="left">Email</TableCell>
-                          {/* <TableCell align="left">Vehicle type</TableCell>
+                          <TableCell align="left">Vehicle type</TableCell>
                           <TableCell align="left">Vehicle No</TableCell>
-                          <TableCell align="left">Driver type</TableCell> */}
+                          <TableCell align="left">Driver type</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -140,22 +142,22 @@ function AllAdmins() {
                             <TableCell component="th" scope="row">
                               {row.fname}
                             </TableCell>
-                            {/* <TableCell align="left">{row.mname}</TableCell> */}
+                            <TableCell align="left">{row.mname}</TableCell>
                             <TableCell align="left">{row.lname}</TableCell>
                             <TableCell align="left">{row.email}</TableCell>
-                            {/* <TableCell align="left">{row.vehicalType}</TableCell>
+                            <TableCell align="left">{row.vehicalType}</TableCell>
                             <TableCell align="left">{row.vehicleNo}</TableCell>
-                            <TableCell align="left">{row.driverType}</TableCell> */}
+                            <TableCell align="left">{row.driverType}</TableCell>
                             <TableCell align="center">
                               <MDBox ml={-1}>
-                                <Link to={{ pathname: `/admins/${row.email}` }}>
+                                <Link to={{ pathname: `/supervisors/${row.email}` }}>
                                   <MDBadge
                                     badgeContent="view"
                                     color="success"
                                     variant="gradient"
                                     size="sm"
                                     // component={Link}
-                                    // to={`/drivers/${row.email}`}
+                                    // to={`/supervisors/${row.email}`}
                                   />
                                 </Link>
                               </MDBox>
@@ -176,4 +178,4 @@ function AllAdmins() {
   );
 }
 
-export default AllAdmins;
+export default AllInactiveSupervisors;

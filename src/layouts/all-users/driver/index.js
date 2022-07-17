@@ -29,7 +29,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 // import DataTable from "examples/Tables/DataTable";
 import { Link, useNavigate } from "react-router-dom";
-
+import MDButton from "components/MDButton";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -98,9 +98,28 @@ function AllDrivers() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  All drivers
-                </MDTypography>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={9.5}>
+                    <MDTypography variant="h4" color="white" ml={4} mt={0.5}>
+                      All drivers
+                    </MDTypography>
+                  </Grid>
+                  <Grid item xs={12} md={2}>
+                    <MDBox>
+                      <MDButton
+                        // onClick={() => sendSignInData()}
+                        component={Link}
+                        variant="gradient"
+                        color="primary"
+                        justifyContent="flex-end"
+                        to="/drivers/inactive-drivers"
+                        fullWidth
+                      >
+                        Inactive Drivers
+                      </MDButton>
+                    </MDBox>
+                  </Grid>
+                </Grid>
               </MDBox>
               <MDBox pt={3}>
                 <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
@@ -115,13 +134,6 @@ function AllDrivers() {
                     />
                   </MDBox>
                 </Grid>
-                {/* <DataTable
-                  table={{ columns, rows }}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
-                  noEndBorder
-                /> */}
                 <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
                   <TableContainer component={Paper}>
                     <Table aria-label="simple table">

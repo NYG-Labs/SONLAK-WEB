@@ -37,6 +37,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import MDBadge from "components/MDBadge";
+import MDButton from "components/MDButton";
 import axios from "axios";
 // Data
 // import authorsTableData from "layouts/tables/data/authorsTableData";
@@ -100,9 +101,28 @@ function AllSupervisors() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  All supervisors
-                </MDTypography>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={9.5}>
+                    <MDTypography variant="h4" color="white" ml={4} mt={0.5}>
+                      All Supervisors
+                    </MDTypography>
+                  </Grid>
+                  <Grid item xs={12} md={2}>
+                    <MDBox>
+                      <MDButton
+                        // onClick={() => sendSignInData()}
+                        component={Link}
+                        variant="gradient"
+                        color="primary"
+                        justifyContent="flex-end"
+                        to="/supervisors/inactive-supervisors"
+                        fullWidth
+                      >
+                        Inactive Supervisors
+                      </MDButton>
+                    </MDBox>
+                  </Grid>
+                </Grid>
               </MDBox>
               <MDBox pt={3}>
                 <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
