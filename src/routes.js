@@ -74,6 +74,8 @@ import VehicleSafety from "layouts/guidelines/vehicle-safety";
 import WHSPlan from "layouts/guidelines/whs";
 import AllInactiveDrivers from "layouts/all-users/driver/inactive-index";
 import AllInactiveSupervisors from "layouts/all-users/supervisor/inactive-index";
+import AllComplaints from "layouts/complaints";
+import AddComplaints from "layouts/complaints/new-complaint";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -162,6 +164,20 @@ const routes = [
     key: "supervisors",
     route: "/supervisors",
     component: <AllSupervisors />,
+  },
+  {
+    type: "collapse",
+    name: "Complaints",
+    key: "complaints",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/complaints",
+    component: <AllComplaints />,
+  },
+  {
+    name: "add-complaints",
+    key: "add-complaints",
+    route: "/complaints/add-complaints",
+    component: <AddComplaints />,
   },
   {
     name: "Inactive-Supervisors",
