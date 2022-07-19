@@ -76,6 +76,8 @@ import AllInactiveDrivers from "layouts/all-users/driver/inactive-index";
 import AllInactiveSupervisors from "layouts/all-users/supervisor/inactive-index";
 import AllComplaints from "layouts/complaints";
 import AddComplaints from "layouts/complaints/new-complaint";
+import AllToolBox from "layouts/toolbox";
+import ToolBoxSupervisorDate from "layouts/toolbox/toolbox-day-supervisor";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -118,12 +120,26 @@ const routes = [
     component: <DriverETAPerformance />,
   },
   {
+    name: "Toolbox discussion",
+    key: "toolbox-date-supervisor",
+    route: "/toolbox-discussion/date-supervisor/:supervisor/:date",
+    component: <ToolBoxSupervisorDate />,
+  },
+  {
     type: "collapse",
     name: "Incident Reports",
     key: "incident-reports",
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/Incident-reports",
     component: <AllIncidentReports />,
+  },
+  {
+    type: "collapse",
+    name: "ToolBox Discussion",
+    key: "toolbox-discussion",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/toolbox-discussion",
+    component: <AllToolBox />,
   },
   {
     type: "collapse",

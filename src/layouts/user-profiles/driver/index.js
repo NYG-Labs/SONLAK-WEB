@@ -85,16 +85,19 @@ function DriverProfile() {
   const IncidentReportURL = `/api/IncidentReports/GetIncidentReportbyDriver/${email}`;
   const ParcelDeliveryURL = `/api/ParcelDeliveries/GetParcelDeliverybyDriver/${email}`;
   const vehicleCheckURL = `/api/VehicleChecks/GetVehicleCheckbyDriver/${email}`;
+  const toolBoxURL = `/api/ToolBox/GetToolBoxbyDriver/${email}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
   const [allETAPerformance, setAllETAPerformance] = useState([]);
   const [allIncidentReports, setAllIncidentReports] = useState([]);
   const [allParcelDeliveries, setAllParcelDeliveries] = useState([]);
   const [allVehicleCheck, setAllVehicleCheck] = useState([]);
+  const [allToolBox, setAllToolBox] = useState([]);
   const [searchETA, setSearchETA] = useState("");
   const [searchIncident, setSearchIncident] = useState("");
   const [searchParcel, setSearchParcel] = useState("");
   const [searchVehicleCheck, setSearchVehicleCheck] = useState("");
+  const [searchToolBox, setSearchToolBox] = useState("");
 
   let tempDriverProfilePhoto = driver.profilePhoto;
 
@@ -144,7 +147,13 @@ function DriverProfile() {
     axios.get(vehicleCheckURL, config).then((response) => {
       const tempVehicleCheck = response.data;
       setAllVehicleCheck(tempVehicleCheck);
-      console.log("==>", allVehicleCheck);
+    });
+  };
+
+  const getAllToolBox = () => {
+    axios.get(toolBoxURL, config).then((response) => {
+      const tempToolBox = response.data;
+      setAllToolBox(tempToolBox);
     });
   };
 
@@ -164,12 +173,17 @@ function DriverProfile() {
     VehicleCheck.createDate.toLowerCase().includes(searchVehicleCheck.toLowerCase())
   );
 
+  const filteredToolBox = allToolBox.filter((toolBox) =>
+    toolBox.createDate.toLowerCase().includes(searchToolBox.toLowerCase())
+  );
+
   useEffect(() => {
     getTheDriver();
     getAllETAPerformance();
     getAllIncidentReports();
     getAllParcelDeliveries();
     getAllVehicleCheck();
+    getAllToolBox();
     // A function that sets the orientation state of the tabs.
     function handleTabsOrientation() {
       return window.innerWidth < breakpoints.values.sm
@@ -736,6 +750,84 @@ function DriverProfile() {
                                   />
                                 </a>
                               </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Grid>
+                </MDBox>
+              </Card>
+            </Grid>
+          </Grid>
+        </MDBox>
+
+        <MDBox pt={1} pb={1} mt={3}>
+          <Grid container spacing={6}>
+            <Grid item xs={12}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="secondary"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                >
+                  <MDTypography variant="h6" color="white">
+                    ToolBox Discussion
+                  </MDTypography>
+                </MDBox>
+                <MDBox pt={3}>
+                  {/* <Grid container spacing={3}> */}
+                  <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
+                    <MDBox pr={2} pb={1} pl={2}>
+                      <MDInput
+                        fullWidth
+                        InputLabelProps={{ shrink: true }}
+                        onChange={(e) => setSearchToolBox(e.target.value)}
+                        label="Search here"
+                        type="date"
+                        justify="space-between"
+                        spacing={24}
+                        raised
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
+                    <TableContainer>
+                      <Table aria-label="simple table">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell align="center">Date</TableCell>
+                            <TableCell align="center">Supervisor Email</TableCell>
+                            <TableCell align="center">Attendance</TableCell>
+                            <TableCell align="center" />
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {filteredToolBox.length === 0 ? (
+                            <TableRow key="s">
+                              <TableCell align="center">-</TableCell>
+                            </TableRow>
+                          ) : null}
+                          {filteredToolBox.map((row) => (
+                            <TableRow key="s">
+                              <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
+                              <TableCell align="center">{row.supervisorEmail}</TableCell>
+                              <TableCell align="center">{row.attendance}</TableCell>
+                              {/* <TableCell align="center">
+                                <a href={row.pdfUrl}>
+                                  <MDBadge
+                                    badgeContent="view"
+                                    color="success"
+                                    variant="gradient"
+                                    size="sm"
+                                  />
+                                </a>
+                              </TableCell> */}
                             </TableRow>
                           ))}
                         </TableBody>
