@@ -59,9 +59,11 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-// import Paper from "@material-ui/core/Paper";
 import Card from "@mui/material/Card";
 import MDInput from "components/MDInput";
+// import MDButton from "components/MDButton";
+import JSPDF from "jspdf";
+import "jspdf-autotable";
 
 // import MDButton from "components/MDButton";
 // import MDBadge from "components/MDBadge";
@@ -228,6 +230,42 @@ function DriverProfile() {
     setOpen(false);
   };
 
+  const etaPerformanceCols = [
+    { title: "Date", field: "createDate" },
+    { title: "Articles", field: "articles" },
+    { title: "Early", field: "early" },
+    { title: "OnTime	", field: "onTime" },
+    { title: "Not Delivered", field: "notDelivered" },
+    { title: "On Time %", field: "onTimePresentage" },
+  ];
+
+  const parcelDeliveriesCols = [
+    { title: "Date", field: "createDate" },
+    { title: "No of parcels", field: "noParcels" },
+  ];
+
+  const downloadPDF = () => {
+    const doc = new JSPDF();
+    doc.setFontSize(14);
+    doc.text(`Driver Report - ${driver.fname} ${driver.lname}`, 10, 11);
+    doc.setFontSize(11);
+    doc.text(`ETA performance`, 15, 19);
+    doc.autoTable({
+      startY: 20,
+      styles: { fontSize: 9 },
+      columns: etaPerformanceCols.map((col) => ({ ...col, dataKey: col.field })),
+      body: filteredDataETAPerformance,
+    });
+    doc.text(`Parcel Deliveries`, 15, doc.lastAutoTable.finalY + 6);
+    doc.autoTable({
+      // startY: doc.lastAutoTable.finalY + 10,
+      styles: { fontSize: 9 },
+      columns: parcelDeliveriesCols.map((col) => ({ ...col, dataKey: col.field })),
+      body: filteredParcelDeliveries,
+    });
+    doc.save(`driverreport${driver.fname}_${driver.lname}.pdf`);
+  };
+
   // console.log("id = ", id, "/n driver = ", driver.profilePhoto);
 
   // const reader = new FileReader();
@@ -271,7 +309,7 @@ function DriverProfile() {
             </MDBox>
           </Grid>
 
-          <Grid item xs={12} md={6} lg={4} sx={{ ml: "auto" }}>
+          <Grid item xs={12} md={6} lg={6} sx={{ ml: "auto" }}>
             <AppBar position="static">
               <Tabs orientation={tabsOrientation} value={tabValue} onChange={handleSetTabValue}>
                 <Tab
@@ -289,6 +327,17 @@ function DriverProfile() {
                   icon={
                     <Icon fontSize="small" sx={{ mt: -0.25 }}>
                       edit
+                    </Icon>
+                  }
+                />
+                <Tab
+                  // component={Link}
+                  // to={`/drivers/${email}/edit-driver`}
+                  onClick={downloadPDF}
+                  label="Generate Report"
+                  icon={
+                    <Icon fontSize="small" sx={{ mt: -0.25 }}>
+                      report
                     </Icon>
                   }
                 />
@@ -325,6 +374,7 @@ function DriverProfile() {
                 </DialogActions>
               </Dialog>
             </AppBar>
+
             {/* <HashLink to="#ETA">ETA</HashLink> */}
           </Grid>
         </Grid>

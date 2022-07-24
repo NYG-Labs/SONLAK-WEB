@@ -93,7 +93,7 @@ function ToolBoxSupervisorDate() {
       columns: columns.map((col) => ({ ...col, dataKey: col.field })),
       body: toolBoxSupervisorDate,
     });
-    doc.save("table.pdf");
+    doc.save(`toolboxDiscussion_${date}_${supervisor}.pdf`);
   };
 
   if (
