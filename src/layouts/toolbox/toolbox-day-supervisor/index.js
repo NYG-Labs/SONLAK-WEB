@@ -29,7 +29,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import Footer from "examples/Footer";
 // import DataTable from "examples/Tables/DataTable";
 import { useNavigate, useParams } from "react-router-dom";
-
+import MDButton from "components/MDButton";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -37,11 +37,15 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import JSPDF from "jspdf";
+import "jspdf-autotable";
 // import MDBadge from "components/MDBadge";
 
 import axios from "axios";
 
 function ToolBoxSupervisorDate() {
+  // const JSPDF = require("jspdf");
+  // require("jspdf-autotable");
   const { supervisor, date } = useParams();
   const [search, setSearch] = useState("");
   const [toolBoxSupervisorDate, setToolBoxSupervisorDate] = useState([]);
@@ -73,6 +77,25 @@ function ToolBoxSupervisorDate() {
 
   const navigate = useNavigate();
 
+  const columns = [
+    { title: "FullName", field: "fullName" },
+    { title: "Attendance", field: "attendance" },
+    { title: "Timestamp", field: "createDate" },
+  ];
+  const downloadPDF = () => {
+    console.log("toolBoxSupervisorDate = ", toolBoxSupervisorDate);
+    const doc = new JSPDF();
+    doc.setFontSize(11);
+    doc.text(`ToolBox Discussion\nDate: ${date}\nSupervisor: ${supervisor}`, 10, 10);
+    doc.autoTable({
+      startY: 25,
+      styles: { fontSize: 9 },
+      columns: columns.map((col) => ({ ...col, dataKey: col.field })),
+      body: toolBoxSupervisorDate,
+    });
+    doc.save("table.pdf");
+  };
+
   if (
     window.localStorage.getItem("token") === null ||
     (window.localStorage.getItem("roleKey") !== "SUPERADMIN" &&
@@ -97,9 +120,28 @@ function ToolBoxSupervisorDate() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  ToolBox Discussion - {date} - {supervisor}
-                </MDTypography>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={9.5}>
+                    <MDTypography variant="h5" color="white" ml={4} mt={0.5}>
+                      ToolBox Discussion - {date} - {supervisor}
+                    </MDTypography>
+                  </Grid>
+                  <Grid item xs={12} md={2}>
+                    <MDBox>
+                      <MDButton
+                        onClick={() => downloadPDF()}
+                        // component={Link}
+                        variant="gradient"
+                        color="primary"
+                        justifyContent="flex-end"
+                        // to="/drivers/inactive-drivers"
+                        fullWidth
+                      >
+                        Generate PDF
+                      </MDButton>
+                    </MDBox>
+                  </Grid>
+                </Grid>
               </MDBox>
               <MDBox pt={3}>
                 <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
