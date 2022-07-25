@@ -78,6 +78,7 @@ import AllComplaints from "layouts/complaints";
 import AddComplaints from "layouts/complaints/new-complaint";
 import AllToolBox from "layouts/toolbox";
 import ToolBoxSupervisorDate from "layouts/toolbox/toolbox-day-supervisor";
+import DriverDailySignIn from "layouts/daily-signin";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -140,6 +141,14 @@ const routes = [
     icon: <Icon fontSize="small">table_view</Icon>,
     route: "/toolbox-discussion",
     component: <AllToolBox />,
+  },
+  {
+    type: "collapse",
+    name: "Drivers Daily SignIn",
+    key: "drivers-daily-signin",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/drivers-daily-signin",
+    component: <DriverDailySignIn />,
   },
   {
     type: "collapse",
