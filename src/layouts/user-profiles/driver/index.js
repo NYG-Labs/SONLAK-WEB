@@ -61,7 +61,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Card from "@mui/material/Card";
 import MDInput from "components/MDInput";
-// import MDButton from "components/MDButton";
+import MDButton from "components/MDButton";
+import CircularProgress from "@mui/material/CircularProgress";
 import JSPDF from "jspdf";
 import "jspdf-autotable";
 
@@ -81,13 +82,16 @@ function DriverProfile() {
   const [dob, setDOB] = useState("");
   const [licenseExp, setLicenseExp] = useState("");
   const [visaExp, setVisaExp] = useState("");
+  const [etaStartdate, setETAStartDate] = useState("");
+  const [etaEnddate, setETAEndDate] = useState("");
   const baseURL = `/api/drivers/${email}`;
   const deleteDriverURL = `/api/Drivers/${email}`;
-  const ETAPerformanceURL = `/api/Etaperformances/GetEtaperformancebyDriver/${email}`;
-  const IncidentReportURL = `/api/IncidentReports/GetIncidentReportbyDriver/${email}`;
-  const ParcelDeliveryURL = `/api/ParcelDeliveries/GetParcelDeliverybyDriver/${email}`;
-  const vehicleCheckURL = `/api/VehicleChecks/GetVehicleCheckbyDriver/${email}`;
+  const ETAPerformanceURL = `/api/Etaperformances/GetEtaperformancelatest3/${email}`;
+  const IncidentReportURL = `/api/IncidentReports/GetIncidentReportlatest3/${email}`;
+  const ParcelDeliveryURL = `/api/ParcelDeliveries/GetParcelDeliverylatest3/${email}`;
+  const vehicleCheckURL = `/api/VehicleChecks/GetVehicleCheclatest3/${email}`;
   const toolBoxURL = `/api/ToolBox/GetToolBoxbyDriver/${email}`;
+  const filterETAURL = `/api/ParcelDeliveries/GetParcelDeliverybyDriverDate/${email}/${etaStartdate}/${etaEnddate}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
   const [allETAPerformance, setAllETAPerformance] = useState([]);
@@ -97,9 +101,11 @@ function DriverProfile() {
   const [allToolBox, setAllToolBox] = useState([]);
   const [searchETA, setSearchETA] = useState("");
   const [searchIncident, setSearchIncident] = useState("");
-  const [searchParcel, setSearchParcel] = useState("");
+  // const [searchParcel, setSearchParcel] = useState("");
   const [searchVehicleCheck, setSearchVehicleCheck] = useState("");
   const [searchToolBox, setSearchToolBox] = useState("");
+  const [searchParcelError, setSearchParcelError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   let tempDriverProfilePhoto = driver.profilePhoto;
 
@@ -159,6 +165,33 @@ function DriverProfile() {
     });
   };
 
+  async function filterETAPerformance() {
+    setLoading(true);
+    const date1 = new Date(etaStartdate);
+    const date2 = new Date(etaEnddate);
+
+    // To calculate the time difference of two dates
+    const timeDifference = date2.getTime() - date1.getTime();
+
+    if (timeDifference < 0) {
+      setSearchParcelError("Invalid date parameteres! Please try again");
+    } else {
+      setSearchParcelError("");
+    }
+
+    axios
+      .get(filterETAURL, config)
+      .then((response) => {
+        setAllParcelDeliveries(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setAllParcelDeliveries([]);
+        console.log(error);
+        setLoading(false);
+      });
+  }
+
   const filteredDataETAPerformance = allETAPerformance.filter((etaPerformance) =>
     etaPerformance.createDate.toLowerCase().includes(searchETA.toLowerCase())
   );
@@ -167,9 +200,10 @@ function DriverProfile() {
     incidentReport.createDate.toLowerCase().includes(searchIncident.toLowerCase())
   );
 
-  const filteredParcelDeliveries = allParcelDeliveries.filter((parcelDeliveries) =>
-    parcelDeliveries.createDate.toLowerCase().includes(searchParcel.toLowerCase())
-  );
+  const filteredParcelDeliveries = allParcelDeliveries;
+  // .filter((parcelDeliveries) =>
+  //   parcelDeliveries.createDate.toLowerCase().includes(searchParcel.toLowerCase())
+  // );
 
   const filteredVehicleCheck = allVehicleCheck.filter((VehicleCheck) =>
     VehicleCheck.createDate.toLowerCase().includes(searchVehicleCheck.toLowerCase())
@@ -692,18 +726,50 @@ function DriverProfile() {
                 </MDBox>
                 <MDBox pt={3}>
                   {/* <Grid container spacing={3}> */}
-                  <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
+                  <Grid item xs={12} md={12} fullwidth justifyContent="flex-end">
                     <MDBox pr={2} pb={1} pl={2}>
-                      <MDInput
-                        fullWidth
-                        InputLabelProps={{ shrink: true }}
-                        onChange={(e) => setSearchParcel(e.target.value)}
-                        label="Search here"
-                        type="date"
-                        justify="space-between"
-                        spacing={24}
-                        raised
-                      />
+                      <Grid container spacing={3}>
+                        <br />
+                        <Grid item xs={12} md={3}>
+                          <MDBox mb={3}>
+                            <MDInput
+                              InputLabelProps={{ shrink: true }}
+                              onChange={(e) => setETAStartDate(e.target.value)}
+                              // onChange={(e) => setFname(e.target.value)}
+                              helperText={searchParcelError}
+                              type="date"
+                              label="Start date"
+                              // variant="standard"
+                              fullWidth
+                            />
+                          </MDBox>
+                        </Grid>
+                        <Grid item xs={12} md={3}>
+                          <MDBox mb={2}>
+                            <MDInput
+                              InputLabelProps={{ shrink: true }}
+                              onChange={(e) => setETAEndDate(e.target.value)}
+                              type="date"
+                              label="End date"
+                              // variant="standard"
+                              fullWidth
+                            />
+                          </MDBox>
+                        </Grid>
+                        <Grid item xs={12} mt={0.3} md={2}>
+                          {/* <MDBox mt={4} mb={1}> */}
+                          <MDButton
+                            onClick={() => filterETAPerformance()}
+                            variant="gradient"
+                            color="info"
+                            fullWidth
+                          >
+                            Filter &nbsp;&nbsp;
+                            {loading ? <CircularProgress size={20} color="white" /> : ""}
+                          </MDButton>
+                          {/* </MDBox> */}
+                        </Grid>
+                      </Grid>
                     </MDBox>
                   </Grid>
                   <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
