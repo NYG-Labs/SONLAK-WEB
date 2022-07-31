@@ -42,14 +42,16 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import axios from "axios";
+import CircularProgress from "@mui/material/CircularProgress";
 // import allETAPerformanceData from "./allETAPerformanceData";
 
 function AllETAPerformance() {
   const navigate = useNavigate();
   // const { rows } = allETAPerformanceData();
-  const [search, setSearch] = useState("");
+  // const [search, setSearch] = useState("");
   const [allETAPerformance, setAllETAPerformance] = useState([]);
   const baseURL = `/api/Etaperformances/GetEtaperformancebyDateGroup`;
+  const loading = false;
 
   const config = {
     headers: {
@@ -69,9 +71,10 @@ function AllETAPerformance() {
     getAllETAPerformance();
   }, []);
 
-  const filteredData = allETAPerformance.filter((etaPerformance) =>
-    etaPerformance.createDate.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredData = allETAPerformance;
+  // .filter((etaPerformance) =>
+  //   etaPerformance.createDate.toLowerCase().includes(search.toLowerCase())
+  // );
 
   console.log(allETAPerformance);
 
@@ -125,7 +128,7 @@ function AllETAPerformance() {
               <MDBox pt={3}>
                 {/* <Grid container spacing={3}> */}
                 <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
-                  <MDBox pr={2} pb={1} pl={2}>
+                  {/* <MDBox pr={2} pb={1} pl={2}>
                     <MDInput
                       fullWidth
                       onChange={(e) => setSearch(e.target.value)}
@@ -136,6 +139,52 @@ function AllETAPerformance() {
                       spacing={24}
                       raised
                     />
+                  </MDBox> */}
+                </Grid>
+                <Grid item xs={12} md={12} fullwidth justifyContent="flex-end">
+                  <MDBox pr={2} pb={1} pl={2}>
+                    <Grid container spacing={3}>
+                      <br />
+                      <Grid item xs={12} md={3}>
+                        <MDBox mb={3}>
+                          <MDInput
+                            InputLabelProps={{ shrink: true }}
+                            // onChange={(e) => setIncidentStartdate(e.target.value)}
+                            // onChange={(e) => setFname(e.target.value)}
+                            // helperText={searchIncidentError}
+                            type="date"
+                            label="Start date"
+                            // variant="standard"
+                            fullWidth
+                          />
+                        </MDBox>
+                      </Grid>
+                      <Grid item xs={12} md={3}>
+                        <MDBox mb={2}>
+                          <MDInput
+                            InputLabelProps={{ shrink: true }}
+                            // onChange={(e) => setIncidentEnddate(e.target.value)}
+                            type="date"
+                            label="End date"
+                            // variant="standard"
+                            fullWidth
+                          />
+                        </MDBox>
+                      </Grid>
+                      <Grid item xs={12} mt={0.3} md={2}>
+                        {/* <MDBox mt={4} mb={1}> */}
+                        <MDButton
+                          // onClick={() => filterIncidentReports()}
+                          variant="gradient"
+                          color="info"
+                          fullWidth
+                        >
+                          Filter &nbsp;&nbsp;
+                          {loading ? <CircularProgress size={20} color="white" /> : ""}
+                        </MDButton>
+                        {/* </MDBox> */}
+                      </Grid>
+                    </Grid>
                   </MDBox>
                 </Grid>
                 <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>

@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 import { useState, useEffect } from "react";
 
 // react-github-btn
-import GitHubButton from "react-github-btn";
+// import GitHubButton from "react-github-btn";
 
 // @mui material components
 import Divider from "@mui/material/Divider";
@@ -26,13 +26,14 @@ import Link from "@mui/material/Link";
 import Icon from "@mui/material/Icon";
 
 // @mui icons
-import TwitterIcon from "@mui/icons-material/Twitter";
-import FacebookIcon from "@mui/icons-material/Facebook";
+// import TwitterIcon from "@mui/icons-material/Twitter";
+// import FacebookIcon from "@mui/icons-material/Facebook";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
+import { useNavigate } from "react-router-dom";
 
 // Custom styles for the Configurator
 import ConfiguratorRoot from "examples/Configurator/ConfiguratorRoot";
@@ -49,6 +50,7 @@ import {
 } from "context";
 
 function Configurator() {
+  const navigate = useNavigate();
   const [controller, dispatch] = useMaterialUIController();
   const {
     openConfigurator,
@@ -126,6 +128,12 @@ function Configurator() {
       color: darkMode ? background.sidenav : white.main,
     },
   });
+
+  function handleLogout() {
+    localStorage.removeItem("roleKey");
+    localStorage.removeItem("token");
+    navigate("/");
+  }
 
   return (
     <ConfiguratorRoot variant="permanent" ownerState={{ openConfigurator }}>
@@ -288,17 +296,18 @@ function Configurator() {
         <MDBox mt={3} mb={2}>
           <MDButton
             component={Link}
-            href="https://www.creative-tim.com/learning-lab/react/quick-start/material-dashboard/"
-            target="_blank"
-            rel="noreferrer"
+            // href="https://www.creative-tim.com/learning-lab/react/quick-start/material-dashboard/"
+            // target="_blank"
+            // rel="noreferrer"
+            onClick={() => handleLogout()}
             color={darkMode ? "light" : "dark"}
             variant="outlined"
             fullWidth
           >
-            view documentation
+            Log Out
           </MDButton>
         </MDBox>
-        <MDBox display="flex" justifyContent="center">
+        {/* <MDBox display="flex" justifyContent="center">
           <GitHubButton
             href="https://github.com/creativetimofficial/material-dashboard-react"
             data-icon="octicon-star"
@@ -308,13 +317,13 @@ function Configurator() {
           >
             Star
           </GitHubButton>
-        </MDBox>
+        </MDBox> */}
         <MDBox mt={2} textAlign="center">
-          <MDBox mb={0.5}>
+          {/* <MDBox mb={0.5}>
             <MDTypography variant="h6">Thank you for sharing!</MDTypography>
-          </MDBox>
+          </MDBox> */}
 
-          <MDBox display="flex" justifyContent="center">
+          {/* <MDBox display="flex" justifyContent="center">
             <MDBox mr={1.5}>
               <MDButton
                 component={Link}
@@ -337,7 +346,7 @@ function Configurator() {
               <FacebookIcon />
               &nbsp; Share
             </MDButton>
-          </MDBox>
+          </MDBox> */}
         </MDBox>
       </MDBox>
     </ConfiguratorRoot>

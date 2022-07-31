@@ -68,8 +68,14 @@ function AllInactiveSupervisors() {
 
   console.log("ALl InactiveSupervisors = ", allInactiveSupervisors, search);
 
-  const filteredData = allInactiveSupervisors.filter((driver) =>
-    driver.fname.toLowerCase().includes(search.toLowerCase())
+  const filteredData = allInactiveSupervisors.filter(
+    (Supervisor) =>
+      Supervisor.fname.toLowerCase().includes(search.toLowerCase()) ||
+      Supervisor.mname.toLowerCase().includes(search.toLowerCase()) ||
+      Supervisor.lname.toLowerCase().includes(search.toLowerCase()) ||
+      Supervisor.email.toLowerCase().includes(search.toLowerCase()) ||
+      Supervisor.supervisorType.toLowerCase().includes(search.toLowerCase()) ||
+      Supervisor.visaNo.toLowerCase().includes(search.toLowerCase())
   );
 
   const navigate = useNavigate();
@@ -131,9 +137,9 @@ function AllInactiveSupervisors() {
                           <TableCell align="left">Middle name</TableCell>
                           <TableCell align="left">Lase Name</TableCell>
                           <TableCell align="left">Email</TableCell>
-                          <TableCell align="left">Vehicle type</TableCell>
-                          <TableCell align="left">Vehicle No</TableCell>
-                          <TableCell align="left">Driver type</TableCell>
+                          <TableCell align="left">Supervisor type</TableCell>
+                          <TableCell align="left">Vista No</TableCell>
+                          <TableCell align="left">Work status</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -145,9 +151,9 @@ function AllInactiveSupervisors() {
                             <TableCell align="left">{row.mname}</TableCell>
                             <TableCell align="left">{row.lname}</TableCell>
                             <TableCell align="left">{row.email}</TableCell>
-                            <TableCell align="left">{row.vehicalType}</TableCell>
-                            <TableCell align="left">{row.vehicleNo}</TableCell>
-                            <TableCell align="left">{row.driverType}</TableCell>
+                            <TableCell align="left">{row.supervisorType}</TableCell>
+                            <TableCell align="left">{row.visaNo}</TableCell>
+                            <TableCell align="left">{row.workStatus}</TableCell>
                             <TableCell align="center">
                               <MDBox ml={-1}>
                                 <Link to={{ pathname: `/supervisors/${row.email}` }}>

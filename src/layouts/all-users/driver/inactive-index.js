@@ -68,8 +68,14 @@ function AllInactiveDrivers() {
 
   console.log("ALl InactiveDrivers = ", allInactiveDrivers, search);
 
-  const filteredData = allInactiveDrivers.filter((driver) =>
-    driver.fname.toLowerCase().includes(search.toLowerCase())
+  const filteredData = allInactiveDrivers.filter(
+    (driver) =>
+      driver.fname.toLowerCase().includes(search.toLowerCase()) ||
+      driver.mname.toLowerCase().includes(search.toLowerCase()) ||
+      driver.lname.toLowerCase().includes(search.toLowerCase()) ||
+      driver.email.toLowerCase().includes(search.toLowerCase()) ||
+      driver.vehicalType.toLowerCase().includes(search.toLowerCase()) ||
+      driver.vehicleNo.toLowerCase().includes(search.toLowerCase())
   );
 
   const navigate = useNavigate();

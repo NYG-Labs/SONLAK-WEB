@@ -132,6 +132,7 @@ function AllToolBox() {
                           <TableCell align="center">Supervisor Email</TableCell>
                           <TableCell align="center">Supervisor FirstName</TableCell>
                           <TableCell align="center">Supervisor LastName</TableCell>
+                          <TableCell align="center">Toolbox title</TableCell>
                           <TableCell align="center">Present count</TableCell>
                           <TableCell align="center">All count</TableCell>
                           {/* <TableCell align="center">No of Parcels</TableCell> */}
@@ -149,8 +150,9 @@ function AllToolBox() {
                             <TableCell align="left">{row.lname}</TableCell> */}
                             <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
                             <TableCell align="center">{row.supervisorEmail}</TableCell>
-                            <TableCell align="center" />
-                            <TableCell align="center" />
+                            <TableCell align="center">{row.supervisorEmail}</TableCell>
+                            <TableCell align="center">{row.supervisorEmail}</TableCell>
+                            <TableCell align="center">{row.title}</TableCell>
                             <TableCell align="center">{row.presentCount}</TableCell>
                             <TableCell align="center">{row.allCount}</TableCell>
                             <TableCell align="left">

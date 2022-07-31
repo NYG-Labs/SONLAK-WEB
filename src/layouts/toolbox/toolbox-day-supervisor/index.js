@@ -48,6 +48,8 @@ function ToolBoxSupervisorDate() {
   // require("jspdf-autotable");
   const { supervisor, date } = useParams();
   const [search, setSearch] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [toolBoxSupervisorDate, setToolBoxSupervisorDate] = useState([]);
   const baseURL = `/api/ToolBox/GetToolBoxBySupervisorDate/${supervisor}/${date}`;
 
@@ -62,6 +64,9 @@ function ToolBoxSupervisorDate() {
     axios.get(baseURL, config).then((response) => {
       const tempToolBox = response.data;
       setToolBoxSupervisorDate(tempToolBox);
+      setTitle(tempToolBox[0].title);
+      setDescription(tempToolBox[0].description);
+      // cons
     });
   };
 
@@ -86,9 +91,13 @@ function ToolBoxSupervisorDate() {
     console.log("toolBoxSupervisorDate = ", toolBoxSupervisorDate);
     const doc = new JSPDF();
     doc.setFontSize(11);
-    doc.text(`ToolBox Discussion\nDate: ${date}\nSupervisor: ${supervisor}`, 10, 10);
+    doc.text(
+      `ToolBox Discussion\nDate: ${date}\nSupervisor: ${supervisor}\nTitle: ${title}\nDesctiption: ${description}`,
+      10,
+      10
+    );
     doc.autoTable({
-      startY: 25,
+      startY: 35,
       styles: { fontSize: 9 },
       columns: columns.map((col) => ({ ...col, dataKey: col.field })),
       body: toolBoxSupervisorDate,
@@ -145,6 +154,10 @@ function ToolBoxSupervisorDate() {
               </MDBox>
               <MDBox pt={3}>
                 <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
+                  <Grid item xs={12} md={12} ml={3} mb={1} mr={2} fontSize={16}>
+                    <b>Title:</b> {title} <br />
+                    <b>Description:</b> {description}
+                  </Grid>
                   <MDBox pr={2} pb={1} pl={2}>
                     <MDInput
                       fullWidth
@@ -163,6 +176,7 @@ function ToolBoxSupervisorDate() {
                   showTotalEntries={false}
                   noEndBorder
                 /> */}
+
                 <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
                   <TableContainer component={Paper}>
                     <Table aria-label="simple table">
@@ -174,7 +188,7 @@ function ToolBoxSupervisorDate() {
                           {/* <TableCell align="center">Date</TableCell> */}
                           {/* <TableCell align="center">Supervisor Email</TableCell> */}
                           <TableCell align="center">Full Name</TableCell>
-                          <TableCell align="center">Attendance</TableCell>
+                          <TableCell align="center">Title</TableCell>
                           <TableCell align="center">Date</TableCell>
                         </TableRow>
                       </TableHead>

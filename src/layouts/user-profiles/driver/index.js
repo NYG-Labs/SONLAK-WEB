@@ -84,14 +84,26 @@ function DriverProfile() {
   const [visaExp, setVisaExp] = useState("");
   const [etaStartdate, setETAStartDate] = useState("");
   const [etaEnddate, setETAEndDate] = useState("");
+  const [parcelStartdate, setParcelStartdate] = useState("");
+  const [parcelEnddate, setParcelEnddate] = useState("");
+  const [incidentStartdate, setIncidentStartdate] = useState("");
+  const [incidentEnddate, setIncidentEnddate] = useState("");
+  const [toolStartDate, setToolStartDate] = useState("");
+  const [toolEndDate, setToolEndDate] = useState("");
+  const [vehicleStartDate, setVehicleStartDate] = useState("");
+  const [vehicleEndDate, setVehicleEndDate] = useState("");
   const baseURL = `/api/drivers/${email}`;
   const deleteDriverURL = `/api/Drivers/${email}`;
-  const ETAPerformanceURL = `/api/Etaperformances/GetEtaperformancelatest3/${email}`;
-  const IncidentReportURL = `/api/IncidentReports/GetIncidentReportlatest3/${email}`;
-  const ParcelDeliveryURL = `/api/ParcelDeliveries/GetParcelDeliverylatest3/${email}`;
-  const vehicleCheckURL = `/api/VehicleChecks/GetVehicleCheclatest3/${email}`;
+  const ETAPerformanceURL = `/api/Etaperformances/GetEtaperformancelatest7/${email}`;
+  const IncidentReportURL = `/api/IncidentReports/GetIncidentReportlatest7/${email}`;
+  const ParcelDeliveryURL = `/api/ParcelDeliveries/GetParcelDeliverylatest7/${email}`;
+  const vehicleCheckURL = `/api/VehicleChecks/GetVehicleChecklatest7/${email}`;
   const toolBoxURL = `/api/ToolBox/GetToolBoxbyDriver/${email}`;
-  const filterETAURL = `/api/ParcelDeliveries/GetParcelDeliverybyDriverDate/${email}/${etaStartdate}/${etaEnddate}`;
+  const filterETAURL = `/api/Etaperformances/GetEtaperformancebyDriverFilterbyDate/${email}/${etaStartdate}/${etaEnddate}`;
+  const filterParcelDeliveryURL = `/api/ParcelDeliveries/GetParcelDeliverybyDriverDate/${email}/${parcelStartdate}/${parcelEnddate}`;
+  const filterIncidentReportURL = `/api/IncidentReports/GetIncidentReportbyDriverFilterbyDate/${email}/${incidentStartdate}/${incidentEnddate}`;
+  const filterToolBoxURL = `/api/ToolBox/GetToolBoxbyDriverFilterbyDate/${email}/${toolStartDate}/${toolEndDate}`;
+  const filterVehicleCheckURL = `/api/VehicleChecks/GetVehicleCheckbyDriver/${email}/${vehicleStartDate}/${vehicleEndDate}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
   const [allETAPerformance, setAllETAPerformance] = useState([]);
@@ -99,13 +111,16 @@ function DriverProfile() {
   const [allParcelDeliveries, setAllParcelDeliveries] = useState([]);
   const [allVehicleCheck, setAllVehicleCheck] = useState([]);
   const [allToolBox, setAllToolBox] = useState([]);
-  const [searchETA, setSearchETA] = useState("");
-  const [searchIncident, setSearchIncident] = useState("");
-  // const [searchParcel, setSearchParcel] = useState("");
-  const [searchVehicleCheck, setSearchVehicleCheck] = useState("");
-  const [searchToolBox, setSearchToolBox] = useState("");
+  const [searchETAError, setSearchETAError] = useState("");
   const [searchParcelError, setSearchParcelError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [searchIncidentError, setSearchIncidentError] = useState("");
+  const [searchToolBoxError, setSearchToolBoxError] = useState("");
+  const [searchVehicleError, setSearchVehicleError] = useState("");
+  const [etaLoading, setEtaLoading] = useState(false);
+  const [parcelLoading, setParcelLoading] = useState(false);
+  const [vehicleLoading, setVehicleLoading] = useState(false);
+  const [toolboxLoading, setToolBoxLoading] = useState(false);
+  const [incidentLoading, setIncidentLoading] = useState(false);
 
   let tempDriverProfilePhoto = driver.profilePhoto;
 
@@ -166,11 +181,37 @@ function DriverProfile() {
   };
 
   async function filterETAPerformance() {
-    setLoading(true);
+    setEtaLoading(true);
     const date1 = new Date(etaStartdate);
     const date2 = new Date(etaEnddate);
 
-    // To calculate the time difference of two dates
+    const timeDifference = date2.getTime() - date1.getTime();
+
+    if (timeDifference < 0) {
+      setSearchETAError("Invalid date parameteres! Please try again");
+    } else {
+      setSearchETAError("");
+    }
+
+    axios
+      .get(filterETAURL, config)
+      .then((response) => {
+        console.log(response.data);
+        setAllETAPerformance(response.data);
+        setEtaLoading(false);
+      })
+      .catch((error) => {
+        setAllETAPerformance([]);
+        console.log(error);
+        setEtaLoading(false);
+      });
+  }
+
+  async function filterParcelDeilveries() {
+    setParcelLoading(true);
+    const date1 = new Date(parcelStartdate);
+    const date2 = new Date(parcelEnddate);
+
     const timeDifference = date2.getTime() - date1.getTime();
 
     if (timeDifference < 0) {
@@ -180,38 +221,120 @@ function DriverProfile() {
     }
 
     axios
-      .get(filterETAURL, config)
+      .get(filterParcelDeliveryURL, config)
       .then((response) => {
         setAllParcelDeliveries(response.data);
-        setLoading(false);
+        setParcelLoading(false);
       })
       .catch((error) => {
         setAllParcelDeliveries([]);
         console.log(error);
-        setLoading(false);
+        setParcelLoading(false);
       });
   }
 
-  const filteredDataETAPerformance = allETAPerformance.filter((etaPerformance) =>
-    etaPerformance.createDate.toLowerCase().includes(searchETA.toLowerCase())
-  );
+  async function filterToolBox() {
+    setToolBoxLoading(true);
+    const date1 = new Date(toolStartDate);
+    const date2 = new Date(toolEndDate);
 
-  const filteredIncidentReports = allIncidentReports.filter((incidentReport) =>
-    incidentReport.createDate.toLowerCase().includes(searchIncident.toLowerCase())
-  );
+    const timeDifference = date2.getTime() - date1.getTime();
+
+    if (timeDifference < 0) {
+      setSearchToolBoxError("Invalid date parameteres! Please try again");
+    } else {
+      setSearchToolBoxError("");
+    }
+
+    axios
+      .get(filterToolBoxURL, config)
+      .then((response) => {
+        setAllToolBox(response.data);
+        setToolBoxLoading(false);
+      })
+      .catch((error) => {
+        setAllToolBox([]);
+        console.log(error);
+        setToolBoxLoading(false);
+      });
+  }
+
+  async function filterIncidentReports() {
+    setIncidentLoading(true);
+    const date1 = new Date(incidentStartdate);
+    const date2 = new Date(incidentEnddate);
+
+    const timeDifference = date2.getTime() - date1.getTime();
+
+    if (timeDifference < 0) {
+      setSearchIncidentError("Invalid date parameteres! Please try again");
+    } else {
+      setSearchIncidentError("");
+    }
+
+    axios
+      .get(filterIncidentReportURL, config)
+      .then((response) => {
+        setAllIncidentReports(response.data);
+        setIncidentLoading(false);
+      })
+      .catch((error) => {
+        setAllIncidentReports([]);
+        console.log(error);
+        setIncidentLoading(false);
+      });
+  }
+
+  async function filterVehicleCheck() {
+    setVehicleLoading(true);
+    const date1 = new Date(vehicleStartDate);
+    const date2 = new Date(vehicleEndDate);
+
+    const timeDifference = date2.getTime() - date1.getTime();
+
+    if (timeDifference < 0) {
+      setSearchVehicleError("Invalid date parameteres! Please try again");
+    } else {
+      setSearchVehicleError("");
+    }
+
+    axios
+      .get(filterVehicleCheckURL, config)
+      .then((response) => {
+        setAllVehicleCheck(response.data);
+        setVehicleLoading(false);
+      })
+      .catch((error) => {
+        setAllVehicleCheck([]);
+        console.log(error);
+        setVehicleLoading(false);
+      });
+  }
+
+  const filteredDataETAPerformance = allETAPerformance;
+  // .filter((etaPerformance) =>
+  //   etaPerformance.createDate.toLowerCase().includes(searchETA.toLowerCase())
+  // );
+
+  const filteredIncidentReports = allIncidentReports;
+  // .filter((incidentReport) =>
+  //   incidentReport.createDate.toLowerCase().includes(searchIncident.toLowerCase())
+  // );
 
   const filteredParcelDeliveries = allParcelDeliveries;
   // .filter((parcelDeliveries) =>
   //   parcelDeliveries.createDate.toLowerCase().includes(searchParcel.toLowerCase())
   // );
 
-  const filteredVehicleCheck = allVehicleCheck.filter((VehicleCheck) =>
-    VehicleCheck.createDate.toLowerCase().includes(searchVehicleCheck.toLowerCase())
-  );
+  const filteredVehicleCheck = allVehicleCheck;
+  // .filter((VehicleCheck) =>
+  //   VehicleCheck.createDate.toLowerCase().includes(searchVehicleCheck.toLowerCase())
+  // );
 
-  const filteredToolBox = allToolBox.filter((toolBox) =>
-    toolBox.createDate.toLowerCase().includes(searchToolBox.toLowerCase())
-  );
+  const filteredToolBox = allToolBox;
+  // .filter((toolBox) =>
+  //   toolBox.createDate.toLowerCase().includes(searchToolBox.toLowerCase())
+  // );
 
   useEffect(() => {
     getTheDriver();
@@ -278,10 +401,16 @@ function DriverProfile() {
     { title: "No of parcels", field: "noParcels" },
   ];
 
+  const toolBoxDiscussionCols = [
+    { title: "Date", field: "createDate" },
+    { title: "Supervisor Email", field: "supervisorEmail" },
+    { title: "Attendance", field: "attendance" },
+  ];
+
   const downloadPDF = () => {
     const doc = new JSPDF();
     doc.setFontSize(14);
-    doc.text(`Driver Report - ${driver.fname} ${driver.lname}`, 10, 11);
+    doc.text(`Driver Report - ${driver.fname} ${driver.lname} - ${driver.email}`, 10, 11);
     doc.setFontSize(11);
     doc.text(`ETA performance`, 15, 19);
     doc.autoTable({
@@ -292,22 +421,19 @@ function DriverProfile() {
     });
     doc.text(`Parcel Deliveries`, 15, doc.lastAutoTable.finalY + 6);
     doc.autoTable({
-      // startY: doc.lastAutoTable.finalY + 10,
       styles: { fontSize: 9 },
       columns: parcelDeliveriesCols.map((col) => ({ ...col, dataKey: col.field })),
       body: filteredParcelDeliveries,
     });
+    doc.text(`ToolBox Discussion`, 15, doc.lastAutoTable.finalY + 6);
+    doc.autoTable({
+      styles: { fontSize: 9 },
+      columns: toolBoxDiscussionCols.map((col) => ({ ...col, dataKey: col.field })),
+      body: filteredToolBox,
+    });
     doc.save(`driverreport${driver.fname}_${driver.lname}.pdf`);
   };
 
-  // console.log("id = ", id, "/n driver = ", driver.profilePhoto);
-
-  // const reader = new FileReader();
-  // reader.readAsDataURL(driver.profilePhoto);
-  // reader.onloadend = function () {
-  //   const base64data = reader.result;
-  //   console.log(base64data);
-  // };
   if (
     window.localStorage.getItem("token") === null ||
     (window.localStorage.getItem("roleKey") !== "SUPERADMIN" &&
@@ -562,7 +688,7 @@ function DriverProfile() {
                 </MDBox>
                 <MDBox pt={3}>
                   {/* <Grid container spacing={3}> */}
-                  <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
+                  {/* <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
                     <MDBox pr={2} pb={1} pl={2}>
                       <MDInput
                         fullWidth
@@ -574,6 +700,52 @@ function DriverProfile() {
                         spacing={24}
                         raised
                       />
+                    </MDBox>
+                  </Grid> */}
+                  <Grid item xs={12} md={12} fullwidth justifyContent="flex-end">
+                    <MDBox pr={2} pb={1} pl={2}>
+                      <Grid container spacing={3}>
+                        <br />
+                        <Grid item xs={12} md={3}>
+                          <MDBox mb={3}>
+                            <MDInput
+                              InputLabelProps={{ shrink: true }}
+                              onChange={(e) => setETAStartDate(e.target.value)}
+                              // onChange={(e) => setFname(e.target.value)}
+                              helperText={searchETAError}
+                              type="date"
+                              label="Start date"
+                              // variant="standard"
+                              fullWidth
+                            />
+                          </MDBox>
+                        </Grid>
+                        <Grid item xs={12} md={3}>
+                          <MDBox mb={2}>
+                            <MDInput
+                              InputLabelProps={{ shrink: true }}
+                              onChange={(e) => setETAEndDate(e.target.value)}
+                              type="date"
+                              label="End date"
+                              // variant="standard"
+                              fullWidth
+                            />
+                          </MDBox>
+                        </Grid>
+                        <Grid item xs={12} mt={0.3} md={2}>
+                          {/* <MDBox mt={4} mb={1}> */}
+                          <MDButton
+                            onClick={() => filterETAPerformance()}
+                            variant="gradient"
+                            color="info"
+                            fullWidth
+                          >
+                            Filter &nbsp;&nbsp;
+                            {etaLoading ? <CircularProgress size={20} color="white" /> : ""}
+                          </MDButton>
+                          {/* </MDBox> */}
+                        </Grid>
+                      </Grid>
                     </MDBox>
                   </Grid>
                   <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
@@ -644,7 +816,7 @@ function DriverProfile() {
                   </MDTypography>
                 </MDBox>
                 <MDBox pt={3}>
-                  <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
+                  {/* <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
                     <MDBox pr={2} pb={1} pl={2}>
                       <MDInput
                         fullWidth
@@ -656,6 +828,52 @@ function DriverProfile() {
                         spacing={24}
                         raised
                       />
+                    </MDBox>
+                  </Grid> */}
+                  <Grid item xs={12} md={12} fullwidth justifyContent="flex-end">
+                    <MDBox pr={2} pb={1} pl={2}>
+                      <Grid container spacing={3}>
+                        <br />
+                        <Grid item xs={12} md={3}>
+                          <MDBox mb={3}>
+                            <MDInput
+                              InputLabelProps={{ shrink: true }}
+                              onChange={(e) => setIncidentStartdate(e.target.value)}
+                              // onChange={(e) => setFname(e.target.value)}
+                              helperText={searchIncidentError}
+                              type="date"
+                              label="Start date"
+                              // variant="standard"
+                              fullWidth
+                            />
+                          </MDBox>
+                        </Grid>
+                        <Grid item xs={12} md={3}>
+                          <MDBox mb={2}>
+                            <MDInput
+                              InputLabelProps={{ shrink: true }}
+                              onChange={(e) => setIncidentEnddate(e.target.value)}
+                              type="date"
+                              label="End date"
+                              // variant="standard"
+                              fullWidth
+                            />
+                          </MDBox>
+                        </Grid>
+                        <Grid item xs={12} mt={0.3} md={2}>
+                          {/* <MDBox mt={4} mb={1}> */}
+                          <MDButton
+                            onClick={() => filterIncidentReports()}
+                            variant="gradient"
+                            color="info"
+                            fullWidth
+                          >
+                            Filter &nbsp;&nbsp;
+                            {incidentLoading ? <CircularProgress size={20} color="white" /> : ""}
+                          </MDButton>
+                          {/* </MDBox> */}
+                        </Grid>
+                      </Grid>
                     </MDBox>
                   </Grid>
                   <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
@@ -734,7 +952,7 @@ function DriverProfile() {
                           <MDBox mb={3}>
                             <MDInput
                               InputLabelProps={{ shrink: true }}
-                              onChange={(e) => setETAStartDate(e.target.value)}
+                              onChange={(e) => setParcelStartdate(e.target.value)}
                               // onChange={(e) => setFname(e.target.value)}
                               helperText={searchParcelError}
                               type="date"
@@ -748,7 +966,7 @@ function DriverProfile() {
                           <MDBox mb={2}>
                             <MDInput
                               InputLabelProps={{ shrink: true }}
-                              onChange={(e) => setETAEndDate(e.target.value)}
+                              onChange={(e) => setParcelEnddate(e.target.value)}
                               type="date"
                               label="End date"
                               // variant="standard"
@@ -759,13 +977,13 @@ function DriverProfile() {
                         <Grid item xs={12} mt={0.3} md={2}>
                           {/* <MDBox mt={4} mb={1}> */}
                           <MDButton
-                            onClick={() => filterETAPerformance()}
+                            onClick={() => filterParcelDeilveries()}
                             variant="gradient"
                             color="info"
                             fullWidth
                           >
                             Filter &nbsp;&nbsp;
-                            {loading ? <CircularProgress size={20} color="white" /> : ""}
+                            {parcelLoading ? <CircularProgress size={20} color="white" /> : ""}
                           </MDButton>
                           {/* </MDBox> */}
                         </Grid>
@@ -823,19 +1041,50 @@ function DriverProfile() {
                   </MDTypography>
                 </MDBox>
                 <MDBox pt={3}>
-                  {/* <Grid container spacing={3}> */}
-                  <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
+                  <Grid item xs={12} md={12} fullwidth justifyContent="flex-end">
                     <MDBox pr={2} pb={1} pl={2}>
-                      <MDInput
-                        fullWidth
-                        InputLabelProps={{ shrink: true }}
-                        onChange={(e) => setSearchVehicleCheck(e.target.value)}
-                        label="Search here"
-                        type="date"
-                        justify="space-between"
-                        spacing={24}
-                        raised
-                      />
+                      <Grid container spacing={3}>
+                        <br />
+                        <Grid item xs={12} md={3}>
+                          <MDBox mb={3}>
+                            <MDInput
+                              InputLabelProps={{ shrink: true }}
+                              onChange={(e) => setVehicleStartDate(e.target.value)}
+                              // onChange={(e) => setFname(e.target.value)}
+                              helperText={searchVehicleError}
+                              type="date"
+                              label="Start date"
+                              // variant="standard"
+                              fullWidth
+                            />
+                          </MDBox>
+                        </Grid>
+                        <Grid item xs={12} md={3}>
+                          <MDBox mb={2}>
+                            <MDInput
+                              InputLabelProps={{ shrink: true }}
+                              onChange={(e) => setVehicleEndDate(e.target.value)}
+                              type="date"
+                              label="End date"
+                              // variant="standard"
+                              fullWidth
+                            />
+                          </MDBox>
+                        </Grid>
+                        <Grid item xs={12} mt={0.3} md={2}>
+                          {/* <MDBox mt={4} mb={1}> */}
+                          <MDButton
+                            onClick={() => filterVehicleCheck()}
+                            variant="gradient"
+                            color="info"
+                            fullWidth
+                          >
+                            Filter &nbsp;&nbsp;
+                            {vehicleLoading ? <CircularProgress size={20} color="white" /> : ""}
+                          </MDButton>
+                          {/* </MDBox> */}
+                        </Grid>
+                      </Grid>
                     </MDBox>
                   </Grid>
                   <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
@@ -897,19 +1146,50 @@ function DriverProfile() {
                   </MDTypography>
                 </MDBox>
                 <MDBox pt={3}>
-                  {/* <Grid container spacing={3}> */}
-                  <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
+                  <Grid item xs={12} md={12} fullwidth justifyContent="flex-end">
                     <MDBox pr={2} pb={1} pl={2}>
-                      <MDInput
-                        fullWidth
-                        InputLabelProps={{ shrink: true }}
-                        onChange={(e) => setSearchToolBox(e.target.value)}
-                        label="Search here"
-                        type="date"
-                        justify="space-between"
-                        spacing={24}
-                        raised
-                      />
+                      <Grid container spacing={3}>
+                        <br />
+                        <Grid item xs={12} md={3}>
+                          <MDBox mb={3}>
+                            <MDInput
+                              InputLabelProps={{ shrink: true }}
+                              onChange={(e) => setToolStartDate(e.target.value)}
+                              // onChange={(e) => setFname(e.target.value)}
+                              helperText={searchToolBoxError}
+                              type="date"
+                              label="Start date"
+                              // variant="standard"
+                              fullWidth
+                            />
+                          </MDBox>
+                        </Grid>
+                        <Grid item xs={12} md={3}>
+                          <MDBox mb={2}>
+                            <MDInput
+                              InputLabelProps={{ shrink: true }}
+                              onChange={(e) => setToolEndDate(e.target.value)}
+                              type="date"
+                              label="End date"
+                              // variant="standard"
+                              fullWidth
+                            />
+                          </MDBox>
+                        </Grid>
+                        <Grid item xs={12} mt={0.3} md={2}>
+                          {/* <MDBox mt={4} mb={1}> */}
+                          <MDButton
+                            onClick={() => filterToolBox()}
+                            variant="gradient"
+                            color="info"
+                            fullWidth
+                          >
+                            Filter &nbsp;&nbsp;
+                            {toolboxLoading ? <CircularProgress size={20} color="white" /> : ""}
+                          </MDButton>
+                          {/* </MDBox> */}
+                        </Grid>
+                      </Grid>
                     </MDBox>
                   </Grid>
                   <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>

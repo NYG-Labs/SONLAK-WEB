@@ -29,7 +29,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 // import DataTable from "examples/Tables/DataTable";
 import { useNavigate } from "react-router-dom";
-
+import CircularProgress from "@mui/material/CircularProgress";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -38,14 +38,21 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import MDBadge from "components/MDBadge";
-
+import MDButton from "components/MDButton";
 import axios from "axios";
 
 function AllIncidentReports() {
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
   const [allIncidentReports, setAllIncidentReports] = useState([]);
-  const baseURL = "/api/IncidentReports";
-
+  // const newDate = new Date();
+  // const date = newDate.getDate();
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [searchError, setSearchError] = useState("");
+  const baseURL = "/api/IncidentReports/GetIncidentReportsLast7days";
+  const baseURLFilter = `/api/IncidentReports/GetIncidentReportsFilterbyDate/${fromDate}/${toDate}`;
+  console.log(fromDate, toDate);
   const config = {
     headers: {
       "content-type": "application/json",
@@ -57,6 +64,7 @@ function AllIncidentReports() {
     axios.get(baseURL, config).then((response) => {
       const tempIncidentReports = response.data;
       setAllIncidentReports(tempIncidentReports);
+      // console.log(allIncidentReports);
     });
   };
 
@@ -66,9 +74,38 @@ function AllIncidentReports() {
 
   console.log("ALl IncidentReports = ", allIncidentReports, search);
 
-  const filteredData = allIncidentReports.filter((IncidentReport) =>
-    IncidentReport.driverEmail.toLowerCase().includes(search.toLowerCase())
+  const filteredData = allIncidentReports.filter(
+    (IncidentReport) =>
+      IncidentReport.driverEmail.toLowerCase().includes(search.toLowerCase()) ||
+      IncidentReport.driverFname.toLowerCase().includes(search.toLowerCase()) ||
+      IncidentReport.driverLname.toLowerCase().includes(search.toLowerCase())
   );
+
+  async function filterIncidentReports() {
+    setLoading(true);
+    const date1 = new Date(fromDate);
+    const date2 = new Date(toDate);
+
+    const timeDifference = date2.getTime() - date1.getTime();
+
+    if (timeDifference < 0) {
+      setSearchError("Invalid date parameteres! Please try again");
+    } else {
+      setSearchError("");
+    }
+
+    axios
+      .get(baseURLFilter, config)
+      .then((response) => {
+        setAllIncidentReports(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setAllIncidentReports([]);
+        console.log(error);
+        setLoading(false);
+      });
+  }
 
   const navigate = useNavigate();
 
@@ -101,6 +138,52 @@ function AllIncidentReports() {
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
+                <Grid item xs={12} md={12} fullwidth justifyContent="flex-end">
+                  <MDBox pr={2} pb={1} pl={2}>
+                    <Grid container spacing={3}>
+                      <br />
+                      <Grid item xs={12} md={3}>
+                        <MDBox mb={3}>
+                          <MDInput
+                            InputLabelProps={{ shrink: true }}
+                            onChange={(e) => setFromDate(e.target.value)}
+                            // onChange={(e) => setFname(e.target.value)}
+                            helperText={searchError}
+                            type="date"
+                            label="From date"
+                            // variant="standard"
+                            fullWidth
+                          />
+                        </MDBox>
+                      </Grid>
+                      <Grid item xs={12} md={3}>
+                        <MDBox mb={2}>
+                          <MDInput
+                            InputLabelProps={{ shrink: true }}
+                            onChange={(e) => setToDate(e.target.value)}
+                            type="date"
+                            label="To date"
+                            // variant="standard"
+                            fullWidth
+                          />
+                        </MDBox>
+                      </Grid>
+                      <Grid item xs={12} mt={0.3} md={2}>
+                        {/* <MDBox mt={4} mb={1}> */}
+                        <MDButton
+                          onClick={() => filterIncidentReports()}
+                          variant="gradient"
+                          color="info"
+                          fullWidth
+                        >
+                          Filter &nbsp;&nbsp;
+                          {loading ? <CircularProgress size={20} color="white" /> : ""}
+                        </MDButton>
+                        {/* </MDBox> */}
+                      </Grid>
+                    </Grid>
+                  </MDBox>
+                </Grid>
                 <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
                   <MDBox pr={2} pb={1} pl={2}>
                     <MDInput

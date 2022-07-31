@@ -79,6 +79,7 @@ import AddComplaints from "layouts/complaints/new-complaint";
 import AllToolBox from "layouts/toolbox";
 import ToolBoxSupervisorDate from "layouts/toolbox/toolbox-day-supervisor";
 import DriverDailySignIn from "layouts/daily-signin";
+// import SignOut from "layouts/authentication/sign-out";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -338,6 +339,14 @@ const routes = [
     route: "/add-user/admin",
     component: <SignUpAdmin />,
   },
+  // {
+  //   type: "collapse",
+  //   name: "SignOut",
+  //   key: "signout",
+  //   icon: <Icon fontSize="small">logout</Icon>,
+  //   route: "/",
+  //   component: <SignOut />,
+  // },
 ];
 
 export default routes;

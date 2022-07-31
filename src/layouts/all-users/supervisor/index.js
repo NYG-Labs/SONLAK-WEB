@@ -71,8 +71,14 @@ function AllSupervisors() {
 
   console.log("ALl Supervisors = ", allSupervisors, search);
 
-  const filteredData = allSupervisors.filter((Supervisor) =>
-    Supervisor.fname.toLowerCase().includes(search.toLowerCase())
+  const filteredData = allSupervisors.filter(
+    (Supervisor) =>
+      Supervisor.fname.toLowerCase().includes(search.toLowerCase()) ||
+      Supervisor.mname.toLowerCase().includes(search.toLowerCase()) ||
+      Supervisor.lname.toLowerCase().includes(search.toLowerCase()) ||
+      Supervisor.email.toLowerCase().includes(search.toLowerCase()) ||
+      Supervisor.supervisorType.toLowerCase().includes(search.toLowerCase()) ||
+      Supervisor.visaNo.toLowerCase().includes(search.toLowerCase())
   );
 
   const navigate = useNavigate();

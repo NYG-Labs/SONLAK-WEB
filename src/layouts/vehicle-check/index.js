@@ -38,13 +38,19 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import MDBadge from "components/MDBadge";
-
+import MDButton from "components/MDButton";
+import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 
 function AllVehicleCheck() {
   const [search, setSearch] = useState("");
   const [allVehicleCheck, setAllVehicleCheck] = useState([]);
-  const baseURL = "/api/VehicleChecks";
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [searchError, setSearchError] = useState("");
+  const baseURL = "/api/VehicleChecks/GetVehicleChecksLast7days";
+  const baseURLFilter = `/api/VehicleChecks/GetVehicleChecksfilterbyDate/${fromDate}/${toDate}`;
 
   const config = {
     headers: {
@@ -63,6 +69,32 @@ function AllVehicleCheck() {
   useEffect(() => {
     getAllVehicleCheck();
   }, []);
+
+  async function filterVehicleCheck() {
+    setLoading(true);
+    const date1 = new Date(fromDate);
+    const date2 = new Date(toDate);
+
+    const timeDifference = date2.getTime() - date1.getTime();
+
+    if (timeDifference < 0) {
+      setSearchError("Invalid date parameteres! Please try again");
+    } else {
+      setSearchError("");
+    }
+
+    axios
+      .get(baseURLFilter, config)
+      .then((response) => {
+        setAllVehicleCheck(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setAllVehicleCheck([]);
+        console.log(error);
+        setLoading(false);
+      });
+  }
 
   console.log("ALl VehicleCheck = ", allVehicleCheck, search);
 
@@ -101,6 +133,52 @@ function AllVehicleCheck() {
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
+                <Grid item xs={12} md={12} fullwidth justifyContent="flex-end">
+                  <MDBox pr={2} pb={1} pl={2}>
+                    <Grid container spacing={3}>
+                      <br />
+                      <Grid item xs={12} md={3}>
+                        <MDBox mb={3}>
+                          <MDInput
+                            InputLabelProps={{ shrink: true }}
+                            onChange={(e) => setFromDate(e.target.value)}
+                            // onChange={(e) => setFname(e.target.value)}
+                            helperText={searchError}
+                            type="date"
+                            label="From date"
+                            // variant="standard"
+                            fullWidth
+                          />
+                        </MDBox>
+                      </Grid>
+                      <Grid item xs={12} md={3}>
+                        <MDBox mb={2}>
+                          <MDInput
+                            InputLabelProps={{ shrink: true }}
+                            onChange={(e) => setToDate(e.target.value)}
+                            type="date"
+                            label="To date"
+                            // variant="standard"
+                            fullWidth
+                          />
+                        </MDBox>
+                      </Grid>
+                      <Grid item xs={12} mt={0.3} md={2}>
+                        {/* <MDBox mt={4} mb={1}> */}
+                        <MDButton
+                          onClick={() => filterVehicleCheck()}
+                          variant="gradient"
+                          color="info"
+                          fullWidth
+                        >
+                          Filter &nbsp;&nbsp;
+                          {loading ? <CircularProgress size={20} color="white" /> : ""}
+                        </MDButton>
+                        {/* </MDBox> */}
+                      </Grid>
+                    </Grid>
+                  </MDBox>
+                </Grid>
                 <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
                   <MDBox pr={2} pb={1} pl={2}>
                     <MDInput
