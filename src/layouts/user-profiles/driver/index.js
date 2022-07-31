@@ -92,6 +92,8 @@ function DriverProfile() {
   const [toolEndDate, setToolEndDate] = useState("");
   const [vehicleStartDate, setVehicleStartDate] = useState("");
   const [vehicleEndDate, setVehicleEndDate] = useState("");
+  const [signInStartDate, setSignInStartDate] = useState("");
+  const [signInEndDate, setSignInEndDate] = useState("");
   const baseURL = `/api/drivers/${email}`;
   const deleteDriverURL = `/api/Drivers/${email}`;
   const ETAPerformanceURL = `/api/Etaperformances/GetEtaperformancelatest7/${email}`;
@@ -99,11 +101,13 @@ function DriverProfile() {
   const ParcelDeliveryURL = `/api/ParcelDeliveries/GetParcelDeliverylatest7/${email}`;
   const vehicleCheckURL = `/api/VehicleChecks/GetVehicleChecklatest7/${email}`;
   const toolBoxURL = `/api/ToolBox/GetToolBoxbyDriver/${email}`;
+  const signInURL = `/api/DriverSignIn/GetDriverSignInbyDriverLast7days/${email}`;
   const filterETAURL = `/api/Etaperformances/GetEtaperformancebyDriverFilterbyDate/${email}/${etaStartdate}/${etaEnddate}`;
   const filterParcelDeliveryURL = `/api/ParcelDeliveries/GetParcelDeliverybyDriverDate/${email}/${parcelStartdate}/${parcelEnddate}`;
   const filterIncidentReportURL = `/api/IncidentReports/GetIncidentReportbyDriverFilterbyDate/${email}/${incidentStartdate}/${incidentEnddate}`;
   const filterToolBoxURL = `/api/ToolBox/GetToolBoxbyDriverFilterbyDate/${email}/${toolStartDate}/${toolEndDate}`;
   const filterVehicleCheckURL = `/api/VehicleChecks/GetVehicleCheckbyDriver/${email}/${vehicleStartDate}/${vehicleEndDate}`;
+  const filterSignInURL = `/api/DriverSignIn/GetDriverSignInbyDriverfilterByDate/${email}/${signInStartDate}/${signInEndDate}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
   const [allETAPerformance, setAllETAPerformance] = useState([]);
@@ -111,16 +115,19 @@ function DriverProfile() {
   const [allParcelDeliveries, setAllParcelDeliveries] = useState([]);
   const [allVehicleCheck, setAllVehicleCheck] = useState([]);
   const [allToolBox, setAllToolBox] = useState([]);
+  const [allSignIn, setAllSignIn] = useState([]);
   const [searchETAError, setSearchETAError] = useState("");
   const [searchParcelError, setSearchParcelError] = useState("");
   const [searchIncidentError, setSearchIncidentError] = useState("");
   const [searchToolBoxError, setSearchToolBoxError] = useState("");
   const [searchVehicleError, setSearchVehicleError] = useState("");
+  const [searchSignInError, setSearchSignInError] = useState("");
   const [etaLoading, setEtaLoading] = useState(false);
   const [parcelLoading, setParcelLoading] = useState(false);
   const [vehicleLoading, setVehicleLoading] = useState(false);
   const [toolboxLoading, setToolBoxLoading] = useState(false);
   const [incidentLoading, setIncidentLoading] = useState(false);
+  const [signInLoading, setSignInLoading] = useState(false);
 
   let tempDriverProfilePhoto = driver.profilePhoto;
 
@@ -177,6 +184,13 @@ function DriverProfile() {
     axios.get(toolBoxURL, config).then((response) => {
       const tempToolBox = response.data;
       setAllToolBox(tempToolBox);
+    });
+  };
+
+  const getAllSignIn = () => {
+    axios.get(signInURL, config).then((response) => {
+      const tempSignIn = response.data;
+      setAllSignIn(tempSignIn);
     });
   };
 
@@ -311,6 +325,33 @@ function DriverProfile() {
       });
   }
 
+  async function filterSignIn() {
+    setSignInLoading(true);
+    const date1 = new Date(signInStartDate);
+    const date2 = new Date(signInEndDate);
+
+    const timeDifference = date2.getTime() - date1.getTime();
+
+    if (timeDifference < 0) {
+      setSearchSignInError("Invalid date parameteres! Please try again");
+      console.log(searchSignInError);
+    } else {
+      setSearchSignInError("");
+    }
+
+    axios
+      .get(filterSignInURL, config)
+      .then((response) => {
+        setAllSignIn(response.data);
+        setSignInLoading(false);
+      })
+      .catch((error) => {
+        setAllSignIn([]);
+        console.log(error);
+        setSignInLoading(false);
+      });
+  }
+
   const filteredDataETAPerformance = allETAPerformance;
   // .filter((etaPerformance) =>
   //   etaPerformance.createDate.toLowerCase().includes(searchETA.toLowerCase())
@@ -336,6 +377,8 @@ function DriverProfile() {
   //   toolBox.createDate.toLowerCase().includes(searchToolBox.toLowerCase())
   // );
 
+  const filteredSignIn = allSignIn;
+
   useEffect(() => {
     getTheDriver();
     getAllETAPerformance();
@@ -343,6 +386,7 @@ function DriverProfile() {
     getAllParcelDeliveries();
     getAllVehicleCheck();
     getAllToolBox();
+    getAllSignIn();
     // A function that sets the orientation state of the tabs.
     function handleTabsOrientation() {
       return window.innerWidth < breakpoints.values.sm
@@ -1214,6 +1258,113 @@ function DriverProfile() {
                               <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
                               <TableCell align="center">{row.supervisorEmail}</TableCell>
                               <TableCell align="center">{row.attendance}</TableCell>
+                              {/* <TableCell align="center">
+                                <a href={row.pdfUrl}>
+                                  <MDBadge
+                                    badgeContent="view"
+                                    color="success"
+                                    variant="gradient"
+                                    size="sm"
+                                  />
+                                </a>
+                              </TableCell> */}
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Grid>
+                </MDBox>
+              </Card>
+            </Grid>
+          </Grid>
+        </MDBox>
+
+        <MDBox pt={1} pb={1} mt={3}>
+          <Grid container spacing={6}>
+            <Grid item xs={12}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="secondary"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                >
+                  <MDTypography variant="h6" color="white">
+                    Daily Sign-in
+                  </MDTypography>
+                </MDBox>
+                <MDBox pt={3}>
+                  <Grid item xs={12} md={12} fullwidth justifyContent="flex-end">
+                    <MDBox pr={2} pb={1} pl={2}>
+                      <Grid container spacing={3}>
+                        <br />
+                        <Grid item xs={12} md={3}>
+                          <MDBox mb={3}>
+                            <MDInput
+                              InputLabelProps={{ shrink: true }}
+                              onChange={(e) => setSignInStartDate(e.target.value)}
+                              // onChange={(e) => setFname(e.target.value)}
+                              helperText={searchSignInError}
+                              type="date"
+                              label="Start date"
+                              // variant="standard"
+                              fullWidth
+                            />
+                          </MDBox>
+                        </Grid>
+                        <Grid item xs={12} md={3}>
+                          <MDBox mb={2}>
+                            <MDInput
+                              InputLabelProps={{ shrink: true }}
+                              onChange={(e) => setSignInEndDate(e.target.value)}
+                              // helperText={searchSignInError}
+                              type="date"
+                              label="End date"
+                              // variant="standard"
+                              fullWidth
+                            />
+                          </MDBox>
+                        </Grid>
+                        <Grid item xs={12} mt={0.3} md={2}>
+                          {/* <MDBox mt={4} mb={1}> */}
+                          <MDButton
+                            onClick={() => filterSignIn()}
+                            variant="gradient"
+                            color="info"
+                            fullWidth
+                          >
+                            Filter &nbsp;&nbsp;
+                            {signInLoading ? <CircularProgress size={20} color="white" /> : ""}
+                          </MDButton>
+                          {/* </MDBox> */}
+                        </Grid>
+                      </Grid>
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
+                    <TableContainer>
+                      <Table aria-label="simple table">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell align="left">Sign-in time</TableCell>
+                            <TableCell align="left">Sign-off time</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {filteredSignIn.length === 0 ? (
+                            <TableRow key="s">
+                              <TableCell align="center">-</TableCell>
+                            </TableRow>
+                          ) : null}
+                          {filteredSignIn.map((row) => (
+                            <TableRow key="s">
+                              <TableCell align="left">{row.signInTime}</TableCell>
+                              <TableCell align="left">{row.signOffTime}</TableCell>
                               {/* <TableCell align="center">
                                 <a href={row.pdfUrl}>
                                   <MDBadge

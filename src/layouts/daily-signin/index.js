@@ -28,7 +28,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 // import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 // import DataTable from "examples/Tables/DataTable";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 // import MDButton from "components/MDButton";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -38,7 +38,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import MDBadge from "components/MDBadge";
-// import { Map, InfoWindow, Marker, GoogleApiWrapper } from "google-maps-react";
+import CircularProgress from "@mui/material/CircularProgress";
+import MDButton from "components/MDButton";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import axios from "axios";
 // import allDriverData from "./allDriverData";
@@ -52,7 +53,16 @@ function DriverDailySignIn() {
   // const { rows } = allDriverData();
   const [search, setSearch] = useState("");
   const [allDrivers, setAllDrivers] = useState([]);
-  const baseURL = "/api/Drivers";
+  const newDate = new Date();
+  const [fromDate, setFromDate] = useState(newDate);
+  const [toDate, setToDate] = useState(newDate - 7);
+  const [searchError, setSearchError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [latitute, setLatitue] = useState(-37.8136);
+  const [longtitude, setLongtitude] = useState(144.9631);
+  const baseURLFilter = `/api/DriverSignIn`;
+  // /GetDriverSignInsfilterbyDate/${fromDate}/${toDate}`;
+  console.log(fromDate, toDate);
 
   const config = {
     headers: {
@@ -62,7 +72,7 @@ function DriverDailySignIn() {
   };
 
   const getAllDrivers = () => {
-    axios.get(baseURL, config).then((response) => {
+    axios.get(baseURLFilter, config).then((response) => {
       const tempDrivers = response.data;
       setAllDrivers(tempDrivers);
     });
@@ -75,10 +85,46 @@ function DriverDailySignIn() {
   console.log("ALl Drivers = ", allDrivers, search);
 
   const filteredData = allDrivers.filter((driver) =>
-    driver.fname.toLowerCase().includes(search.toLowerCase())
+    driver.driverEmail.toLowerCase().includes(search.toLowerCase())
   );
 
   const navigate = useNavigate();
+
+  async function filterDriverSignIn() {
+    setLoading(true);
+    const date1 = new Date(fromDate);
+    const date2 = new Date(toDate);
+
+    const timeDifference = date2.getTime() - date1.getTime();
+
+    if (timeDifference < 0) {
+      setSearchError("Invalid date parameteres! Please try again");
+    } else {
+      setSearchError("");
+    }
+
+    axios
+      .get(baseURLFilter, config)
+      .then((response) => {
+        setAllDrivers(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setAllDrivers([]);
+        console.log(error);
+        setLoading(false);
+      });
+  }
+
+  function handleSingnIn(lat, long) {
+    setLatitue(lat);
+    setLongtitude(long);
+  }
+
+  function handleSingnOut(lat, long) {
+    setLatitue(lat);
+    setLongtitude(long);
+  }
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.GOOGLE_MAP_API_KEY,
@@ -117,17 +163,61 @@ function DriverDailySignIn() {
                 </Grid>
               </MDBox>
 
-              <Grid item xs={12} mt={1} md={12} ml={2} mr={2}>
+              <Grid item xs={12} mt={1} md={14} ml={2} mr={2}>
                 <GoogleMap
-                  zoom={13}
-                  center={{ lat: -37.8136, lng: 144.9631 }}
+                  zoom={17}
+                  center={{ lat: latitute, lng: longtitude }}
                   mapContainerStyle={containerStyle}
                 >
-                  <Marker position={{ lat: -37.8136, lng: 144.9631 }} />
+                  <Marker position={{ lat: latitute, lng: longtitude }} />
                 </GoogleMap>
               </Grid>
-
-              <MDBox pt={3}>
+              <Grid item xs={12} md={11.9} mt={4} fullwidth justifyContent="flex-end">
+                <MDBox pr={2} pb={1} pl={2}>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} md={3}>
+                      <MDBox mb={3}>
+                        <MDInput
+                          InputLabelProps={{ shrink: true }}
+                          onChange={(e) => setFromDate(e.target.value)}
+                          // onChange={(e) => setFname(e.target.value)}
+                          helperText={searchError}
+                          type="date"
+                          label="From date"
+                          // variant="standard"
+                          fullWidth
+                        />
+                      </MDBox>
+                    </Grid>
+                    <Grid item xs={12} md={3}>
+                      <MDBox mb={2}>
+                        <MDInput
+                          InputLabelProps={{ shrink: true }}
+                          onChange={(e) => setToDate(e.target.value)}
+                          type="date"
+                          label="To date"
+                          // variant="standard"
+                          fullWidth
+                        />
+                      </MDBox>
+                    </Grid>
+                    <Grid item xs={12} mt={0.3} md={2}>
+                      {/* <MDBox mt={4} mb={1}> */}
+                      <MDButton
+                        onClick={() => filterDriverSignIn()}
+                        variant="gradient"
+                        color="info"
+                        fullWidth
+                      >
+                        Filter &nbsp;&nbsp;
+                        {loading ? <CircularProgress size={20} color="white" /> : ""}
+                      </MDButton>
+                      {/* </MDBox> */}
+                    </Grid>
+                  </Grid>
+                </MDBox>
+              </Grid>
+              <MDBox>
                 <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
                   <MDBox pr={2} pb={1} pl={2}>
                     <MDInput
@@ -145,26 +235,46 @@ function DriverDailySignIn() {
                     <Table aria-label="simple table">
                       <TableHead>
                         <TableRow>
-                          <TableCell>First name</TableCell>
-                          <TableCell align="left">Middle name</TableCell>
-                          <TableCell align="left">Lase Name</TableCell>
-                          <TableCell align="left">Email</TableCell>
-                          <TableCell align="left">Vehicle type</TableCell>
-                          <TableCell align="left">Vehicle No</TableCell>
-                          <TableCell align="left">Driver type</TableCell>
+                          <TableCell>Driver Email</TableCell>
+                          <TableCell align="left">Sign-in time</TableCell>
+                          {/* <TableCell align="left">Lase Name</TableCell> */}
+                          <TableCell align="left" />
+                          <TableCell align="left">Sign-off time</TableCell>
+                          <TableCell align="left" />
+                          {/* <TableCell align="left">Driver type</TableCell> */}
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         {filteredData.map((row) => (
                           <TableRow key="s">
                             <TableCell component="th" scope="row">
-                              {row.fname}
+                              {row.driverEmail}
                             </TableCell>
-                            <TableCell align="left">{row.mname}</TableCell>
-                            <TableCell align="left">{row.lname}</TableCell>
-                            <TableCell align="left">{row.email}</TableCell>
-                            <TableCell align="left">{row.vehicalType}</TableCell>
-                            <TableCell align="left">{row.vehicleNo}</TableCell>
+                            <TableCell align="left">{row.signInTime}</TableCell>
+                            <TableCell align="center">
+                              <MDBadge
+                                badgeContent="view sign-in"
+                                color="success"
+                                onClick={() =>
+                                  handleSingnIn(row.signInLatitude, row.signInLongtitude)
+                                }
+                                variant="gradient"
+                                size="sm"
+                              />
+                            </TableCell>
+                            <TableCell align="left">{row.signOffTime}</TableCell>
+                            <TableCell align="center">
+                              <MDBadge
+                                badgeContent="view sign-out"
+                                color="success"
+                                onClick={() =>
+                                  handleSingnOut(row.signOffLatitude, row.signOffLongtitude)
+                                }
+                                variant="gradient"
+                                size="sm"
+                              />
+                            </TableCell>
+                            {/* <TableCell align="left">{row.vehicleNo}</TableCell>
                             <TableCell align="left">{row.driverType}</TableCell>
                             <TableCell align="center">
                               <MDBox ml={-1}>
@@ -179,7 +289,7 @@ function DriverDailySignIn() {
                                   />
                                 </Link>
                               </MDBox>
-                            </TableCell>
+                            </TableCell> */}
                           </TableRow>
                         ))}
                       </TableBody>
@@ -247,26 +357,46 @@ function DriverDailySignIn() {
                     <Table aria-label="simple table">
                       <TableHead>
                         <TableRow>
-                          <TableCell>First name</TableCell>
-                          <TableCell align="left">Middle name</TableCell>
-                          <TableCell align="left">Lase Name</TableCell>
-                          <TableCell align="left">Email</TableCell>
-                          <TableCell align="left">Vehicle type</TableCell>
-                          <TableCell align="left">Vehicle No</TableCell>
-                          <TableCell align="left">Driver type</TableCell>
+                          <TableCell>Driver Email</TableCell>
+                          <TableCell align="left">Sign-in time</TableCell>
+                          {/* <TableCell align="left">Lase Name</TableCell> */}
+                          <TableCell align="left" />
+                          <TableCell align="left">Sign-off time</TableCell>
+                          <TableCell align="left" />
+                          {/* <TableCell align="left">Driver type</TableCell> */}
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         {filteredData.map((row) => (
                           <TableRow key="s">
                             <TableCell component="th" scope="row">
-                              {row.fname}
+                              {row.driverEmail}
                             </TableCell>
-                            <TableCell align="left">{row.mname}</TableCell>
-                            <TableCell align="left">{row.lname}</TableCell>
-                            <TableCell align="left">{row.email}</TableCell>
-                            <TableCell align="left">{row.vehicalType}</TableCell>
-                            <TableCell align="left">{row.vehicleNo}</TableCell>
+                            <TableCell align="left">{row.signInTime}</TableCell>
+                            <TableCell align="center">
+                              <MDBadge
+                                badgeContent="view sign-in"
+                                color="success"
+                                onClick={() =>
+                                  handleSingnIn(row.signInLatitude, row.signInLongtitude)
+                                }
+                                variant="gradient"
+                                size="sm"
+                              />
+                            </TableCell>
+                            <TableCell align="left">{row.signOffTime}</TableCell>
+                            <TableCell align="center">
+                              <MDBadge
+                                badgeContent="view sign-out"
+                                color="success"
+                                onClick={() =>
+                                  handleSingnOut(row.signOffLatitude, row.signOffLongtitude)
+                                }
+                                variant="gradient"
+                                size="sm"
+                              />
+                            </TableCell>
+                            {/* <TableCell align="left">{row.vehicleNo}</TableCell>
                             <TableCell align="left">{row.driverType}</TableCell>
                             <TableCell align="center">
                               <MDBox ml={-1}>
@@ -281,7 +411,7 @@ function DriverDailySignIn() {
                                   />
                                 </Link>
                               </MDBox>
-                            </TableCell>
+                            </TableCell> */}
                           </TableRow>
                         ))}
                       </TableBody>
