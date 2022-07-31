@@ -69,7 +69,7 @@ function AllSupervisors() {
     getAllSupervisors();
   }, []);
 
-  console.log("ALl Supervisors = ", allSupervisors, search);
+  // console.log("ALl Supervisors = ", allSupervisors, search);
 
   const filteredData = allSupervisors.filter(
     (Supervisor) =>

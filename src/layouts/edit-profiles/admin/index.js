@@ -126,7 +126,7 @@ function EditAdmin() {
       //   setSupervisroEmail(response.data.supervisorEmail);
       //   setWorkstatus(response.data.workStatus);
       setPassword(response.data.setPassword);
-      console.log(response.data);
+      // console.log(response.data);
     });
   };
 
@@ -179,7 +179,7 @@ function EditAdmin() {
       .put(baseURL, bodyParameters, config)
       .then((response) => {
         // console.log("response = ", response.status);
-        console.log(bodyParameters);
+        // console.log(bodyParameters);
         if (response.status === 204) {
           alert("Admin Updated successfully");
           navigate(`/admins/${id}`);
@@ -188,7 +188,7 @@ function EditAdmin() {
       .catch((error) => {
         setLoading(false);
         console.log("error = ", error.response);
-        console.log(bodyParameters);
+        // console.log(bodyParameters);
         alert("An unexpected error occured! please check the values and try again");
       });
   }

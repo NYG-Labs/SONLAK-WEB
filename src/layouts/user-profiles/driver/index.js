@@ -139,7 +139,7 @@ function DriverProfile() {
       setDOB(tempDriver.dob);
       setLicenseExp(tempDriver.licenceExpiry);
       setVisaExp(tempDriver.visaExpiry);
-      console.log("dob = ", dob);
+      // console.log("dob = ", dob);
     });
   };
 
@@ -154,7 +154,7 @@ function DriverProfile() {
     axios.get(IncidentReportURL, config).then((response) => {
       const tempIncidentReport = response.data;
       setAllIncidentReports(tempIncidentReport);
-      console.log(allIncidentReports);
+      // console.log(allIncidentReports);
     });
   };
 
@@ -162,7 +162,7 @@ function DriverProfile() {
     axios.get(ParcelDeliveryURL, config).then((response) => {
       const tempParcelDelivey = response.data;
       setAllParcelDeliveries(tempParcelDelivey);
-      console.log(allParcelDeliveries);
+      // console.log(allParcelDeliveries);
     });
   };
 
@@ -196,7 +196,7 @@ function DriverProfile() {
     axios
       .get(filterETAURL, config)
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setAllETAPerformance(response.data);
         setEtaLoading(false);
       })

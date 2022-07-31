@@ -327,7 +327,7 @@ function EditDriver() {
       .catch((error) => {
         setLoading(false);
         console.log("error = ", error.response);
-        console.log(bodyParameters);
+        // console.log(bodyParameters);
         alert("An unexpected error occured! please check the values and try again");
       });
   }

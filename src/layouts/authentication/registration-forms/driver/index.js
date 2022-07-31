@@ -250,7 +250,7 @@ function DriverRegistration() {
 
   async function registerDriver() {
     setLoading(true);
-    console.log(bodyParameters.visaScan);
+    // console.log(bodyParameters.visaScan);
     await uploadAusPostScan();
     await uploadLicenceScan();
     await uploadVisaScan();

@@ -68,7 +68,7 @@ function WHSPlan() {
 
   const currentDate = new Date();
   const timestamp = `${currentDate.getFullYear()}-0${currentDate.getMonth()}-${currentDate.getDate()}T${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
-  console.log(timestamp);
+  // console.log(timestamp);
 
   const tempFileNameWHSPlan = `${timestamp}_WHSPlan.jpg`;
   const tempWHSPlanURL = `https://${storageAccountName}.blob.core.windows.net/whsplan/${tempFileNameWHSPlan}`;
@@ -128,7 +128,7 @@ function WHSPlan() {
       window.alert("No file to upload");
     } else {
       await uploadWHSPlan();
-      console.log(bodyParameters);
+      // console.log(bodyParameters);
       axios
         .post(baseURL, bodyParameters, config)
         .then((response) => {

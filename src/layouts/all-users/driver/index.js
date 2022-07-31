@@ -66,7 +66,7 @@ function AllDrivers() {
     getAllDrivers();
   }, []);
 
-  console.log("ALl Drivers = ", allDrivers, search);
+  // console.log("ALl Drivers = ", allDrivers, search);
 
   const filteredData = allDrivers.filter(
     (driver) =>

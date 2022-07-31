@@ -81,7 +81,7 @@ function SupervisorProfile() {
   const [searchToolBox, setSearchToolBox] = useState("");
   const [allToolBox, setAllToolBox] = useState([]);
   let tempSupervisorProfilePhoto = supervisor.profilePhoto;
-  console.log(supervisor);
+  // console.log(supervisor);
 
   const config = {
     headers: {

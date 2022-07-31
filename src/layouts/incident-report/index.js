@@ -72,7 +72,7 @@ function AllIncidentReports() {
     getAllIncidentReports();
   }, []);
 
-  console.log("ALl IncidentReports = ", allIncidentReports, search);
+  // console.log("ALl IncidentReports = ", allIncidentReports, search);
 
   const filteredData = allIncidentReports.filter(
     (IncidentReport) =>

@@ -103,7 +103,7 @@ function EditSupervisor() {
   const supervisorEmail = supervisor.email;
 
   const tempFileNameVisaScan = `${supervisorEmail}_visascan.jpg`;
-  console.log(tempFileNameVisaScan);
+  // console.log(tempFileNameVisaScan);
   const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/supervisorvisascan/${tempFileNameVisaScan}`;
   // const visaScan = tempVisaScanURL;
 
@@ -144,7 +144,7 @@ function EditSupervisor() {
       //   setSupervisroEmail(response.data.supervisorEmail);
       setWorkstatus(response.data.workStatus);
       setPassword(response.data.setPassword);
-      console.log("data = ++", response.data);
+      // console.log("data = ++", response.data);
     });
   };
 
@@ -254,7 +254,7 @@ function EditSupervisor() {
       .put(baseURL, bodyParameters, config)
       .then((response) => {
         // console.log("response = ", response.status);
-        console.log(bodyParameters);
+        // console.log(bodyParameters);
         if (response.status === 204) {
           alert("Supervisor Updated successfully");
           navigate(`/supervisors/${id}`);
@@ -263,7 +263,7 @@ function EditSupervisor() {
       .catch((error) => {
         setLoading(false);
         console.log("error = ", error.response);
-        console.log(bodyParameters);
+        // console.log(bodyParameters);
         alert("An unexpected error occured! please check the values and try again");
       });
   }

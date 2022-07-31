@@ -67,7 +67,7 @@ function AdminRegistration() {
     axios
       .post(baseURL, bodyParameters, config)
       .then((response) => {
-        console.log(response.status);
+        // console.log(response.status);
         if (response.status === 201) {
           alert("Admin registered successfully");
           navigate("/admins");

@@ -66,7 +66,7 @@ function AllInactiveDrivers() {
     getAllInactiveDrivers();
   }, []);
 
-  console.log("ALl InactiveDrivers = ", allInactiveDrivers, search);
+  // console.log("ALl InactiveDrivers = ", allInactiveDrivers, search);
 
   const filteredData = allInactiveDrivers.filter(
     (driver) =>

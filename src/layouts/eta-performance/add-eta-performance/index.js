@@ -63,13 +63,14 @@ function AddETAPerformance() {
   const [driverEmail, setDriverEmail] = useState("");
   const [route, setRoute] = useState("");
   const [deviceID, setDeviceID] = useState("");
-  const [articles, setArticles] = useState();
-  const [early, setEarly] = useState();
-  const [onTime, setOnTime] = useState(5);
-  const [late, setLate] = useState();
-  const [notDelivered, setNotDelivered] = useState();
-  const [onTimePresentage, setOnTimePersentage] = useState();
-  const [createDate, setCreateDate] = useState();
+  const [articles, setArticles] = useState(0);
+  const [early, setEarly] = useState(0);
+  const [onTime, setOnTime] = useState(0);
+  const [late, setLate] = useState(0);
+  const [notDelivered, setNotDelivered] = useState(0);
+  const [onTimePresentage, setOnTimePersentage] = useState(0);
+  const newdate = new Date();
+  const [createDate, setCreateDate] = useState(newdate);
   const [allDrivers, setAllDrivers] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -99,11 +100,11 @@ function AddETAPerformance() {
 
   async function addETAPerformance() {
     setLoading(true);
-    console.log(bodyParameters);
+    // console.log(bodyParameters);
     axios
       .post(baseURL, bodyParameters, config)
       .then((response) => {
-        console.log(response.status);
+        // console.log(response.data);
         if (response.status === 201) {
           alert("ETA-Performacne added successfully");
           navigate("/ETA-performance");
@@ -252,7 +253,7 @@ function AddETAPerformance() {
                       InputLabelProps={{ shrink: true }}
                       type="text"
                       label="On Time"
-                      swewonChange={(e) => setOnTime(e.target.value)}
+                      onChange={(e) => setOnTime(e.target.value)}
                       // variant="standard"
                       fullWidth
                     />

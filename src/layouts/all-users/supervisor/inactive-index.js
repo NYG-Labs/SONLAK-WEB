@@ -66,7 +66,7 @@ function AllInactiveSupervisors() {
     getAllInactiveSupervisors();
   }, []);
 
-  console.log("ALl InactiveSupervisors = ", allInactiveSupervisors, search);
+  // console.log("ALl InactiveSupervisors = ", allInactiveSupervisors, search);
 
   const filteredData = allInactiveSupervisors.filter(
     (Supervisor) =>

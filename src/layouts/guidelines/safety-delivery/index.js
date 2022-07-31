@@ -68,7 +68,7 @@ function SafetyDelivery() {
 
   const currentDate = new Date();
   const timestamp = `${currentDate.getFullYear()}-0${currentDate.getMonth()}-${currentDate.getDate()}T${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
-  console.log(timestamp);
+  // console.log(timestamp);
 
   const tempFileNameSafetyDelivery = `${timestamp}_safetyDelivery.jpg`;
   const tempSafetyDeliveryURL = `https://${storageAccountName}.blob.core.windows.net/safetydelivery/${tempFileNameSafetyDelivery}`;
@@ -128,11 +128,11 @@ function SafetyDelivery() {
       window.alert("No file to upload");
     } else {
       await uploadsafetyDelivery();
-      console.log(bodyParameters);
+      // console.log(bodyParameters);
       axios
         .post(baseURL, bodyParameters, config)
         .then((response) => {
-          console.log(response.status);
+          // console.log(response.status);
           if (response.status === 201) {
             alert("Safety delivery added successfully");
             window.location.reload();

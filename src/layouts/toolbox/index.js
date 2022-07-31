@@ -64,7 +64,7 @@ function AllToolBox() {
     getAllToolBox();
   }, []);
 
-  console.log("ALl ToolBox = ", allToolBox, search);
+  // console.log("ALl ToolBox = ", allToolBox, search);
 
   const filteredData = allToolBox.filter((allTB) =>
     allTB.supervisorEmail.toLowerCase().includes(search.toLowerCase())

@@ -47,11 +47,13 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 function AllETAPerformance() {
   const navigate = useNavigate();
-  // const { rows } = allETAPerformanceData();
-  // const [search, setSearch] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [searchError, setSearchError] = useState("");
   const [allETAPerformance, setAllETAPerformance] = useState([]);
-  const baseURL = `/api/Etaperformances/GetEtaperformancebyDateGroup`;
-  const loading = false;
+  const baseURL = `/api/Etaperformances/GetEtaperformancesLast7days`;
+  const baseURLFilter = `/api/Etaperformances/GetEtaperformancesFilterbyDate/${fromDate}/${toDate}`;
 
   const config = {
     headers: {
@@ -76,7 +78,33 @@ function AllETAPerformance() {
   //   etaPerformance.createDate.toLowerCase().includes(search.toLowerCase())
   // );
 
-  console.log(allETAPerformance);
+  async function filterETAPerformance() {
+    setLoading(true);
+    const date1 = new Date(fromDate);
+    const date2 = new Date(toDate);
+
+    const timeDifference = date2.getTime() - date1.getTime();
+
+    if (timeDifference < 0) {
+      setSearchError("Invalid date parameteres! Please try again");
+    } else {
+      setSearchError("");
+    }
+
+    axios
+      .get(baseURLFilter, config)
+      .then((response) => {
+        setAllETAPerformance(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setAllETAPerformance([]);
+        console.log(error);
+        setLoading(false);
+      });
+  }
+
+  // console.log(allETAPerformance);
 
   if (
     window.localStorage.getItem("token") === null ||
@@ -149,11 +177,11 @@ function AllETAPerformance() {
                         <MDBox mb={3}>
                           <MDInput
                             InputLabelProps={{ shrink: true }}
-                            // onChange={(e) => setIncidentStartdate(e.target.value)}
+                            onChange={(e) => setFromDate(e.target.value)}
                             // onChange={(e) => setFname(e.target.value)}
-                            // helperText={searchIncidentError}
+                            helperText={searchError}
                             type="date"
-                            label="Start date"
+                            label="From date"
                             // variant="standard"
                             fullWidth
                           />
@@ -163,9 +191,9 @@ function AllETAPerformance() {
                         <MDBox mb={2}>
                           <MDInput
                             InputLabelProps={{ shrink: true }}
-                            // onChange={(e) => setIncidentEnddate(e.target.value)}
+                            onChange={(e) => setToDate(e.target.value)}
                             type="date"
-                            label="End date"
+                            label="To date"
                             // variant="standard"
                             fullWidth
                           />
@@ -174,7 +202,7 @@ function AllETAPerformance() {
                       <Grid item xs={12} mt={0.3} md={2}>
                         {/* <MDBox mt={4} mb={1}> */}
                         <MDButton
-                          // onClick={() => filterIncidentReports()}
+                          onClick={() => filterETAPerformance()}
                           variant="gradient"
                           color="info"
                           fullWidth

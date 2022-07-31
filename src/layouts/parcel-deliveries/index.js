@@ -71,7 +71,7 @@ function AllParcelDeliveries() {
     getAllParcelDeliveries();
   }, []);
 
-  console.log("ALl ParcelDeliveries = ", allParcelDeliveries, search);
+  // console.log("ALl ParcelDeliveries = ", allParcelDeliveries, search);
 
   const filteredData = allParcelDeliveries.filter(
     (ParcelDeliveries) =>

@@ -138,12 +138,12 @@ function SupervisorRegistration() {
     setLoading(true);
     await uploadVisaScan();
     await uploadProfilePhoto();
-    console.log(bodyParameters);
+    // console.log(bodyParameters);
 
     axios
       .post(baseURL, bodyParameters, config)
       .then((response) => {
-        console.log(response.status);
+        // console.log(response.status);
         if (response.status === 201) {
           alert("Supervisor registered successfully");
           navigate("/supervisors");

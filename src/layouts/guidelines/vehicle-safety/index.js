@@ -68,7 +68,7 @@ function VehicleSafety() {
 
   const currentDate = new Date();
   const timestamp = `${currentDate.getFullYear()}-0${currentDate.getMonth()}-${currentDate.getDate()}T${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
-  console.log(timestamp);
+  // console.log(timestamp);
 
   const tempFileNameVehicleSafety = `${timestamp}_vehicleSafety.jpg`;
   const tempVehicleSafetyURL = `https://${storageAccountName}.blob.core.windows.net/vehiclesafety/${tempFileNameVehicleSafety}`;
@@ -128,7 +128,7 @@ function VehicleSafety() {
       window.alert("No file to upload");
     } else {
       await uploadVehicleSafety();
-      console.log(bodyParameters);
+      // console.log(bodyParameters);
       axios
         .post(baseURL, bodyParameters, config)
         .then((response) => {
