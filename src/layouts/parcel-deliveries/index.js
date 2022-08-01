@@ -220,6 +220,15 @@ function AllParcelDeliveries() {
                         </TableRow>
                       </TableHead>
                       <TableBody>
+                        {filteredData.length === 0 ? (
+                          <TableRow key="s">
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                          </TableRow>
+                        ) : null}
                         {filteredData.map((row) => (
                           <TableRow key="s">
                             {/* <TableCell component="th" scope="row">

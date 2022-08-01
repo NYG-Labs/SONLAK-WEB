@@ -447,6 +447,7 @@ function DriverProfile() {
 
   const toolBoxDiscussionCols = [
     { title: "Date", field: "createDate" },
+    { title: "Title", field: "title" },
     { title: "Supervisor Email", field: "supervisorEmail" },
     { title: "Attendance", field: "attendance" },
   ];
@@ -1181,7 +1182,7 @@ function DriverProfile() {
                   py={3}
                   px={2}
                   variant="gradient"
-                  bgColor="secondary"
+                  bgColor="error"
                   borderRadius="lg"
                   coloredShadow="info"
                 >
@@ -1242,6 +1243,7 @@ function DriverProfile() {
                         <TableHead>
                           <TableRow>
                             <TableCell align="center">Date</TableCell>
+                            <TableCell align="center">Title</TableCell>
                             <TableCell align="center">Supervisor Email</TableCell>
                             <TableCell align="center">Attendance</TableCell>
                             <TableCell align="center" />
@@ -1256,6 +1258,7 @@ function DriverProfile() {
                           {filteredToolBox.map((row) => (
                             <TableRow key="s">
                               <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
+                              <TableCell align="center">{row.title}</TableCell>
                               <TableCell align="center">{row.supervisorEmail}</TableCell>
                               <TableCell align="center">{row.attendance}</TableCell>
                               {/* <TableCell align="center">

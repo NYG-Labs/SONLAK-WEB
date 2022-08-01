@@ -96,7 +96,7 @@ function AllVehicleCheck() {
       });
   }
 
-  console.log("ALl VehicleCheck = ", allVehicleCheck, search);
+  // console.log("ALl VehicleCheck = ", allVehicleCheck, search);
 
   const filteredData = allVehicleCheck.filter((IncidentReport) =>
     IncidentReport.driverEmail.toLowerCase().includes(search.toLowerCase())
@@ -214,6 +214,12 @@ function AllVehicleCheck() {
                         </TableRow>
                       </TableHead>
                       <TableBody>
+                        {filteredData.length === 0 ? (
+                          <TableRow key="s">
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                          </TableRow>
+                        ) : null}
                         {filteredData.map((row) => (
                           <TableRow key="s">
                             {/* <TableCell component="th" scope="row">

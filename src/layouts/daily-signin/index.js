@@ -60,9 +60,9 @@ function DriverDailySignIn() {
   const [loading, setLoading] = useState(false);
   const [latitute, setLatitue] = useState(-37.8136);
   const [longtitude, setLongtitude] = useState(144.9631);
-  const baseURLFilter = `/api/DriverSignIn`;
-  // /GetDriverSignInsfilterbyDate/${fromDate}/${toDate}`;
-  console.log(fromDate, toDate);
+  const baseURL = `/api/DriverSignIn`;
+  const baseURLFilter = `/api/DriverSignIn/GetDriverSignInsfilterbyDate/${fromDate}/${toDate}`;
+  // console.log(fromDate, toDate);
 
   const config = {
     headers: {
@@ -72,7 +72,7 @@ function DriverDailySignIn() {
   };
 
   const getAllDrivers = () => {
-    axios.get(baseURLFilter, config).then((response) => {
+    axios.get(baseURL, config).then((response) => {
       const tempDrivers = response.data;
       setAllDrivers(tempDrivers);
     });
@@ -245,6 +245,16 @@ function DriverDailySignIn() {
                         </TableRow>
                       </TableHead>
                       <TableBody>
+                        {filteredData.length === 0 ? (
+                          <TableRow key="s">
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                          </TableRow>
+                        ) : null}
                         {filteredData.map((row) => (
                           <TableRow key="s">
                             <TableCell component="th" scope="row">
@@ -274,22 +284,6 @@ function DriverDailySignIn() {
                                 size="sm"
                               />
                             </TableCell>
-                            {/* <TableCell align="left">{row.vehicleNo}</TableCell>
-                            <TableCell align="left">{row.driverType}</TableCell>
-                            <TableCell align="center">
-                              <MDBox ml={-1}>
-                                <Link to={{ pathname: `/drivers/${row.email}` }}>
-                                  <MDBadge
-                                    badgeContent="view"
-                                    color="success"
-                                    variant="gradient"
-                                    size="sm"
-                                    // component={Link}
-                                    // to={`/drivers/${row.email}`}
-                                  />
-                                </Link>
-                              </MDBox>
-                            </TableCell> */}
                           </TableRow>
                         ))}
                       </TableBody>
@@ -367,6 +361,16 @@ function DriverDailySignIn() {
                         </TableRow>
                       </TableHead>
                       <TableBody>
+                        {filteredData.length === 0 ? (
+                          <TableRow key="s">
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                          </TableRow>
+                        ) : null}
                         {filteredData.map((row) => (
                           <TableRow key="s">
                             <TableCell component="th" scope="row">

@@ -37,6 +37,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import MDButton from "components/MDButton";
+import CircularProgress from "@mui/material/CircularProgress";
 // import MDBadge from "components/MDBadge";
 
 import axios from "axios";
@@ -44,7 +46,12 @@ import axios from "axios";
 function AllToolBox() {
   const [search, setSearch] = useState("");
   const [allToolBox, setAllToolBox] = useState([]);
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [searchError, setSearchError] = useState("");
   const baseURL = "/api/ToolBox/GetToolBoxToAdmin";
+  const baseURLFilter = `/api/ToolBox/GetToolBoxlatestfilterbyDate/${fromDate}/${toDate}`;
 
   const config = {
     headers: {
@@ -63,6 +70,32 @@ function AllToolBox() {
   useEffect(() => {
     getAllToolBox();
   }, []);
+
+  async function filteToolBox() {
+    setLoading(true);
+    const date1 = new Date(fromDate);
+    const date2 = new Date(toDate);
+
+    const timeDifference = date2.getTime() - date1.getTime();
+
+    if (timeDifference < 0) {
+      setSearchError("Invalid date parameteres! Please try again");
+    } else {
+      setSearchError("");
+    }
+
+    axios
+      .get(baseURLFilter, config)
+      .then((response) => {
+        setAllToolBox(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setAllToolBox([]);
+        console.log(error);
+        setLoading(false);
+      });
+  }
 
   // console.log("ALl ToolBox = ", allToolBox, search);
 
@@ -101,6 +134,52 @@ function AllToolBox() {
                 </MDTypography>
               </MDBox>
               <MDBox pt={3}>
+                <Grid item xs={12} md={12} fullwidth justifyContent="flex-end">
+                  <MDBox pr={2} pb={1} pl={2}>
+                    <Grid container spacing={3}>
+                      <br />
+                      <Grid item xs={12} md={3}>
+                        <MDBox mb={3}>
+                          <MDInput
+                            InputLabelProps={{ shrink: true }}
+                            onChange={(e) => setFromDate(e.target.value)}
+                            // onChange={(e) => setFname(e.target.value)}
+                            helperText={searchError}
+                            type="date"
+                            label="From date"
+                            // variant="standard"
+                            fullWidth
+                          />
+                        </MDBox>
+                      </Grid>
+                      <Grid item xs={12} md={3}>
+                        <MDBox mb={2}>
+                          <MDInput
+                            InputLabelProps={{ shrink: true }}
+                            onChange={(e) => setToDate(e.target.value)}
+                            type="date"
+                            label="To date"
+                            // variant="standard"
+                            fullWidth
+                          />
+                        </MDBox>
+                      </Grid>
+                      <Grid item xs={12} mt={0.3} md={2}>
+                        {/* <MDBox mt={4} mb={1}> */}
+                        <MDButton
+                          onClick={() => filteToolBox()}
+                          variant="gradient"
+                          color="info"
+                          fullWidth
+                        >
+                          Filter &nbsp;&nbsp;
+                          {loading ? <CircularProgress size={20} color="white" /> : ""}
+                        </MDButton>
+                        {/* </MDBox> */}
+                      </Grid>
+                    </Grid>
+                  </MDBox>
+                </Grid>
                 <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
                   <MDBox pr={2} pb={1} pl={2}>
                     <MDInput
@@ -141,6 +220,17 @@ function AllToolBox() {
                         </TableRow>
                       </TableHead>
                       <TableBody>
+                        {filteredData.length === 0 ? (
+                          <TableRow key="s">
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center">-</TableCell>
+                          </TableRow>
+                        ) : null}
                         {filteredData.map((row) => (
                           <TableRow key="s">
                             {/* <TableCell component="th" scope="row">
