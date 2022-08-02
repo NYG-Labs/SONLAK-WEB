@@ -79,6 +79,7 @@ import AddComplaints from "layouts/complaints/new-complaint";
 import AllToolBox from "layouts/toolbox";
 import ToolBoxSupervisorDate from "layouts/toolbox/toolbox-day-supervisor";
 import DriverDailySignIn from "layouts/daily-signin";
+import SingleComplaints from "layouts/complaints/one-complaint";
 // import SignOut from "layouts/authentication/sign-out";
 
 // @mui icons
@@ -192,11 +193,17 @@ const routes = [
     component: <AllSupervisors />,
   },
   {
+    name: "Complaint",
+    key: "complaint",
+    route: "/All-Complaints/Complaint/:id",
+    component: <SingleComplaints />,
+  },
+  {
     type: "collapse",
     name: "Complaints",
     key: "complaints",
     icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/complaints",
+    route: "/All-Complaints",
     component: <AllComplaints />,
   },
   {

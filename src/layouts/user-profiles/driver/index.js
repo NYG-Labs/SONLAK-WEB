@@ -94,6 +94,8 @@ function DriverProfile() {
   const [vehicleEndDate, setVehicleEndDate] = useState("");
   const [signInStartDate, setSignInStartDate] = useState("");
   const [signInEndDate, setSignInEndDate] = useState("");
+  const [complaintsStartDate, setComplaintsStartDate] = useState("");
+  const [complaintsEndDate, setComplaintsEndDate] = useState("");
   const baseURL = `/api/drivers/${email}`;
   const deleteDriverURL = `/api/Drivers/${email}`;
   const ETAPerformanceURL = `/api/Etaperformances/GetEtaperformancelatest7/${email}`;
@@ -102,12 +104,14 @@ function DriverProfile() {
   const vehicleCheckURL = `/api/VehicleChecks/GetVehicleChecklatest7/${email}`;
   const toolBoxURL = `/api/ToolBox/GetToolBoxbyDriver/${email}`;
   const signInURL = `/api/DriverSignIn/GetDriverSignInbyDriverLast7days/${email}`;
+  const complaintsURL = `/api/Complaints/GetComplaintbyDriverLast7days/${email}`;
   const filterETAURL = `/api/Etaperformances/GetEtaperformancebyDriverFilterbyDate/${email}/${etaStartdate}/${etaEnddate}`;
   const filterParcelDeliveryURL = `/api/ParcelDeliveries/GetParcelDeliverybyDriverDate/${email}/${parcelStartdate}/${parcelEnddate}`;
   const filterIncidentReportURL = `/api/IncidentReports/GetIncidentReportbyDriverFilterbyDate/${email}/${incidentStartdate}/${incidentEnddate}`;
   const filterToolBoxURL = `/api/ToolBox/GetToolBoxbyDriverFilterbyDate/${email}/${toolStartDate}/${toolEndDate}`;
   const filterVehicleCheckURL = `/api/VehicleChecks/GetVehicleCheckbyDriver/${email}/${vehicleStartDate}/${vehicleEndDate}`;
   const filterSignInURL = `/api/DriverSignIn/GetDriverSignInbyDriverfilterByDate/${email}/${signInStartDate}/${signInEndDate}`;
+  const filterComplaintsURL = `/api/Complaints/GetComplaintbyDriverfilterbyDate/${email}/${complaintsStartDate}/${complaintsEndDate}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
   const [allETAPerformance, setAllETAPerformance] = useState([]);
@@ -116,18 +120,21 @@ function DriverProfile() {
   const [allVehicleCheck, setAllVehicleCheck] = useState([]);
   const [allToolBox, setAllToolBox] = useState([]);
   const [allSignIn, setAllSignIn] = useState([]);
+  const [allCompalints, setAllComplaints] = useState([]);
   const [searchETAError, setSearchETAError] = useState("");
   const [searchParcelError, setSearchParcelError] = useState("");
   const [searchIncidentError, setSearchIncidentError] = useState("");
   const [searchToolBoxError, setSearchToolBoxError] = useState("");
   const [searchVehicleError, setSearchVehicleError] = useState("");
   const [searchSignInError, setSearchSignInError] = useState("");
+  const [searchComplaintsError, setSearchComplaintsError] = useState("");
   const [etaLoading, setEtaLoading] = useState(false);
   const [parcelLoading, setParcelLoading] = useState(false);
   const [vehicleLoading, setVehicleLoading] = useState(false);
   const [toolboxLoading, setToolBoxLoading] = useState(false);
   const [incidentLoading, setIncidentLoading] = useState(false);
   const [signInLoading, setSignInLoading] = useState(false);
+  const [complaintsLoading, setComplaintsLoading] = useState(false);
 
   let tempDriverProfilePhoto = driver.profilePhoto;
 
@@ -191,6 +198,13 @@ function DriverProfile() {
     axios.get(signInURL, config).then((response) => {
       const tempSignIn = response.data;
       setAllSignIn(tempSignIn);
+    });
+  };
+
+  const getAllComplaints = () => {
+    axios.get(complaintsURL, config).then((response) => {
+      const tempComplaints = response.data;
+      setAllComplaints(tempComplaints);
     });
   };
 
@@ -352,6 +366,33 @@ function DriverProfile() {
       });
   }
 
+  async function filterComplaints() {
+    setComplaintsLoading(true);
+    const date1 = new Date(complaintsStartDate);
+    const date2 = new Date(complaintsEndDate);
+
+    const timeDifference = date2.getTime() - date1.getTime();
+
+    if (timeDifference < 0) {
+      setSearchComplaintsError("Invalid date parameteres! Please try again");
+      console.log(searchSignInError);
+    } else {
+      setSearchComplaintsError("");
+    }
+
+    axios
+      .get(filterComplaintsURL, config)
+      .then((response) => {
+        setAllComplaints(response.data);
+        setComplaintsLoading(false);
+      })
+      .catch((error) => {
+        setAllComplaints([]);
+        console.log(error);
+        setComplaintsLoading(false);
+      });
+  }
+
   const filteredDataETAPerformance = allETAPerformance;
   // .filter((etaPerformance) =>
   //   etaPerformance.createDate.toLowerCase().includes(searchETA.toLowerCase())
@@ -379,6 +420,8 @@ function DriverProfile() {
 
   const filteredSignIn = allSignIn;
 
+  const filteredComplaints = allCompalints;
+
   useEffect(() => {
     getTheDriver();
     getAllETAPerformance();
@@ -387,6 +430,7 @@ function DriverProfile() {
     getAllVehicleCheck();
     getAllToolBox();
     getAllSignIn();
+    getAllComplaints();
     // A function that sets the orientation state of the tabs.
     function handleTabsOrientation() {
       return window.innerWidth < breakpoints.values.sm
@@ -452,6 +496,14 @@ function DriverProfile() {
     { title: "Attendance", field: "attendance" },
   ];
 
+  const complaintsCols = [
+    { title: "Complaint Address", field: "complaintAddress" },
+    { title: "Complain Type", field: "complainType" },
+    { title: "Status", field: "status" },
+    { title: "Supervisor Email", field: "supervisorEmail" },
+    { title: "Supervisor Comment", field: "supervisorComment" },
+  ];
+
   const downloadPDF = () => {
     const doc = new JSPDF();
     doc.setFontSize(14);
@@ -475,6 +527,12 @@ function DriverProfile() {
       styles: { fontSize: 9 },
       columns: toolBoxDiscussionCols.map((col) => ({ ...col, dataKey: col.field })),
       body: filteredToolBox,
+    });
+    doc.text(`Complaints`, 15, doc.lastAutoTable.finalY + 6);
+    doc.autoTable({
+      styles: { fontSize: 9 },
+      columns: complaintsCols.map((col) => ({ ...col, dataKey: col.field })),
+      body: filteredComplaints,
     });
     doc.save(`driverreport${driver.fname}_${driver.lname}.pdf`);
   };
@@ -1368,16 +1426,119 @@ function DriverProfile() {
                             <TableRow key="s">
                               <TableCell align="left">{row.signInTime}</TableCell>
                               <TableCell align="left">{row.signOffTime}</TableCell>
-                              {/* <TableCell align="center">
-                                <a href={row.pdfUrl}>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Grid>
+                </MDBox>
+              </Card>
+            </Grid>
+          </Grid>
+        </MDBox>
+
+        <MDBox pt={1} pb={1} mt={3}>
+          <Grid container spacing={6}>
+            <Grid item xs={12}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                >
+                  <MDTypography variant="h6" color="white">
+                    Complaints
+                  </MDTypography>
+                </MDBox>
+                <MDBox pt={3}>
+                  <Grid item xs={12} md={12} fullwidth justifyContent="flex-end">
+                    <MDBox pr={2} pb={1} pl={2}>
+                      <Grid container spacing={3}>
+                        <br />
+                        <Grid item xs={12} md={3}>
+                          <MDBox mb={3}>
+                            <MDInput
+                              InputLabelProps={{ shrink: true }}
+                              onChange={(e) => setComplaintsStartDate(e.target.value)}
+                              // onChange={(e) => setFname(e.target.value)}
+                              helperText={searchComplaintsError}
+                              type="date"
+                              label="Start date"
+                              // variant="standard"
+                              fullWidth
+                            />
+                          </MDBox>
+                        </Grid>
+                        <Grid item xs={12} md={3}>
+                          <MDBox mb={2}>
+                            <MDInput
+                              InputLabelProps={{ shrink: true }}
+                              onChange={(e) => setComplaintsEndDate(e.target.value)}
+                              // helperText={searchComplaintsError}
+                              type="date"
+                              label="End date"
+                              // variant="standard"
+                              fullWidth
+                            />
+                          </MDBox>
+                        </Grid>
+                        <Grid item xs={12} mt={0.3} md={2}>
+                          {/* <MDBox mt={4} mb={1}> */}
+                          <MDButton
+                            onClick={() => filterComplaints()}
+                            variant="gradient"
+                            color="info"
+                            fullWidth
+                          >
+                            Filter &nbsp;&nbsp;
+                            {complaintsLoading ? <CircularProgress size={20} color="white" /> : ""}
+                          </MDButton>
+                          {/* </MDBox> */}
+                        </Grid>
+                      </Grid>
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
+                    <TableContainer>
+                      <Table aria-label="simple table">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell align="left">Created date</TableCell>
+                            <TableCell align="left">Supervisor Email</TableCell>
+                            <TableCell align="left">status</TableCell>
+                            <TableCell align="left">Complaint type</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {filteredComplaints.length === 0 ? (
+                            <TableRow key="s">
+                              <TableCell align="center">-</TableCell>
+                            </TableRow>
+                          ) : null}
+                          {filteredComplaints.map((row) => (
+                            <TableRow key="s">
+                              <TableCell align="left">{row.createDate}</TableCell>
+                              <TableCell align="left">{row.supervisorEmail}</TableCell>
+                              <TableCell align="left">{row.status}</TableCell>
+                              <TableCell align="left">{row.complainType}</TableCell>
+                              <TableCell align="left">
+                                <MDBox ml={-1}>
                                   <MDBadge
                                     badgeContent="view"
                                     color="success"
                                     variant="gradient"
                                     size="sm"
+                                    component={Link}
+                                    to={`/All-Complaints/Complaint/${row.id}`}
                                   />
-                                </a>
-                              </TableCell> */}
+                                </MDBox>
+                              </TableCell>
                             </TableRow>
                           ))}
                         </TableBody>

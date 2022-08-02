@@ -41,6 +41,7 @@ import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
+import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";
 // import allETAPerformanceData from "./allETAPerformanceData";
 
@@ -49,7 +50,12 @@ function AllComplaints() {
   // const { rows } = allComplaintsData();
   const [search, setSearch] = useState("");
   const [allComplaints, setAllComplaints] = useState([]);
-  const baseURL = `/api/Etaperformances/GetEtaperformancebyDateGroup`;
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [searchError, setSearchError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const baseURL = `/api/Complaints`;
+  const baseURLFilter = `/api/Complaints/GetComplaintsfilterbyDate/${fromDate}/${toDate}`;
 
   const config = {
     headers: {
@@ -70,10 +76,34 @@ function AllComplaints() {
   }, []);
 
   const filteredData = allComplaints.filter((Complaints) =>
-    Complaints.createDate.toLowerCase().includes(search.toLowerCase())
+    Complaints.driverEmail.toLowerCase().includes(search.toLowerCase())
   );
 
-  console.log(allComplaints);
+  async function filterComplaints() {
+    setLoading(true);
+    const date1 = new Date(fromDate);
+    const date2 = new Date(toDate);
+
+    const timeDifference = date2.getTime() - date1.getTime();
+
+    if (timeDifference < 0) {
+      setSearchError("Invalid date parameteres! Please try again");
+    } else {
+      setSearchError("");
+    }
+
+    axios
+      .get(baseURLFilter, config)
+      .then((response) => {
+        setAllComplaints(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setAllComplaints([]);
+        console.log(error);
+        setLoading(false);
+      });
+  }
 
   if (
     window.localStorage.getItem("token") === null ||
@@ -102,7 +132,7 @@ function AllComplaints() {
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={8.5}>
                     <MDTypography variant="h4" color="white" ml={4} mt={0.5}>
-                      Complaints
+                      All Complaints
                     </MDTypography>
                   </Grid>
                   <Grid item xs={12} md={3}>
@@ -123,15 +153,58 @@ function AllComplaints() {
                 </Grid>
               </MDBox>
               <MDBox pt={3}>
-                {/* <Grid container spacing={3}> */}
+                <Grid item xs={12} md={12} fullwidth justifyContent="flex-end">
+                  <MDBox pr={2} pb={1} pl={2}>
+                    <Grid container spacing={3}>
+                      <br />
+                      <Grid item xs={12} md={3}>
+                        <MDBox mb={3}>
+                          <MDInput
+                            InputLabelProps={{ shrink: true }}
+                            onChange={(e) => setFromDate(e.target.value)}
+                            // onChange={(e) => setFname(e.target.value)}
+                            helperText={searchError}
+                            type="date"
+                            label="From date"
+                            // variant="standard"
+                            fullWidth
+                          />
+                        </MDBox>
+                      </Grid>
+                      <Grid item xs={12} md={3}>
+                        <MDBox mb={2}>
+                          <MDInput
+                            InputLabelProps={{ shrink: true }}
+                            onChange={(e) => setToDate(e.target.value)}
+                            type="date"
+                            label="To date"
+                            // variant="standard"
+                            fullWidth
+                          />
+                        </MDBox>
+                      </Grid>
+                      <Grid item xs={12} mt={0.3} md={2}>
+                        {/* <MDBox mt={4} mb={1}> */}
+                        <MDButton
+                          onClick={() => filterComplaints()}
+                          variant="gradient"
+                          color="info"
+                          fullWidth
+                        >
+                          Filter &nbsp;&nbsp;
+                          {loading ? <CircularProgress size={20} color="white" /> : ""}
+                        </MDButton>
+                        {/* </MDBox> */}
+                      </Grid>
+                    </Grid>
+                  </MDBox>
+                </Grid>
                 <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
                   <MDBox pr={2} pb={1} pl={2}>
                     <MDInput
                       fullWidth
                       onChange={(e) => setSearch(e.target.value)}
-                      InputLabelProps={{ shrink: true }}
                       label="Search here"
-                      type="date"
                       justify="space-between"
                       spacing={24}
                       raised
@@ -143,13 +216,15 @@ function AllComplaints() {
                     <Table aria-label="simple table">
                       <TableHead>
                         <TableRow>
-                          <TableCell align="center">Date</TableCell>
-                          <TableCell align="center">Articles</TableCell>
-                          <TableCell align="center">Early</TableCell>
-                          <TableCell align="center">On Time</TableCell>
-                          <TableCell align="center">Late</TableCell>
-                          <TableCell align="center">Not Delivered</TableCell>
-                          <TableCell align="center">On Time %</TableCell>
+                          <TableCell align="center">Created Date</TableCell>
+                          {/* <TableCell align="center">Updated Date</TableCell> */}
+                          <TableCell align="center">Driver Email</TableCell>
+                          <TableCell align="center">Supervisor Email</TableCell>
+                          {/* <TableCell align="center">Complaint address</TableCell> */}
+                          <TableCell align="center">Complaint type</TableCell>
+                          <TableCell align="center">Status</TableCell>
+                          {/* <TableCell align="center">Safe drop image URL</TableCell> */}
+                          {/* <TableCell align="center">Supervisor comment</TableCell> */}
                           <TableCell align="left"> </TableCell>
                         </TableRow>
                       </TableHead>
@@ -157,14 +232,16 @@ function AllComplaints() {
                         {filteredData.map((row) => (
                           <TableRow key="s">
                             <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
-                            <TableCell align="center" component="th" scope="row">
-                              {row.articles}
-                            </TableCell>
-                            <TableCell align="center">{row.early}</TableCell>
-                            <TableCell align="center">{row.onTime}</TableCell>
-                            <TableCell align="center">{row.late}</TableCell>
-                            <TableCell align="center">{row.notDelivered}</TableCell>
-                            <TableCell align="center">{row.onTimePresentage}%</TableCell>
+                            {/* <TableCell align="center" component="th" scope="row">
+                              {row.updatedDate.split("T")[0]}
+                            </TableCell> */}
+                            <TableCell align="center">{row.driverEmail}</TableCell>
+                            <TableCell align="center">{row.supervisorEmail}</TableCell>
+                            {/* <TableCell align="center">{row.complaintAddress}</TableCell> */}
+                            <TableCell align="center">{row.complainType}</TableCell>
+                            <TableCell align="center">{row.status}</TableCell>
+                            {/* <TableCell align="center">{row.safeDropImageUrl}</TableCell> */}
+                            {/* <TableCell align="center">{row.supervisorComment}</TableCell> */}
                             <TableCell align="left">
                               <MDBox ml={-1}>
                                 <MDBadge
@@ -173,7 +250,7 @@ function AllComplaints() {
                                   variant="gradient"
                                   size="sm"
                                   component={Link}
-                                  to={`/ETA-performance/${row.createDate.split("T")[0]}`}
+                                  to={`/All-Complaints/Complaint/${row.id}`}
                                 />
                               </MDBox>
                             </TableCell>
