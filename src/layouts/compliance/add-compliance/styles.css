@@ -1,0 +1,19 @@
+.registerDriver {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.auto-complete button {
+  width: auto !important;
+}
+
+.select-input-styles {
+  padding: 12px 0;
+}
+
+.select-input-styles svg {
+  display: block;
+  width: 2em;
+  height: 2em;
+  top: calc(50% - 1em);
+}

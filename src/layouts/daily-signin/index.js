@@ -235,12 +235,12 @@ function DriverDailySignIn() {
                     <Table aria-label="simple table">
                       <TableHead>
                         <TableRow>
-                          <TableCell>Driver Email</TableCell>
-                          <TableCell align="left">Sign-in time</TableCell>
+                          <TableCell align="center">Driver Email</TableCell>
+                          <TableCell align="center">Sign-in time</TableCell>
                           {/* <TableCell align="left">Lase Name</TableCell> */}
-                          <TableCell align="left" />
-                          <TableCell align="left">Sign-off time</TableCell>
-                          <TableCell align="left" />
+                          <TableCell align="center" />
+                          <TableCell align="center">Sign-off time</TableCell>
+                          <TableCell align="center" />
                           {/* <TableCell align="left">Driver type</TableCell> */}
                         </TableRow>
                       </TableHead>
@@ -249,10 +249,10 @@ function DriverDailySignIn() {
                           <TableRow key="s">
                             <TableCell align="center">-</TableCell>
                             <TableCell align="center">-</TableCell>
+                            <TableCell align="center" />
                             <TableCell align="center">-</TableCell>
-                            <TableCell align="center">-</TableCell>
-                            <TableCell align="center">-</TableCell>
-                            <TableCell align="center">-</TableCell>
+                            <TableCell align="center" />
+                            <TableCell align="center" />
                           </TableRow>
                         ) : null}
                         {filteredData.map((row) => (

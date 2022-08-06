@@ -96,15 +96,18 @@ function DriverProfile() {
   const [signInEndDate, setSignInEndDate] = useState("");
   const [complaintsStartDate, setComplaintsStartDate] = useState("");
   const [complaintsEndDate, setComplaintsEndDate] = useState("");
+  const [complianceStartDate, setComplianceStartDate] = useState("");
+  const [complianceEndDate, setComplianceEndDate] = useState("");
   const baseURL = `/api/drivers/${email}`;
   const deleteDriverURL = `/api/Drivers/${email}`;
   const ETAPerformanceURL = `/api/Etaperformances/GetEtaperformancelatest7/${email}`;
   const IncidentReportURL = `/api/IncidentReports/GetIncidentReportlatest7/${email}`;
   const ParcelDeliveryURL = `/api/ParcelDeliveries/GetParcelDeliverylatest7/${email}`;
   const vehicleCheckURL = `/api/VehicleChecks/GetVehicleChecklatest7/${email}`;
-  const toolBoxURL = `/api/ToolBox/GetToolBoxbyDriver/${email}`;
+  const toolBoxURL = `/api/ToolBox/GetToolBoxbyDriverlatest7/${email}`;
   const signInURL = `/api/DriverSignIn/GetDriverSignInbyDriverLast7days/${email}`;
   const complaintsURL = `/api/Complaints/GetComplaintbyDriverLast7days/${email}`;
+  const complianceURL = `/api/Compliances/GetCompliancebyDriverLast7days/${email}`;
   const filterETAURL = `/api/Etaperformances/GetEtaperformancebyDriverFilterbyDate/${email}/${etaStartdate}/${etaEnddate}`;
   const filterParcelDeliveryURL = `/api/ParcelDeliveries/GetParcelDeliverybyDriverDate/${email}/${parcelStartdate}/${parcelEnddate}`;
   const filterIncidentReportURL = `/api/IncidentReports/GetIncidentReportbyDriverFilterbyDate/${email}/${incidentStartdate}/${incidentEnddate}`;
@@ -112,6 +115,7 @@ function DriverProfile() {
   const filterVehicleCheckURL = `/api/VehicleChecks/GetVehicleCheckbyDriver/${email}/${vehicleStartDate}/${vehicleEndDate}`;
   const filterSignInURL = `/api/DriverSignIn/GetDriverSignInbyDriverfilterByDate/${email}/${signInStartDate}/${signInEndDate}`;
   const filterComplaintsURL = `/api/Complaints/GetComplaintbyDriverfilterbyDate/${email}/${complaintsStartDate}/${complaintsEndDate}`;
+  const filterComplianceURL = `/api/Compliances/GetCompliancebyDriverfilterbyDate/${email}/${complianceStartDate}/${complianceEndDate}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
   const [allETAPerformance, setAllETAPerformance] = useState([]);
@@ -121,6 +125,7 @@ function DriverProfile() {
   const [allToolBox, setAllToolBox] = useState([]);
   const [allSignIn, setAllSignIn] = useState([]);
   const [allCompalints, setAllComplaints] = useState([]);
+  const [allCompliance, setAllCompliance] = useState([]);
   const [searchETAError, setSearchETAError] = useState("");
   const [searchParcelError, setSearchParcelError] = useState("");
   const [searchIncidentError, setSearchIncidentError] = useState("");
@@ -128,6 +133,7 @@ function DriverProfile() {
   const [searchVehicleError, setSearchVehicleError] = useState("");
   const [searchSignInError, setSearchSignInError] = useState("");
   const [searchComplaintsError, setSearchComplaintsError] = useState("");
+  const [searchComplianceError, setSearchComplianceError] = useState("");
   const [etaLoading, setEtaLoading] = useState(false);
   const [parcelLoading, setParcelLoading] = useState(false);
   const [vehicleLoading, setVehicleLoading] = useState(false);
@@ -135,6 +141,7 @@ function DriverProfile() {
   const [incidentLoading, setIncidentLoading] = useState(false);
   const [signInLoading, setSignInLoading] = useState(false);
   const [complaintsLoading, setComplaintsLoading] = useState(false);
+  const [complianceLoading, setComplianceLoading] = useState(false);
 
   let tempDriverProfilePhoto = driver.profilePhoto;
 
@@ -205,6 +212,13 @@ function DriverProfile() {
     axios.get(complaintsURL, config).then((response) => {
       const tempComplaints = response.data;
       setAllComplaints(tempComplaints);
+    });
+  };
+
+  const getAllCompliance = () => {
+    axios.get(complianceURL, config).then((response) => {
+      const tempCompliance = response.data;
+      setAllCompliance(tempCompliance);
     });
   };
 
@@ -393,6 +407,33 @@ function DriverProfile() {
       });
   }
 
+  async function filterCompliance() {
+    setComplianceLoading(true);
+    const date1 = new Date(complianceStartDate);
+    const date2 = new Date(complianceEndDate);
+
+    const timeDifference = date2.getTime() - date1.getTime();
+
+    if (timeDifference < 0) {
+      setSearchComplianceError("Invalid date parameteres! Please try again");
+      console.log(searchSignInError);
+    } else {
+      setSearchComplianceError("");
+    }
+
+    axios
+      .get(filterComplianceURL, config)
+      .then((response) => {
+        setAllCompliance(response.data);
+        setComplianceLoading(false);
+      })
+      .catch((error) => {
+        setAllCompliance([]);
+        console.log(error);
+        setComplianceLoading(false);
+      });
+  }
+
   const filteredDataETAPerformance = allETAPerformance;
   // .filter((etaPerformance) =>
   //   etaPerformance.createDate.toLowerCase().includes(searchETA.toLowerCase())
@@ -422,6 +463,8 @@ function DriverProfile() {
 
   const filteredComplaints = allCompalints;
 
+  const filteredCompliance = allCompliance;
+
   useEffect(() => {
     getTheDriver();
     getAllETAPerformance();
@@ -431,6 +474,7 @@ function DriverProfile() {
     getAllToolBox();
     getAllSignIn();
     getAllComplaints();
+    getAllCompliance();
     // A function that sets the orientation state of the tabs.
     function handleTabsOrientation() {
       return window.innerWidth < breakpoints.values.sm
@@ -1539,6 +1583,123 @@ function DriverProfile() {
                                   />
                                 </MDBox>
                               </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Grid>
+                </MDBox>
+              </Card>
+            </Grid>
+          </Grid>
+        </MDBox>
+
+        <MDBox pt={1} pb={1} mt={3}>
+          <Grid container spacing={6}>
+            <Grid item xs={12}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                >
+                  <MDTypography variant="h6" color="white">
+                    Compliance
+                  </MDTypography>
+                </MDBox>
+                <MDBox pt={3}>
+                  <Grid item xs={12} md={12} fullwidth justifyContent="flex-end">
+                    <MDBox pr={2} pb={1} pl={2}>
+                      <Grid container spacing={3}>
+                        <br />
+                        <Grid item xs={12} md={3}>
+                          <MDBox mb={3}>
+                            <MDInput
+                              InputLabelProps={{ shrink: true }}
+                              onChange={(e) => setComplianceStartDate(e.target.value)}
+                              // onChange={(e) => setFname(e.target.value)}
+                              helperText={searchComplianceError}
+                              type="date"
+                              label="Start date"
+                              // variant="standard"
+                              fullWidth
+                            />
+                          </MDBox>
+                        </Grid>
+                        <Grid item xs={12} md={3}>
+                          <MDBox mb={2}>
+                            <MDInput
+                              InputLabelProps={{ shrink: true }}
+                              onChange={(e) => setComplianceEndDate(e.target.value)}
+                              // helperText={searchComplaintsError}
+                              type="date"
+                              label="End date"
+                              // variant="standard"
+                              fullWidth
+                            />
+                          </MDBox>
+                        </Grid>
+                        <Grid item xs={12} mt={0.3} md={2}>
+                          {/* <MDBox mt={4} mb={1}> */}
+                          <MDButton
+                            onClick={() => filterCompliance()}
+                            variant="gradient"
+                            color="info"
+                            fullWidth
+                          >
+                            Filter &nbsp;&nbsp;
+                            {complianceLoading ? <CircularProgress size={20} color="white" /> : ""}
+                          </MDButton>
+                          {/* </MDBox> */}
+                        </Grid>
+                      </Grid>
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
+                    <TableContainer>
+                      <Table aria-label="simple table">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell align="center">Article ID</TableCell>
+                            <TableCell align="center">Date</TableCell>
+                            <TableCell align="center">Accept</TableCell>
+                            <TableCell align="center">Deliver</TableCell>
+                            <TableCell align="center">Attempt to Deliver</TableCell>
+                            <TableCell align="center">Transfer</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {filteredCompliance.length === 0 ? (
+                            <TableRow key="s">
+                              <TableCell align="center">-</TableCell>
+                            </TableRow>
+                          ) : null}
+                          {filteredCompliance.map((row) => (
+                            <TableRow key="s">
+                              <TableCell align="center">{row.articleId}</TableCell>
+                              <TableCell align="center">{row.date}</TableCell>
+                              <TableCell align="center">{row.accept}</TableCell>
+                              <TableCell align="center">{row.deliver}</TableCell>
+                              <TableCell align="center">{row.attemptToDeliver}</TableCell>
+                              <TableCell align="center">{row.transfer}</TableCell>
+                              {/* <TableCell align="left">
+                                <MDBox ml={-1}>
+                                  <MDBadge
+                                    badgeContent="view"
+                                    color="success"
+                                    variant="gradient"
+                                    size="sm"
+                                    component={Link}
+                                    to={`/All-Complaints/Complaint/${row.id}`}
+                                  />
+                                </MDBox>
+                              </TableCell> */}
                             </TableRow>
                           ))}
                         </TableBody>

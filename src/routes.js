@@ -46,7 +46,7 @@ import AllSupervisors from "layouts/all-users/supervisor";
 // import SupervisorProfile from "layouts/user-profiles/supervisor";
 import Billing from "layouts/billing";
 // import RTL from "layouts/rtl";
-import Notifications from "layouts/notifications";
+// import Notifications from "layouts/notifications";
 // import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 // import SignUp from "layouts/authentication/sign-up";
@@ -80,6 +80,9 @@ import AllToolBox from "layouts/toolbox";
 import ToolBoxSupervisorDate from "layouts/toolbox/toolbox-day-supervisor";
 import DriverDailySignIn from "layouts/daily-signin";
 import SingleComplaints from "layouts/complaints/one-complaint";
+import AllCompliance from "layouts/compliance";
+import AddCompliance from "layouts/compliance/add-compliance";
+import EditCompliance from "layouts/compliance/edit-compliance";
 // import SignOut from "layouts/authentication/sign-out";
 
 // @mui icons
@@ -98,7 +101,7 @@ const routes = [
     type: "collapse",
     name: "Users",
     key: "users",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: <Icon fontSize="small">people</Icon>,
     route: "/users",
     component: <AllUsers />,
   },
@@ -106,7 +109,7 @@ const routes = [
     type: "collapse",
     name: "ETA Performance",
     key: "all-eta-performance",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: <Icon fontSize="small">leaderboard</Icon>,
     route: "/ETA-performance",
     component: <AllETAPerformances />,
   },
@@ -132,7 +135,7 @@ const routes = [
     type: "collapse",
     name: "Incident Reports",
     key: "incident-reports",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: <Icon fontSize="small">minor_crash</Icon>,
     route: "/Incident-reports",
     component: <AllIncidentReports />,
   },
@@ -140,7 +143,7 @@ const routes = [
     type: "collapse",
     name: "ToolBox Discussion",
     key: "toolbox-discussion",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: <Icon fontSize="small">chat</Icon>,
     route: "/toolbox-discussion",
     component: <AllToolBox />,
   },
@@ -148,7 +151,7 @@ const routes = [
     type: "collapse",
     name: "Drivers Daily SignIn",
     key: "drivers-daily-signin",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: <Icon fontSize="small">location_on</Icon>,
     route: "/drivers-daily-signin",
     component: <DriverDailySignIn />,
   },
@@ -156,7 +159,7 @@ const routes = [
     type: "collapse",
     name: "Parcel Deliveries",
     key: "parcel-deliveries",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: <Icon fontSize="small">local_shipping</Icon>,
     route: "/Parcel-deliveries",
     component: <AllParcelDeliveries />,
   },
@@ -164,7 +167,7 @@ const routes = [
     type: "collapse",
     name: "Vehicle Check",
     key: "vehicle-check",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: <Icon fontSize="small">taxi_alert</Icon>,
     route: "/vehicle-check",
     component: <AllVehicleCheck />,
   },
@@ -202,9 +205,29 @@ const routes = [
     type: "collapse",
     name: "Complaints",
     key: "complaints",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: <Icon fontSize="small">report_problem</Icon>,
     route: "/All-Complaints",
     component: <AllComplaints />,
+  },
+  {
+    type: "collapse",
+    name: "Compliance",
+    key: "compliance",
+    icon: <Icon fontSize="small">table_view</Icon>,
+    route: "/compliance",
+    component: <AllCompliance />,
+  },
+  {
+    name: "Edit compliance",
+    key: "edit-complaice",
+    route: "/compliance/edit-compliance/:id",
+    component: <EditCompliance />,
+  },
+  {
+    name: "add-compliance",
+    key: "add-compliance",
+    route: "/compliance/add-compliance",
+    component: <AddCompliance />,
   },
   {
     name: "add-complaints",
@@ -258,7 +281,7 @@ const routes = [
     type: "collapse",
     name: "Add users",
     key: "addUsers",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: <Icon fontSize="small">group_add</Icon>,
     route: "/add-user",
     component: <AllUserRegistrations />,
   },
@@ -266,7 +289,7 @@ const routes = [
     type: "collapse",
     name: "Guidelines",
     key: "guidelines",
-    icon: <Icon fontSize="small">table_view</Icon>,
+    icon: <Icon fontSize="small">bookmark_added</Icon>,
     route: "/guidelines",
     component: <AllGuidelines />,
   },
@@ -300,28 +323,6 @@ const routes = [
     route: "/billing",
     component: <Billing />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "RTL",
-  //   key: "rtl",
-  //   icon: <Icon fontSize="small">format_textdirection_r_to_l</Icon>,
-  //   route: "/rtl",
-  //   component: <RTL />,
-  // },
-  {
-    type: "collapse",
-    name: "Notifications",
-    key: "notifications",
-    icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/notifications",
-    component: <Notifications />,
-  },
-  // {
-  //   name: "Profile",
-  //   key: "profile",
-  //   route: "/profile",
-  //   component: <Profile />,
-  // },
   {
     name: "Sign In",
     key: "sign-in",
@@ -346,47 +347,6 @@ const routes = [
     route: "/add-user/admin",
     component: <SignUpAdmin />,
   },
-  // {
-  //   type: "collapse",
-  //   name: "SignOut",
-  //   key: "signout",
-  //   icon: <Icon fontSize="small">logout</Icon>,
-  //   route: "/",
-  //   component: <SignOut />,
-  // },
 ];
 
 export default routes;
-// {
-//   type: "collapse",
-//   name: "Registrations",
-//   key: "authentication",
-//   icon: <Icon fontSize="small">assignment</Icon>,
-//   // route: "/authentication/sign-up",
-//   collapse: [
-//     {
-//       // type: "title",
-//       name: "Supervisor registration",
-//       key: "SignUpSupervisor",
-//       // icon: <Icon fontSize="small">assignment</Icon>,
-//       route: "/authentication/registration/supervisor",
-//       component: <SignUpSupervisor />,
-//     },
-//     {
-//       // type: "title",
-//       name: "Driver registration",
-//       key: "SignUpDriver",
-//       // icon: <Icon fontSize="small">assignment</Icon>,
-//       route: "/authentication/registration/driver",
-//       component: <SignUpDriver />,
-//     },
-//     {
-//       // type: "title",
-//       name: "Admin registration",
-//       key: "SignUpAdmin",
-//       // icon: <Icon fontSize="small">assignment</Icon>,
-//       route: "/authentication/registration/admin",
-//       component: <SignUpAdmin />,
-//     },
-//   ],
-// },

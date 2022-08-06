@@ -76,10 +76,13 @@ function SupervisorProfile() {
   const [supervisor, setSupervisor] = useState([]);
   const baseURL = `/api/supervisors/${id}`;
   const ToolBoxURL = `/api/ToolBox/GetToolBoxBySupervisor/${id}`;
+  const ComplaintsURL = `/api/Complaints/GetComplaintbySupervisor/${id}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
   const [searchToolBox, setSearchToolBox] = useState("");
+  const [searchComplaints, setSearchComplaints] = useState("");
   const [allToolBox, setAllToolBox] = useState([]);
+  const [allComplaints, setAllComplaints] = useState([]);
   let tempSupervisorProfilePhoto = supervisor.profilePhoto;
   // console.log(supervisor);
 
@@ -97,8 +100,19 @@ function SupervisorProfile() {
     });
   };
 
+  const getAllComplaints = () => {
+    axios.get(ComplaintsURL, config).then((response) => {
+      const tempComplaints = response.data;
+      setAllComplaints(tempComplaints);
+    });
+  };
+
   const filteredDataToolBox = allToolBox.filter((toolBox) =>
     toolBox.createDate.toLowerCase().includes(searchToolBox.toLowerCase())
+  );
+
+  const filteredComplaints = allComplaints.filter((complaints) =>
+    complaints.createDate.toLowerCase().includes(searchComplaints.toLowerCase())
   );
 
   const getTheSupervisor = () => {
@@ -110,6 +124,7 @@ function SupervisorProfile() {
 
   useEffect(() => {
     getAllToolBox();
+    getAllComplaints();
 
     getTheSupervisor();
     // A function that sets the orientation state of the tabs.
@@ -337,6 +352,92 @@ function SupervisorProfile() {
                                     to={`/toolbox-discussion/date-supervisor/${id}/${
                                       row.createDate.split("T")[0]
                                     }`}
+                                  />
+                                </MDBox>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Grid>
+                </MDBox>
+              </Card>
+            </Grid>
+          </Grid>
+        </MDBox>
+
+        <MDBox pt={1} pb={1} mt={3} id="ETA">
+          <Grid container spacing={6}>
+            <Grid item xs={12}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                >
+                  <MDTypography variant="h6" color="white">
+                    Complaints
+                  </MDTypography>
+                </MDBox>
+                <MDBox pt={3}>
+                  {/* <Grid container spacing={3}> */}
+                  <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
+                    <MDBox pr={2} pb={1} pl={2}>
+                      <MDInput
+                        fullWidth
+                        InputLabelProps={{ shrink: true }}
+                        onChange={(e) => setSearchComplaints(e.target.value)}
+                        label="Search here"
+                        type="date"
+                        justify="space-between"
+                        spacing={24}
+                        raised
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
+                    <TableContainer>
+                      <Table aria-label="simple table">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell align="left">Created date</TableCell>
+                            <TableCell align="left">Driver Email</TableCell>
+                            <TableCell align="left">status</TableCell>
+                            <TableCell align="left">Complaint type</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {filteredDataToolBox.length === 0 ? (
+                            <TableRow key="s">
+                              <TableCell align="center">-</TableCell>
+                              <TableCell align="center">-</TableCell>
+                              <TableCell align="center">-</TableCell>
+                              <TableCell align="center">-</TableCell>
+                              <TableCell align="center">-</TableCell>
+                              <TableCell align="center">-</TableCell>
+                            </TableRow>
+                          ) : null}
+                          {filteredComplaints.map((row) => (
+                            <TableRow key="s">
+                              <TableCell align="left">{row.createDate}</TableCell>
+                              <TableCell align="left">{row.driverEmail}</TableCell>
+                              <TableCell align="left">{row.status}</TableCell>
+                              <TableCell align="left">{row.complainType}</TableCell>
+                              <TableCell align="left">
+                                <MDBox ml={-1}>
+                                  <MDBadge
+                                    badgeContent="view"
+                                    color="success"
+                                    variant="gradient"
+                                    size="sm"
+                                    component={Link}
+                                    to={`/All-Complaints/Complaint/${row.id}`}
                                   />
                                 </MDBox>
                               </TableCell>
