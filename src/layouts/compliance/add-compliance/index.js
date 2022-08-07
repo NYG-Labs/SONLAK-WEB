@@ -74,8 +74,6 @@ function AddCompliance() {
   const [allDrivers, setAllDrivers] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  console.log("date = ", date);
-
   const getAllDrivers = () => {
     axios.get(getAllDriversURL, config).then((response) => {
       const tempDrivers = response.data;

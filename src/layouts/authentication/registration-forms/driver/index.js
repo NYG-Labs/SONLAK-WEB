@@ -69,6 +69,13 @@ function DriverRegistration() {
   const [dob, setDob] = useState("");
   const [gender, setGender] = useState("");
   const [ausPostId, setAusPostId] = useState("");
+
+  const [policyNo, setPolicyNo] = useState("");
+  const [insuaranceExpDate, setInsuaranceExpDate] = useState("");
+  const [route, setRoute] = useState("");
+  const [deviceId, setDeviceId] = useState("");
+  console.log(policyNo, insuaranceExpDate, route, deviceId);
+
   // const [ausPostScan, setAusPostScan] = useState("");
   const [ausPostExpiry, setAusPostExpiry] = useState("");
   const [vehicleNo, setVehicleNo] = useState("");
@@ -368,8 +375,8 @@ function DriverRegistration() {
                       }}
                       fullWidth
                     >
-                      <MenuItem value="Male">Male</MenuItem>
-                      <MenuItem value="Female">Female</MenuItem>
+                      <MenuItem value="male">Male</MenuItem>
+                      <MenuItem value="female">Female</MenuItem>
                     </MDInput>
                   </MDBox>
                 </Grid>
@@ -487,12 +494,72 @@ function DriverRegistration() {
                   </MDBox>
                 </Grid>
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
+                  {/* <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setVehicalType(e.target.value)}
                       type="texy"
                       label="Vehicle type"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox> */}
+                  <MDBox mb={3}>
+                    <MDInput
+                      size="large"
+                      InputLabelProps={{ shrink: true }}
+                      select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      onChange={(e) => setVehicalType(e.target.value)}
+                      value={driverType}
+                      label="Vehicle Type"
+                      InputProps={{
+                        classes: { root: "select-input-styles" },
+                      }}
+                      fullWidth
+                    >
+                      <MenuItem value="car">Car</MenuItem>
+                      <MenuItem value="bike">Bike</MenuItem>
+                    </MDInput>
+                  </MDBox>
+                </Grid>
+                {/* <Grid item xs={12} md={4}>
+                  <MDBox mb={3}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="date"
+                      label="Expiery date"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid> */}
+              </Grid>
+            </MDBox>
+
+            <MDBox p={2}>
+              <MDBox pb={2}>Insuarance Details</MDBox>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setPolicyNo(e.target.value)}
+                      type="text"
+                      label="Policy No"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setInsuaranceExpDate(e.target.value)}
+                      type="date"
+                      label="Expiery Date"
                       // variant="standard"
                       fullWidth
                     />
@@ -617,8 +684,8 @@ function DriverRegistration() {
                       }}
                       fullWidth
                     >
-                      <MenuItem value="Active">Active</MenuItem>
-                      <MenuItem value="Inactive">Inactive</MenuItem>
+                      <MenuItem value="Foreign">Foreign</MenuItem>
+                      <MenuItem value="Local">Local</MenuItem>
                     </MDInput>
                   </MDBox>
                 </Grid>
@@ -655,6 +722,34 @@ function DriverRegistration() {
                       onChange={ProfilePhotoHnadler}
                       type="file"
                       label="Profile Photo"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={3}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setRoute(e.target.value)}
+                      type="text"
+                      label="Route"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setDeviceId(e.target.value)}
+                      type="text"
+                      label="DeviceId"
+                      // value={username}
                       // variant="standard"
                       fullWidth
                     />
