@@ -15,11 +15,11 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import Grid from "@mui/material/Grid";
-
+import { useState, useEffect } from "react";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
@@ -27,11 +27,15 @@ import Footer from "examples/Footer";
 import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
 import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
+import MDTypography from "components/MDTypography";
 
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
-
+import Card from "@mui/material/Card";
+import Divider from "@mui/material/Divider";
+// import Divider from "@mui/material/Divider";
+import Icon from "@mui/material/Icon";
 // Dashboard components
 import Projects from "layouts/dashboard/components/Projects";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
@@ -40,6 +44,38 @@ import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
   const navigate = useNavigate();
+  const [weekDaysData, setWeekDaysData] = useState([]);
+  const [dayWeekMonth, setDayWeekMonth] = useState([]);
+  const weekdaysDataURL = "/api/ParcelDeliveries/GetParcelDeliveryCountforAdmin";
+  const dayWeekMonthURL = "/api/ParcelDeliveries/GetParcelDeliveryStatforAdmin";
+
+  const config = {
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+    },
+  };
+
+  const getWeekDaysData = () => {
+    axios.get(weekdaysDataURL, config).then((response) => {
+      const tempweekDaysData = response.data;
+      setWeekDaysData(tempweekDaysData);
+      console.log("week = ", weekDaysData);
+    });
+  };
+
+  const getDayWeekMonthData = () => {
+    axios.get(dayWeekMonthURL, config).then((response) => {
+      const tempDayWeekMonth = response.data;
+      setDayWeekMonth(tempDayWeekMonth);
+      console.log("dayweekmonth = ", dayWeekMonth);
+    });
+  };
+
+  useEffect(() => {
+    getWeekDaysData();
+    getDayWeekMonthData();
+  }, []);
 
   // console.log(window.localStorage.getItem("roleKey"));
   if (
@@ -114,6 +150,11 @@ function Dashboard() {
             </MDBox>
           </Grid>
         </Grid>
+        {/* sample template changes */}
+
+        <MDTypography variant="h4" color="inherit">
+          Parcel Deliveries Summary
+        </MDTypography>
         <MDBox mt={4.5}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>
@@ -127,6 +168,114 @@ function Dashboard() {
                 />
               </MDBox>
             </Grid>
+
+            <Grid item xs={12} md={6} lg={2}>
+              <MDBox mb={2.0}>
+                <Card>
+                  <MDBox display="flex" justifyContent="center" pt={1} px={2}>
+                    <MDBox textAlign="center" lineHeight={1.25}>
+                      <Icon fontSize="small" color="inherit">
+                        fast_rewind
+                      </Icon>
+                      <MDTypography variant="h6" color="inherit">
+                        Yesterday
+                      </MDTypography>
+                      <MDTypography variant="h6">{dayWeekMonth.yesterday}</MDTypography>
+                    </MDBox>
+                  </MDBox>
+                  <Divider />
+                  <MDBox display="flex" justifyContent="center" pt={1} px={2}>
+                    <MDBox textAlign="center" lineHeight={1.25}>
+                      <Icon fontSize="small" color="inherit">
+                        date_range
+                      </Icon>
+                      <MDTypography variant="h6" color="inherit">
+                        Last week
+                      </MDTypography>
+                      <MDTypography variant="h6">{dayWeekMonth.weekly}</MDTypography>
+                    </MDBox>
+                  </MDBox>
+                  <Divider />
+                  <MDBox display="flex" justifyContent="center" pt={1} px={2}>
+                    <MDBox textAlign="center" lineHeight={1.25}>
+                      <Icon fontSize="small" color="inherit">
+                        today
+                      </Icon>
+                      <MDTypography variant="h6" color="inherit">
+                        Last month
+                      </MDTypography>
+                      <MDTypography variant="h6">{dayWeekMonth.monthly}</MDTypography>
+                    </MDBox>
+                  </MDBox>
+                </Card>
+              </MDBox>
+            </Grid>
+          </Grid>
+        </MDBox>
+
+        <MDTypography variant="h4" color="inherit">
+          Parcel Deliveries Summary
+        </MDTypography>
+        <MDBox mt={4.5}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={4}>
+              <MDBox mb={3}>
+                <ReportsBarChart
+                  color="info"
+                  title="website views"
+                  description="Last Campaign Performance"
+                  date="campaign sent 2 days ago"
+                  chart={reportsBarChartData}
+                />
+              </MDBox>
+            </Grid>
+
+            <Grid item xs={12} md={6} lg={2}>
+              <MDBox mb={2.0}>
+                <Card>
+                  <MDBox display="flex" justifyContent="center" pt={1} px={2}>
+                    <MDBox textAlign="center" lineHeight={1.25}>
+                      <Icon fontSize="small" color="inherit">
+                        fast_rewind
+                      </Icon>
+                      <MDTypography variant="h6" color="inherit">
+                        Yesterday
+                      </MDTypography>
+                      <MDTypography variant="h6">{dayWeekMonth.yesterday}</MDTypography>
+                    </MDBox>
+                  </MDBox>
+                  <Divider />
+                  <MDBox display="flex" justifyContent="center" pt={1} px={2}>
+                    <MDBox textAlign="center" lineHeight={1.25}>
+                      <Icon fontSize="small" color="inherit">
+                        date_range
+                      </Icon>
+                      <MDTypography variant="h6" color="inherit">
+                        Last week
+                      </MDTypography>
+                      <MDTypography variant="h6">{dayWeekMonth.weekly}</MDTypography>
+                    </MDBox>
+                  </MDBox>
+                  <Divider />
+                  <MDBox display="flex" justifyContent="center" pt={1} px={2}>
+                    <MDBox textAlign="center" lineHeight={1.25}>
+                      <Icon fontSize="small" color="inherit">
+                        today
+                      </Icon>
+                      <MDTypography variant="h6" color="inherit">
+                        Last month
+                      </MDTypography>
+                      <MDTypography variant="h6">{dayWeekMonth.monthly}</MDTypography>
+                    </MDBox>
+                  </MDBox>
+                </Card>
+              </MDBox>
+            </Grid>
+          </Grid>
+        </MDBox>
+
+        <MDBox mt={4.5}>
+          <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
                 <ReportsLineChart

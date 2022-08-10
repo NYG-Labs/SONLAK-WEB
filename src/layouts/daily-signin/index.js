@@ -54,13 +54,15 @@ function DriverDailySignIn() {
   const [search, setSearch] = useState("");
   const [allDrivers, setAllDrivers] = useState([]);
   const newDate = new Date();
-  const [fromDate, setFromDate] = useState(newDate);
-  const [toDate, setToDate] = useState(newDate - 7);
+  const today = `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`;
+  console.log(today, newDate);
+  const [fromDate, setFromDate] = useState(today);
+  const [toDate, setToDate] = useState(today);
   const [searchError, setSearchError] = useState("");
   const [loading, setLoading] = useState(false);
   const [latitute, setLatitue] = useState(-37.8136);
   const [longtitude, setLongtitude] = useState(144.9631);
-  const baseURL = `/api/DriverSignIn`;
+  // const baseURL = `/api/DriverSignIn`;
   const baseURLFilter = `/api/DriverSignIn/GetDriverSignInsfilterbyDate/${fromDate}/${toDate}`;
   // console.log(fromDate, toDate);
 
@@ -72,7 +74,7 @@ function DriverDailySignIn() {
   };
 
   const getAllDrivers = () => {
-    axios.get(baseURL, config).then((response) => {
+    axios.get(baseURLFilter, config).then((response) => {
       const tempDrivers = response.data;
       setAllDrivers(tempDrivers);
     });
@@ -236,6 +238,7 @@ function DriverDailySignIn() {
                       <TableHead>
                         <TableRow>
                           <TableCell align="center">Driver Email</TableCell>
+                          <TableCell align="center">Driver Name</TableCell>
                           <TableCell align="center">Sign-in time</TableCell>
                           {/* <TableCell align="left">Lase Name</TableCell> */}
                           <TableCell align="center" />
@@ -257,10 +260,13 @@ function DriverDailySignIn() {
                         ) : null}
                         {filteredData.map((row) => (
                           <TableRow key="s">
-                            <TableCell component="th" scope="row">
+                            <TableCell align="center" component="th" scope="row">
                               {row.driverEmail}
                             </TableCell>
-                            <TableCell align="left">{row.signInTime}</TableCell>
+                            <TableCell align="center">
+                              {row.driverFname} {row.driverLname}
+                            </TableCell>
+                            <TableCell align="center">{row.signInTime}</TableCell>
                             <TableCell align="center">
                               <MDBadge
                                 badgeContent="view sign-in"
@@ -272,7 +278,7 @@ function DriverDailySignIn() {
                                 size="sm"
                               />
                             </TableCell>
-                            <TableCell align="left">{row.signOffTime}</TableCell>
+                            <TableCell align="center">{row.signOffTime}</TableCell>
                             <TableCell align="center">
                               <MDBadge
                                 badgeContent="view sign-out"
