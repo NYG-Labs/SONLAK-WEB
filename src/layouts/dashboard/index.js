@@ -46,8 +46,10 @@ function Dashboard() {
   const navigate = useNavigate();
   const [weekDaysData, setWeekDaysData] = useState([]);
   const [dayWeekMonth, setDayWeekMonth] = useState([]);
+  const [mostFiveDeliveries, setMostFiveDeliveries] = useState([]);
   const weekdaysDataURL = "/api/ParcelDeliveries/GetParcelDeliveryCountforAdmin";
   const dayWeekMonthURL = "/api/ParcelDeliveries/GetParcelDeliveryStatforAdmin";
+  const mostFiveDeliveriesURL = "/api/ToolBox/GetToolBoxToAdminLast7days";
 
   const config = {
     headers: {
@@ -72,9 +74,18 @@ function Dashboard() {
     });
   };
 
+  const getMostFiveDeliveries = () => {
+    axios.get(mostFiveDeliveriesURL, config).then((response) => {
+      const tempMostFiveDeliveries = response.data;
+      setMostFiveDeliveries(tempMostFiveDeliveries);
+      console.log("most 5 deliveries = ", tempMostFiveDeliveries, mostFiveDeliveries);
+    });
+  };
+
   useEffect(() => {
     getWeekDaysData();
     getDayWeekMonthData();
+    getMostFiveDeliveries();
   }, []);
 
   // console.log(window.localStorage.getItem("roleKey"));
@@ -169,11 +180,11 @@ function Dashboard() {
               </MDBox>
             </Grid>
 
-            <Grid item xs={12} md={6} lg={2}>
+            <Grid item xs={12} mt={0.5} md={6} lg={2}>
               <MDBox mb={2.0}>
                 <Card>
                   <MDBox display="flex" justifyContent="center" pt={1} px={2}>
-                    <MDBox textAlign="center" lineHeight={1.25}>
+                    <MDBox textAlign="center" lineHeight={1.0}>
                       <Icon fontSize="small" color="inherit">
                         fast_rewind
                       </Icon>
@@ -185,7 +196,7 @@ function Dashboard() {
                   </MDBox>
                   <Divider />
                   <MDBox display="flex" justifyContent="center" pt={1} px={2}>
-                    <MDBox textAlign="center" lineHeight={1.25}>
+                    <MDBox textAlign="center" lineHeight={1.0}>
                       <Icon fontSize="small" color="inherit">
                         date_range
                       </Icon>
@@ -197,7 +208,7 @@ function Dashboard() {
                   </MDBox>
                   <Divider />
                   <MDBox display="flex" justifyContent="center" pt={1} px={2}>
-                    <MDBox textAlign="center" lineHeight={1.25}>
+                    <MDBox textAlign="center" lineHeight={1.0}>
                       <Icon fontSize="small" color="inherit">
                         today
                       </Icon>
@@ -207,6 +218,101 @@ function Dashboard() {
                       <MDTypography variant="h6">{dayWeekMonth.monthly}</MDTypography>
                     </MDBox>
                   </MDBox>
+                </Card>
+              </MDBox>
+            </Grid>
+
+            <Grid item xs={12} mt={0.5} md={6} lg={2}>
+              <MDBox mb={2.0}>
+                <Card>
+                  <MDBox display="flex" justifyContent="center" pt={1} px={2}>
+                    <MDBox textAlign="center" lineHeight={1.0}>
+                      <Icon fontSize="small" color="inherit">
+                        fast_rewind
+                      </Icon>
+                      <MDTypography variant="h6" color="inherit">
+                        Yesterday
+                      </MDTypography>
+                      <MDTypography variant="h6">{dayWeekMonth.yesterday}</MDTypography>
+                    </MDBox>
+                  </MDBox>
+                  <Divider />
+                  <MDBox display="flex" justifyContent="center" pt={1} px={2}>
+                    <MDBox textAlign="center" lineHeight={1.0}>
+                      <Icon fontSize="small" color="inherit">
+                        date_range
+                      </Icon>
+                      <MDTypography variant="h6" color="inherit">
+                        Last week
+                      </MDTypography>
+                      <MDTypography variant="h6">{dayWeekMonth.weekly}</MDTypography>
+                    </MDBox>
+                  </MDBox>
+                  <Divider />
+                  <MDBox display="flex" justifyContent="center" pt={1} px={2}>
+                    <MDBox textAlign="center" lineHeight={1.0}>
+                      <Icon fontSize="small" color="inherit">
+                        today
+                      </Icon>
+                      <MDTypography variant="h6" color="inherit">
+                        Last month
+                      </MDTypography>
+                      <MDTypography variant="h6">{dayWeekMonth.monthly}</MDTypography>
+                    </MDBox>
+                  </MDBox>
+                </Card>
+              </MDBox>
+            </Grid>
+
+            <Grid item xs={12} mt={0.5} md={6} lg={4}>
+              <MDBox mb={2.0}>
+                <Card>
+                  <MDTypography mt={2} ml={2} variant="h5" color="inherit">
+                    Top 5 parcel deliveries for the month
+                  </MDTypography>
+                  <MDBox ml={2} display="flex" justifyContent="left" pt={1} px={2}>
+                    <MDBox textAlign="left" lineHeight={1.0}>
+                      {/* {mostFiveDeliveries.length !== 0
+                        ? mostFiveDeliveries.map((row) => ( */}
+                      <MDTypography variant="h6" color="inherit">
+                        Yasas Ekanayaka
+                      </MDTypography>
+                      <MDTypography variant="h6" color="inherit">
+                        Yasas Ekanayaka
+                      </MDTypography>
+                      <MDTypography variant="h6" color="inherit">
+                        Yasas Ekanayaka
+                      </MDTypography>
+                      <MDTypography variant="h6" color="inherit">
+                        Yasas Ekanayaka
+                      </MDTypography>
+                      <MDTypography mb={1} variant="h6" color="inherit">
+                        Yasas Ekanayaka
+                      </MDTypography>
+                      {/* ))
+                         : null} */}
+                    </MDBox>
+                  </MDBox>
+                  {/* <Divider /> */}
+                </Card>
+              </MDBox>
+
+              <MDBox mt={1} mb={2.0}>
+                <Card>
+                  <MDTypography mt={2} ml={2} variant="h5" color="inherit">
+                    Top 5 parcel deliveries for the month
+                  </MDTypography>
+                  <MDBox ml={2} display="flex" justifyContent="left" pt={1} px={2}>
+                    <MDBox textAlign="left" lineHeight={1.0}>
+                      <MDTypography variant="h6" color="inherit">
+                        Yasas Ekanayaka
+                      </MDTypography>
+                      <MDTypography mb={1} variant="h6" color="inherit">
+                        Yasas Ekanayaka
+                      </MDTypography>
+                    </MDBox>
+                  </MDBox>
+                  {/* <Divider /> */}
                 </Card>
               </MDBox>
             </Grid>

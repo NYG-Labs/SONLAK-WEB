@@ -50,7 +50,7 @@ function AllToolBox() {
   const [toDate, setToDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
-  const baseURL = "/api/ToolBox/GetToolBoxToAdmin";
+  const baseURL = "/api/ToolBox/GetToolBoxToAdminLast7days";
   const baseURLFilter = `/api/ToolBox/GetToolBoxlatestfilterbyDate/${fromDate}/${toDate}`;
 
   const config = {

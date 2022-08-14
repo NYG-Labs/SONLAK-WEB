@@ -54,7 +54,7 @@ function AllCompliance() {
   const [toDate, setToDate] = useState("");
   const [searchError, setSearchError] = useState("");
   const [loading, setLoading] = useState(false);
-  const baseURL = `/api/Compliances`;
+  const baseURL = `/api/Compliances/GetComplianceLast7days`;
   const baseURLFilter = `/api/Compliances/GetCompliancesfilterbyDate/${fromDate}/${toDate}`;
 
   const config = {
@@ -68,6 +68,7 @@ function AllCompliance() {
     axios.get(baseURL, config).then((response) => {
       const tempCompliance = response.data;
       setAllCompliance(tempCompliance);
+      console.log(tempCompliance);
     });
   };
 
