@@ -13,6 +13,7 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
+import * as React from "react";
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
@@ -69,6 +70,12 @@ import team2 from "assets/images/team-2.jpg";
 import team3 from "assets/images/team-3.jpg";
 import team4 from "assets/images/team-4.jpg";
 import MDBadge from "components/MDBadge";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 function SupervisorProfile() {
   const { id } = useParams();
@@ -77,6 +84,7 @@ function SupervisorProfile() {
   const baseURL = `/api/supervisors/${id}`;
   const ToolBoxURL = `/api/ToolBox/GetToolBoxBySupervisor/${id}`;
   const ComplaintsURL = `/api/Complaints/GetComplaintbySupervisor/${id}`;
+  const deleteSupervisorURL = `/api/Supervisors/${id}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
   const [searchToolBox, setSearchToolBox] = useState("");
@@ -150,6 +158,26 @@ function SupervisorProfile() {
 
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
 
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  function deleteSupervisor() {
+    axios.delete(deleteSupervisorURL, config).then((response) => {
+      console.log(response);
+
+      navigate("/supervisors");
+      // const tempDriver = response.data;
+      // setDriver(tempDriver);
+    });
+  }
+
   if (
     window.localStorage.getItem("token") === null ||
     (window.localStorage.getItem("roleKey") !== "SUPERADMIN" &&
@@ -203,15 +231,38 @@ function SupervisorProfile() {
                     </Icon>
                   }
                 />
-                {/* <Tab
-                  label="Settings"
+                <Tab
+                  label="Delete"
+                  onClick={handleClickOpen}
                   icon={
                     <Icon fontSize="small" sx={{ mt: -0.25 }}>
-                      settings
+                      delete
                     </Icon>
                   }
-                /> */}
+                />
               </Tabs>
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">
+                  Are you sure you want to continue?
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    From this you will delete this driver. And this driver will become an inactive
+                    driver.
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Disagree</Button>
+                  <Button onClick={() => deleteSupervisor()} autoFocus>
+                    Agree
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </AppBar>
           </Grid>
         </Grid>

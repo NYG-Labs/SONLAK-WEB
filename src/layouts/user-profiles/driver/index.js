@@ -499,8 +499,9 @@ function DriverProfile() {
   }, [tabsOrientation]);
 
   function deleteDriver() {
-    axios.get(deleteDriverURL, config).then((response) => {
+    axios.delete(deleteDriverURL, config).then((response) => {
       console.log(response);
+
       navigate("/drivers");
       // const tempDriver = response.data;
       // setDriver(tempDriver);

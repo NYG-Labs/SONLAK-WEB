@@ -164,6 +164,12 @@ function SingleComplaints() {
                           <TableCell align="left">{singleComplaints.supervisorComment}</TableCell>
                         </TableRow>
                       </TableHead>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell align="left">Driver Remarks</TableCell>
+                          <TableCell align="left">{singleComplaints.driverRemark}</TableCell>
+                        </TableRow>
+                      </TableHead>
                     </Table>
                   </TableContainer>
                 </Grid>
