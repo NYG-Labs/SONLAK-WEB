@@ -609,7 +609,8 @@ function DriverProfile() {
                 {driver.fname} {driver.mname} {driver.lname}
               </MDTypography>
               <MDTypography variant="button" color="text" fontWeight="regular">
-                {driver.workStatus} DRIVER | Supervisor - {driver.supervisorEmail}
+                {driver.workStatus === "active    " ? "ACTIVE" : "INACTIVE"} DRIVER | Supervisor -{" "}
+                {driver.supervisorEmail}
               </MDTypography>
               {/* <IconButton size="large">
                 <ArrowDropDownIcon />
@@ -698,19 +699,9 @@ function DriverProfile() {
                   address: driver.address,
                   email: driver.email,
                   DOB: dob.split("T")[0],
-                  // driver.dob,
                   ProfilePicture: (
                     <a href={driver.profilePhoto}>
-                      {/* <Link to={{ pathname: driver.ausPostScan }}> */}
-                      <MDBadge
-                        badgeContent="view"
-                        color="success"
-                        variant="gradient"
-                        size="sm"
-                        // component={Link}
-                        // to={`/drivers/${row.email}`}
-                      />
-                      {/* </Link> */}
+                      <MDBadge badgeContent="view" color="success" variant="gradient" size="sm" />
                     </a>
                   ),
                 }}
@@ -724,22 +715,11 @@ function DriverProfile() {
                 info={{
                   AusPostScan: (
                     <a href={driver.ausPostScan}>
-                      {/* <Link to={{ pathname: driver.ausPostScan }}> */}
-                      <MDBadge
-                        badgeContent="view"
-                        color="success"
-                        variant="gradient"
-                        size="sm"
-                        // component={Link}
-                        // to={`/drivers/${row.email}`}
-                      />
-                      {/* </Link> */}
+                      <MDBadge badgeContent="view" color="success" variant="gradient" size="sm" />
                     </a>
                   ),
                   AusPostID: driver.ausPostId,
                   AusPostExpp: ausPostExpDate.split("T")[0],
-                  // driver.ausPostExpiry,
-                  // DOB: driver.dob,
                 }}
                 shadow={false}
               />
@@ -752,22 +732,11 @@ function DriverProfile() {
                 info={{
                   LicenceScan: (
                     <a href={driver.licenceScan}>
-                      {/* <Link to={{ pathname: driver.ausPostScan }}> */}
-                      <MDBadge
-                        badgeContent="view"
-                        color="success"
-                        variant="gradient"
-                        size="sm"
-                        // component={Link}
-                        // to={`/drivers/${row.email}`}
-                      />
-                      {/* </Link> */}
+                      <MDBadge badgeContent="view" color="success" variant="gradient" size="sm" />
                     </a>
                   ),
                   LicenceID: driver.licenceId,
                   LicenceEXP: licenseExp.split("T")[0],
-                  // driver.licenceExpiry,
-                  // DOB: driver.dob,
                 }}
                 shadow={false}
               />
@@ -795,20 +764,22 @@ function DriverProfile() {
                 info={{
                   VisaScan: (
                     <a href={driver.visaScan}>
-                      <MDBadge
-                        badgeContent="view"
-                        color="success"
-                        variant="gradient"
-                        size="sm"
-                        // component={Link}
-                        // to={`/drivers/${row.email}`}
-                      />
-                      {/* </Link> */}
+                      <MDBadge badgeContent="view" color="success" variant="gradient" size="sm" />
                     </a>
                   ),
                   VisaExpiry: visaExp.split("T")[0],
-                  // driver.visaExpiry,
                   VisaNo: driver.visaNo,
+                }}
+                shadow={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+              <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+              <ProfileInfoCard
+                title="insurance Details"
+                info={{
+                  InsurancePolicyNo: driver.insurancePolicyNo,
+                  InsuranceExpiry: driver.insuranceExpiry,
                 }}
                 shadow={false}
               />
@@ -835,21 +806,6 @@ function DriverProfile() {
                   </MDTypography>
                 </MDBox>
                 <MDBox pt={3}>
-                  {/* <Grid container spacing={3}> */}
-                  {/* <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
-                    <MDBox pr={2} pb={1} pl={2}>
-                      <MDInput
-                        fullWidth
-                        InputLabelProps={{ shrink: true }}
-                        onChange={(e) => setSearchETA(e.target.value)}
-                        label="Search here"
-                        type="date"
-                        justify="space-between"
-                        spacing={24}
-                        raised
-                      />
-                    </MDBox>
-                  </Grid> */}
                   <Grid item xs={12} md={12} fullwidth justifyContent="flex-end">
                     <MDBox pr={2} pb={1} pl={2}>
                       <Grid container spacing={3}>

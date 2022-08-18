@@ -70,11 +70,11 @@ function DriverRegistration() {
   const [gender, setGender] = useState("");
   const [ausPostId, setAusPostId] = useState("");
 
-  const [policyNo, setPolicyNo] = useState("");
-  const [insuaranceExpDate, setInsuaranceExpDate] = useState("");
+  const [insurancePolicyNo, setPolicyNo] = useState("");
+  const [insuranceExpiry, setInsuaranceExpDate] = useState("");
   const [route, setRoute] = useState("");
   const [deviceId, setDeviceId] = useState("");
-  console.log(policyNo, insuaranceExpDate, route, deviceId);
+  console.log(route, deviceId);
 
   // const [ausPostScan, setAusPostScan] = useState("");
   const [ausPostExpiry, setAusPostExpiry] = useState("");
@@ -148,6 +148,8 @@ function DriverRegistration() {
     ausPostExpiry,
     vehicleNo,
     vehicalType,
+    insurancePolicyNo,
+    insuranceExpiry,
     visaNo,
     visaScan,
     visaExpiry,
@@ -494,16 +496,6 @@ function DriverRegistration() {
                   </MDBox>
                 </Grid>
                 <Grid item xs={12} md={4}>
-                  {/* <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setVehicalType(e.target.value)}
-                      type="texy"
-                      label="Vehicle type"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox> */}
                   <MDBox mb={3}>
                     <MDInput
                       size="large"
@@ -512,7 +504,7 @@ function DriverRegistration() {
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       onChange={(e) => setVehicalType(e.target.value)}
-                      value={driverType}
+                      value={vehicalType}
                       label="Vehicle Type"
                       InputProps={{
                         classes: { root: "select-input-styles" },

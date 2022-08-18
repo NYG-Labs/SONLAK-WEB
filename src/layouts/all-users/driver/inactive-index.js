@@ -46,7 +46,7 @@ function AllInactiveDrivers() {
   // const { rows } = allDriverData();
   const [search, setSearch] = useState("");
   const [allInactiveDrivers, setAllInactiveDrivers] = useState([]);
-  const baseURL = "/api/Drivers";
+  const baseURL = "/api/Drivers/GetDriversInactive";
 
   const config = {
     headers: {

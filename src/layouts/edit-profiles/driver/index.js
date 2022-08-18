@@ -93,6 +93,8 @@ function EditDriver() {
   const [licenceExpiry, setLicenceExpiry] = useState(driver.licenceExpiry);
   const [driverType, setDriverType] = useState(driver.driverType);
   const [username, setUsername] = useState(driver.username);
+  const [insurancePolicyNo, setPolicyNo] = useState(driver.insurancePolicyNo);
+  const [insuranceExpiry, setInsuaranceExpDate] = useState(driver.insuranceExpiry);
   // const [phoneNo, setPhoneNo] = useState("");
   const [profilePhoto, setProfilePhoto] = useState(driver.profilePhoto);
   const [supervisorEmail, setSupervisroEmail] = useState(driver.supervisorEmail);
@@ -141,6 +143,8 @@ function EditDriver() {
       setLicenceExpiry(response.data.licenceExpiry);
       setDriverType(response.data.driverType);
       setUsername(response.data.username);
+      setPolicyNo(response.data.insurancePolicyNo);
+      setInsuaranceExpDate(response.data.insuranceExpiry);
       setProfilePhoto(response.data.profilePhoto);
       setSupervisroEmail(response.data.supervisorEmail);
       setWorkstatus(response.data.workStatus);
@@ -206,6 +210,8 @@ function EditDriver() {
     ausPostExpiry,
     vehicleNo,
     vehicalType,
+    insurancePolicyNo,
+    insuranceExpiry,
     visaNo,
     visaScan,
     visaExpiry,
@@ -495,7 +501,7 @@ function EditDriver() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setDob(e.target.value)}
-                      placeholder={driver.dob}
+                      helperText={driver.dob}
                       type="date"
                       label="DOB"
                       // variant="standard"
@@ -569,7 +575,7 @@ function EditDriver() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setAusPostExpiry(e.target.value)}
-                      placeholder={driver.ausPostExpiry}
+                      helperText={driver.ausPostExpiry}
                       type="date"
                       label="Expiery date"
                       // variant="standard"
@@ -624,6 +630,38 @@ function EditDriver() {
             </MDBox>
 
             <MDBox p={2}>
+              <MDBox pb={2}>Insuarance Details</MDBox>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setPolicyNo(e.target.value)}
+                      type="text"
+                      placeholder={driver.insurancePolicyNo}
+                      label="Policy No"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setInsuaranceExpDate(e.target.value)}
+                      type="date"
+                      helperText={driver.insuranceExpiry}
+                      label="Expiery Date"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+              </Grid>
+            </MDBox>
+
+            <MDBox p={2}>
               <MDBox pb={2}>Visa Details</MDBox>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
@@ -658,7 +696,7 @@ function EditDriver() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setVisaExpiry(e.target.value)}
-                      placeholder={driver.visaExpiry}
+                      helperText={driver.visaExpiry}
                       type="date"
                       label="Expiery date"
                       // variant="standard"
@@ -704,7 +742,7 @@ function EditDriver() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setLicenceExpiry(e.target.value)}
-                      placeholder={driver.licenceExpiry}
+                      helperText={driver.licenceExpiry}
                       type="date"
                       label="Expiery date"
                       // variant="standard"

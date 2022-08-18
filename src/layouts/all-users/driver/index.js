@@ -46,7 +46,7 @@ function AllDrivers() {
   // const { rows } = allDriverData();
   const [search, setSearch] = useState("");
   const [allDrivers, setAllDrivers] = useState([]);
-  const baseURL = "/api/Drivers";
+  const baseURL = "/api/Drivers/GetDriversActive";
 
   const config = {
     headers: {
@@ -152,7 +152,7 @@ function AllDrivers() {
                           <TableCell align="left">Vehicle type</TableCell>
                           <TableCell align="left">Vehicle No</TableCell>
                           <TableCell align="left">Driver type</TableCell>
-                          <TableCell align="left">Work Status</TableCell>
+                          {/* <TableCell align="left">Work Status</TableCell> */}
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -167,7 +167,7 @@ function AllDrivers() {
                             <TableCell align="left">{row.vehicalType}</TableCell>
                             <TableCell align="left">{row.vehicleNo}</TableCell>
                             <TableCell align="left">{row.driverType}</TableCell>
-                            <TableCell align="left">{row.workStatus}</TableCell>
+                            {/* <TableCell align="left">{row.workStatus}</TableCell> */}
                             <TableCell align="center">
                               <MDBox ml={-1}>
                                 <Link to={{ pathname: `/drivers/${row.email}` }}>

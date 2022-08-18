@@ -25,8 +25,8 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
-import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
-import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
+// import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
+// import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 import MDTypography from "components/MDTypography";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -37,7 +37,7 @@ import TableRow from "@material-ui/core/TableRow";
 
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
-import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
+// import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 import Card from "@mui/material/Card";
 // import Divider from "@mui/material/Divider";
 // import Paper from "@material-ui/core/Paper";
@@ -50,7 +50,7 @@ import Icon from "@mui/material/Icon";
 // import Basic from "layouts/authentication/sign-in";
 
 function Dashboard() {
-  const { sales, tasks } = reportsLineChartData;
+  // const { sales, tasks } = reportsLineChartData;
   const navigate = useNavigate();
   const [weekDaysData, setWeekDaysData] = useState([]);
   const [dayWeekMonth, setDayWeekMonth] = useState([]);
@@ -141,7 +141,7 @@ function Dashboard() {
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox py={3}>
-        <Grid container spacing={3}>
+        {/* <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={3}>
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
@@ -201,10 +201,218 @@ function Dashboard() {
               />
             </MDBox>
           </Grid>
-        </Grid>
+        </Grid> */}
         {/* sample template changes */}
 
         <MDTypography variant="h4" color="inherit">
+          Complaints Summary
+        </MDTypography>
+        <MDBox mt={4.5}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={8}>
+              {/* <Projects /> */}
+              <Card md={2}>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                >
+                  <MDTypography variant="h6" color="white">
+                    Latest 3 Complaints
+                  </MDTypography>
+                </MDBox>
+                <TableContainer>
+                  <Table aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="center">Driver Name</TableCell>
+                        <TableCell align="center">Driver Email</TableCell>
+                        <TableCell align="center">Complaint address</TableCell>
+                        <TableCell align="center">Complaint type</TableCell>
+                        <TableCell align="center">Status</TableCell>
+                        <TableCell align="center">Created date</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {latestComplaints.length === 0 ? (
+                        <TableRow key="s">
+                          <TableCell align="center">-</TableCell>
+                          <TableCell align="center">-</TableCell>
+                          <TableCell align="center">-</TableCell>
+                          <TableCell align="center">-</TableCell>
+                          <TableCell align="center">-</TableCell>
+                          <TableCell align="center">-</TableCell>
+                          <TableCell align="center">-</TableCell>
+                        </TableRow>
+                      ) : null}
+                      {latestComplaints.map((row) => (
+                        <TableRow key="s">
+                          <TableCell align="center">{row.driverName}</TableCell>
+                          <TableCell align="center">{row.driverEmail}</TableCell>
+                          <TableCell align="center">{row.complaintAddress}</TableCell>
+                          <TableCell align="center">{row.complainType}</TableCell>
+                          <TableCell align="center">{row.status}</TableCell>
+                          <TableCell align="center">{row.createDate}</TableCell>
+                          {/* <TableCell align="center">
+                            <a href={row.pdfUrl}>
+                              <MDBadge
+                                badgeContent="view"
+                                color="success"
+                                variant="gradient"
+                                size="sm"
+                              />
+                            </a>
+                          </TableCell> */}
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={6} lg={4}>
+              <MDBox mb={2.0} md={6}>
+                <Card>
+                  <MDBox
+                    mx={2}
+                    mt={-3}
+                    py={3}
+                    px={2}
+                    variant="gradient"
+                    bgColor="info"
+                    borderRadius="lg"
+                    coloredShadow="info"
+                  >
+                    <MDTypography variant="h6" color="white">
+                      Overall stats
+                    </MDTypography>
+                  </MDBox>
+                  <MDBox mt={1} mb={2} display="flex" justifyContent="center" pt={1} px={2}>
+                    <MDBox mr={2} textAlign="center" lineHeight={1.0}>
+                      <Icon fontSize="small" color="inherit">
+                        functions
+                      </Icon>
+                      <MDTypography variant="h6" color="inherit">
+                        Total
+                      </MDTypography>
+                      <MDTypography variant="h6">{complaintStats.total}</MDTypography>
+                    </MDBox>
+                    <MDBox mr={2} ml={2} textAlign="center" lineHeight={1.0}>
+                      <Icon fontSize="small" color="inherit">
+                        pending
+                      </Icon>
+                      <MDTypography variant="h6" color="inherit">
+                        Pending
+                      </MDTypography>
+                      <MDTypography variant="h6">{complaintStats.pending}</MDTypography>
+                    </MDBox>
+                    <MDBox mr={2} ml={2} textAlign="center" lineHeight={1.0}>
+                      <Icon fontSize="small" color="inherit">
+                        hourglass_bottom
+                      </Icon>
+                      <MDTypography variant="h6" color="inherit">
+                        Waiting
+                      </MDTypography>
+                      <MDTypography variant="h6">{complaintStats.waiting}</MDTypography>
+                    </MDBox>
+                    <MDBox ml={2} textAlign="center" lineHeight={1.0}>
+                      <Icon fontSize="small" color="inherit">
+                        done
+                      </Icon>
+                      <MDTypography variant="h6" color="inherit">
+                        Resolved
+                      </MDTypography>
+                      <MDTypography variant="h6">{complaintStats.resolved}</MDTypography>
+                    </MDBox>
+                  </MDBox>
+                </Card>
+              </MDBox>
+            </Grid>
+          </Grid>
+        </MDBox>
+
+        <MDTypography variant="h4" color="inherit">
+          Incident Reports Summary
+        </MDTypography>
+        <MDBox mt={4.5}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={8}>
+              {/* <Projects /> */}
+              <Card md={2}>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                >
+                  <MDTypography variant="h6" color="white">
+                    Latest 3 incident reports
+                  </MDTypography>
+                </MDBox>
+                <TableContainer>
+                  <Table aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="center">Driver Name</TableCell>
+                        <TableCell align="center">Driver Email</TableCell>
+                        <TableCell align="center">Driver address</TableCell>
+                        <TableCell align="center">Created date</TableCell>
+                        <TableCell align="center" />
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {latestIncidentReports.length === 0 ? (
+                        <TableRow key="s">
+                          <TableCell align="center">-</TableCell>
+                          <TableCell align="center">-</TableCell>
+                          <TableCell align="center">-</TableCell>
+                          <TableCell align="center">-</TableCell>
+                          <TableCell align="center">-</TableCell>
+                          <TableCell align="center">-</TableCell>
+                          <TableCell align="center">-</TableCell>
+                        </TableRow>
+                      ) : null}
+                      {latestIncidentReports.map((row) => (
+                        <TableRow key="s">
+                          <TableCell align="center">
+                            {row.driverFname} {row.driverLname}
+                          </TableCell>
+                          <TableCell align="center">{row.driverEmail}</TableCell>
+                          <TableCell align="center">{row.address}</TableCell>
+                          <TableCell align="center">{row.createDate}</TableCell>
+                          <TableCell align="center">
+                            <a href={row.pdfUrl}>
+                              <MDBadge
+                                badgeContent="view"
+                                color="success"
+                                variant="gradient"
+                                size="sm"
+                              />
+                            </a>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Card>
+            </Grid>
+            {/* <Grid item xs={12} md={6} lg={4}>
+              <OrdersOverview />
+            </Grid> */}
+          </Grid>
+        </MDBox>
+
+        <MDTypography mt={2} variant="h4" color="inherit">
           Parcel Deliveries Summary
         </MDTypography>
         <MDBox mt={4.5}>
@@ -454,215 +662,7 @@ function Dashboard() {
           </Grid>
         </MDBox> */}
 
-        <MDTypography variant="h4" color="inherit">
-          Complaints Summary
-        </MDTypography>
-        <MDBox mt={4.5}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={8}>
-              {/* <Projects /> */}
-              <Card md={2}>
-                <MDBox
-                  mx={2}
-                  mt={-3}
-                  py={3}
-                  px={2}
-                  variant="gradient"
-                  bgColor="info"
-                  borderRadius="lg"
-                  coloredShadow="info"
-                >
-                  <MDTypography variant="h6" color="white">
-                    Latest 3 incident reports
-                  </MDTypography>
-                </MDBox>
-                <TableContainer>
-                  <Table aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell align="center">Driver Name</TableCell>
-                        <TableCell align="center">Driver Email</TableCell>
-                        <TableCell align="center">Complaint address</TableCell>
-                        <TableCell align="center">Complaint type</TableCell>
-                        <TableCell align="center">Status</TableCell>
-                        <TableCell align="center">Created date</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {latestComplaints.length === 0 ? (
-                        <TableRow key="s">
-                          <TableCell align="center">-</TableCell>
-                          <TableCell align="center">-</TableCell>
-                          <TableCell align="center">-</TableCell>
-                          <TableCell align="center">-</TableCell>
-                          <TableCell align="center">-</TableCell>
-                          <TableCell align="center">-</TableCell>
-                          <TableCell align="center">-</TableCell>
-                        </TableRow>
-                      ) : null}
-                      {latestComplaints.map((row) => (
-                        <TableRow key="s">
-                          <TableCell align="center">{row.driverName}</TableCell>
-                          <TableCell align="center">{row.driverEmail}</TableCell>
-                          <TableCell align="center">{row.complaintAddress}</TableCell>
-                          <TableCell align="center">{row.complainType}</TableCell>
-                          <TableCell align="center">{row.status}</TableCell>
-                          <TableCell align="center">{row.createDate}</TableCell>
-                          {/* <TableCell align="center">
-                            <a href={row.pdfUrl}>
-                              <MDBadge
-                                badgeContent="view"
-                                color="success"
-                                variant="gradient"
-                                size="sm"
-                              />
-                            </a>
-                          </TableCell> */}
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={2.0} md={6}>
-                <Card>
-                  <MDBox
-                    mx={2}
-                    mt={-3}
-                    py={3}
-                    px={2}
-                    variant="gradient"
-                    bgColor="info"
-                    borderRadius="lg"
-                    coloredShadow="info"
-                  >
-                    <MDTypography variant="h6" color="white">
-                      Overall stats
-                    </MDTypography>
-                  </MDBox>
-                  <MDBox mt={1} mb={2} display="flex" justifyContent="center" pt={1} px={2}>
-                    <MDBox mr={2} textAlign="center" lineHeight={1.0}>
-                      <Icon fontSize="small" color="inherit">
-                        functions
-                      </Icon>
-                      <MDTypography variant="h6" color="inherit">
-                        Total
-                      </MDTypography>
-                      <MDTypography variant="h6">{complaintStats.total}</MDTypography>
-                    </MDBox>
-                    <MDBox mr={2} ml={2} textAlign="center" lineHeight={1.0}>
-                      <Icon fontSize="small" color="inherit">
-                        pending
-                      </Icon>
-                      <MDTypography variant="h6" color="inherit">
-                        Pending
-                      </MDTypography>
-                      <MDTypography variant="h6">{complaintStats.pending}</MDTypography>
-                    </MDBox>
-                    <MDBox mr={2} ml={2} textAlign="center" lineHeight={1.0}>
-                      <Icon fontSize="small" color="inherit">
-                        hourglass_bottom
-                      </Icon>
-                      <MDTypography variant="h6" color="inherit">
-                        Waiting
-                      </MDTypography>
-                      <MDTypography variant="h6">{complaintStats.waiting}</MDTypography>
-                    </MDBox>
-                    <MDBox ml={2} textAlign="center" lineHeight={1.0}>
-                      <Icon fontSize="small" color="inherit">
-                        done
-                      </Icon>
-                      <MDTypography variant="h6" color="inherit">
-                        Resolved
-                      </MDTypography>
-                      <MDTypography variant="h6">{complaintStats.resolved}</MDTypography>
-                    </MDBox>
-                  </MDBox>
-                </Card>
-              </MDBox>
-            </Grid>
-          </Grid>
-        </MDBox>
-
-        <MDTypography variant="h4" color="inherit">
-          Incident Reports Summary
-        </MDTypography>
-        <MDBox mt={4.5}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={8}>
-              {/* <Projects /> */}
-              <Card md={2}>
-                <MDBox
-                  mx={2}
-                  mt={-3}
-                  py={3}
-                  px={2}
-                  variant="gradient"
-                  bgColor="info"
-                  borderRadius="lg"
-                  coloredShadow="info"
-                >
-                  <MDTypography variant="h6" color="white">
-                    Latest 3 incident reports
-                  </MDTypography>
-                </MDBox>
-                <TableContainer>
-                  <Table aria-label="simple table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell align="center">Driver Name</TableCell>
-                        <TableCell align="center">Driver Email</TableCell>
-                        <TableCell align="center">Driver address</TableCell>
-                        <TableCell align="center">Created date</TableCell>
-                        <TableCell align="center" />
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {latestIncidentReports.length === 0 ? (
-                        <TableRow key="s">
-                          <TableCell align="center">-</TableCell>
-                          <TableCell align="center">-</TableCell>
-                          <TableCell align="center">-</TableCell>
-                          <TableCell align="center">-</TableCell>
-                          <TableCell align="center">-</TableCell>
-                          <TableCell align="center">-</TableCell>
-                          <TableCell align="center">-</TableCell>
-                        </TableRow>
-                      ) : null}
-                      {latestIncidentReports.map((row) => (
-                        <TableRow key="s">
-                          <TableCell align="center">
-                            {row.driverFname} {row.driverLname}
-                          </TableCell>
-                          <TableCell align="center">{row.driverEmail}</TableCell>
-                          <TableCell align="center">{row.address}</TableCell>
-                          <TableCell align="center">{row.createDate}</TableCell>
-                          <TableCell align="center">
-                            <a href={row.pdfUrl}>
-                              <MDBadge
-                                badgeContent="view"
-                                color="success"
-                                variant="gradient"
-                                size="sm"
-                              />
-                            </a>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Card>
-            </Grid>
-            {/* <Grid item xs={12} md={6} lg={4}>
-              <OrdersOverview />
-            </Grid> */}
-          </Grid>
-        </MDBox>
-
-        <MDBox mt={4.5}>
+        {/* <MDBox mt={4.5}>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
@@ -691,7 +691,7 @@ function Dashboard() {
               </MDBox>
             </Grid>
           </Grid>
-        </MDBox>
+        </MDBox> */}
       </MDBox>
       <Footer />
     </DashboardLayout>
