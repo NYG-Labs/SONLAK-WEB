@@ -75,7 +75,7 @@ import WHSPlan from "layouts/guidelines/whs";
 import AllInactiveDrivers from "layouts/all-users/driver/inactive-index";
 import AllInactiveSupervisors from "layouts/all-users/supervisor/inactive-index";
 import AllComplaints from "layouts/complaints";
-import AddComplaints from "layouts/complaints/new-complaint";
+// import AddComplaints from "layouts/complaints/new-complaint";
 import AllToolBox from "layouts/toolbox";
 import ToolBoxSupervisorDate from "layouts/toolbox/toolbox-day-supervisor";
 import DriverDailySignIn from "layouts/daily-signin";
@@ -250,12 +250,12 @@ const routes = [
     route: "/compliance/add-compliance",
     component: <AddCompliance />,
   },
-  {
-    name: "add-complaints",
-    key: "add-complaints",
-    route: "/complaints/add-complaints",
-    component: <AddComplaints />,
-  },
+  // {
+  //   name: "add-complaints",
+  //   key: "add-complaints",
+  //   route: "/complaints/add-complaints",
+  //   component: <AddComplaints />,
+  // },
   {
     name: "Inactive-Supervisors",
     key: "inactive-supervisors",

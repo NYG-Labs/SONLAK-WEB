@@ -67,10 +67,12 @@ function WHSPlan() {
   const [WHSPlanFile, setWHSPlanFile] = useState([]);
 
   const currentDate = new Date();
-  const timestamp = `${currentDate.getFullYear()}-0${currentDate.getMonth()}-${currentDate.getDate()}T${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+  const timestamp = `${currentDate.getFullYear()}-0${
+    currentDate.getMonth() + 1
+  }-${currentDate.getDate()}T${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
   // console.log(timestamp);
 
-  const tempFileNameWHSPlan = `${timestamp}_WHSPlan.jpg`;
+  const tempFileNameWHSPlan = `${timestamp}_WHSPlan.pdf`;
   const tempWHSPlanURL = `https://${storageAccountName}.blob.core.windows.net/whsplan/${tempFileNameWHSPlan}`;
   const pdfUrl = tempWHSPlanURL;
 

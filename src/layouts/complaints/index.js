@@ -135,7 +135,7 @@ function AllComplaints() {
                       All Complaints
                     </MDTypography>
                   </Grid>
-                  <Grid item xs={12} md={3}>
+                  {/* <Grid item xs={12} md={3}>
                     <MDBox>
                       <MDButton
                         // onClick={() => sendSignInData()}
@@ -149,7 +149,7 @@ function AllComplaints() {
                         Add a new complaint
                       </MDButton>
                     </MDBox>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </MDBox>
               <MDBox pt={3}>
