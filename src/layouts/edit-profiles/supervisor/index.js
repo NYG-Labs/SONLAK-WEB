@@ -206,6 +206,8 @@ function EditSupervisor() {
   const confirmPasswordValidation = (event) => {
     if (password === event) {
       setIsPasswordMatching("Password and Confirm Password is matching");
+    } else {
+      setIsPasswordMatching("");
     }
   };
 

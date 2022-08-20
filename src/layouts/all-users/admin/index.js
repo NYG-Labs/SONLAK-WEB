@@ -129,6 +129,7 @@ function AllAdmins() {
                           {/* <TableCell align="left">Middle name</TableCell> */}
                           <TableCell align="left">Lase Name</TableCell>
                           <TableCell align="left">Email</TableCell>
+                          <TableCell align="left">Type</TableCell>
                           {/* <TableCell align="left">Vehicle type</TableCell>
                           <TableCell align="left">Vehicle No</TableCell>
                           <TableCell align="left">Driver type</TableCell> */}
@@ -143,6 +144,7 @@ function AllAdmins() {
                             {/* <TableCell align="left">{row.mname}</TableCell> */}
                             <TableCell align="left">{row.lname}</TableCell>
                             <TableCell align="left">{row.email}</TableCell>
+                            <TableCell align="left">{row.adminType}</TableCell>
                             {/* <TableCell align="left">{row.vehicalType}</TableCell>
                             <TableCell align="left">{row.vehicleNo}</TableCell>
                             <TableCell align="left">{row.driverType}</TableCell> */}

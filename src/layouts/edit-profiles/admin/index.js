@@ -22,7 +22,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
-import Checkbox from "@mui/material/Checkbox";
+// import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 // import TextField from "@mui/material/TextField";
 
@@ -66,11 +66,12 @@ function EditAdmin() {
   //   const baseURLSupervisors = "/api/Supervisors";
   const baseURLAdmin = `/api/Admins/${id}`;
   const [fname, setFname] = useState(admin.fname);
-  const [mname, setMname] = useState(admin.mname);
+  // const [mname, setMname] = useState(admin.mname);
   const [lname, setLname] = useState(admin.lname);
-  const [address, setAddress] = useState(admin.address);
-  const [dob, setDob] = useState(admin.dob);
-  const [gender, setGender] = useState(admin.gender);
+  const [adminType, setAdminType] = useState(admin.adminType);
+  // const [address, setAddress] = useState(admin.address);
+  // const [dob, setDob] = useState(admin.dob);
+  // const [gender, setGender] = useState(admin.gender);
   const [loading, setLoading] = useState(false);
   //   const [ausPostId, setAusPostId] = useState(admin.ausPostId);
   //   const [ausPostScan, setAusPostScan] = useState(admin.ausPostScan);
@@ -83,7 +84,6 @@ function EditAdmin() {
   //   const [licenceId, setLicenceId] = useState(admin.licenceId);
   //   const [licenceScan, setLicenceScan] = useState(admin.licenceScan);
   //   const [licenceExpiry, setLicenceExpiry] = useState(admin.licenceExpiry);
-  const [adminType, setAdminType] = useState(admin.adminType);
   //   const [username, setUsername] = useState(admin.username);
   // const [phoneNo, setPhoneNo] = useState("");
   //   const [profilePhoto, setProfilePhoto] = useState(admin.profilePhoto);
@@ -91,6 +91,15 @@ function EditAdmin() {
   //   const [workStatus, setWorkstatus] = useState(admin.workStatus);
   const [password, setPassword] = useState(admin.password);
   const [oldPassword, setOldPassword] = useState("");
+  const [isPasswordMatching, setIsPasswordMatching] = useState("");
+
+  const confirmPasswordValidation = (event) => {
+    if (password === event) {
+      setIsPasswordMatching("Password and Confirm Password is matching");
+    } else {
+      setIsPasswordMatching("");
+    }
+  };
 
   //   const getAllSupervisors = () => {
   //     axios.get(baseURLSupervisors, config).then((response) => {
@@ -104,11 +113,12 @@ function EditAdmin() {
       const tempAdmin = response.data;
       setAdmin(tempAdmin);
       setFname(response.data.fname);
-      setMname(response.data.mname);
+      // setMname(response.data.mname);
       setLname(response.data.lname);
-      setAddress(response.data.address);
-      setDob(response.data.dob);
-      setGender(response.data.gender);
+      setAdminType(response.data.adminType);
+      // setAddress(response.data.address);
+      // setDob(response.data.dob);
+      // setGender(response.data.gender);
       //   setAusPostId(response.data.ausPostId);
       //   setAusPostScan(response.data.ausPostScan);
       //   setAusPostExpiry(response.data.ausPostExpiry);
@@ -120,13 +130,10 @@ function EditAdmin() {
       //   setLicenceId(response.data.licenceId);
       //   setLicenceScan(response.data.ausPostScan);
       //   setLicenceExpiry(response.data.licenceExpiry);
-      setAdminType(response.data.AdminType);
       //   setUsername(response.data.username);
       //   setProfilePhoto(response.data.profilePhoto);
       //   setSupervisroEmail(response.data.supervisorEmail);
       //   setWorkstatus(response.data.workStatus);
-      setPassword(response.data.setPassword);
-      // console.log(response.data);
     });
   };
 
@@ -145,11 +152,12 @@ function EditAdmin() {
   const bodyParameters = {
     email: adminEmail,
     fname,
-    mname,
+    // mname,
     lname,
-    address,
-    dob,
-    gender,
+    adminType,
+    // address,
+    // dob,
+    // gender,
     // ausPostId,
     // ausPostScan,
     // ausPostExpiry,
@@ -161,7 +169,7 @@ function EditAdmin() {
     // licenceId,
     // licenceScan,
     // licenceExpiry,
-    adminType,
+    // adminType,
     // workStatus,
     // password,
     // supervisorEmail,
@@ -213,11 +221,29 @@ function EditAdmin() {
           mt={3}
           p={3}
           mb={2}
-          textAlign="center"
+          // textAlign="center"
         >
-          <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Edit Admin
-          </MDTypography>
+          <Grid container spacing={3}>
+            <Grid item xs={12} mr={5} md={8.5}>
+              <MDTypography mt={1} ml={2} variant="h5" color="white">
+                Edit Admin
+              </MDTypography>
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <MDBox>
+                <MDButton
+                  component={Link}
+                  variant="gradient"
+                  color="light"
+                  justifyContent="flex-end"
+                  fullWidth
+                  to="/ETA-performance/Add-ETA-performance"
+                >
+                  Change password
+                </MDButton>
+              </MDBox>
+            </Grid>
+          </Grid>
           {/* <MDTypography display="block" variant="button" color="white" my={1}>
             Enter your email and password to register
           </MDTypography> */}
@@ -246,19 +272,6 @@ function EditAdmin() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setMname(e.target.value)}
-                      placeholder={admin.mname}
-                      type="text"
-                      label="Middle Name"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
                       onChange={(e) => setLname(e.target.value)}
                       placeholder={admin.lname}
                       type="select"
@@ -268,11 +281,38 @@ function EditAdmin() {
                     />
                   </MDBox>
                 </Grid>
+                {/* <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setMname(e.target.value)}
+                      placeholder={admin.mname}
+                      type="text"
+                      label="Middle Name"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid> */}
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      inputProps={{ readOnly: true }}
+                      InputLabelProps={{ shrink: true }}
+                      //   onChange={(e) => setEmail(e.target.value)}
+                      placeholder={admin.email}
+                      type="email"
+                      label="Email"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
               </Grid>
 
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={3}>
+                  <MDBox>
                     <MDInput
                       SelectProps={{
                         style: SelectFieldStyle,
@@ -290,21 +330,20 @@ function EditAdmin() {
                         ),
                       }}
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setGender(e.target.value)}
-                      defaultValue={gender}
-                      helperText={gender}
-                      //   placeholder={admin.gender}
+                      onChange={(e) => setAdminType(e.target.value)}
+                      value={adminType}
+                      helperText={adminType}
                       type="text"
-                      label="Gender"
+                      label="Admin Type"
                       // variant="standard"
                       fullWidth
                     >
-                      <MenuItem value="Male">Male</MenuItem>
-                      <MenuItem value="Female">Female</MenuItem>
+                      <MenuItem value="OTHERADMIN">OTHERADMIN</MenuItem>
+                      <MenuItem value="SUPERADMIN">SUPERADMIN</MenuItem>
                     </MDInput>
                   </MDBox>
                 </Grid>
-                <Grid item xs={12} md={4}>
+                {/* <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
@@ -316,8 +355,8 @@ function EditAdmin() {
                       fullWidth
                     />
                   </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
+                </Grid> */}
+                {/* <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
                       inputProps={{ readOnly: true }}
@@ -330,7 +369,7 @@ function EditAdmin() {
                       fullWidth
                     />
                   </MDBox>
-                </Grid>
+                </Grid> */}
               </Grid>
 
               {/* <Grid container spacing={3}>
@@ -664,13 +703,15 @@ function EditAdmin() {
                       InputLabelProps={{ shrink: true }}
                       type="password"
                       label="Confirm New Password"
+                      onChange={(e) => confirmPasswordValidation(e.target.value)}
+                      helperText={isPasswordMatching}
                       // variant="standard"
                       fullWidth
                     />
                   </MDBox>
                 </Grid>
               </Grid>
-              <MDBox display="flex" alignItems="center" ml={-1}>
+              {/* <MDBox display="flex" alignItems="center" ml={-1}>
                 <Checkbox />
                 <MDTypography
                   variant="button"
@@ -690,7 +731,7 @@ function EditAdmin() {
                 >
                   Terms and Conditions
                 </MDTypography>
-              </MDBox>
+              </MDBox> */}
             </MDBox>
 
             <MDBox p={2}>
@@ -718,6 +759,7 @@ function EditAdmin() {
                 </Grid>
               </Grid>
             </MDBox>
+
             {/* <MDBox mt={4} mb={1}>
               <MDButton onClick={() => editAdmin()} variant="gradient" color="info" fullWidth>
                 Update

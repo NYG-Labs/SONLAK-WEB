@@ -28,7 +28,10 @@ import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import InputAdornment from "@mui/material/InputAdornment";
+import { IconButton } from "@mui/material";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import MenuItem from "@mui/material/MenuItem";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { useState } from "react";
@@ -40,9 +43,14 @@ import axios from "axios";
 // import bgImage from "assets/images/bg-sign-up-cover.jpeg";
 
 function AdminRegistration() {
+  const SelectFieldStyle = {
+    padding: 12,
+    // fontSize: "0.75rem",
+  };
   const [email, setEmail] = useState("");
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
+  const [adminType, setAdminType] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const baseURL = "/api/Admins";
@@ -59,6 +67,7 @@ function AdminRegistration() {
     email,
     fname,
     lname,
+    adminType,
     password,
   };
 
@@ -89,6 +98,8 @@ function AdminRegistration() {
   const confirmPasswordValidation = (event) => {
     if (password === event) {
       setIsPasswordMatching("Password and Confirm Password is matching");
+    } else {
+      setIsPasswordMatching("");
     }
   };
 
@@ -166,8 +177,8 @@ function AdminRegistration() {
                 </Grid>
               </Grid>
 
-              {/* <Grid container spacing={3}> */}
-              {/* <Grid item xs={12} md={4}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
                     <MDInput
                       SelectProps={{
@@ -186,19 +197,19 @@ function AdminRegistration() {
                         ),
                       }}
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setGender(e.target.value)}
-                      value={gender}
+                      onChange={(e) => setAdminType(e.target.value)}
+                      value={adminType}
                       type="text"
-                      label="Gender"
+                      label="Admin Type"
                       // variant="standard"
                       fullWidth
                     >
-                      <MenuItem value="Male">Male</MenuItem>
-                      <MenuItem value="Female">Female</MenuItem>
+                      <MenuItem value="OTHERADMIN">OTHERADMIN</MenuItem>
+                      <MenuItem value="SUPERADMIN">SUPERADMIN</MenuItem>
                     </MDInput>
                   </MDBox>
-                </Grid> */}
-              {/* <Grid item xs={12} md={4}>
+                </Grid>
+                {/* <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
@@ -210,7 +221,7 @@ function AdminRegistration() {
                     />
                   </MDBox>
                 </Grid> */}
-              {/* </Grid> */}
+              </Grid>
 
               {/* <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>

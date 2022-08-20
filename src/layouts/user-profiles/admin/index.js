@@ -114,7 +114,7 @@ function AdminProfile() {
                 {admin.fname} {admin.lname}
               </MDTypography>
               <MDTypography variant="button" color="text" fontWeight="regular">
-                ADMIN
+                {admin.adminType}
               </MDTypography>
             </MDBox>
           </Grid>
