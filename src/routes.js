@@ -83,6 +83,9 @@ import SingleComplaints from "layouts/complaints/one-complaint";
 import AllCompliance from "layouts/compliance";
 import AddCompliance from "layouts/compliance/add-compliance";
 import EditCompliance from "layouts/compliance/edit-compliance";
+import ChangePasswordAdmin from "layouts/authentication/change-password/admin";
+import ChangePasswordDriver from "layouts/authentication/change-password/driver";
+import ChangePasswordSupervisor from "layouts/authentication/change-password/supervisor";
 // import SignOut from "layouts/authentication/sign-out";
 
 // @mui icons
@@ -118,6 +121,24 @@ const routes = [
     key: "add-eta-performance",
     route: "/ETA-performance/Add-ETA-performance",
     component: <AddETAPerformance />,
+  },
+  {
+    name: "Change Password Admin",
+    key: "change-password-admin",
+    route: "/change-password-admin/:id/:roleKey",
+    component: <ChangePasswordAdmin />,
+  },
+  {
+    name: "Change Password Driver",
+    key: "change-password-driver",
+    route: "/change-password-driver/:id/:roleKey",
+    component: <ChangePasswordDriver />,
+  },
+  {
+    name: "Change Password Supervisor",
+    key: "change-password-supervisor",
+    route: "/change-password-supervisor/:id/:roleKey",
+    component: <ChangePasswordSupervisor />,
   },
   {
     name: "ETA Performance",

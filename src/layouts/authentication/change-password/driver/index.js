@@ -37,88 +37,65 @@ import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import CircularProgress from "@mui/material/CircularProgress";
-// import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { useState } from "react";
-import axios from "axios";
-// import MenuItem from "@mui/material/MenuItem";
-// import InputAdornment from "@mui/material/InputAdornment";
-// import { IconButton } from "@mui/material";
-// import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+// import axios from "axios";
 
-function EditAdmin() {
-  const SelectFieldStyle = {
-    padding: 12,
-    // fontSize: "0.75rem",
-  };
-
-  const config = {
-    headers: {
-      "content-type": "application/json",
-      Authorization: `Bearer ${window.localStorage.getItem("token")}`,
-    },
-  };
+function ChangePasswordDriver() {
+  // const config = {
+  //   headers: {
+  //     "content-type": "application/json",
+  //     Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+  //   },
+  // };
 
   const navigate = useNavigate();
   const { id } = useParams();
   const { roleKey } = useParams();
-  //   const [allSupervisors, setAllSupervisors] = useState([]);
-  const baseURL = `/api/Admins/${id}`;
-  //   const baseURLSupervisors = "/api/Supervisors";
-  const baseURLAdmin = `/api/Admins/${id}`;
+  // const baseURL = `/api/Drivers/${id}`;
   const [loading, setLoading] = useState(false);
-  const [newPassword, setNewPassword] = useState(admin.password);
+  const [newPassword, setNewPassword] = useState("");
   const [oldPassword, setOldPassword] = useState("");
+  const [isPasswordMatching, setIsPasswordMatching] = useState("");
 
-  //   const getAllSupervisors = () => {
-  //     axios.get(baseURLSupervisors, config).then((response) => {
-  //       const tempSupervisors = response.data;
-  //       setAllSupervisors(tempSupervisors);
-  //     });
-  //   };
+  const confirmPasswordValidation = (event) => {
+    if (newPassword === event) {
+      setIsPasswordMatching("Password and Confirm Password is matching");
+    } else {
+      setIsPasswordMatching("");
+    }
+  };
 
-//   const getAdminDetails = async () => {
-//     await axios.get(baseURLAdmin, config).then((response) => {
-//       const tempAdmin = response.data;
-//       setPassword(response.data.setPassword);
-//     });
-//   };
-
-//   useEffect(() => {
-//     getAdminDetails();
-//     // getAllSupervisors();
-//   }, []);
-
-  //   console.log("Admin = ", Admin);
-  //   console.log("allsupervisors = ", allSupervisors);
-
-//   const adminEmail = admin.email;
+  //   useEffect(() => {
+  //     getDriverDetails();
+  //     // getAllDrivers();
+  //   }, []);
 
   console.log("pw = ", oldPassword, newPassword);
 
   const bodyParameters = {
-    email: userEmail,
+    email: id,
     roleKey,
     oldPassword,
     newPassword,
   };
 
-  //   console.log("==> ", bodyParameters.fname);
+  console.log("==> ", bodyParameters);
 
   function changePassword() {
     setLoading(true);
-    axios
-      .post(baseURL, bodyParameters, config)
-      .then((response) => {
-        if (response.status === 204 && roleKey.includes("ADMIN")) {
-          alert("Password updated successfully");
-          navigate(`/admins/${id}`);
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log("error = ", error.response);
-        alert("An unexpected error occured! please check the values and try again");
-      });
+    // axios
+    //   .post(baseURL, bodyParameters, config)
+    //   .then((response) => {
+    //     if (response.status === 204 && roleKey.includes("Driver")) {
+    alert("Password updated successfully");
+    navigate(`/drivers/${id}`);
+    //   }
+    // })
+    // .catch((error) => {
+    //   setLoading(false);
+    //   console.log("error = ", error.response);
+    //   alert("An unexpected error occured! please check the values and try again");
+    // });
   }
 
   if (
@@ -141,7 +118,7 @@ function EditAdmin() {
           mt={3}
           p={3}
           mb={2}
-          textAlign="center"
+          // textAlign="center"
         >
           <Grid container spacing={3}>
             <Grid item xs={12} mr={8} md={8.5}>
@@ -149,28 +126,44 @@ function EditAdmin() {
                 Change Password
               </MDTypography>
             </Grid>
-            {/* <Grid item xs={12} md={2}>
-              <MDBox>
-                <MDButton
-                  component={Link}
-                  variant="gradient"
-                  color="light"
-                  justifyContent="flex-end"
-                  fullWidth
-                  to="/ETA-performance/Add-ETA-performance"
-                >
-                  Change password
-                </MDButton>
-              </MDBox>
-            </Grid> */}
           </Grid>
-          {/* <MDTypography display="block" variant="button" color="white" my={1}>
-            Enter your email and password to register
-          </MDTypography> */}
         </MDBox>
+
         <MDBox pt={-2} pb={3} px={3}>
           <MDBox component="form" role="form">
             <MDBox p={2}>
+              <Grid container spacing={3}>
+                <br />
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={3}>
+                    <MDInput
+                      inputProps={{ readOnly: true }}
+                      InputLabelProps={{ shrink: true }}
+                      // onChange={(e) => setFname(e.target.value)}
+                      placeholder={roleKey}
+                      type="text"
+                      label="User Type"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      inputProps={{ readOnly: true }}
+                      InputLabelProps={{ shrink: true }}
+                      // onChange={(e) => setMname(e.target.value)}
+                      placeholder={id}
+                      type="text"
+                      label="Email"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+              </Grid>
+
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
@@ -202,35 +195,16 @@ function EditAdmin() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
+                      onChange={(e) => confirmPasswordValidation(e.target.value)}
                       type="password"
                       label="Confirm New Password"
+                      helperText={isPasswordMatching}
                       // variant="standard"
                       fullWidth
                     />
                   </MDBox>
                 </Grid>
               </Grid>
-              {/* <MDBox display="flex" alignItems="center" ml={-1}>
-                <Checkbox />
-                <MDTypography
-                  variant="button"
-                  fontWeight="regular"
-                  color="text"
-                  sx={{ cursor: "pointer", userSelect: "none", ml: -1 }}
-                >
-                  &nbsp;&nbsp;I agree the&nbsp;
-                </MDTypography>
-                <MDTypography
-                  component="a"
-                  href="#"
-                  variant="button"
-                  fontWeight="bold"
-                  color="info"
-                  textGradient
-                >
-                  Terms and Conditions
-                </MDTypography>
-              </MDBox> */}
             </MDBox>
 
             <MDBox p={2}>
@@ -239,7 +213,7 @@ function EditAdmin() {
                   <MDBox mb={2}>
                     <MDButton
                       component={Link}
-                      to={`/admins/${id}`}
+                      to={`/drivers/${id}`}
                       variant="gradient"
                       color="light"
                       fullWidth
@@ -250,7 +224,12 @@ function EditAdmin() {
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <MDBox mb={2}>
-                    <MDButton onClick={() => changePassword()} variant="gradient" color="info" fullWidth>
+                    <MDButton
+                      onClick={() => changePassword()}
+                      variant="gradient"
+                      color="info"
+                      fullWidth
+                    >
                       Update &nbsp;&nbsp;
                       {loading ? <CircularProgress size={20} color="white" /> : ""}
                     </MDButton>
@@ -260,12 +239,12 @@ function EditAdmin() {
             </MDBox>
 
             {/* <MDBox mt={4} mb={1}>
-              <MDButton onClick={() => editAdmin()} variant="gradient" color="info" fullWidth>
+              <MDButton onClick={() => editdriver()} variant="gradient" color="info" fullWidth>
                 Update
               </MDButton>
             </MDBox>
             <MDBox mt={1} mb={1}>
-              <MDButton onClick={() => editAdmin()} variant="gradient" color="info" fullWidth>
+              <MDButton onClick={() => editdriver()} variant="gradient" color="info" fullWidth>
                 Cancle
               </MDButton>
             </MDBox> */}
@@ -291,4 +270,4 @@ function EditAdmin() {
   );
 }
 
-export default EditAdmin;
+export default ChangePasswordDriver;

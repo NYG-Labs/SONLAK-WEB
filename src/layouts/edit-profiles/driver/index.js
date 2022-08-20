@@ -360,14 +360,29 @@ function EditDriver() {
           mt={3}
           p={3}
           mb={2}
-          textAlign="center"
+          // textAlign="center"
         >
-          <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Edit Driver
-          </MDTypography>
-          {/* <MDTypography display="block" variant="button" color="white" my={1}>
-            Enter your email and password to register
-          </MDTypography> */}
+          <Grid container spacing={3}>
+            <Grid item xs={12} mr={5} md={8.5}>
+              <MDTypography mt={1} ml={2} variant="h5" color="white">
+                Edit Driver
+              </MDTypography>
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <MDBox>
+                <MDButton
+                  component={Link}
+                  variant="gradient"
+                  color="light"
+                  justifyContent="flex-end"
+                  fullWidth
+                  to={`/change-password-driver/${driver.email}/${"DRIVER"}`}
+                >
+                  Change password
+                </MDButton>
+              </MDBox>
+            </Grid>
+          </Grid>
         </MDBox>
         <MDBox pt={-2} pb={3} px={3}>
           <MDBox component="form" role="form">

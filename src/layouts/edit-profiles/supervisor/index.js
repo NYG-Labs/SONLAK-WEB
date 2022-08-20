@@ -290,14 +290,29 @@ function EditSupervisor() {
           mt={3}
           p={3}
           mb={2}
-          textAlign="center"
+          // textAlign="center"
         >
-          <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Edit Supervisor
-          </MDTypography>
-          {/* <MDTypography display="block" variant="button" color="white" my={1}>
-            Enter your email and password to register
-          </MDTypography> */}
+          <Grid container spacing={3}>
+            <Grid item xs={12} mr={5} md={8.5}>
+              <MDTypography mt={1} ml={2} variant="h5" color="white">
+                Edit Supervisor
+              </MDTypography>
+            </Grid>
+            <Grid item xs={12} md={2}>
+              <MDBox>
+                <MDButton
+                  component={Link}
+                  variant="gradient"
+                  color="light"
+                  justifyContent="flex-end"
+                  fullWidth
+                  to={`/change-password-supervisor/${supervisor.email}/${"SUPERVIOSR"}`}
+                >
+                  Change password
+                </MDButton>
+              </MDBox>
+            </Grid>
+          </Grid>
         </MDBox>
         <MDBox pt={-2} pb={3} px={3}>
           <MDBox component="form" role="form">
@@ -446,103 +461,12 @@ function EditSupervisor() {
                       placeholder={supervisor.workStatus}
                       type="text"
                       label="Work Status"
-                      // value={username}
-                      // variant="standard"
                       fullWidth
                     />
                   </MDBox>
                 </Grid>
               </Grid>
             </MDBox>
-
-            {/* <MDBox p={2}>
-              <MDBox pb={2}>AUSPOST ID Details</MDBox>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setAusPostId(e.target.value)}
-                      placeholder={supervisor.ausPostId}
-                      type="text"
-                      label="ID no"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setAusPostScan(e.target.value)}
-                      // onChange={ausPostScanHnadler}
-                      placeholder={supervisor.ausPostScan}
-                      type="text"
-                      label="Scanned copy"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={3}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setAusPostExpiry(e.target.value)}
-                      placeholder={supervisor.ausPostExpiry}
-                      type="date"
-                      label="Expiery date"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-              </Grid>
-            </MDBox> */}
-
-            {/* <MDBox p={2}>
-              <MDBox pb={2}>Vehicle Details</MDBox>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setVehicleNo(e.target.value)}
-                      placeholder={supervisor.vehicleNo}
-                      type="text"
-                      label="Vehicle No"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setVehicalType(e.target.value)}
-                      placeholder={supervisor.vehicalType}
-                      type="texy"
-                      label="Vehicle type"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid> */}
-            {/* <Grid item xs={12} md={4}>
-                  <MDBox mb={3}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      type="date"
-                      label="Expiery date"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid> */}
-            {/* </Grid>
-            </MDBox> */}
 
             <MDBox p={2}>
               <MDBox pb={2}>Visa Details</MDBox>
@@ -564,12 +488,10 @@ function EditSupervisor() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      // onChange={(e) => setVisaScan(e.target.value)}
                       onChange={VisaScanHnadler}
                       placeholder={supervisor.visaScan}
                       type="file"
                       label="Scanned copy"
-                      // variant="standard"
                       fullWidth
                     />
                   </MDBox>
@@ -582,58 +504,12 @@ function EditSupervisor() {
                       placeholder={supervisor.visaExpiry}
                       type="date"
                       label="Expiery date"
-                      // variant="standard"
                       fullWidth
                     />
                   </MDBox>
                 </Grid>
               </Grid>
             </MDBox>
-
-            {/* <MDBox p={2}>
-              <MDBox pb={2}>Supervisor licence details</MDBox>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setLicenceId(e.target.value)}
-                      placeholder={supervisor.licenceId}
-                      type="text"
-                      label="ID no"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setLicenceScan(e.target.value)}
-                      placeholder={supervisor.licenceScan}
-                      type="text"
-                      label="Scanned copy"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setLicenceExpiry(e.target.value)}
-                      placeholder={supervisor.licenceExpiry}
-                      type="date"
-                      label="Expiery date"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-              </Grid>
-            </MDBox> */}
 
             <MDBox p={2}>
               <MDBox pb={2}>Other Details</MDBox>
@@ -659,40 +535,7 @@ function EditSupervisor() {
                       <MenuItem value="Female">Inactive</MenuItem>
                     </MDInput>
                   </MDBox>
-                </Grid>
-                {/* <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      SelectProps={{
-                        style: SelectFieldStyle,
-                      }}
-                      select
-                      id="full-width-text-field"
-                      IconComponent={<ArrowDropDownIcon />}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton>
-                              <ArrowDropDownIcon />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setSupervisroEmail(e.target.value)}
-                      default={supervisorEmail}
-                      helperText={supervisorEmail}
-                      type="email"
-                      label="Supervisor email"
-                      // variant="standard"
-                      fullWidth
-                    >
-                      {allSupervisors.map((supervisor) => (
-                        <MenuItem value={supervisor.email}>{supervisor.email}</MenuItem>
-                      ))}
-                    </MDInput>
-                  </MDBox>
-                </Grid> */}
+                </Grid>{" "}
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
@@ -732,7 +575,6 @@ function EditSupervisor() {
                       onChange={(e) => setPassword(e.target.value)}
                       type="password"
                       label="New Password"
-                      // variant="standard"
                       fullWidth
                     />
                   </MDBox>
@@ -746,7 +588,6 @@ function EditSupervisor() {
                       helperText={isPasswordMatching}
                       type="password"
                       label="Confirm New Password"
-                      // variant="standard"
                       fullWidth
                     />
                   </MDBox>
@@ -775,11 +616,6 @@ function EditSupervisor() {
               </MDBox>
             </MDBox>
 
-            {/* <MDBox mt={4} mb={1}>
-              <MDButton onClick={() => editSupervisor()} variant="gradient" color="info" fullWidth>
-                Update
-              </MDButton>
-            </MDBox> */}
             <MDBox p={2}>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>
@@ -810,21 +646,6 @@ function EditSupervisor() {
                 </Grid>
               </Grid>
             </MDBox>
-            {/* <MDBox mt={3} mb={1} textAlign="center">
-              <MDTypography variant="button" color="text">
-                Already have an account?{" "}
-                <MDTypography
-                  component={Link}
-                  to="/authentication/sign-in"
-                  variant="button"
-                  color="info"
-                  fontWeight="medium"
-                  textGradient
-                >
-                  Sign In
-                </MDTypography>
-              </MDTypography>
-            </MDBox> */}
           </MDBox>
         </MDBox>
       </Card>

@@ -237,7 +237,7 @@ function EditAdmin() {
                   color="light"
                   justifyContent="flex-end"
                   fullWidth
-                  to="/ETA-performance/Add-ETA-performance"
+                  to={`/change-password-admin/${admin.email}/${admin.adminType}`}
                 >
                   Change password
                 </MDButton>
