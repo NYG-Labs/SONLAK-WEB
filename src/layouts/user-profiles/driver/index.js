@@ -26,7 +26,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
 // import ProfilesList from "examples/Lists/ProfilesList";
-import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
+// import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
 import AppBar from "@mui/material/AppBar";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -34,14 +34,14 @@ import Icon from "@mui/material/Icon";
 import Header from "layouts/profile/components/Header";
 // import PlatformSettings from "layouts/profile/components/PlatformSettings";
 // import profilesListData from "layouts/profile/data/profilesListData";
-import homeDecor1 from "assets/images/home-decor-1.jpg";
-import homeDecor2 from "assets/images/home-decor-2.jpg";
-import homeDecor3 from "assets/images/home-decor-3.jpg";
-import homeDecor4 from "assets/images/home-decor-4.jpeg";
-import team1 from "assets/images/team-1.jpg";
-import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
+// import homeDecor1 from "assets/images/home-decor-1.jpg";
+// import homeDecor2 from "assets/images/home-decor-2.jpg";
+// import homeDecor3 from "assets/images/home-decor-3.jpg";
+// import homeDecor4 from "assets/images/home-decor-4.jpeg";
+// import team1 from "assets/images/team-1.jpg";
+// import team2 from "assets/images/team-2.jpg";
+// import team3 from "assets/images/team-3.jpg";
+// import team4 from "assets/images/team-4.jpg";
 import MDAvatar from "components/MDAvatar";
 // import burceMars from "assets/images/bruce-mars.jpg";
 import breakpoints from "assets/theme/base/breakpoints";
@@ -1669,7 +1669,7 @@ function DriverProfile() {
           </Grid>
         </MDBox>
 
-        <MDBox pt={2} px={2} lineHeight={1.25}>
+        {/* <MDBox pt={2} px={2} lineHeight={1.25}>
           <MDTypography variant="h6" fontWeight="medium">
             Projects
           </MDTypography>
@@ -1762,7 +1762,7 @@ function DriverProfile() {
               />
             </Grid>
           </Grid>
-        </MDBox>
+        </MDBox> */}
       </Header>
       <Footer />
     </DashboardLayout>

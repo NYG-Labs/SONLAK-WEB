@@ -48,7 +48,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
 // import ProfilesList from "examples/Lists/ProfilesList";
-import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
+// import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
 import MDAvatar from "components/MDAvatar";
 // import burceMars from "assets/images/bruce-mars.jpg";
 import breakpoints from "assets/theme/base/breakpoints";
@@ -61,14 +61,14 @@ import Header from "layouts/profile/components/Header";
 // import profilesListData from "layouts/profile/data/profilesListData";
 
 // Images
-import homeDecor1 from "assets/images/home-decor-1.jpg";
-import homeDecor2 from "assets/images/home-decor-2.jpg";
-import homeDecor3 from "assets/images/home-decor-3.jpg";
-import homeDecor4 from "assets/images/home-decor-4.jpeg";
-import team1 from "assets/images/team-1.jpg";
-import team2 from "assets/images/team-2.jpg";
-import team3 from "assets/images/team-3.jpg";
-import team4 from "assets/images/team-4.jpg";
+// import homeDecor1 from "assets/images/home-decor-1.jpg";
+// import homeDecor2 from "assets/images/home-decor-2.jpg";
+// import homeDecor3 from "assets/images/home-decor-3.jpg";
+// import homeDecor4 from "assets/images/home-decor-4.jpeg";
+// import team1 from "assets/images/team-1.jpg";
+// import team2 from "assets/images/team-2.jpg";
+// import team3 from "assets/images/team-3.jpg";
+// import team4 from "assets/images/team-4.jpg";
 import MDBadge from "components/MDBadge";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -85,12 +85,15 @@ function SupervisorProfile() {
   const ToolBoxURL = `/api/ToolBox/GetToolBoxBySupervisor/${id}`;
   const ComplaintsURL = `/api/Complaints/GetComplaintbySupervisor/${id}`;
   const deleteSupervisorURL = `/api/Supervisors/${id}`;
+  const driversURL = `/api/Drivers/GetSupervisorsDriversList/${id}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
   const [searchToolBox, setSearchToolBox] = useState("");
   const [searchComplaints, setSearchComplaints] = useState("");
+  const [searchDrivers, setSearchDrivers] = useState("");
   const [allToolBox, setAllToolBox] = useState([]);
   const [allComplaints, setAllComplaints] = useState([]);
+  const [alldrivers, setDrivers] = useState([]);
   let tempSupervisorProfilePhoto = supervisor.profilePhoto;
   // console.log(supervisor);
 
@@ -115,6 +118,13 @@ function SupervisorProfile() {
     });
   };
 
+  const getDrivers = () => {
+    axios.get(driversURL, config).then((response) => {
+      const tempDrivers = response.data;
+      setDrivers(tempDrivers);
+    });
+  };
+
   const filteredDataToolBox = allToolBox.filter((toolBox) =>
     toolBox.createDate.toLowerCase().includes(searchToolBox.toLowerCase())
   );
@@ -123,6 +133,9 @@ function SupervisorProfile() {
     complaints.createDate.toLowerCase().includes(searchComplaints.toLowerCase())
   );
 
+  const filteredDrivers = alldrivers.filter((driver) =>
+    driver.fname.toLowerCase().includes(searchDrivers.toLowerCase())
+  );
   const getTheSupervisor = () => {
     axios.get(baseURL, config).then((response) => {
       const tempSupervisor = response.data;
@@ -133,6 +146,7 @@ function SupervisorProfile() {
   useEffect(() => {
     getAllToolBox();
     getAllComplaints();
+    getDrivers();
 
     getTheSupervisor();
     // A function that sets the orientation state of the tabs.
@@ -205,7 +219,7 @@ function SupervisorProfile() {
                 {supervisor.fname} {supervisor.mname} {supervisor.lname}
               </MDTypography>
               <MDTypography variant="button" color="text" fontWeight="regular">
-                {supervisor.workStatus} Supervisor
+                {supervisor.workStatus === "active    " ? "ACTIVE" : "INACTIVE"} SUPERVISOR
               </MDTypography>
             </MDBox>
           </Grid>
@@ -504,7 +518,98 @@ function SupervisorProfile() {
           </Grid>
         </MDBox>
 
-        <MDBox pt={2} px={2} lineHeight={1.25}>
+        <MDBox pt={1} pb={1} mt={3} id="ETA">
+          <Grid container spacing={6}>
+            <Grid item xs={12}>
+              <Card>
+                <MDBox
+                  mx={2}
+                  mt={-3}
+                  py={3}
+                  px={2}
+                  variant="gradient"
+                  bgColor="info"
+                  borderRadius="lg"
+                  coloredShadow="info"
+                >
+                  <MDTypography variant="h6" color="white">
+                    Drivers
+                  </MDTypography>
+                </MDBox>
+                <MDBox pt={3}>
+                  {/* <Grid container spacing={3}> */}
+                  <Grid item xs={12} md={6} fullwidth justifyContent="flex-end">
+                    <MDBox pr={2} pb={1} pl={2}>
+                      <MDInput
+                        fullWidth
+                        InputLabelProps={{ shrink: true }}
+                        onChange={(e) => setSearchDrivers(e.target.value)}
+                        label="Search here"
+                        type="Search"
+                        justify="space-between"
+                        spacing={24}
+                        raised
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
+                    <TableContainer>
+                      <Table aria-label="simple table">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell align="center">Driver FirstName</TableCell>
+                            <TableCell align="center">Driver LastName</TableCell>
+                            <TableCell align="center">Driver Email</TableCell>
+                            {/* <TableCell align="center">OnTime</TableCell>
+                            <TableCell align="center">Not Delivered</TableCell>
+                            <TableCell align="center">On Time %</TableCell> */}
+                            <TableCell align="left"> </TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {filteredDrivers.length === 0 ? (
+                            <TableRow key="s">
+                              <TableCell align="center">-</TableCell>
+                              <TableCell align="center">-</TableCell>
+                              <TableCell align="center">-</TableCell>
+                              {/* <TableCell align="center">-</TableCell>
+                              <TableCell align="center">-</TableCell>
+                              <TableCell align="center">-</TableCell> */}
+                            </TableRow>
+                          ) : null}
+                          {filteredDrivers.map((row) => (
+                            <TableRow key="s">
+                              <TableCell align="center">{row.fname}</TableCell>
+                              <TableCell align="center">{row.lname}</TableCell>
+                              <TableCell align="center">{row.email}</TableCell>
+                              {/* <TableCell align="center">{row.onTime}</TableCell>
+                              <TableCell align="center">{row.notDelivered}</TableCell> */}
+                              {/* <TableCell align="center">{row.onTimePresentage}%</TableCell> */}
+                              <TableCell align="left">
+                                <MDBox ml={-1}>
+                                  <MDBadge
+                                    badgeContent="view"
+                                    color="success"
+                                    variant="gradient"
+                                    size="sm"
+                                    component={Link}
+                                    to={`/drivers/${row.email}`}
+                                  />
+                                </MDBox>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Grid>
+                </MDBox>
+              </Card>
+            </Grid>
+          </Grid>
+        </MDBox>
+
+        {/* <MDBox pt={2} px={2} lineHeight={1.25}>
           <MDTypography variant="h6" fontWeight="medium">
             Projects
           </MDTypography>
@@ -597,7 +702,7 @@ function SupervisorProfile() {
               />
             </Grid>
           </Grid>
-        </MDBox>
+        </MDBox> */}
       </Header>
       <Footer />
     </DashboardLayout>
