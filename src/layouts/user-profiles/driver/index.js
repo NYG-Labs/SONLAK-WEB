@@ -698,6 +698,7 @@ function DriverProfile() {
                   gender: driver.gender,
                   address: driver.address,
                   email: driver.email,
+                  phoneNo: driver.phoneNo,
                   DOB: dob.split("T")[0],
                   ProfilePicture: (
                     <a href={driver.profilePhoto}>
@@ -744,7 +745,7 @@ function DriverProfile() {
           </Grid>
         </MDBox>
 
-        <MDBox mt={2}>
+        <MDBox mt={1}>
           <Grid container spacing={1}>
             <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
               <Divider orientation="vertical" sx={{ mx: 0 }} />

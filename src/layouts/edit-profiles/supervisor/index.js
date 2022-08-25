@@ -22,7 +22,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
-import Checkbox from "@mui/material/Checkbox";
+// import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 // import TextField from "@mui/material/TextField";
 
@@ -41,16 +41,16 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import MenuItem from "@mui/material/MenuItem";
-import InputAdornment from "@mui/material/InputAdornment";
-import { IconButton } from "@mui/material";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+// import InputAdornment from "@mui/material/InputAdornment";
+// import { IconButton } from "@mui/material";
+// import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { BlobServiceClient } from "@azure/storage-blob";
 
 function EditSupervisor() {
-  const SelectFieldStyle = {
-    padding: 12,
-    // fontSize: "0.75rem",
-  };
+  // const SelectFieldStyle = {
+  //   padding: 12,
+  //   // fontSize: "0.75rem",
+  // };
 
   const config = {
     headers: {
@@ -78,7 +78,7 @@ function EditSupervisor() {
   const [lname, setLname] = useState(supervisor.lname);
   const [address, setAddress] = useState(supervisor.address);
   const [dob, setDob] = useState(supervisor.dob);
-  const [gender, setGender] = useState(supervisor.gender);
+  // const [gender, setGender] = useState(supervisor.gender);
   //   const [ausPostId, setAusPostId] = useState(supervisor.ausPostId);
   //   const [ausPostScan, setAusPostScan] = useState(supervisor.ausPostScan);
   //   const [ausPostExpiry, setAusPostExpiry] = useState(supervisor.ausPostExpiry);
@@ -91,13 +91,13 @@ function EditSupervisor() {
   //   const [licenceScan, setLicenceScan] = useState(supervisor.licenceScan);
   //   const [licenceExpiry, setLicenceExpiry] = useState(supervisor.licenceExpiry);
   const [supervisorType, setSupervisorType] = useState(supervisor.supervisorType);
-  const [username, setUsername] = useState(supervisor.username);
-  // const [phoneNo, setPhoneNo] = useState("");
+  // const [username, setUsername] = useState(supervisor.username);
+  const [phoneNo, setPhoneNo] = useState("");
   const [profilePhoto, setProfilePhoto] = useState(supervisor.profilePhoto);
   //   const [supervisorEmail, setSupervisroEmail] = useState(supervisor.supervisorEmail);
-  const [workStatus, setWorkstatus] = useState(supervisor.workStatus);
-  const [password, setPassword] = useState(supervisor.password);
-  const [oldPassword, setOldPassword] = useState("");
+  // const [workStatus, setWorkstatus] = useState(supervisor.workStatus);
+  // const [password, setPassword] = useState(supervisor.password);
+  // const [oldPassword, setOldPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const supervisorEmail = supervisor.email;
@@ -126,7 +126,7 @@ function EditSupervisor() {
       setLname(response.data.lname);
       setAddress(response.data.address);
       setDob(response.data.dob);
-      setGender(response.data.gender);
+      // setGender(response.data.gender);
       //   setAusPostId(response.data.ausPostId);
       //   setAusPostScan(response.data.ausPostScan);
       //   setAusPostExpiry(response.data.ausPostExpiry);
@@ -139,11 +139,12 @@ function EditSupervisor() {
       //   setLicenceScan(response.data.ausPostScan);
       //   setLicenceExpiry(response.data.licenceExpiry);
       setSupervisorType(response.data.supervisorType);
-      setUsername(response.data.username);
+      setPhoneNo(response.data.phoneNo);
+      // setUsername(response.data.username);
       setProfilePhoto(response.data.profilePhoto);
       //   setSupervisroEmail(response.data.supervisorEmail);
-      setWorkstatus(response.data.workStatus);
-      setPassword(response.data.setPassword);
+      // setWorkstatus(response.data.workStatus);
+      // setPassword(response.data.setPassword);
       // console.log("data = ++", response.data);
     });
   };
@@ -199,17 +200,17 @@ function EditSupervisor() {
   //   console.log("Supervisor = ", Supervisor);
   //   console.log("allsupervisors = ", allSupervisors);
 
-  console.log("pw = ", oldPassword, password);
+  // console.log("pw = ", oldPassword, password);
 
-  const [isPasswordMatching, setIsPasswordMatching] = useState("");
+  // const [isPasswordMatching, setIsPasswordMatching] = useState("");
 
-  const confirmPasswordValidation = (event) => {
-    if (password === event) {
-      setIsPasswordMatching("Password and Confirm Password is matching");
-    } else {
-      setIsPasswordMatching("");
-    }
-  };
+  // const confirmPasswordValidation = (event) => {
+  //   if (password === event) {
+  //     setIsPasswordMatching("Password and Confirm Password is matching");
+  //   } else {
+  //     setIsPasswordMatching("");
+  //   }
+  // };
 
   const bodyParameters = {
     email: supervisorEmail,
@@ -218,7 +219,8 @@ function EditSupervisor() {
     lname,
     address,
     dob,
-    gender,
+    phoneNo,
+    // gender,
     // ausPostId,
     // ausPostScan,
     // ausPostExpiry,
@@ -231,10 +233,10 @@ function EditSupervisor() {
     // licenceScan,
     // licenceExpiry,
     supervisorType,
-    workStatus,
+    // workStatus,
     // password,
     supervisorEmail,
-    username,
+    // username,
     // phoneNo,
     // createDate,
     profilePhoto,
@@ -363,7 +365,7 @@ function EditSupervisor() {
               </Grid>
 
               <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
+                {/* <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
                     <MDInput
                       SelectProps={{
@@ -395,7 +397,7 @@ function EditSupervisor() {
                       <MenuItem value="Female">Female</MenuItem>
                     </MDInput>
                   </MDBox>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
@@ -443,17 +445,17 @@ function EditSupervisor() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setUsername(e.target.value)}
-                      placeholder={supervisor.username}
+                      onChange={(e) => setPhoneNo(e.target.value)}
+                      placeholder={supervisor.phoneNo}
                       type="text"
-                      label="Username"
+                      label="Phone No"
                       // value={username}
                       // variant="standard"
                       fullWidth
                     />
                   </MDBox>
                 </Grid>
-                <Grid item xs={12} md={4}>
+                {/* <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
@@ -464,7 +466,7 @@ function EditSupervisor() {
                       fullWidth
                     />
                   </MDBox>
-                </Grid>
+                </Grid> */}
               </Grid>
             </MDBox>
 
@@ -531,8 +533,8 @@ function EditSupervisor() {
                       }}
                       fullWidth
                     >
-                      <MenuItem value="Male">Active</MenuItem>
-                      <MenuItem value="Female">Inactive</MenuItem>
+                      <MenuItem value="foreign">Foreign</MenuItem>
+                      <MenuItem value="local">Local</MenuItem>
                     </MDInput>
                   </MDBox>
                 </Grid>{" "}
@@ -553,7 +555,7 @@ function EditSupervisor() {
               </Grid>
             </MDBox>
 
-            <MDBox p={2}>
+            {/* <MDBox p={2}>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
@@ -614,7 +616,7 @@ function EditSupervisor() {
                   Terms and Conditions
                 </MDTypography>
               </MDBox>
-            </MDBox>
+            </MDBox> */}
 
             <MDBox p={2}>
               <Grid container spacing={3}>

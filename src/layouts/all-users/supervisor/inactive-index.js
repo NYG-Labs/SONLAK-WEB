@@ -46,7 +46,7 @@ function AllInactiveSupervisors() {
   // const { rows } = allDriverData();
   const [search, setSearch] = useState("");
   const [allInactiveSupervisors, setAllInactiveSupervisors] = useState([]);
-  const baseURL = "/api/Supervisors";
+  const baseURL = "/api/Supervisors/GetSupervisorsInactive";
 
   const config = {
     headers: {

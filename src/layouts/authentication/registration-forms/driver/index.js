@@ -88,7 +88,7 @@ function DriverRegistration() {
   const [licenceExpiry, setLicenceExpiry] = useState("");
   const [driverType, setDriverType] = useState("");
   const [username, setUsername] = useState("");
-  // const [phoneNo, setPhoneNo] = useState("");
+  const [phoneNo, setPhoneNo] = useState("");
   // const [profilePhoto, setProfilePhoto] = useState("");
   const [supervisorEmail, setSupervisroEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -160,7 +160,7 @@ function DriverRegistration() {
     password,
     supervisorEmail,
     username,
-    // phoneNo,
+    phoneNo,
     // createDate,
     profilePhoto,
   };
@@ -430,6 +430,19 @@ function DriverRegistration() {
                       onChange={(e) => setUsername(e.target.value)}
                       type="text"
                       label="Username"
+                      // value={username}
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setPhoneNo(e.target.value)}
+                      type="text"
+                      label="Phone No"
                       // value={username}
                       // variant="standard"
                       fullWidth

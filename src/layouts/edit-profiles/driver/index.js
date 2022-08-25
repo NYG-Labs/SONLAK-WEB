@@ -28,7 +28,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
-import Checkbox from "@mui/material/Checkbox";
+// import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 import CircularProgress from "@mui/material/CircularProgress";
 // import TextField from "@mui/material/TextField";
@@ -99,9 +99,10 @@ function EditDriver() {
   const [profilePhoto, setProfilePhoto] = useState(driver.profilePhoto);
   const [supervisorEmail, setSupervisroEmail] = useState(driver.supervisorEmail);
   const [workStatus, setWorkstatus] = useState(driver.workStatus);
-  const [password, setPassword] = useState(driver.password);
-  const [oldPassword, setOldPassword] = useState("");
+  // const [password, setPassword] = useState(driver.password);
+  // const [oldPassword, setOldPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [phoneNo, setPhoneNo] = useState("");
 
   // const [open, setOpen] = React.useState(false);
 
@@ -148,7 +149,7 @@ function EditDriver() {
       setProfilePhoto(response.data.profilePhoto);
       setSupervisroEmail(response.data.supervisorEmail);
       setWorkstatus(response.data.workStatus);
-      setPassword(response.data.setPassword);
+      // setPassword(response.data.setPassword);
     });
   };
 
@@ -187,17 +188,17 @@ function EditDriver() {
   const tempProfilePhotoURL = `https://${storageAccountName}.blob.core.windows.net/driverprofilephoto/${tempFileProfilePhoto}`;
   // const profilePhoto = tempProfilePhotoURL;
 
-  console.log("pw = ", oldPassword, password);
+  // console.log("pw = ", oldPassword, password);
 
-  const [isPasswordMatching, setIsPasswordMatching] = useState("");
+  // const [isPasswordMatching, setIsPasswordMatching] = useState("");
 
-  const confirmPasswordValidation = (event) => {
-    if (password === event) {
-      setIsPasswordMatching("Password and Confirm Password is matching");
-    } else {
-      setIsPasswordMatching("");
-    }
-  };
+  // const confirmPasswordValidation = (event) => {
+  //   if (password === event) {
+  //     setIsPasswordMatching("Password and Confirm Password is matching");
+  //   } else {
+  //     setIsPasswordMatching("");
+  //   }
+  // };
 
   const bodyParameters = {
     email: driverEmail,
@@ -222,11 +223,9 @@ function EditDriver() {
     licenceExpiry,
     driverType,
     workStatus,
-    // password,
-    supervisorEmail,
+    phoneNo,
     username,
-    // phoneNo,
-    // createDate,
+    supervisorEmail,
     profilePhoto,
   };
 
@@ -324,6 +323,7 @@ function EditDriver() {
       await uploadProfilePhoto();
     }
 
+    // console.log(bodyParameters);
     axios
       .put(baseURL, bodyParameters, config)
       .then((response) => {
@@ -514,7 +514,7 @@ function EditDriver() {
 
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={3}>
+                  <MDBox mb={1}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setDob(e.target.value)}
@@ -527,7 +527,7 @@ function EditDriver() {
                   </MDBox>
                 </Grid>
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
+                  <MDBox mb={1}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setUsername(e.target.value)}
@@ -541,13 +541,47 @@ function EditDriver() {
                   </MDBox>
                 </Grid>
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
+                  <MDBox mb={1}>
+                    {/* <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setWorkstatus(e.target.value)}
                       placeholder={driver.workStatus}
                       type="text"
                       label="Work Status"
+                      // value={username}
+                      // variant="standard"
+                      fullWidth
+                    /> */}
+                    <MDInput
+                      size="large"
+                      InputLabelProps={{ shrink: true }}
+                      select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      onChange={(e) => setWorkstatus(e.target.value)}
+                      value={workStatus}
+                      helperText={workStatus}
+                      label="Work Status"
+                      defaultValue={workStatus}
+                      // default={gender}
+                      InputProps={{
+                        classes: { root: "select-input-styles" },
+                      }}
+                      fullWidth
+                    >
+                      <MenuItem value="active">Active</MenuItem>
+                      <MenuItem value="inactive">InActive</MenuItem>
+                    </MDInput>
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setPhoneNo(e.target.value)}
+                      placeholder={driver.phoneNo}
+                      type="text"
+                      label="Phone No"
                       // value={username}
                       // variant="standard"
                       fullWidth
@@ -846,7 +880,7 @@ function EditDriver() {
               </Grid>
             </MDBox>
 
-            <MDBox p={2}>
+            {/* <MDBox p={2}>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
@@ -909,7 +943,7 @@ function EditDriver() {
                   Terms and Conditions
                 </MDTypography>
               </MDBox>
-            </MDBox>
+            </MDBox> */}
             <MDBox p={2}>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={6}>

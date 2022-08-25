@@ -38,7 +38,7 @@ import MDButton from "components/MDButton";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useState } from "react";
-// import axios from "axios";
+import axios from "axios";
 
 function ChangePasswordSupervisor() {
   // const config = {
@@ -53,49 +53,47 @@ function ChangePasswordSupervisor() {
   const { roleKey } = useParams();
   // const baseURL = `/api/Supervisors/${id}`;
   const [loading, setLoading] = useState(false);
-  const [newPassword, setNewPassword] = useState("");
-  const [oldPassword, setOldPassword] = useState("");
+  const [password, setNewPassword] = useState("");
+  // const [oldPassword, setOldPassword] = useState("");
   const [isPasswordMatching, setIsPasswordMatching] = useState("");
 
   const confirmPasswordValidation = (event) => {
-    if (newPassword === event) {
+    if (password === event) {
       setIsPasswordMatching("Password and Confirm Password is matching");
     } else {
       setIsPasswordMatching("");
     }
   };
 
-  //   useEffect(() => {
-  //     getSupervisorDetails();
-  //     // getAllSupervisors();
-  //   }, []);
+  const baseURL = `/api/Supervisors/ResetPasswordSupervisorbyAdmin/${id}`;
 
-  console.log("pw = ", oldPassword, newPassword);
+  const config = {
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+    },
+  };
 
   const bodyParameters = {
     email: id,
-    roleKey,
-    oldPassword,
-    newPassword,
+    password,
   };
-
-  console.log("==> ", bodyParameters);
 
   function changePassword() {
     setLoading(true);
-    // axios
-    //   .post(baseURL, bodyParameters, config)
-    //   .then((response) => {
-    //     if (response.status === 204 && roleKey.includes("Supervisor")) {
-    alert("Password updated successfully");
-    navigate(`/supervisors/${id}`);
-    //   }
-    // })
-    // .catch((error) => {
-    //   setLoading(false);
-    //   console.log("error = ", error.response);
-    //   alert("An unexpected error occured! please check the values and try again");
-    // });
+    axios
+      .put(baseURL, bodyParameters, config)
+      .then((response) => {
+        if (response.status === 204 && roleKey.includes("Supervisor")) {
+          alert("Password updated successfully");
+          navigate(`/supervisors/${id}`);
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log("error = ", error.response);
+        alert("An unexpected error occured! please check the values and try again");
+      });
   }
 
   if (
@@ -165,7 +163,7 @@ function ChangePasswordSupervisor() {
               </Grid>
 
               <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
+                {/* <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
@@ -176,7 +174,7 @@ function ChangePasswordSupervisor() {
                       fullWidth
                     />
                   </MDBox>
-                </Grid>
+                </Grid> */}
 
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>

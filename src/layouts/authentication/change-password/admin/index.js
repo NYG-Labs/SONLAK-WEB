@@ -38,64 +38,57 @@ import MDButton from "components/MDButton";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useState } from "react";
-// import axios from "axios";
+import axios from "axios";
 
 function ChangePasswordAdmin() {
-  // const config = {
-  //   headers: {
-  //     "content-type": "application/json",
-  //     Authorization: `Bearer ${window.localStorage.getItem("token")}`,
-  //   },
-  // };
-
   const navigate = useNavigate();
   const { id } = useParams();
   const { roleKey } = useParams();
   // const baseURL = `/api/Admins/${id}`;
   const [loading, setLoading] = useState(false);
-  const [newPassword, setNewPassword] = useState("");
+  const [password, setNewPassword] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [isPasswordMatching, setIsPasswordMatching] = useState("");
 
+  const baseURL = `/api/Admins/ChangePasswordAdminbyAdmin/${id}`;
+
+  const config = {
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+    },
+  };
+
   const confirmPasswordValidation = (event) => {
-    if (newPassword === event) {
+    if (password === event) {
       setIsPasswordMatching("Password and Confirm Password is matching");
     } else {
       setIsPasswordMatching("");
     }
   };
 
-  //   useEffect(() => {
-  //     getAdminDetails();
-  //     // getAllSupervisors();
-  //   }, []);
-
-  console.log("pw = ", oldPassword, newPassword);
-
   const bodyParameters = {
     email: id,
-    roleKey,
+    // roleKey,
+    password,
     oldPassword,
-    newPassword,
   };
-
-  console.log("==> ", bodyParameters);
 
   function changePassword() {
     setLoading(true);
-    // axios
-    //   .post(baseURL, bodyParameters, config)
-    //   .then((response) => {
-    //     if (response.status === 204 && roleKey.includes("ADMIN")) {
-    alert("Password updated successfully");
-    navigate(`/admins/${id}`);
-    //   }
-    // })
-    // .catch((error) => {
-    //   setLoading(false);
-    //   console.log("error = ", error.response);
-    //   alert("An unexpected error occured! please check the values and try again");
-    // });
+    axios
+      .put(baseURL, bodyParameters, config)
+      .then((response) => {
+        if (response.status === 204 && roleKey.includes("ADMIN")) {
+          alert("Password updated successfully! Please login again!");
+          navigate(`/`);
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log("error = ", error.response);
+        alert("An unexpected error occured! please check the values and try again");
+      });
   }
 
   if (

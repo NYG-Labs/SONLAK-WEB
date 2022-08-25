@@ -51,7 +51,7 @@ function AddETAPerformance() {
     // fontSize: "0.75rem",
   };
 
-  const getAllDriversURL = "/api/Drivers";
+  const getAllDriversURL = "/api/Drivers/GetDriversActive";
   const baseURL = "/api/Etaperformances";
   const config = {
     headers: {

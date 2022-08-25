@@ -89,17 +89,17 @@ function EditAdmin() {
   //   const [profilePhoto, setProfilePhoto] = useState(admin.profilePhoto);
   //   const [supervisorEmail, setSupervisroEmail] = useState(admin.supervisorEmail);
   //   const [workStatus, setWorkstatus] = useState(admin.workStatus);
-  const [password, setPassword] = useState(admin.password);
-  const [oldPassword, setOldPassword] = useState("");
-  const [isPasswordMatching, setIsPasswordMatching] = useState("");
+  // const [password, setPassword] = useState(admin.password);
+  // const [oldPassword, setOldPassword] = useState("");
+  // const [isPasswordMatching, setIsPasswordMatching] = useState("");
 
-  const confirmPasswordValidation = (event) => {
-    if (password === event) {
-      setIsPasswordMatching("Password and Confirm Password is matching");
-    } else {
-      setIsPasswordMatching("");
-    }
-  };
+  // const confirmPasswordValidation = (event) => {
+  //   if (password === event) {
+  //     setIsPasswordMatching("Password and Confirm Password is matching");
+  //   } else {
+  //     setIsPasswordMatching("");
+  //   }
+  // };
 
   //   const getAllSupervisors = () => {
   //     axios.get(baseURLSupervisors, config).then((response) => {
@@ -147,7 +147,7 @@ function EditAdmin() {
 
   const adminEmail = admin.email;
 
-  console.log("pw = ", oldPassword, password);
+  // console.log("pw = ", oldPassword, password);
 
   const bodyParameters = {
     email: adminEmail,
@@ -669,7 +669,7 @@ function EditAdmin() {
               </Grid>
             </MDBox> */}
 
-            <MDBox p={2}>
+            {/* <MDBox p={2}>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
@@ -710,8 +710,8 @@ function EditAdmin() {
                     />
                   </MDBox>
                 </Grid>
-              </Grid>
-              {/* <MDBox display="flex" alignItems="center" ml={-1}>
+              </Grid> */}
+            {/* <MDBox display="flex" alignItems="center" ml={-1}>
                 <Checkbox />
                 <MDTypography
                   variant="button"
@@ -732,7 +732,7 @@ function EditAdmin() {
                   Terms and Conditions
                 </MDTypography>
               </MDBox> */}
-            </MDBox>
+            {/* </MDBox> */}
 
             <MDBox p={2}>
               <Grid container spacing={3}>

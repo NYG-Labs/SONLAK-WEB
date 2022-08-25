@@ -54,7 +54,7 @@ function SupervisorRegistration() {
   const [visaNo, setVisaNo] = useState("");
   // const [visaScan, setVisaScan] = useState("");
   const [visaExpiry, setVisaExpiry] = useState("");
-  const [driverType, setSupervisorType] = useState("");
+  const [supervisorType, setSupervisorType] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   // const [profilePhoto, setProfilePhoto] = useState("");
   const [password, setPassword] = useState("");
@@ -94,7 +94,7 @@ function SupervisorRegistration() {
     visaNo,
     visaScan,
     visaExpiry,
-    driverType,
+    supervisorType,
     password,
     phoneNumber,
     profilePhoto,
@@ -351,15 +351,15 @@ function SupervisorRegistration() {
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
                       onChange={(e) => setSupervisorType(e.target.value)}
-                      value={driverType}
+                      value={supervisorType}
                       label="Supervisor Type"
                       InputProps={{
                         classes: { root: "select-input-styles" },
                       }}
                       fullWidth
                     >
-                      <MenuItem value="Male">Active</MenuItem>
-                      <MenuItem value="Female">Inactive</MenuItem>
+                      <MenuItem value="foreign">Foreign</MenuItem>
+                      <MenuItem value="local">Local</MenuItem>
                     </MDInput>
                   </MDBox>
                 </Grid>
