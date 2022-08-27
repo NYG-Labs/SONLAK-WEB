@@ -115,7 +115,7 @@ function AddETAPerformance() {
         // if (error.response.status === 409) {
         //   alert("A supervisor with this email is already available");
         // } else {
-        console.log(error);
+        console.error("Error", error.response.data);
         alert("An unexpected error occured! please check the values and try again");
         // }
       });

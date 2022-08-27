@@ -95,14 +95,11 @@ function EditDriver() {
   const [username, setUsername] = useState(driver.username);
   const [insurancePolicyNo, setPolicyNo] = useState(driver.insurancePolicyNo);
   const [insuranceExpiry, setInsuaranceExpDate] = useState(driver.insuranceExpiry);
-  // const [phoneNo, setPhoneNo] = useState("");
   const [profilePhoto, setProfilePhoto] = useState(driver.profilePhoto);
   const [supervisorEmail, setSupervisroEmail] = useState(driver.supervisorEmail);
   const [workStatus, setWorkstatus] = useState(driver.workStatus);
-  // const [password, setPassword] = useState(driver.password);
-  // const [oldPassword, setOldPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [phoneNo, setPhoneNo] = useState("");
+  const [phoneNo, setPhoneNo] = useState(driver.phoneNo);
 
   // const [open, setOpen] = React.useState(false);
 
@@ -149,7 +146,7 @@ function EditDriver() {
       setProfilePhoto(response.data.profilePhoto);
       setSupervisroEmail(response.data.supervisorEmail);
       setWorkstatus(response.data.workStatus);
-      // setPassword(response.data.setPassword);
+      setPhoneNo(response.data.phoneNo);
     });
   };
 
@@ -157,9 +154,6 @@ function EditDriver() {
     getDriverDetails();
     getAllSupervisors();
   }, []);
-
-  //   console.log("driver = ", driver);
-  //   console.log("allsupervisors = ", allSupervisors);
 
   const driverEmail = driver.email;
 
@@ -187,18 +181,6 @@ function EditDriver() {
   const tempFileProfilePhoto = `${driverEmail}_profilephoto.jpg`;
   const tempProfilePhotoURL = `https://${storageAccountName}.blob.core.windows.net/driverprofilephoto/${tempFileProfilePhoto}`;
   // const profilePhoto = tempProfilePhotoURL;
-
-  // console.log("pw = ", oldPassword, password);
-
-  // const [isPasswordMatching, setIsPasswordMatching] = useState("");
-
-  // const confirmPasswordValidation = (event) => {
-  //   if (password === event) {
-  //     setIsPasswordMatching("Password and Confirm Password is matching");
-  //   } else {
-  //     setIsPasswordMatching("");
-  //   }
-  // };
 
   const bodyParameters = {
     email: driverEmail,
@@ -335,7 +317,7 @@ function EditDriver() {
       .catch((error) => {
         setLoading(false);
         console.log("error = ", error.response);
-        // console.log(bodyParameters);
+        console.log(bodyParameters);
         alert("An unexpected error occured! please check the values and try again");
       });
   }

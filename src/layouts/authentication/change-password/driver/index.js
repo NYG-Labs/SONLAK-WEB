@@ -72,20 +72,25 @@ function ChangePasswordDriver() {
   };
 
   function changePassword() {
-    setLoading(true);
-    axios
-      .put(baseURL, bodyParameters, config)
-      .then((response) => {
-        if (response.status === 204) {
-          alert("Password updated successfully");
-          navigate(`/drivers/${id}`);
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log("error = ", error.response);
-        alert("An unexpected error occured! please check the values and try again");
-      });
+    if (isPasswordMatching === "") {
+      window.alert("Confirm password and the password is not matching");
+    } else {
+      setLoading(true);
+      axios
+        .put(baseURL, bodyParameters, config)
+        .then((response) => {
+          console.log(response.status);
+          if (response.status === 200) {
+            alert("Password updated successfully");
+            navigate(`/drivers/${id}`);
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log("error = ", error.response);
+          alert("An unexpected error occured! please check the values and try again");
+        });
+    }
   }
 
   if (

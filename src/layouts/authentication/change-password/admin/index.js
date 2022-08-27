@@ -75,20 +75,25 @@ function ChangePasswordAdmin() {
   };
 
   function changePassword() {
-    setLoading(true);
-    axios
-      .put(baseURL, bodyParameters, config)
-      .then((response) => {
-        if (response.status === 204 && roleKey.includes("ADMIN")) {
-          alert("Password updated successfully! Please login again!");
-          navigate(`/`);
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log("error = ", error.response);
-        alert("An unexpected error occured! please check the values and try again");
-      });
+    if (isPasswordMatching === "") {
+      window.alert("Confirm password and the password is not matching");
+    } else {
+      setLoading(true);
+      axios
+        .put(baseURL, bodyParameters, config)
+        .then((response) => {
+          // console.log(response.status);
+          if (response.status === 200 && roleKey.includes("ADMIN")) {
+            alert("Password updated successfully! Please login again!");
+            navigate(`/`);
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log("error = ", error.response);
+          alert("An unexpected error occured! please check the values and try again");
+        });
+    }
   }
 
   if (

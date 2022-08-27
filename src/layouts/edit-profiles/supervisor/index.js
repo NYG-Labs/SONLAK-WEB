@@ -68,54 +68,30 @@ function EditSupervisor() {
 
   const navigate = useNavigate();
   const { id } = useParams();
-  //   const [allSupervisors, setAllSupervisors] = useState([]);
   const [supervisor, setSupervisor] = useState([]);
   const baseURL = `/api/Supervisors/${id}`;
-  //   const baseURLSupervisors = "/api/SuperFvisors";
   const baseURLSupervisor = `/api/Supervisors/${id}`;
   const [fname, setFname] = useState(supervisor.fname);
   const [mname, setMname] = useState(supervisor.mname);
   const [lname, setLname] = useState(supervisor.lname);
   const [address, setAddress] = useState(supervisor.address);
   const [dob, setDob] = useState(supervisor.dob);
-  // const [gender, setGender] = useState(supervisor.gender);
-  //   const [ausPostId, setAusPostId] = useState(supervisor.ausPostId);
-  //   const [ausPostScan, setAusPostScan] = useState(supervisor.ausPostScan);
-  //   const [ausPostExpiry, setAusPostExpiry] = useState(supervisor.ausPostExpiry);
-  //   const [vehicleNo, setVehicleNo] = useState(supervisor.vehicleNo);
-  //   const [vehicalType, setVehicalType] = useState(supervisor.vehicalType);
   const [visaNo, setVisaNo] = useState(supervisor.visaNo);
   const [visaScan, setVisaScan] = useState(supervisor.visaScan);
   const [visaExpiry, setVisaExpiry] = useState(supervisor.visaExpiry);
-  //   const [licenceId, setLicenceId] = useState(supervisor.licenceId);
-  //   const [licenceScan, setLicenceScan] = useState(supervisor.licenceScan);
-  //   const [licenceExpiry, setLicenceExpiry] = useState(supervisor.licenceExpiry);
   const [supervisorType, setSupervisorType] = useState(supervisor.supervisorType);
-  // const [username, setUsername] = useState(supervisor.username);
   const [phoneNo, setPhoneNo] = useState("");
   const [profilePhoto, setProfilePhoto] = useState(supervisor.profilePhoto);
-  //   const [supervisorEmail, setSupervisroEmail] = useState(supervisor.supervisorEmail);
-  // const [workStatus, setWorkstatus] = useState(supervisor.workStatus);
-  // const [password, setPassword] = useState(supervisor.password);
-  // const [oldPassword, setOldPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const supervisorEmail = supervisor.email;
 
   const tempFileNameVisaScan = `${supervisorEmail}_visascan.jpg`;
-  // console.log(tempFileNameVisaScan);
   const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/supervisorvisascan/${tempFileNameVisaScan}`;
   // const visaScan = tempVisaScanURL;
 
   const tempFileProfilePhoto = `${supervisorEmail}_profilephoto.jpg`;
   const tempProfilePhotoURL = `https://${storageAccountName}.blob.core.windows.net/supervisorprofilephoto/${tempFileProfilePhoto}`;
-
-  //   const getAllSupervisors = () => {
-  //     axios.get(baseURLSupervisors, config).then((response) => {
-  //       const tempSupervisors = response.data;
-  //       setAllSupervisors(tempSupervisors);
-  //     });
-  //   };
 
   const getSupervisorDetails = async () => {
     await axios.get(baseURLSupervisor, config).then((response) => {
@@ -126,32 +102,17 @@ function EditSupervisor() {
       setLname(response.data.lname);
       setAddress(response.data.address);
       setDob(response.data.dob);
-      // setGender(response.data.gender);
-      //   setAusPostId(response.data.ausPostId);
-      //   setAusPostScan(response.data.ausPostScan);
-      //   setAusPostExpiry(response.data.ausPostExpiry);
-      //   setVehicleNo(response.data.vehicleNo);
-      //   setVehicalType(response.data.vehicalType);
       setVisaNo(response.data.visaNo);
       setVisaScan(response.data.visaScan);
       setVisaExpiry(response.data.visaExpiry);
-      //   setLicenceId(response.data.licenceId);
-      //   setLicenceScan(response.data.ausPostScan);
-      //   setLicenceExpiry(response.data.licenceExpiry);
       setSupervisorType(response.data.supervisorType);
       setPhoneNo(response.data.phoneNo);
-      // setUsername(response.data.username);
       setProfilePhoto(response.data.profilePhoto);
-      //   setSupervisroEmail(response.data.supervisorEmail);
-      // setWorkstatus(response.data.workStatus);
-      // setPassword(response.data.setPassword);
-      // console.log("data = ++", response.data);
     });
   };
 
   useEffect(() => {
     getSupervisorDetails();
-    // getAllSupervisors();
   }, []);
 
   const [visaScanFile, setVisaSanFile] = useState([]);
@@ -197,20 +158,6 @@ function EditSupervisor() {
     const option = { blobHTTPHeader: { blobContentType: profilePhotoFile.type } };
     await blobClient.uploadBrowserData(profilePhotoFile, option);
   }
-  //   console.log("Supervisor = ", Supervisor);
-  //   console.log("allsupervisors = ", allSupervisors);
-
-  // console.log("pw = ", oldPassword, password);
-
-  // const [isPasswordMatching, setIsPasswordMatching] = useState("");
-
-  // const confirmPasswordValidation = (event) => {
-  //   if (password === event) {
-  //     setIsPasswordMatching("Password and Confirm Password is matching");
-  //   } else {
-  //     setIsPasswordMatching("");
-  //   }
-  // };
 
   const bodyParameters = {
     email: supervisorEmail,
@@ -219,26 +166,12 @@ function EditSupervisor() {
     lname,
     address,
     dob,
-    phoneNo,
-    // gender,
-    // ausPostId,
-    // ausPostScan,
-    // ausPostExpiry,
-    // vehicleNo,
-    // vehicalType,
     visaNo,
     visaScan,
     visaExpiry,
-    // licenceId,
-    // licenceScan,
-    // licenceExpiry,
     supervisorType,
-    // workStatus,
-    // password,
-    supervisorEmail,
-    // username,
-    // phoneNo,
-    // createDate,
+    password: "123",
+    phoneNo,
     profilePhoto,
   };
 
@@ -267,7 +200,7 @@ function EditSupervisor() {
       .catch((error) => {
         setLoading(false);
         console.log("error = ", error.response);
-        // console.log(bodyParameters);
+        console.log(bodyParameters);
         alert("An unexpected error occured! please check the values and try again");
       });
   }

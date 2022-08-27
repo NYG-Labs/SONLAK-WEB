@@ -80,20 +80,24 @@ function ChangePasswordSupervisor() {
   };
 
   function changePassword() {
-    setLoading(true);
-    axios
-      .put(baseURL, bodyParameters, config)
-      .then((response) => {
-        if (response.status === 204 && roleKey.includes("Supervisor")) {
-          alert("Password updated successfully");
-          navigate(`/supervisors/${id}`);
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log("error = ", error.response);
-        alert("An unexpected error occured! please check the values and try again");
-      });
+    if (isPasswordMatching === "") {
+      window.alert("Confirm password and the password is not matching");
+    } else {
+      setLoading(true);
+      axios
+        .put(baseURL, bodyParameters, config)
+        .then((response) => {
+          if (response.status === 200) {
+            alert("Password updated successfully");
+            navigate(`/supervisors/${id}`);
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log("error = ", error.response);
+          alert("An unexpected error occured! please check the values and try again");
+        });
+    }
   }
 
   if (
