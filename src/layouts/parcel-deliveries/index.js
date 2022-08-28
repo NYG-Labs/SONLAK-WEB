@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 // @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -28,7 +28,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 // import DataTable from "examples/Tables/DataTable";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -39,6 +39,8 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import MDButton from "components/MDButton";
 import CircularProgress from "@mui/material/CircularProgress";
+import { utils, writeFile } from "xlsx";
+// import { useDownloadExcel } from "react-export-table-to-excel";
 // import MDBadge from "components/MDBadge";
 
 import axios from "axios";
@@ -52,6 +54,7 @@ function AllParcelDeliveries() {
   const [searchError, setSearchError] = useState("");
   const baseURL = "/api/ParcelDeliveries/GetParcelDeliveriesLast7days";
   const baseURLFilter = `/api/ParcelDeliveries/GetParcelDeliveriesFilterbyDate/${fromDate}/${toDate}`;
+  const tableRef = useRef(null);
 
   const config = {
     headers: {
@@ -106,6 +109,14 @@ function AllParcelDeliveries() {
       });
   }
 
+  const generateReport = () => {
+    const wb = utils.book_new();
+    const ws = utils.json_to_sheet(filteredData);
+
+    utils.book_append_sheet(wb, ws, `${fromDate}-${toDate}`);
+    writeFile(wb, `${fromDate}-${toDate}-Parcel Deliveries.xlsx`);
+  };
+
   const navigate = useNavigate();
 
   if (
@@ -132,9 +143,40 @@ function AllParcelDeliveries() {
                 borderRadius="lg"
                 coloredShadow="info"
               >
-                <MDTypography variant="h6" color="white">
-                  Parcel Deliveries
-                </MDTypography>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={7.5}>
+                    <MDTypography variant="h5" color="white">
+                      Parcel Deliveries
+                    </MDTypography>
+                  </Grid>
+                  <Grid item xs={12} md={2}>
+                    <MDBox>
+                      <MDButton
+                        variant="gradient"
+                        color="success"
+                        justifyContent="flex-end"
+                        fullWidth
+                        onClick={() => generateReport()}
+                      >
+                        Generate Report
+                      </MDButton>
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={2}>
+                    <MDBox>
+                      <MDButton
+                        component={Link}
+                        variant="gradient"
+                        color="light"
+                        justifyContent="flex-end"
+                        fullWidth
+                        to="/Parcel-deliveries/Add-Parcel-deliveries"
+                      >
+                        Add Parcel Deliveries
+                      </MDButton>
+                    </MDBox>
+                  </Grid>
+                </Grid>
               </MDBox>
               <MDBox pt={3}>
                 <Grid item xs={12} md={12} fullwidth justifyContent="flex-end">
@@ -203,20 +245,15 @@ function AllParcelDeliveries() {
                   noEndBorder
                 /> */}
                 <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
-                  <TableContainer component={Paper}>
+                  <TableContainer component={Paper} ref={tableRef}>
                     <Table aria-label="simple table">
                       <TableHead>
                         <TableRow>
-                          {/* <TableCell>First name</TableCell>
-                          <TableCell align="left">Middle name</TableCell>
-                          <TableCell align="left">Lase Name</TableCell> */}
                           <TableCell align="center">Driver Email</TableCell>
                           <TableCell align="center">Driver FirstName</TableCell>
                           <TableCell align="center">Driver LastName</TableCell>
                           <TableCell align="center">Date</TableCell>
                           <TableCell align="center">No of Parcels</TableCell>
-                          {/* <TableCell align="left">Vehicle No</TableCell>
-                          <TableCell align="left">IncidentReport type</TableCell> */}
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -231,32 +268,11 @@ function AllParcelDeliveries() {
                         ) : null}
                         {filteredData.map((row) => (
                           <TableRow key="s">
-                            {/* <TableCell component="th" scope="row">
-                              {row.fname}
-                            </TableCell>
-                            <TableCell align="left">{row.mname}</TableCell>
-                            <TableCell align="left">{row.lname}</TableCell> */}
                             <TableCell align="center">{row.driverEmail}</TableCell>
                             <TableCell align="center">{row.driverFname}</TableCell>
                             <TableCell align="center">{row.driverLname}</TableCell>
                             <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
                             <TableCell align="center">{row.noParcels}</TableCell>
-                            {/* <TableCell align="left">{row.vehicleNo}</TableCell>
-                            <TableCell align="left">{row.IncidentReportType}</TableCell> */}
-                            {/* <TableCell align="center">
-                              <MDBox ml={-1}>
-                                <Link to={{ pathname: `/ParcelDeliveries/${row.email}` }}>
-                                  <MDBadge
-                                    badgeContent="view"
-                                    color="success"
-                                    variant="gradient"
-                                    size="sm"
-                                    // component={Link}
-                                    // to={`/drivers/${row.email}`}
-                                  />
-                                </Link>
-                              </MDBox>
-                            </TableCell> */}
                           </TableRow>
                         ))}
                       </TableBody>

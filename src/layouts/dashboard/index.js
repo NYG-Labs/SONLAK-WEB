@@ -352,7 +352,7 @@ function Dashboard() {
           </Grid>
         </MDBox>
 
-        <MDTypography variant="h4" color="inherit">
+        <MDTypography mt={1} variant="h4" color="inherit">
           Incident Reports Summary
         </MDTypography>
         <MDBox mt={4.5}>

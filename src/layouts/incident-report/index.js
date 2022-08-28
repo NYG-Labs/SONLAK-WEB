@@ -28,7 +28,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 // import DataTable from "examples/Tables/DataTable";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -52,7 +52,7 @@ function AllIncidentReports() {
   const [searchError, setSearchError] = useState("");
   const baseURL = "/api/IncidentReports/GetIncidentReportsLast7days";
   const baseURLFilter = `/api/IncidentReports/GetIncidentReportsFilterbyDate/${fromDate}/${toDate}`;
-  console.log(fromDate, toDate);
+  // console.log(fromDate, toDate);
   const config = {
     headers: {
       "content-type": "application/json",
@@ -250,22 +250,16 @@ function AllIncidentReports() {
                                 />
                               </a>
                             </TableCell>
-                            {/* <TableCell align="left">{row.vehicleNo}</TableCell>
-                            <TableCell align="left">{row.IncidentReportType}</TableCell> */}
-                            {/* <TableCell align="center">
-                              <MDBox ml={-1}>
-                                <Link to={{ pathname: `/IncidentReports/${row.email}` }}>
-                                  <MDBadge
-                                    badgeContent="view"
-                                    color="success"
-                                    variant="gradient"
-                                    size="sm"
-                                    // component={Link}
-                                    // to={`/drivers/${row.email}`}
-                                  />
-                                </Link>
-                              </MDBox>
-                            </TableCell> */}
+                            <TableCell align="center">
+                              <MDBadge
+                                badgeContent="Sign Incident Report"
+                                color="info"
+                                variant="gradient"
+                                size="sm"
+                                component={Link}
+                                to={`/Incident-reports/Sign-incident-reports/${row.id}`}
+                              />
+                            </TableCell>
                           </TableRow>
                         ))}
                       </TableBody>

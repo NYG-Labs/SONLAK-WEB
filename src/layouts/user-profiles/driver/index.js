@@ -699,7 +699,7 @@ function DriverProfile() {
                   address: driver.address,
                   email: driver.email,
                   phoneNo: driver.phoneNo,
-                  DOB: dob.split("T")[0],
+                  DOB: dob,
                   ProfilePicture: (
                     <a href={driver.profilePhoto}>
                       <MDBadge badgeContent="view" color="success" variant="gradient" size="sm" />
@@ -720,7 +720,7 @@ function DriverProfile() {
                     </a>
                   ),
                   AusPostID: driver.ausPostId,
-                  AusPostExpp: ausPostExpDate.split("T")[0],
+                  AusPostExpp: ausPostExpDate,
                 }}
                 shadow={false}
               />
@@ -737,7 +737,7 @@ function DriverProfile() {
                     </a>
                   ),
                   LicenceID: driver.licenceId,
-                  LicenceEXP: licenseExp.split("T")[0],
+                  LicenceEXP: licenseExp,
                 }}
                 shadow={false}
               />
@@ -768,7 +768,7 @@ function DriverProfile() {
                       <MDBadge badgeContent="view" color="success" variant="gradient" size="sm" />
                     </a>
                   ),
-                  VisaExpiry: visaExp.split("T")[0],
+                  VisaExpiry: visaExp,
                   VisaNo: driver.visaNo,
                 }}
                 shadow={false}
@@ -880,7 +880,7 @@ function DriverProfile() {
                           ) : null}
                           {filteredDataETAPerformance.map((row) => (
                             <TableRow key="s">
-                              <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
+                              <TableCell align="center">{row.createDate}</TableCell>
                               <TableCell align="center">{row.articles}</TableCell>
                               <TableCell align="center">{row.early}</TableCell>
                               <TableCell align="center">{row.onTime}</TableCell>
@@ -1003,7 +1003,7 @@ function DriverProfile() {
                           ) : null}
                           {filteredIncidentReports.map((row) => (
                             <TableRow key="s">
-                              <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
+                              <TableCell align="center">{row.createDate}</TableCell>
                               <TableCell align="center" />
                               <TableCell align="center" />
                               <TableCell align="center" />
@@ -1113,7 +1113,7 @@ function DriverProfile() {
                           ) : null}
                           {filteredParcelDeliveries.map((row) => (
                             <TableRow key="s">
-                              <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
+                              <TableCell align="center">{row.createDate}</TableCell>
                               <TableCell align="center">{row.noParcels}</TableCell>
                             </TableRow>
                           ))}
@@ -1209,7 +1209,7 @@ function DriverProfile() {
                           ) : null}
                           {filteredVehicleCheck.map((row) => (
                             <TableRow key="s">
-                              <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
+                              <TableCell align="center">{row.createDate}</TableCell>
                               <TableCell align="center">
                                 <a href={row.pdfUrl}>
                                   <MDBadge
@@ -1317,7 +1317,7 @@ function DriverProfile() {
                           ) : null}
                           {filteredToolBox.map((row) => (
                             <TableRow key="s">
-                              <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
+                              <TableCell align="center">{row.createDate}</TableCell>
                               <TableCell align="center">{row.title}</TableCell>
                               <TableCell align="center">{row.supervisorEmail}</TableCell>
                               <TableCell align="center">{row.attendance}</TableCell>

@@ -86,6 +86,8 @@ import EditCompliance from "layouts/compliance/edit-compliance";
 import ChangePasswordAdmin from "layouts/authentication/change-password/admin";
 import ChangePasswordDriver from "layouts/authentication/change-password/driver";
 import ChangePasswordSupervisor from "layouts/authentication/change-password/supervisor";
+import AddParcelDeliveries from "layouts/parcel-deliveries/add-parcel-deliveries";
+import SignPDF from "layouts/incident-report/sign-pdf";
 // import SignOut from "layouts/authentication/sign-out";
 
 // @mui icons
@@ -121,6 +123,18 @@ const routes = [
     key: "add-eta-performance",
     route: "/ETA-performance/Add-ETA-performance",
     component: <AddETAPerformance />,
+  },
+  {
+    name: "Sign Incident Report",
+    key: "sign-incident-report",
+    route: "/Incident-reports/Sign-incident-reports/:id",
+    component: <SignPDF />,
+  },
+  {
+    name: "Add Parcel Deliveries",
+    key: "add-parcel-deliveries",
+    route: "/Parcel-deliveries/Add-Parcel-deliveries",
+    component: <AddParcelDeliveries />,
   },
   {
     name: "Change Password Admin",
