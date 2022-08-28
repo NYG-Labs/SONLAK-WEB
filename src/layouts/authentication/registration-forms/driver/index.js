@@ -97,7 +97,7 @@ function DriverRegistration() {
   const [loading, setLoading] = useState(false);
 
   const baseURL = "/api/Drivers";
-  const baseURLSupervisors = "/api/Supervisors";
+  const baseURLSupervisors = "/api/Supervisors/GetSupervisorsActive";
 
   // const currentDate = new Date();
   // const timestamp = currentDate.getTime();

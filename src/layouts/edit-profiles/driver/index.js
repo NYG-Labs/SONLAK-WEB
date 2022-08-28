@@ -72,7 +72,7 @@ function EditDriver() {
   const [allSupervisors, setAllSupervisors] = useState([]);
   const [driver, setDriver] = useState([]);
   const baseURL = `/api/Drivers/${id}`;
-  const baseURLSupervisors = "/api/Supervisors";
+  const baseURLSupervisors = "/api/Supervisors/GetSupervisorsActive";
   const baseURLDriver = `/api/Drivers/${id}`;
   const [fname, setFname] = useState(driver.fname);
   const [mname, setMname] = useState(driver.mname);

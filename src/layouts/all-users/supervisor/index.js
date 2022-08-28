@@ -49,7 +49,7 @@ function AllSupervisors() {
   //   const { columns: pColumns, rows: pRows } = projectsTableData();
   const [search, setSearch] = useState("");
   const [allSupervisors, setAllSupervisors] = useState([]);
-  const baseURL = "/api/Supervisors";
+  const baseURL = "/api/Supervisors/GetSupervisorsActive";
 
   const config = {
     headers: {

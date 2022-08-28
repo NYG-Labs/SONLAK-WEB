@@ -288,7 +288,7 @@ function SupervisorProfile() {
               <ProfileInfoCard
                 title="profile information"
                 info={{
-                  gender: supervisor.gender,
+                  supervisorType: supervisor.supervisorType,
                   address: supervisor.address,
                   email: supervisor.email,
                   DOB: supervisor.dob,

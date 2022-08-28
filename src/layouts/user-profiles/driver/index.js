@@ -696,6 +696,7 @@ function DriverProfile() {
                 title="profile information"
                 info={{
                   gender: driver.gender,
+                  driverType: driver.driverType,
                   address: driver.address,
                   email: driver.email,
                   phoneNo: driver.phoneNo,

@@ -80,7 +80,8 @@ function EditSupervisor() {
   const [visaScan, setVisaScan] = useState(supervisor.visaScan);
   const [visaExpiry, setVisaExpiry] = useState(supervisor.visaExpiry);
   const [supervisorType, setSupervisorType] = useState(supervisor.supervisorType);
-  const [phoneNo, setPhoneNo] = useState("");
+  const [phoneNo, setPhoneNo] = useState(supervisor.phoneNo);
+  const [workStatus, setWorkstatus] = useState(supervisor.workStatus);
   const [profilePhoto, setProfilePhoto] = useState(supervisor.profilePhoto);
   const [loading, setLoading] = useState(false);
 
@@ -107,6 +108,7 @@ function EditSupervisor() {
       setVisaExpiry(response.data.visaExpiry);
       setSupervisorType(response.data.supervisorType);
       setPhoneNo(response.data.phoneNo);
+      setWorkstatus(response.data.workStatus);
       setProfilePhoto(response.data.profilePhoto);
     });
   };
@@ -166,12 +168,12 @@ function EditSupervisor() {
     lname,
     address,
     dob,
+    phoneNo,
+    workStatus,
+    supervisorType,
     visaNo,
     visaScan,
     visaExpiry,
-    supervisorType,
-    password: "123",
-    phoneNo,
     profilePhoto,
   };
 
@@ -298,39 +300,6 @@ function EditSupervisor() {
               </Grid>
 
               <Grid container spacing={3}>
-                {/* <Grid item xs={12} md={4}>
-                  <MDBox mb={3}>
-                    <MDInput
-                      SelectProps={{
-                        style: SelectFieldStyle,
-                      }}
-                      select
-                      id="full-width-text-field"
-                      IconComponent={<ArrowDropDownIcon />}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton>
-                              <ArrowDropDownIcon />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setGender(e.target.value)}
-                      defaultValue={gender}
-                      helperText={gender}
-                      //   placeholder={supervisor.gender}
-                      type="text"
-                      label="Gender"
-                      // variant="standard"
-                      fullWidth
-                    >
-                      <MenuItem value="Male">Male</MenuItem>
-                      <MenuItem value="Female">Female</MenuItem>
-                    </MDInput>
-                  </MDBox>
-                </Grid> */}
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
@@ -356,6 +325,30 @@ function EditSupervisor() {
                       // variant="standard"
                       fullWidth
                     />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      size="large"
+                      InputLabelProps={{ shrink: true }}
+                      select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      onChange={(e) => setWorkstatus(e.target.value)}
+                      value={workStatus}
+                      helperText={workStatus}
+                      label="Work Status"
+                      defaultValue={workStatus}
+                      // default={gender}
+                      InputProps={{
+                        classes: { root: "select-input-styles" },
+                      }}
+                      fullWidth
+                    >
+                      <MenuItem value="active">Active</MenuItem>
+                      <MenuItem value="inactive">InActive</MenuItem>
+                    </MDInput>
                   </MDBox>
                 </Grid>
               </Grid>
@@ -388,18 +381,6 @@ function EditSupervisor() {
                     />
                   </MDBox>
                 </Grid>
-                {/* <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setWorkstatus(e.target.value)}
-                      placeholder={supervisor.workStatus}
-                      type="text"
-                      label="Work Status"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid> */}
               </Grid>
             </MDBox>
 
