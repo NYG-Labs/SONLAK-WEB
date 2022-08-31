@@ -87,7 +87,7 @@ function EditSupervisor() {
 
   const supervisorEmail = supervisor.email;
 
-  const tempFileNameVisaScan = `${supervisorEmail}_visascan.jpg`;
+  const tempFileNameVisaScan = `${supervisorEmail}_visascan.pdf`;
   const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/supervisorvisascan/${tempFileNameVisaScan}`;
   // const visaScan = tempVisaScanURL;
 
@@ -329,7 +329,7 @@ function EditSupervisor() {
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
-                    <MDInput
+                    {/* <MDInput
                       size="large"
                       InputLabelProps={{ shrink: true }}
                       select
@@ -348,7 +348,17 @@ function EditSupervisor() {
                     >
                       <MenuItem value="active">Active</MenuItem>
                       <MenuItem value="inactive">InActive</MenuItem>
-                    </MDInput>
+                    </MDInput> */}
+                    <MDInput
+                      inputProps={{ readOnly: true }}
+                      InputLabelProps={{ shrink: true }}
+                      //   onChange={(e) => setEmail(e.target.value)}
+                      placeholder={supervisor.workStatus}
+                      type="text"
+                      label="Work status"
+                      // variant="standard"
+                      fullWidth
+                    />
                   </MDBox>
                 </Grid>
               </Grid>

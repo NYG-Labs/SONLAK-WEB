@@ -609,8 +609,7 @@ function DriverProfile() {
                 {driver.fname} {driver.mname} {driver.lname}
               </MDTypography>
               <MDTypography variant="button" color="text" fontWeight="regular">
-                {driver.workStatus === "active    " ? "ACTIVE" : "INACTIVE"} DRIVER | Supervisor -{" "}
-                {driver.supervisorEmail}
+                {driver.workStatus} driver | supervisor - {driver.supervisorEmail}
               </MDTypography>
               {/* <IconButton size="large">
                 <ArrowDropDownIcon />

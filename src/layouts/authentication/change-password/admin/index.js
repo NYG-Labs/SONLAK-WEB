@@ -1,36 +1,7 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// react-router-dom components
-// import { Link } from "react-router-dom";
 import * as React from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-// import { useEffect } from "react";
-// import {  } from "react-router-dom";
-
-// @mui material components
 import Card from "@mui/material/Card";
-// import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
-// import TextField from "@mui/material/TextField";
-
-// import InputLabel from "@material-ui/core/InputLabel";
-// import Select from "@material-ui/core/Select";
-// import MenuItem from "@mui/material/MenuItem";
-
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
@@ -44,7 +15,6 @@ function ChangePasswordAdmin() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { roleKey } = useParams();
-  // const baseURL = `/api/Admins/${id}`;
   const [loading, setLoading] = useState(false);
   const [password, setNewPassword] = useState("");
   const [oldPassword, setOldPassword] = useState("");
@@ -69,7 +39,6 @@ function ChangePasswordAdmin() {
 
   const bodyParameters = {
     email: id,
-    // roleKey,
     password,
     oldPassword,
   };
@@ -82,7 +51,6 @@ function ChangePasswordAdmin() {
       axios
         .put(baseURL, bodyParameters, config)
         .then((response) => {
-          // console.log(response.status);
           if (response.status === 200 && roleKey.includes("ADMIN")) {
             alert("Password updated successfully! Please login again!");
             navigate(`/`);
@@ -99,13 +67,11 @@ function ChangePasswordAdmin() {
   if (
     window.localStorage.getItem("token") === null ||
     window.localStorage.getItem("roleKey") !== "SUPERADMIN"
-    // window.localStorage.getItem("roleKey") !== "OTHERADMIN")
   ) {
     navigate("/");
   }
   return (
     <DashboardLayout>
-      {/* <DashboardNavbar /> */}
       <Card>
         <MDBox
           variant="gradient"
@@ -116,7 +82,6 @@ function ChangePasswordAdmin() {
           mt={3}
           p={3}
           mb={2}
-          // textAlign="center"
         >
           <Grid container spacing={3}>
             <Grid item xs={12} mr={8} md={8.5}>
@@ -137,11 +102,9 @@ function ChangePasswordAdmin() {
                     <MDInput
                       inputProps={{ readOnly: true }}
                       InputLabelProps={{ shrink: true }}
-                      // onChange={(e) => setFname(e.target.value)}
                       placeholder={roleKey}
                       type="text"
                       label="User Type"
-                      // variant="standard"
                       fullWidth
                     />
                   </MDBox>
@@ -151,11 +114,9 @@ function ChangePasswordAdmin() {
                     <MDInput
                       inputProps={{ readOnly: true }}
                       InputLabelProps={{ shrink: true }}
-                      // onChange={(e) => setMname(e.target.value)}
                       placeholder={id}
                       type="text"
                       label="Email"
-                      // variant="standard"
                       fullWidth
                     />
                   </MDBox>
@@ -170,7 +131,6 @@ function ChangePasswordAdmin() {
                       onChange={(e) => setOldPassword(e.target.value)}
                       type="password"
                       label="Old Password"
-                      // variant="standard"
                       fullWidth
                     />
                   </MDBox>
@@ -183,7 +143,6 @@ function ChangePasswordAdmin() {
                       onChange={(e) => setNewPassword(e.target.value)}
                       type="password"
                       label="New Password"
-                      // variant="standard"
                       fullWidth
                     />
                   </MDBox>
@@ -197,7 +156,6 @@ function ChangePasswordAdmin() {
                       type="password"
                       label="Confirm New Password"
                       helperText={isPasswordMatching}
-                      // variant="standard"
                       fullWidth
                     />
                   </MDBox>
@@ -235,32 +193,6 @@ function ChangePasswordAdmin() {
                 </Grid>
               </Grid>
             </MDBox>
-
-            {/* <MDBox mt={4} mb={1}>
-              <MDButton onClick={() => editAdmin()} variant="gradient" color="info" fullWidth>
-                Update
-              </MDButton>
-            </MDBox>
-            <MDBox mt={1} mb={1}>
-              <MDButton onClick={() => editAdmin()} variant="gradient" color="info" fullWidth>
-                Cancle
-              </MDButton>
-            </MDBox> */}
-            {/* <MDBox mt={3} mb={1} textAlign="center">
-              <MDTypography variant="button" color="text">
-                Already have an account?{" "}
-                <MDTypography
-                  component={Link}
-                  to="/authentication/sign-in"
-                  variant="button"
-                  color="info"
-                  fontWeight="medium"
-                  textGradient
-                >
-                  Sign In
-                </MDTypography>
-              </MDTypography>
-            </MDBox> */}
           </MDBox>
         </MDBox>
       </Card>

@@ -1,35 +1,13 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import { useState, useEffect } from "react";
-
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
-
-// Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-// import DataTable from "examples/Tables/DataTable";
 import { useNavigate } from "react-router-dom";
-
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -96,8 +74,6 @@ function AllVehicleCheck() {
       });
   }
 
-  // console.log("ALl VehicleCheck = ", allVehicleCheck, search);
-
   const filteredData = allVehicleCheck.filter((IncidentReport) =>
     IncidentReport.driverEmail.toLowerCase().includes(search.toLowerCase())
   );
@@ -142,11 +118,9 @@ function AllVehicleCheck() {
                           <MDInput
                             InputLabelProps={{ shrink: true }}
                             onChange={(e) => setFromDate(e.target.value)}
-                            // onChange={(e) => setFname(e.target.value)}
                             helperText={searchError}
                             type="date"
                             label="From date"
-                            // variant="standard"
                             fullWidth
                           />
                         </MDBox>
@@ -158,13 +132,11 @@ function AllVehicleCheck() {
                             onChange={(e) => setToDate(e.target.value)}
                             type="date"
                             label="To date"
-                            // variant="standard"
                             fullWidth
                           />
                         </MDBox>
                       </Grid>
                       <Grid item xs={12} mt={0.3} md={2}>
-                        {/* <MDBox mt={4} mb={1}> */}
                         <MDButton
                           onClick={() => filterVehicleCheck()}
                           variant="gradient"
@@ -174,7 +146,6 @@ function AllVehicleCheck() {
                           Filter &nbsp;&nbsp;
                           {loading ? <CircularProgress size={20} color="white" /> : ""}
                         </MDButton>
-                        {/* </MDBox> */}
                       </Grid>
                     </Grid>
                   </MDBox>
@@ -191,26 +162,13 @@ function AllVehicleCheck() {
                     />
                   </MDBox>
                 </Grid>
-                {/* <DataTable
-                  table={{ columns, rows }}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
-                  noEndBorder
-                /> */}
                 <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
                   <TableContainer component={Paper}>
                     <Table aria-label="simple table">
                       <TableHead>
                         <TableRow>
-                          {/* <TableCell>First name</TableCell>
-                          <TableCell align="left">Middle name</TableCell>
-                          <TableCell align="left">Lase Name</TableCell> */}
                           <TableCell align="center">Driver Email</TableCell>
                           <TableCell align="center">Date</TableCell>
-                          {/* <TableCell align="left">Vehicle type</TableCell>
-                          <TableCell align="left">Vehicle No</TableCell>
-                          <TableCell align="left">IncidentReport type</TableCell> */}
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -222,11 +180,6 @@ function AllVehicleCheck() {
                         ) : null}
                         {filteredData.map((row) => (
                           <TableRow key="s">
-                            {/* <TableCell component="th" scope="row">
-                              {row.fname}
-                            </TableCell>
-                            <TableCell align="left">{row.mname}</TableCell>
-                            <TableCell align="left">{row.lname}</TableCell> */}
                             <TableCell align="center">{row.driverEmail}</TableCell>
                             <TableCell align="center">{row.createDate.split("T")[0]}</TableCell>
                             <TableCell align="center">
@@ -239,22 +192,6 @@ function AllVehicleCheck() {
                                 />
                               </a>
                             </TableCell>
-                            {/* <TableCell align="left">{row.vehicleNo}</TableCell>
-                            <TableCell align="left">{row.IncidentReportType}</TableCell> */}
-                            {/* <TableCell align="center">
-                              <MDBox ml={-1}>
-                                <Link to={{ pathname: `/VehicleCheck/${row.email}` }}>
-                                  <MDBadge
-                                    badgeContent="view"
-                                    color="success"
-                                    variant="gradient"
-                                    size="sm"
-                                    // component={Link}
-                                    // to={`/drivers/${row.email}`}
-                                  />
-                                </Link>
-                              </MDBox>
-                            </TableCell> */}
                           </TableRow>
                         ))}
                       </TableBody>

@@ -101,15 +101,15 @@ function DriverRegistration() {
 
   // const currentDate = new Date();
   // const timestamp = currentDate.getTime();
-  const tempFileNameAusPostScan = `${email}_auspostscan.jpg`;
+  const tempFileNameAusPostScan = `${email}_auspostscan.pdf`;
   const tempAusPostScanURL = `https://${storageAccountName}.blob.core.windows.net/driverauspostscan/${tempFileNameAusPostScan}`;
   const ausPostScan = tempAusPostScanURL;
 
-  const tempFileNameLicenceScan = `${email}_licencescan.jpg`;
+  const tempFileNameLicenceScan = `${email}_licencescan.pdf`;
   const tempLicenceScanURL = `https://${storageAccountName}.blob.core.windows.net/driverlicencescan/${tempFileNameLicenceScan}`;
   const licenceScan = tempLicenceScanURL;
 
-  const tempFileNameVisaScan = `${email}_visascan.jpg`;
+  const tempFileNameVisaScan = `${email}_visascan.pdf`;
   const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/drivervisascan/${tempFileNameVisaScan}`;
   const visaScan = tempVisaScanURL;
 

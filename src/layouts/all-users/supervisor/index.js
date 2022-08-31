@@ -1,34 +1,13 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import { useState, useEffect } from "react";
-
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import { Link, useNavigate } from "react-router-dom";
-
-// Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-// import DataTable from "examples/Tables/DataTable";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -39,14 +18,8 @@ import Paper from "@material-ui/core/Paper";
 import MDBadge from "components/MDBadge";
 import MDButton from "components/MDButton";
 import axios from "axios";
-// Data
-// import authorsTableData from "layouts/tables/data/authorsTableData";
-// import allSupervisorData from "./allSupervisorData";
-// import projectsTableData from "layouts/tables/data/projectsTableData";
 
 function AllSupervisors() {
-  // const { columns, rows } = allSupervisorData();
-  //   const { columns: pColumns, rows: pRows } = projectsTableData();
   const [search, setSearch] = useState("");
   const [allSupervisors, setAllSupervisors] = useState([]);
   const baseURL = "/api/Supervisors/GetSupervisorsActive";
@@ -68,8 +41,6 @@ function AllSupervisors() {
   useEffect(() => {
     getAllSupervisors();
   }, []);
-
-  // console.log("ALl Supervisors = ", allSupervisors, search);
 
   const filteredData = allSupervisors.filter(
     (Supervisor) =>
@@ -116,7 +87,6 @@ function AllSupervisors() {
                   <Grid item xs={12} md={2}>
                     <MDBox>
                       <MDButton
-                        // onClick={() => sendSignInData()}
                         component={Link}
                         variant="gradient"
                         color="primary"
@@ -187,13 +157,6 @@ function AllSupervisors() {
                     </Table>
                   </TableContainer>
                 </Grid>
-                {/* <DataTable
-                  table={{ columns, rows }}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
-                  noEndBorder
-                /> */}
               </MDBox>
             </Card>
           </Grid>

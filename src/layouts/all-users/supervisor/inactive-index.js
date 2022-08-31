@@ -1,35 +1,13 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import { useState, useEffect } from "react";
-
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
-
-// Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-// import DataTable from "examples/Tables/DataTable";
 import { Link, useNavigate } from "react-router-dom";
-
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -38,12 +16,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import MDBadge from "components/MDBadge";
-
 import axios from "axios";
-// import allDriverData from "./allDriverData";
 
 function AllInactiveSupervisors() {
-  // const { rows } = allDriverData();
   const [search, setSearch] = useState("");
   const [allInactiveSupervisors, setAllInactiveSupervisors] = useState([]);
   const baseURL = "/api/Supervisors/GetSupervisorsInactive";
@@ -65,8 +40,6 @@ function AllInactiveSupervisors() {
   useEffect(() => {
     getAllInactiveSupervisors();
   }, []);
-
-  // console.log("ALl InactiveSupervisors = ", allInactiveSupervisors, search);
 
   const filteredData = allInactiveSupervisors.filter(
     (Supervisor) =>
@@ -121,13 +94,6 @@ function AllInactiveSupervisors() {
                     />
                   </MDBox>
                 </Grid>
-                {/* <DataTable
-                  table={{ columns, rows }}
-                  isSorted={false}
-                  entriesPerPage={false}
-                  showTotalEntries={false}
-                  noEndBorder
-                /> */}
                 <Grid item xs={12} md={12} ml={2} mb={1} mr={2}>
                   <TableContainer component={Paper}>
                     <Table aria-label="simple table">
@@ -162,8 +128,6 @@ function AllInactiveSupervisors() {
                                     color="success"
                                     variant="gradient"
                                     size="sm"
-                                    // component={Link}
-                                    // to={`/supervisors/${row.email}`}
                                   />
                                 </Link>
                               </MDBox>

@@ -1,35 +1,13 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import { useState, useEffect } from "react";
-
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
-
-// Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-// import DataTable from "examples/Tables/DataTable";
 import { Link, useNavigate } from "react-router-dom";
-
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -64,8 +42,6 @@ function AllAdmins() {
     getAllAdmins();
   }, []);
 
-  // console.log("ALl Admins = ", allAdmins, search);
-
   const filteredData = allAdmins.filter((admin) =>
     admin.fname.toLowerCase().includes(search.toLowerCase())
   );
@@ -75,7 +51,6 @@ function AllAdmins() {
   if (
     window.localStorage.getItem("token") === null ||
     window.localStorage.getItem("roleKey") !== "SUPERADMIN"
-    // window.localStorage.getItem("roleKey") !== "OTHERADMIN")
   ) {
     navigate("/");
   }
@@ -126,13 +101,9 @@ function AllAdmins() {
                       <TableHead>
                         <TableRow>
                           <TableCell>First name</TableCell>
-                          {/* <TableCell align="left">Middle name</TableCell> */}
                           <TableCell align="left">Lase Name</TableCell>
                           <TableCell align="left">Email</TableCell>
                           <TableCell align="left">Type</TableCell>
-                          {/* <TableCell align="left">Vehicle type</TableCell>
-                          <TableCell align="left">Vehicle No</TableCell>
-                          <TableCell align="left">Driver type</TableCell> */}
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -141,13 +112,9 @@ function AllAdmins() {
                             <TableCell component="th" scope="row">
                               {row.fname}
                             </TableCell>
-                            {/* <TableCell align="left">{row.mname}</TableCell> */}
                             <TableCell align="left">{row.lname}</TableCell>
                             <TableCell align="left">{row.email}</TableCell>
                             <TableCell align="left">{row.adminType}</TableCell>
-                            {/* <TableCell align="left">{row.vehicalType}</TableCell>
-                            <TableCell align="left">{row.vehicleNo}</TableCell>
-                            <TableCell align="left">{row.driverType}</TableCell> */}
                             <TableCell align="center">
                               <MDBox ml={-1}>
                                 <Link to={{ pathname: `/admins/${row.email}` }}>
@@ -156,8 +123,6 @@ function AllAdmins() {
                                     color="success"
                                     variant="gradient"
                                     size="sm"
-                                    // component={Link}
-                                    // to={`/drivers/${row.email}`}
                                   />
                                 </Link>
                               </MDBox>

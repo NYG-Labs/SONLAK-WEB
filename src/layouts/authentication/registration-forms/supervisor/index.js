@@ -69,7 +69,7 @@ function SupervisorRegistration() {
     `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
   );
 
-  const tempFileNameVisaScan = `${email}_visascan.jpg`;
+  const tempFileNameVisaScan = `${email}_visascan.pdf`;
   const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/supervisorvisascan/${tempFileNameVisaScan}`;
   const visaScan = tempVisaScanURL;
 

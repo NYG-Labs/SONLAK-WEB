@@ -166,15 +166,15 @@ function EditDriver() {
 
   // const currentDate = new Date();
   // const timestamp = currentDate.getTime();
-  const tempFileNameAusPostScan = `${driverEmail}_auspostscan.jpg`;
+  const tempFileNameAusPostScan = `${driverEmail}_auspostscan.pdf`;
   const tempAusPostScanURL = `https://${storageAccountName}.blob.core.windows.net/driverauspostscan/${tempFileNameAusPostScan}`;
   // const ausPostScan = tempAusPostScanURL;
 
-  const tempFileNameLicenceScan = `${driverEmail}_licencescan.jpg`;
+  const tempFileNameLicenceScan = `${driverEmail}_licencescan.pdf`;
   const tempLicenceScanURL = `https://${storageAccountName}.blob.core.windows.net/driverlicencescan/${tempFileNameLicenceScan}`;
   // const licenceScan = tempLicenceScanURL;
 
-  const tempFileNameVisaScan = `${driverEmail}_visascan.jpg`;
+  const tempFileNameVisaScan = `${driverEmail}_visascan.pdf`;
   const tempVisaScanURL = `https://${storageAccountName}.blob.core.windows.net/drivervisascan/${tempFileNameVisaScan}`;
   // const visaScan = tempVisaScanURL;
 
@@ -289,19 +289,19 @@ function EditDriver() {
   async function editDriver() {
     setLoading(true);
 
-    if (ausPostScanFile.length > 0) {
+    if (ausPostScanFile.length !== 0) {
       await uploadAusPostScan();
     }
 
-    if (licenceScanFile.length > 0) {
+    if (licenceScanFile.length !== 0) {
       await uploadLicenceScan();
     }
 
-    if (visaScanFile.length > 0) {
+    if (visaScanFile.length !== 0) {
       await uploadVisaScan();
     }
 
-    if (profilePhotoFile.length > 0) {
+    if (profilePhotoFile.length !== 0) {
       await uploadProfilePhoto();
     }
 
@@ -534,7 +534,7 @@ function EditDriver() {
                       // variant="standard"
                       fullWidth
                     /> */}
-                    <MDInput
+                    {/* <MDInput
                       size="large"
                       InputLabelProps={{ shrink: true }}
                       select
@@ -550,10 +550,20 @@ function EditDriver() {
                         classes: { root: "select-input-styles" },
                       }}
                       fullWidth
-                    >
-                      <MenuItem value="active">Active</MenuItem>
-                      <MenuItem value="inactive">InActive</MenuItem>
-                    </MDInput>
+                    > */}
+                    <MDInput
+                      inputProps={{ readOnly: true }}
+                      InputLabelProps={{ shrink: true }}
+                      //   onChange={(e) => setEmail(e.target.value)}
+                      placeholder={driver.workStatus}
+                      type="text"
+                      label="Work status"
+                      // variant="standard"
+                      fullWidth
+                    />
+                    {/* <MenuItem value="active">Active</MenuItem>
+                      <MenuItem value="inactive">InActive</MenuItem> */}
+                    {/* </MDInput> */}
                   </MDBox>
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -806,8 +816,8 @@ function EditDriver() {
                       }}
                       fullWidth
                     >
-                      <MenuItem value="Active">Active</MenuItem>
-                      <MenuItem value="Inactive">Inactive</MenuItem>
+                      <MenuItem value="local">Local</MenuItem>
+                      <MenuItem value="foreign">Foreign</MenuItem>
                     </MDInput>
                   </MDBox>
                 </Grid>

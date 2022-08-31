@@ -77,7 +77,7 @@ function Basic() {
       .catch((error) => {
         console.log("response = ERROR", error);
         setLoading(false);
-        setErrorMessage("Incorrect username or password");
+        setErrorMessage(error.response.data.errors[0]);
         setIsError(true);
       });
   }

@@ -219,7 +219,7 @@ function SupervisorProfile() {
                 {supervisor.fname} {supervisor.mname} {supervisor.lname}
               </MDTypography>
               <MDTypography variant="button" color="text" fontWeight="regular">
-                {supervisor.workStatus === "active    " ? "ACTIVE" : "INACTIVE"} SUPERVISOR
+                {supervisor.workStatus} supervisor
               </MDTypography>
             </MDBox>
           </Grid>
