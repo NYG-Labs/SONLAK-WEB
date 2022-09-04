@@ -67,9 +67,10 @@ function VehicleSafety() {
   const [vehicleSafetyFile, setVehicleSafetyFile] = useState([]);
 
   const currentDate = new Date();
-  const timestamp = `${currentDate.getFullYear()}-0${
-    currentDate.getMonth() + 1
-  }-${currentDate.getDate()}T${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+  const timestamp = currentDate;
+  // `${currentDate.getFullYear()}-0${
+  //   currentDate.getMonth() + 1
+  // }-${currentDate.getDate()}T${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
   // console.log(timestamp);
 
   const tempFileNameVehicleSafety = `${timestamp}_vehicleSafety.pdf`;

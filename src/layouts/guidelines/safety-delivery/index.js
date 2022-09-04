@@ -67,9 +67,10 @@ function SafetyDelivery() {
   const [safetyDeliveryFile, setsafetyDeliveryFile] = useState([]);
 
   const currentDate = new Date();
-  const timestamp = `${currentDate.getFullYear()}-0${
-    currentDate.getMonth() + 1
-  }-${currentDate.getDate()}T${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+  const timestamp = currentDate;
+  // `${currentDate.getFullYear()}-0${
+  //   currentDate.getMonth() + 1
+  // }-${currentDate.getDate()}T${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
   // console.log(timestamp);
 
   const tempFileNameSafetyDelivery = `${timestamp}_safetyDelivery.pdf`;
