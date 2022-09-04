@@ -129,7 +129,7 @@ function DriverDailySignIn() {
   }
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.GOOGLE_MAP_API_KEY,
+    googleMapsApiKey: "AIzaSyD7_HdHva3M6JreDCXkp4PYhFFttbGr1Ec",
   });
 
   if (

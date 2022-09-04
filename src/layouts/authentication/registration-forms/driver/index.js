@@ -72,9 +72,9 @@ function DriverRegistration() {
 
   const [insurancePolicyNo, setPolicyNo] = useState("");
   const [insuranceExpiry, setInsuaranceExpDate] = useState("");
-  const [route, setRoute] = useState("");
-  const [deviceId, setDeviceId] = useState("");
-  console.log(route, deviceId);
+  // const [route, setRoute] = useState("");
+  // const [deviceId, setDeviceId] = useState("");
+  // console.log(route, deviceId);
 
   // const [ausPostScan, setAusPostScan] = useState("");
   const [ausPostExpiry, setAusPostExpiry] = useState("");
@@ -736,8 +736,8 @@ function DriverRegistration() {
                 </Grid>
               </Grid>
 
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
+              {/* <Grid container spacing={3}> */}
+              {/* <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
@@ -748,8 +748,8 @@ function DriverRegistration() {
                       fullWidth
                     />
                   </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
+                </Grid> */}
+              {/* <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
@@ -761,8 +761,8 @@ function DriverRegistration() {
                       fullWidth
                     />
                   </MDBox>
-                </Grid>
-              </Grid>
+                </Grid> */}
+              {/* </Grid>  */}
             </MDBox>
 
             <MDBox p={2}>

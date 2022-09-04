@@ -55,7 +55,7 @@ function SupervisorRegistration() {
   // const [visaScan, setVisaScan] = useState("");
   const [visaExpiry, setVisaExpiry] = useState("");
   const [supervisorType, setSupervisorType] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNo, setPhoneNumber] = useState("");
   // const [profilePhoto, setProfilePhoto] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -96,7 +96,7 @@ function SupervisorRegistration() {
     visaExpiry,
     supervisorType,
     password,
-    phoneNumber,
+    phoneNo,
     profilePhoto,
   };
 

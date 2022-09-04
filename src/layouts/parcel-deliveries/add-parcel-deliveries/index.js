@@ -164,7 +164,7 @@ function AddParcelDeliveries() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       type="date"
-                      label="No of parcels"
+                      label="Date"
                       onChange={(e) => setDate(e.target.value)}
                       // variant="standard"
                       fullWidth
