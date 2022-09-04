@@ -53,7 +53,7 @@ function Basic() {
   const [loading, setLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const baseURL = "/api/LoginUsers/Login";
+  const baseURL = "https://sonlakserver.azurewebsites.net/api/LoginUsers/Login";
 
   async function sendSignInData() {
     setLoading(true);

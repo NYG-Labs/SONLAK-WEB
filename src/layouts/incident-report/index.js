@@ -50,8 +50,9 @@ function AllIncidentReports() {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [searchError, setSearchError] = useState("");
-  const baseURL = "/api/IncidentReports/GetIncidentReportsLast7days";
-  const baseURLFilter = `/api/IncidentReports/GetIncidentReportsFilterbyDate/${fromDate}/${toDate}`;
+  const baseURL =
+    "https://sonlakserver.azurewebsites.net/api/IncidentReports/GetIncidentReportsLast7days";
+  const baseURLFilter = `https://sonlakserver.azurewebsites.net/api/IncidentReports/GetIncidentReportsFilterbyDate/${fromDate}/${toDate}`;
   // console.log(fromDate, toDate);
   const config = {
     headers: {

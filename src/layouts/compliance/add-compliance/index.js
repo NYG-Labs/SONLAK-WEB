@@ -55,8 +55,8 @@ function AddCompliance() {
     // fontSize: "0.75rem",
   };
 
-  const getAllDriversURL = "/api/Drivers/GetDriversActive";
-  const baseURL = "/api/Compliances";
+  const getAllDriversURL = "https://sonlakserver.azurewebsites.net/api/Drivers/GetDriversActive";
+  const baseURL = "https://sonlakserver.azurewebsites.net/api/Compliances";
   const config = {
     headers: {
       "content-type": "application/json",

@@ -54,8 +54,8 @@ function AllCompliance() {
   const [toDate, setToDate] = useState("");
   const [searchError, setSearchError] = useState("");
   const [loading, setLoading] = useState(false);
-  const baseURL = `/api/Compliances/GetComplianceLast7days`;
-  const baseURLFilter = `/api/Compliances/GetCompliancesfilterbyDate/${fromDate}/${toDate}`;
+  const baseURL = `https://sonlakserver.azurewebsites.net/api/Compliances/GetComplianceLast7days`;
+  const baseURLFilter = `https://sonlakserver.azurewebsites.net/api/Compliances/GetCompliancesfilterbyDate/${fromDate}/${toDate}`;
 
   const config = {
     headers: {

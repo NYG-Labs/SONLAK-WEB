@@ -52,8 +52,8 @@ function EditETAPerformance() {
     // fontSize: "0.75rem",
   };
 
-  const getAllDriversURL = "/api/Drivers";
-  const ETAPerformanceURL = `/api/Etaperformances/${id}`;
+  const getAllDriversURL = "https://sonlakserver.azurewebsites.net/api/Drivers";
+  const ETAPerformanceURL = `https://sonlakserver.azurewebsites.net/api/Etaperformances/${id}`;
 
   const config = {
     headers: {

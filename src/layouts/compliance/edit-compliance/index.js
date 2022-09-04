@@ -68,9 +68,9 @@ function EditCompliance() {
   const [transfer, setTransfer] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const getComplainceURL = `/api/Compliances/${id}`;
-  const putURL = `/api/Compliances/${id}`;
-  const getAllDriversURL = "/api/Drivers";
+  const getComplainceURL = `https://sonlakserver.azurewebsites.net/api/Compliances/${id}`;
+  const putURL = `https://sonlakserver.azurewebsites.net/api/Compliances/${id}`;
+  const getAllDriversURL = "https://sonlakserver.azurewebsites.net/api/Drivers";
   const config = {
     headers: {
       "content-type": "application/json",

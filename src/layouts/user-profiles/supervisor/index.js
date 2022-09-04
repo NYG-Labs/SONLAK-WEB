@@ -81,11 +81,11 @@ function SupervisorProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [supervisor, setSupervisor] = useState([]);
-  const baseURL = `/api/supervisors/${id}`;
-  const ToolBoxURL = `/api/ToolBox/GetToolBoxBySupervisor/${id}`;
-  const ComplaintsURL = `/api/Complaints/GetComplaintbySupervisor/${id}`;
-  const deleteSupervisorURL = `/api/Supervisors/${id}`;
-  const driversURL = `/api/Drivers/GetSupervisorsDriversList/${id}`;
+  const baseURL = `https://sonlakserver.azurewebsites.net/api/supervisors/${id}`;
+  const ToolBoxURL = `https://sonlakserver.azurewebsites.net/api/ToolBox/GetToolBoxBySupervisor/${id}`;
+  const ComplaintsURL = `https://sonlakserver.azurewebsites.net/api/Complaints/GetComplaintbySupervisor/${id}`;
+  const deleteSupervisorURL = `https://sonlakserver.azurewebsites.net/api/Supervisors/${id}`;
+  const driversURL = `https://sonlakserver.azurewebsites.net/api/Drivers/GetSupervisorsDriversList/${id}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
   const [searchToolBox, setSearchToolBox] = useState("");

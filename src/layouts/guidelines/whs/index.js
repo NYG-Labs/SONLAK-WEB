@@ -50,8 +50,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function WHSPlan() {
-  const baseURL = "/api/Whsplans";
-  const allWHSPlanURL = "/api/Whsplans";
+  const baseURL = "https://sonlakserver.azurewebsites.net/api/Whsplans";
+  const allWHSPlanURL = "https://sonlakserver.azurewebsites.net/api/Whsplans";
   const navigate = useNavigate();
   const [allWHSPlan, setAllWHSPlan] = useState([]);
   const [search, setSearch] = useState("");
@@ -103,11 +103,13 @@ function WHSPlan() {
 
   const deleteWHSPlan = (id) => {
     // console.log(id);
-    axios.delete(`/api/Whsplans/${id}`, config).then((response) => {
-      // navigate(`/ETA-performance`);
-      window.location.reload();
-      console.log(response);
-    });
+    axios
+      .delete(`https://sonlakserver.azurewebsites.net/api/Whsplans/${id}`, config)
+      .then((response) => {
+        // navigate(`/ETA-performance`);
+        window.location.reload();
+        console.log(response);
+      });
   };
 
   const filteredData = allWHSPlan.filter((etaPerformance) =>

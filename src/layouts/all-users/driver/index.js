@@ -22,7 +22,7 @@ import axios from "axios";
 function AllDrivers() {
   const [search, setSearch] = useState("");
   const [allDrivers, setAllDrivers] = useState([]);
-  const baseURL = "/api/Drivers/GetDriversActive";
+  const baseURL = "https://sonlakserver.azurewebsites.net/api/Drivers/GetDriversActive";
 
   const config = {
     headers: {

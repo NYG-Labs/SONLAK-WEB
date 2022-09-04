@@ -62,9 +62,9 @@ function EditAdmin() {
   const { id } = useParams();
   //   const [allSupervisors, setAllSupervisors] = useState([]);
   const [admin, setAdmin] = useState([]);
-  const baseURL = `/api/Admins/${id}`;
+  const baseURL = `https://sonlakserver.azurewebsites.net/api/Admins/${id}`;
   //   const baseURLSupervisors = "/api/Supervisors";
-  const baseURLAdmin = `/api/Admins/${id}`;
+  const baseURLAdmin = `https://sonlakserver.azurewebsites.net/api/Admins/${id}`;
   const [fname, setFname] = useState(admin.fname);
   // const [mname, setMname] = useState(admin.mname);
   const [lname, setLname] = useState(admin.lname);

@@ -68,12 +68,18 @@ function Dashboard() {
   //   labels: days,
   //   datasets: { label: "Sales", data: parcelCount },
   // };
-  const weekdaysDataURL = "/api/ParcelDeliveries/GetParcelDeliveryCountforAdmin";
-  const dayWeekMonthURL = "/api/ParcelDeliveries/GetParcelDeliveryStatforAdmin";
-  const mostFiveDeliveriesURL = "/api/ParcelDeliveries/GetMost5ParcelDeliveryforMonth";
-  const latestIncidentReportsURL = "/api/IncidentReports/GetIncidentReportsLatest3";
-  const latestComplaintsURL = "/api/Complaints/GetComplaintLatest4";
-  const complaintStatsURL = "/api/Complaints/GetComplaintStatAdmin";
+  const weekdaysDataURL =
+    "https://sonlakserver.azurewebsites.net/api/ParcelDeliveries/GetParcelDeliveryCountforAdmin";
+  const dayWeekMonthURL =
+    "https://sonlakserver.azurewebsites.net/api/ParcelDeliveries/GetParcelDeliveryStatforAdmin";
+  const mostFiveDeliveriesURL =
+    "https://sonlakserver.azurewebsites.net/api/ParcelDeliveries/GetMost5ParcelDeliveryforMonth";
+  const latestIncidentReportsURL =
+    "https://sonlakserver.azurewebsites.net/api/IncidentReports/GetIncidentReportsLatest3";
+  const latestComplaintsURL =
+    "https://sonlakserver.azurewebsites.net/api/Complaints/GetComplaintLatest4";
+  const complaintStatsURL =
+    "https://sonlakserver.azurewebsites.net/api/Complaints/GetComplaintStatAdmin";
 
   const config = {
     headers: {

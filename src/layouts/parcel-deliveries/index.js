@@ -52,8 +52,9 @@ function AllParcelDeliveries() {
   const [toDate, setToDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
-  const baseURL = "/api/ParcelDeliveries/GetParcelDeliveriesLast7days";
-  const baseURLFilter = `/api/ParcelDeliveries/GetParcelDeliveriesFilterbyDate/${fromDate}/${toDate}`;
+  const baseURL =
+    "https://sonlakserver.azurewebsites.net/api/ParcelDeliveries/GetParcelDeliveriesLast7days";
+  const baseURLFilter = `https://sonlakserver.azurewebsites.net/api/ParcelDeliveries/GetParcelDeliveriesFilterbyDate/${fromDate}/${toDate}`;
   const tableRef = useRef(null);
 
   const config = {

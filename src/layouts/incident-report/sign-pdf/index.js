@@ -37,7 +37,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 function SignPDF() {
   const { id } = useParams();
-  const baseURL = `/api/IncidentReports/${id}`;
+  const baseURL = `https://sonlakserver.azurewebsites.net/api/IncidentReports/${id}`;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [driverEmail, setEmail] = useState("");

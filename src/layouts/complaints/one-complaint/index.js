@@ -48,7 +48,7 @@ function SingleComplaints() {
   // const { rows } = SingleComplaintsData();
   //   const [search, setSearch] = useState("");
   const [singleComplaints, setSingleComplaints] = useState([]);
-  const baseURL = `/api/Complaints/${id}`;
+  const baseURL = `https://sonlakserver.azurewebsites.net/api/Complaints/${id}`;
 
   const config = {
     headers: {

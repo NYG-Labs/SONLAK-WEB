@@ -59,7 +59,7 @@ function SupervisorRegistration() {
   // const [profilePhoto, setProfilePhoto] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const baseURL = "/api/Supervisors";
+  const baseURL = "https://sonlakserver.azurewebsites.net/api/Supervisors";
 
   const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
   const sasToken = process.env.REACT_APP_STORAGESASTOKEN;

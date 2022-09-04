@@ -51,7 +51,7 @@ function ToolBoxSupervisorDate() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [toolBoxSupervisorDate, setToolBoxSupervisorDate] = useState([]);
-  const baseURL = `/api/ToolBox/GetToolBoxBySupervisorDate/${supervisor}/${date}`;
+  const baseURL = `https://sonlakserver.azurewebsites.net/api/ToolBox/GetToolBoxBySupervisorDate/${supervisor}/${date}`;
 
   const config = {
     headers: {

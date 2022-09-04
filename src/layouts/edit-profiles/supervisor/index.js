@@ -69,8 +69,8 @@ function EditSupervisor() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [supervisor, setSupervisor] = useState([]);
-  const baseURL = `/api/Supervisors/${id}`;
-  const baseURLSupervisor = `/api/Supervisors/${id}`;
+  const baseURL = `https://sonlakserver.azurewebsites.net/api/Supervisors/${id}`;
+  const baseURLSupervisor = `https://sonlakserver.azurewebsites.net/api/Supervisors/${id}`;
   const [fname, setFname] = useState(supervisor.fname);
   const [mname, setMname] = useState(supervisor.mname);
   const [lname, setLname] = useState(supervisor.lname);

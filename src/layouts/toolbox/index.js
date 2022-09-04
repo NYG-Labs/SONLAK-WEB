@@ -50,8 +50,8 @@ function AllToolBox() {
   const [toDate, setToDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
-  const baseURL = "/api/ToolBox/GetToolBoxToAdminLast7days";
-  const baseURLFilter = `/api/ToolBox/GetToolBoxlatestfilterbyDate/${fromDate}/${toDate}`;
+  const baseURL = "https://sonlakserver.azurewebsites.net/api/ToolBox/GetToolBoxToAdminLast7days";
+  const baseURLFilter = `https://sonlakserver.azurewebsites.net/api/ToolBox/GetToolBoxlatestfilterbyDate/${fromDate}/${toDate}`;
 
   const config = {
     headers: {

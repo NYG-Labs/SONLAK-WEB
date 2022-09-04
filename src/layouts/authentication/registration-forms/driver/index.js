@@ -96,8 +96,9 @@ function DriverRegistration() {
   const [allSupervisors, setAllSupervisors] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const baseURL = "/api/Drivers";
-  const baseURLSupervisors = "/api/Supervisors/GetSupervisorsActive";
+  const baseURL = "https://sonlakserver.azurewebsites.net/api/Drivers";
+  const baseURLSupervisors =
+    "https://sonlakserver.azurewebsites.net/api/Supervisors/GetSupervisorsActive";
 
   // const currentDate = new Date();
   // const timestamp = currentDate.getTime();

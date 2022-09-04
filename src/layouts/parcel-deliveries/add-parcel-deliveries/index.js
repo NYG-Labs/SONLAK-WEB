@@ -44,8 +44,8 @@ function AddParcelDeliveries() {
     // fontSize: "0.75rem",
   };
 
-  const getAllDriversURL = "/api/Drivers/GetDriversActive";
-  const baseURL = "/api/ParcelDeliveries";
+  const getAllDriversURL = "https://sonlakserver.azurewebsites.net/api/Drivers/GetDriversActive";
+  const baseURL = "https://sonlakserver.azurewebsites.net/api/ParcelDeliveries";
   const config = {
     headers: {
       "content-type": "application/json",

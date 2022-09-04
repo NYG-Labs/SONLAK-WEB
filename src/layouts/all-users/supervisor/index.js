@@ -22,7 +22,7 @@ import axios from "axios";
 function AllSupervisors() {
   const [search, setSearch] = useState("");
   const [allSupervisors, setAllSupervisors] = useState([]);
-  const baseURL = "/api/Supervisors/GetSupervisorsActive";
+  const baseURL = "https://sonlakserver.azurewebsites.net/api/Supervisors/GetSupervisorsActive";
 
   const config = {
     headers: {

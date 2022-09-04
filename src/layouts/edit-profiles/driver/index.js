@@ -71,9 +71,10 @@ function EditDriver() {
   const { id } = useParams();
   const [allSupervisors, setAllSupervisors] = useState([]);
   const [driver, setDriver] = useState([]);
-  const baseURL = `/api/Drivers/${id}`;
-  const baseURLSupervisors = "/api/Supervisors/GetSupervisorsActive";
-  const baseURLDriver = `/api/Drivers/${id}`;
+  const baseURL = `https://sonlakserver.azurewebsites.net/api/Drivers/${id}`;
+  const baseURLSupervisors =
+    "https://sonlakserver.azurewebsites.net/api/Supervisors/GetSupervisorsActive";
+  const baseURLDriver = `https://sonlakserver.azurewebsites.net/api/Drivers/${id}`;
   const [fname, setFname] = useState(driver.fname);
   const [mname, setMname] = useState(driver.mname);
   const [lname, setLname] = useState(driver.lname);

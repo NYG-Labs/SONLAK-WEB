@@ -51,8 +51,8 @@ function AddETAPerformance() {
     // fontSize: "0.75rem",
   };
 
-  const getAllDriversURL = "/api/Drivers/GetDriversActive";
-  const baseURL = "/api/Etaperformances";
+  const getAllDriversURL = "https://sonlakserver.azurewebsites.net/api/Drivers/GetDriversActive";
+  const baseURL = "https://sonlakserver.azurewebsites.net/api/Etaperformances";
   const config = {
     headers: {
       "content-type": "application/json",

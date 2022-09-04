@@ -54,8 +54,8 @@ function AllComplaints() {
   const [toDate, setToDate] = useState("");
   const [searchError, setSearchError] = useState("");
   const [loading, setLoading] = useState(false);
-  const baseURL = `/api/Complaints/GetComplaintLast7days`;
-  const baseURLFilter = `/api/Complaints/GetComplaintsfilterbyDate/${fromDate}/${toDate}`;
+  const baseURL = `https://sonlakserver.azurewebsites.net/api/Complaints/GetComplaintLast7days`;
+  const baseURLFilter = `https://sonlakserver.azurewebsites.net/api/Complaints/GetComplaintsfilterbyDate/${fromDate}/${toDate}`;
 
   const config = {
     headers: {

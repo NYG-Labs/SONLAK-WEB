@@ -50,8 +50,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function SafetyDelivery() {
-  const baseURL = "/api/SafeDeliveryProcedures";
-  const allSafetyDeliveryURL = "/api/SafeDeliveryProcedures";
+  const baseURL = "https://sonlakserver.azurewebsites.net/api/SafeDeliveryProcedures";
+  const allSafetyDeliveryURL = "https://sonlakserver.azurewebsites.net/api/SafeDeliveryProcedures";
   const navigate = useNavigate();
   const [allSafetyDelivery, setAllSafetyDelivery] = useState([]);
   const [search, setSearch] = useState("");
@@ -103,11 +103,13 @@ function SafetyDelivery() {
 
   const deleteSafetyDelivery = (id) => {
     // console.log(id);
-    axios.delete(`/api/SafeDeliveryProcedures/${id}`, config).then((response) => {
-      // navigate(`/ETA-performance`);
-      window.location.reload();
-      console.log(response);
-    });
+    axios
+      .delete(`https://sonlakserver.azurewebsites.net/api/SafeDeliveryProcedures/${id}`, config)
+      .then((response) => {
+        // navigate(`/ETA-performance`);
+        window.location.reload();
+        console.log(response);
+      });
   };
 
   const filteredData = allSafetyDelivery.filter((etaPerformance) =>

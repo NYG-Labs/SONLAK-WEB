@@ -20,7 +20,7 @@ function ChangePasswordAdmin() {
   const [oldPassword, setOldPassword] = useState("");
   const [isPasswordMatching, setIsPasswordMatching] = useState("");
 
-  const baseURL = `/api/Admins/ChangePasswordAdminbyAdmin/${id}`;
+  const baseURL = `https://sonlakserver.azurewebsites.net/api/Admins/ChangePasswordAdminbyAdmin/${id}`;
 
   const config = {
     headers: {

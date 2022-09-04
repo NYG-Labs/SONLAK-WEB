@@ -50,7 +50,7 @@ function AdminProfile() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [admin, setAdmin] = useState([]);
-  const baseURL = `/api/admins/${id}`;
+  const baseURL = `https://sonlakserver.azurewebsites.net/api/admins/${id}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
 

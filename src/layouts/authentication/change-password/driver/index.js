@@ -27,7 +27,7 @@ function ChangePasswordDriver() {
     }
   };
 
-  const baseURL = `/api/Drivers/ResetPasswordDriverbyAdmin/${id}`;
+  const baseURL = `https://sonlakserver.azurewebsites.net/api/Drivers/ResetPasswordDriverbyAdmin/${id}`;
 
   const config = {
     headers: {

@@ -27,7 +27,7 @@ function ChangePasswordSupervisor() {
     }
   };
 
-  const baseURL = `/api/Supervisors/ResetPasswordSupervisorbyAdmin/${id}`;
+  const baseURL = `https://sonlakserver.azurewebsites.net/api/Supervisors/ResetPasswordSupervisorbyAdmin/${id}`;
 
   const config = {
     headers: {

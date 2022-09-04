@@ -22,7 +22,7 @@ import axios from "axios";
 function AllAdmins() {
   const [search, setSearch] = useState("");
   const [allAdmins, setAllAdmins] = useState([]);
-  const baseURL = "/api/Admins";
+  const baseURL = "https://sonlakserver.azurewebsites.net/api/Admins";
 
   const config = {
     headers: {

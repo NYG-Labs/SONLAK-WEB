@@ -53,7 +53,7 @@ function AdminRegistration() {
   const [adminType, setAdminType] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const baseURL = "/api/Admins";
+  const baseURL = "https://sonlakserver.azurewebsites.net/api/Admins";
   const navigate = useNavigate();
 
   const config = {

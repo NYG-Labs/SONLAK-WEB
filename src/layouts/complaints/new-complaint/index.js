@@ -42,8 +42,8 @@ function AddComplaints() {
     // fontSize: "0.75rem",
   };
 
-  const baseURL = "/api/complaint";
-  const allDriverURL = "/api/Drivers";
+  const baseURL = "https://sonlakserver.azurewebsites.net/api/complaint";
+  const allDriverURL = "https://sonlakserver.azurewebsites.net/api/Drivers";
   //   const allWHSPlanURL = "/api/Whsplans";
   const navigate = useNavigate();
   //   const [allWHSPlan, setAllWHSPlan] = useState([]);

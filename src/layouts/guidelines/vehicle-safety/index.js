@@ -50,8 +50,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function VehicleSafety() {
-  const baseURL = "/api/VehicleSafeties";
-  const allVehicleSafetyURL = "/api/VehicleSafeties";
+  const baseURL = "https://sonlakserver.azurewebsites.net/api/VehicleSafeties";
+  const allVehicleSafetyURL = "https://sonlakserver.azurewebsites.net/api/VehicleSafeties";
   const navigate = useNavigate();
   const [allVehicleSafety, setAllVehicleSafety] = useState([]);
   const [search, setSearch] = useState("");
@@ -103,11 +103,13 @@ function VehicleSafety() {
 
   const deleteVehicleSafety = (id) => {
     // console.log(id);
-    axios.delete(`/api/VehicleSafeties/${id}`, config).then((response) => {
-      // navigate(`/ETA-performance`);
-      window.location.reload();
-      console.log(response);
-    });
+    axios
+      .delete(`https://sonlakserver.azurewebsites.net/api/VehicleSafeties/${id}`, config)
+      .then((response) => {
+        // navigate(`/ETA-performance`);
+        window.location.reload();
+        console.log(response);
+      });
   };
 
   const filteredData = allVehicleSafety.filter((etaPerformance) =>

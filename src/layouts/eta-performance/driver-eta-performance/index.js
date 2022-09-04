@@ -54,7 +54,7 @@ function DriverETAPerformance() {
   const { date } = useParams();
   const [search, setSearch] = useState("");
   const [driverETAPerformance, setDriverETAPerformance] = useState([]);
-  const baseURL = `/api/Etaperformances/GetEtaperformancebyDate/${date}`;
+  const baseURL = `https://sonlakserver.azurewebsites.net/api/Etaperformances/GetEtaperformancebyDate/${date}`;
 
   const config = {
     headers: {

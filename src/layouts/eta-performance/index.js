@@ -52,8 +52,8 @@ function AllETAPerformance() {
   const [loading, setLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
   const [allETAPerformance, setAllETAPerformance] = useState([]);
-  const baseURL = `/api/Etaperformances/GetEtaperformancesLast7days`;
-  const baseURLFilter = `/api/Etaperformances/GetEtaperformancesFilterbyDate/${fromDate}/${toDate}`;
+  const baseURL = `https://sonlakserver.azurewebsites.net/api/Etaperformances/GetEtaperformancesLast7days`;
+  const baseURLFilter = `https://sonlakserver.azurewebsites.net/api/Etaperformances/GetEtaperformancesFilterbyDate/${fromDate}/${toDate}`;
 
   const config = {
     headers: {

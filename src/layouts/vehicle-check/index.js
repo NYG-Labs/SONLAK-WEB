@@ -27,8 +27,9 @@ function AllVehicleCheck() {
   const [toDate, setToDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
-  const baseURL = "/api/VehicleChecks/GetVehicleChecksLast7days";
-  const baseURLFilter = `/api/VehicleChecks/GetVehicleChecksfilterbyDate/${fromDate}/${toDate}`;
+  const baseURL =
+    "https://sonlakserver.azurewebsites.net/api/VehicleChecks/GetVehicleChecksLast7days";
+  const baseURLFilter = `https://sonlakserver.azurewebsites.net/api/VehicleChecks/GetVehicleChecksfilterbyDate/${fromDate}/${toDate}`;
 
   const config = {
     headers: {
