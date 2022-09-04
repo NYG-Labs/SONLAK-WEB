@@ -1,4 +1,5 @@
 {
+  "homepage": "https://NYG-Labs.github.io/SONLAK-WEB",
   "name": "material-dashboard-2-react",
   "version": "2.1.0",
   "private": true,
@@ -63,6 +64,8 @@
     "yup": "0.32.11"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -96,6 +99,7 @@
     "eslint-plugin-prettier": "4.0.0",
     "eslint-plugin-react": "7.28.0",
     "eslint-plugin-react-hooks": "4.3.0",
+    "gh-pages": "^4.0.0",
     "prettier": "2.5.1"
   }
 }
