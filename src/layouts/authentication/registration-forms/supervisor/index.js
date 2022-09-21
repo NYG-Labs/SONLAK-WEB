@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
-import Checkbox from "@mui/material/Checkbox";
+// import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 React components
@@ -293,55 +293,7 @@ function SupervisorRegistration() {
                     />
                   </MDBox>
                 </Grid>
-              </Grid>
-            </MDBox>
 
-            <MDBox p={2}>
-              <MDBox pb={2}>Visa Details</MDBox>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setVisaNo(e.target.value)}
-                      type="text"
-                      label="Visa No"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      // onChange={(e) => setVisaScan(e.target.value)}
-                      onChange={VisaScanHnadler}
-                      type="file"
-                      label="Scanned copy"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setVisaExpiry(e.target.value)}
-                      type="date"
-                      label="Expiery date"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-              </Grid>
-            </MDBox>
-
-            <MDBox p={2}>
-              <MDBox pb={2}>Other Details</MDBox>
-              <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
                     <MDInput
@@ -358,11 +310,64 @@ function SupervisorRegistration() {
                       }}
                       fullWidth
                     >
-                      <MenuItem value="foreign">Foreign</MenuItem>
-                      <MenuItem value="local">Local</MenuItem>
+                      <MenuItem value="Foreign">Foreign</MenuItem>
+                      <MenuItem value="Local">Local</MenuItem>
                     </MDInput>
                   </MDBox>
                 </Grid>
+              </Grid>
+            </MDBox>
+
+            {supervisorType !== "Local" ? (
+              <MDBox p={2}>
+                <MDBox pb={2}>Visa Details</MDBox>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={4}>
+                    <MDBox mb={2}>
+                      <MDInput
+                        InputLabelProps={{ shrink: true }}
+                        onChange={(e) => setVisaNo(e.target.value)}
+                        type="text"
+                        label="Visa No"
+                        // variant="standard"
+                        fullWidth
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <MDBox mb={2}>
+                      <MDInput
+                        InputLabelProps={{ shrink: true }}
+                        // onChange={(e) => setVisaScan(e.target.value)}
+                        onChange={VisaScanHnadler}
+                        type="file"
+                        label="Scanned copy"
+                        // variant="standard"
+                        fullWidth
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <MDBox mb={2}>
+                      <MDInput
+                        InputLabelProps={{ shrink: true }}
+                        onChange={(e) => setVisaExpiry(e.target.value)}
+                        type="date"
+                        label="Expiery date"
+                        // variant="standard"
+                        fullWidth
+                      />
+                    </MDBox>
+                  </Grid>
+                </Grid>
+              </MDBox>
+            ) : (
+              ""
+            )}
+
+            <MDBox p={2}>
+              <MDBox pb={2}>Other Details</MDBox>
+              <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
@@ -408,7 +413,7 @@ function SupervisorRegistration() {
                   </MDBox>
                 </Grid>
               </Grid>
-              <MDBox display="flex" alignItems="center" ml={-1}>
+              {/* <MDBox display="flex" alignItems="center" ml={-1}>
                 <Checkbox />
                 <MDTypography
                   variant="button"
@@ -428,7 +433,7 @@ function SupervisorRegistration() {
                 >
                   Terms and Conditions
                 </MDTypography>
-              </MDBox>
+              </MDBox> */}
             </MDBox>
 
             <MDBox mt={4} mb={1}>

@@ -391,55 +391,7 @@ function EditSupervisor() {
                     />
                   </MDBox>
                 </Grid>
-              </Grid>
-            </MDBox>
 
-            <MDBox p={2}>
-              <MDBox pb={2}>Visa Details</MDBox>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setVisaNo(e.target.value)}
-                      placeholder={supervisor.visaNo}
-                      type="text"
-                      label="Visa No"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={VisaScanHnadler}
-                      placeholder={supervisor.visaScan}
-                      type="file"
-                      label="Scanned copy"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setVisaExpiry(e.target.value)}
-                      placeholder={supervisor.visaExpiry}
-                      type="date"
-                      label="Expiery date"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-              </Grid>
-            </MDBox>
-
-            <MDBox p={2}>
-              <MDBox pb={2}>Other Details</MDBox>
-              <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
                     <MDInput
@@ -457,11 +409,63 @@ function EditSupervisor() {
                       }}
                       fullWidth
                     >
-                      <MenuItem value="foreign">Foreign</MenuItem>
-                      <MenuItem value="local">Local</MenuItem>
+                      <MenuItem value="Foreign">Foreign</MenuItem>
+                      <MenuItem value="Local">Local</MenuItem>
                     </MDInput>
                   </MDBox>
-                </Grid>{" "}
+                </Grid>
+              </Grid>
+            </MDBox>
+
+            {supervisorType !== "Local" ? (
+              <MDBox p={2}>
+                <MDBox pb={2}>Visa Details</MDBox>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={4}>
+                    <MDBox mb={2}>
+                      <MDInput
+                        InputLabelProps={{ shrink: true }}
+                        onChange={(e) => setVisaNo(e.target.value)}
+                        placeholder={supervisor.visaNo}
+                        type="text"
+                        label="Visa No"
+                        // variant="standard"
+                        fullWidth
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <MDBox mb={2}>
+                      <MDInput
+                        InputLabelProps={{ shrink: true }}
+                        onChange={VisaScanHnadler}
+                        placeholder={supervisor.visaScan}
+                        type="file"
+                        label="Scanned copy"
+                        fullWidth
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <MDBox mb={2}>
+                      <MDInput
+                        InputLabelProps={{ shrink: true }}
+                        onChange={(e) => setVisaExpiry(e.target.value)}
+                        placeholder={supervisor.visaExpiry}
+                        type="date"
+                        label="Expiery date"
+                        fullWidth
+                      />
+                    </MDBox>
+                  </Grid>
+                </Grid>
+              </MDBox>
+            ) : (
+              ""
+            )}
+            <MDBox p={2}>
+              <MDBox pb={2}>Other Details</MDBox>
+              <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput

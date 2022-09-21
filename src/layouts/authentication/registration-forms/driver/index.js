@@ -1,56 +1,24 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// react-router-dom components
-// import { Link } from "react-router-dom";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-// import { useEffect } from "react";
-
-// @mui material components
 import Card from "@mui/material/Card";
-import Checkbox from "@mui/material/Checkbox";
+// import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
-// import TextField from "@mui/material/TextField";
-
-// import InputLabel from "@material-ui/core/InputLabel";
-// import Select from "@material-ui/core/Select";
-// import MenuItem from "@mui/material/MenuItem";
-
-// Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
-// import DropDownMenu from "material-ui/DropDownMenu";
-// import MenuItem from "material-ui/MenuItem";
-
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import MenuItem from "@mui/material/MenuItem";
 import "./styles.css";
-// import { BlobServiceClient } from "@azure/storage-blob";
 import { BlobServiceClient } from "@azure/storage-blob";
 import CircularProgress from "@mui/material/CircularProgress";
-// ContainerClient
+
 function DriverRegistration() {
   const SelectFieldStyle = {
     padding: 12,
-    // fontSize: "0.75rem",
   };
 
   const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
@@ -67,32 +35,22 @@ function DriverRegistration() {
   const [lname, setLname] = useState("");
   const [address, setAddress] = useState("");
   const [dob, setDob] = useState("");
-  const [gender, setGender] = useState("");
+  // const [gender, setGender] = useState("");
   const [ausPostId, setAusPostId] = useState("");
-
   const [insurancePolicyNo, setPolicyNo] = useState("");
   const [insuranceExpiry, setInsuaranceExpDate] = useState("");
-  // const [route, setRoute] = useState("");
-  // const [deviceId, setDeviceId] = useState("");
-  // console.log(route, deviceId);
-
-  // const [ausPostScan, setAusPostScan] = useState("");
   const [ausPostExpiry, setAusPostExpiry] = useState("");
   const [vehicleNo, setVehicleNo] = useState("");
   const [vehicalType, setVehicalType] = useState("");
   const [visaNo, setVisaNo] = useState("");
-  // const [visaScan, setVisaScan] = useState("");
   const [visaExpiry, setVisaExpiry] = useState("");
   const [licenceId, setLicenceId] = useState("");
-  // const [licenceScan, setLicenceScan] = useState("");
   const [licenceExpiry, setLicenceExpiry] = useState("");
   const [driverType, setDriverType] = useState("");
   const [username, setUsername] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
-  // const [profilePhoto, setProfilePhoto] = useState("");
   const [supervisorEmail, setSupervisroEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
   const [allSupervisors, setAllSupervisors] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -143,7 +101,7 @@ function DriverRegistration() {
     lname,
     address,
     dob,
-    gender,
+    gender: "male",
     ausPostId,
     ausPostScan,
     ausPostExpiry,
@@ -162,7 +120,6 @@ function DriverRegistration() {
     supervisorEmail,
     username,
     phoneNo,
-    // createDate,
     profilePhoto,
   };
 
@@ -267,8 +224,12 @@ function DriverRegistration() {
     await uploadLicenceScan();
     await uploadVisaScan();
     await uploadProfilePhoto();
-    // console.log(bodyParameters);
+    console.log(bodyParameters);
 
+    // if (bodyParameters.phoneNo.length !== 10) {
+    //   window.alert("Please enter a valid phone number");
+    //   setLoading(false);
+    // } else {
     axios
       .post(baseURL, bodyParameters, config)
       .then((response) => {
@@ -287,6 +248,7 @@ function DriverRegistration() {
           alert("An unexpected error occured! please check the values and try again");
         }
       });
+    // }
   }
 
   if (
@@ -364,7 +326,7 @@ function DriverRegistration() {
               </Grid>
 
               <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
+                {/* <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
                     <MDInput
                       size="large"
@@ -384,7 +346,7 @@ function DriverRegistration() {
                       <MenuItem value="female">Female</MenuItem>
                     </MDInput>
                   </MDBox>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
@@ -409,9 +371,6 @@ function DriverRegistration() {
                     />
                   </MDBox>
                 </Grid>
-              </Grid>
-
-              <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
                     <MDInput
@@ -424,6 +383,9 @@ function DriverRegistration() {
                     />
                   </MDBox>
                 </Grid>
+              </Grid>
+
+              <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
@@ -450,9 +412,77 @@ function DriverRegistration() {
                     />
                   </MDBox>
                 </Grid>
+
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={3}>
+                    <MDInput
+                      size="large"
+                      InputLabelProps={{ shrink: true }}
+                      select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      onChange={(e) => setDriverType(e.target.value)}
+                      value={driverType}
+                      label="Drivet Type"
+                      InputProps={{
+                        classes: { root: "select-input-styles" },
+                      }}
+                      fullWidth
+                    >
+                      <MenuItem value="Foreign">Foreign</MenuItem>
+                      <MenuItem value="Local">Local</MenuItem>
+                    </MDInput>
+                  </MDBox>
+                </Grid>
               </Grid>
             </MDBox>
 
+            {driverType !== "Local" ? (
+              <MDBox p={2}>
+                <MDBox pb={2}>Visa Details</MDBox>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={4}>
+                    <MDBox mb={2}>
+                      <MDInput
+                        InputLabelProps={{ shrink: true }}
+                        onChange={(e) => setVisaNo(e.target.value)}
+                        type="text"
+                        label="Visa No"
+                        // variant="standard"
+                        fullWidth
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <MDBox mb={2}>
+                      <MDInput
+                        InputLabelProps={{ shrink: true }}
+                        // onChange={(e) => setVisaScan(e.target.value)}
+                        onChange={VisaScanHnadler}
+                        type="file"
+                        label="Scanned copy"
+                        // variant="standard"
+                        fullWidth
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <MDBox mb={2}>
+                      <MDInput
+                        InputLabelProps={{ shrink: true }}
+                        onChange={(e) => setVisaExpiry(e.target.value)}
+                        type="date"
+                        label="Expiery date"
+                        // variant="standard"
+                        fullWidth
+                      />
+                    </MDBox>
+                  </Grid>
+                </Grid>
+              </MDBox>
+            ) : (
+              ""
+            )}
             <MDBox p={2}>
               <MDBox pb={2}>AUSPOST ID Details</MDBox>
               <Grid container spacing={3}>
@@ -588,49 +618,6 @@ function DriverRegistration() {
             </MDBox>
 
             <MDBox p={2}>
-              <MDBox pb={2}>Visa Details</MDBox>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setVisaNo(e.target.value)}
-                      type="text"
-                      label="Visa No"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      // onChange={(e) => setVisaScan(e.target.value)}
-                      onChange={VisaScanHnadler}
-                      type="file"
-                      label="Scanned copy"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setVisaExpiry(e.target.value)}
-                      type="date"
-                      label="Expiery date"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-              </Grid>
-            </MDBox>
-
-            <MDBox p={2}>
               <MDBox pb={2}>Driver licence details</MDBox>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
@@ -677,27 +664,6 @@ function DriverRegistration() {
               <MDBox pb={2}>Other Details</MDBox>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={3}>
-                    <MDInput
-                      size="large"
-                      InputLabelProps={{ shrink: true }}
-                      select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      onChange={(e) => setDriverType(e.target.value)}
-                      value={driverType}
-                      label="Drivet Type"
-                      InputProps={{
-                        classes: { root: "select-input-styles" },
-                      }}
-                      fullWidth
-                    >
-                      <MenuItem value="Foreign">Foreign</MenuItem>
-                      <MenuItem value="Local">Local</MenuItem>
-                    </MDInput>
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
                       SelectProps={{
@@ -717,7 +683,9 @@ function DriverRegistration() {
                       fullWidth
                     >
                       {allSupervisors.map((supervisor) => (
-                        <MenuItem value={supervisor.email}>{supervisor.email}</MenuItem>
+                        <MenuItem value={supervisor.email}>
+                          {supervisor.fname} {supervisor.lname}
+                        </MenuItem>
                       ))}
                     </MDInput>
                   </MDBox>
@@ -797,7 +765,7 @@ function DriverRegistration() {
                   </MDBox>
                 </Grid>
               </Grid>
-              <MDBox display="flex" alignItems="center" ml={-1}>
+              {/* <MDBox display="flex" alignItems="center" ml={-1}>
                 <Checkbox />
                 <MDTypography
                   variant="button"
@@ -817,7 +785,7 @@ function DriverRegistration() {
                 >
                   Terms and Conditions
                 </MDTypography>
-              </MDBox>
+              </MDBox> */}
             </MDBox>
 
             <MDBox mt={4} mb={1}>

@@ -442,7 +442,7 @@ function EditDriver() {
               </Grid>
 
               <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
+                {/* <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
                     <MDInput
                       size="large"
@@ -464,6 +464,20 @@ function EditDriver() {
                       <MenuItem value="Male">Male</MenuItem>
                       <MenuItem value="Female">Female</MenuItem>
                     </MDInput>
+                  </MDBox>
+                    </Grid> */}
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setPhoneNo(e.target.value)}
+                      placeholder={driver.phoneNo}
+                      type="text"
+                      label="Phone No"
+                      // value={username}
+                      // variant="standard"
+                      fullWidth
+                    />
                   </MDBox>
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -568,22 +582,79 @@ function EditDriver() {
                   </MDBox>
                 </Grid>
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
+                  <MDBox mb={3}>
                     <MDInput
+                      size="large"
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setPhoneNo(e.target.value)}
-                      placeholder={driver.phoneNo}
-                      type="text"
-                      label="Phone No"
-                      // value={username}
-                      // variant="standard"
+                      select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      onChange={(e) => setDriverType(e.target.value)}
+                      value={driverType}
+                      helperText={driverType}
+                      label="Drivet Type"
+                      InputProps={{
+                        classes: { root: "select-input-styles" },
+                      }}
                       fullWidth
-                    />
+                    >
+                      <MenuItem value="Local">Local</MenuItem>
+                      <MenuItem value="Foreign">Foreign</MenuItem>
+                    </MDInput>
                   </MDBox>
                 </Grid>
               </Grid>
             </MDBox>
 
+            {driverType !== "Local" ? (
+              <MDBox p={2}>
+                <MDBox pb={2}>Visa Details</MDBox>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={4}>
+                    <MDBox mb={2}>
+                      <MDInput
+                        InputLabelProps={{ shrink: true }}
+                        onChange={(e) => setVisaNo(e.target.value)}
+                        placeholder={driver.visaNo}
+                        type="text"
+                        label="Visa No"
+                        // variant="standard"
+                        fullWidth
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <MDBox mb={2}>
+                      <MDInput
+                        InputLabelProps={{ shrink: true }}
+                        // onChange={(e) => setVisaScan(e.target.value)}
+                        onChange={VisaScanHnadler}
+                        placeholder={driver.visaScan}
+                        type="file"
+                        label="Scanned copy"
+                        // variant="standard"
+                        fullWidth
+                      />
+                    </MDBox>
+                  </Grid>
+                  <Grid item xs={12} md={4}>
+                    <MDBox mb={2}>
+                      <MDInput
+                        InputLabelProps={{ shrink: true }}
+                        onChange={(e) => setVisaExpiry(e.target.value)}
+                        helperText={driver.visaExpiry}
+                        type="date"
+                        label="Expiery date"
+                        // variant="standard"
+                        fullWidth
+                      />
+                    </MDBox>
+                  </Grid>
+                </Grid>
+              </MDBox>
+            ) : (
+              ""
+            )}
             <MDBox p={2}>
               <MDBox pb={2}>AUSPOST ID Details</MDBox>
               <Grid container spacing={3}>
@@ -706,52 +777,6 @@ function EditDriver() {
             </MDBox>
 
             <MDBox p={2}>
-              <MDBox pb={2}>Visa Details</MDBox>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setVisaNo(e.target.value)}
-                      placeholder={driver.visaNo}
-                      type="text"
-                      label="Visa No"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      // onChange={(e) => setVisaScan(e.target.value)}
-                      onChange={VisaScanHnadler}
-                      placeholder={driver.visaScan}
-                      type="file"
-                      label="Scanned copy"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setVisaExpiry(e.target.value)}
-                      helperText={driver.visaExpiry}
-                      type="date"
-                      label="Expiery date"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-              </Grid>
-            </MDBox>
-
-            <MDBox p={2}>
               <MDBox pb={2}>Driver licence details</MDBox>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
@@ -800,28 +825,6 @@ function EditDriver() {
             <MDBox p={2}>
               <MDBox pb={2}>Other Details</MDBox>
               <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={3}>
-                    <MDInput
-                      size="large"
-                      InputLabelProps={{ shrink: true }}
-                      select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      onChange={(e) => setDriverType(e.target.value)}
-                      value={driverType}
-                      helperText={driverType}
-                      label="Drivet Type"
-                      InputProps={{
-                        classes: { root: "select-input-styles" },
-                      }}
-                      fullWidth
-                    >
-                      <MenuItem value="local">Local</MenuItem>
-                      <MenuItem value="foreign">Foreign</MenuItem>
-                    </MDInput>
-                  </MDBox>
-                </Grid>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     {/* <MDInput

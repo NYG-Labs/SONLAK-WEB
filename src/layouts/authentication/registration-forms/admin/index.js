@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
-import Checkbox from "@mui/material/Checkbox";
+// import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 React components
@@ -299,7 +299,7 @@ function AdminRegistration() {
                   </MDBox>
                 </Grid>
               </Grid>
-              <MDBox display="flex" alignItems="center" ml={-1}>
+              {/* <MDBox display="flex" alignItems="center" ml={-1}>
                 <Checkbox />
                 <MDTypography
                   variant="button"
@@ -319,7 +319,7 @@ function AdminRegistration() {
                 >
                   Terms and Conditions
                 </MDTypography>
-              </MDBox>
+              </MDBox> */}
             </MDBox>
 
             <MDBox mt={4} mb={1}>
