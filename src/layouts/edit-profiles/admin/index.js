@@ -69,6 +69,9 @@ function EditAdmin() {
   // const [mname, setMname] = useState(admin.mname);
   const [lname, setLname] = useState(admin.lname);
   const [adminType, setAdminType] = useState(admin.adminType);
+  const [phoneNo, setPhoneNo] = useState("");
+  const [address, setAddress] = useState("");
+  console.log(phoneNo, address);
   // const [address, setAddress] = useState(admin.address);
   // const [dob, setDob] = useState(admin.dob);
   // const [gender, setGender] = useState(admin.gender);
@@ -261,6 +264,7 @@ function EditAdmin() {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setFname(e.target.value)}
                       placeholder={admin.fname}
+                      value={fname}
                       type="text"
                       label="First Name"
                       // variant="standard"
@@ -274,6 +278,7 @@ function EditAdmin() {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setLname(e.target.value)}
                       placeholder={admin.lname}
+                      value={lname}
                       type="select"
                       label="Last Name"
                       // variant="standard"
@@ -311,6 +316,32 @@ function EditAdmin() {
               </Grid>
 
               <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={3}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setPhoneNo(e.target.value)}
+                      value={phoneNo}
+                      type="text"
+                      label="Phone No"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setAddress(e.target.value)}
+                      value={address}
+                      type="text"
+                      label="Address"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
                 <Grid item xs={12} md={4}>
                   <MDBox>
                     <MDInput

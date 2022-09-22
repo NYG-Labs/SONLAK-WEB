@@ -66,6 +66,9 @@ function EditCompliance() {
   const [allDrivers, setAllDrivers] = useState([]);
   const [attemptToDeliver, setAttemptToDeliver] = useState("");
   const [transfer, setTransfer] = useState("");
+  const [contractId, setContractId] = useState("");
+  const [userLogInId, setUserLogInId] = useState("");
+  console.log(contractId, userLogInId);
   const [loading, setLoading] = useState(false);
 
   const getComplainceURL = `https://sonlakserver.azurewebsites.net/api/Compliances/${id}`;
@@ -218,10 +221,38 @@ function EditCompliance() {
                     />
                   </MDBox>
                 </Grid>
+
+                <Grid item xs={12} md={4}>
+                  <MDBox>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="text"
+                      label="Contract ID"
+                      onChange={(e) => setContractId(e.target.value)}
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
               </Grid>
 
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
+                  <MDBox mb={4}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="text"
+                      label="User Login ID"
+                      onChange={(e) => setUserLogInId(e.target.value)}
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={3}>
+                {/* <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <DateTimePicker
@@ -235,6 +266,20 @@ function EditCompliance() {
                         }}
                       />
                     </LocalizationProvider>
+                  </MDBox>
+                </Grid> */}
+
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="date"
+                      label="Date"
+                      onChange={(e) => setDate(e.target.value)}
+                      helperText={date}
+                      // variant="standard"
+                      fullWidth
+                    />
                   </MDBox>
                 </Grid>
 

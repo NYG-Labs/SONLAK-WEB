@@ -45,8 +45,19 @@ import MenuItem from "@mui/material/MenuItem";
 // import { IconButton } from "@mui/material";
 // import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { BlobServiceClient } from "@azure/storage-blob";
+import { makeStyles } from "@material-ui/core/styles";
+
+const helperTextStyles = makeStyles({
+  error: {
+    color: "grey",
+  },
+  success: {
+    color: "green",
+  },
+});
 
 function EditSupervisor() {
+  const classes = helperTextStyles();
   // const SelectFieldStyle = {
   //   padding: 12,
   //   // fontSize: "0.75rem",
@@ -189,22 +200,31 @@ function EditSupervisor() {
       await uploadProfilePhoto();
     }
 
-    axios
-      .put(baseURL, bodyParameters, config)
-      .then((response) => {
-        // console.log("response = ", response.status);
-        // console.log(bodyParameters);
-        if (response.status === 204) {
-          alert("Supervisor Updated successfully");
-          navigate(`/supervisors/${id}`);
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log("error = ", error.response);
-        console.log(bodyParameters);
-        alert("An unexpected error occured! please check the values and try again");
-      });
+    if (
+      phoneNo.length !== undefined &&
+      bodyParameters.phoneNo.length !== 0 &&
+      bodyParameters.phoneNo.length !== 10
+    ) {
+      window.alert("Please enter a valid phone number");
+      setLoading(false);
+    } else {
+      axios
+        .put(baseURL, bodyParameters, config)
+        .then((response) => {
+          // console.log("response = ", response.status);
+          // console.log(bodyParameters);
+          if (response.status === 204) {
+            alert("Supervisor Updated successfully");
+            navigate(`/supervisors/${id}`);
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log("error = ", error.response);
+          console.log(bodyParameters);
+          alert("An unexpected error occured! please check the values and try again");
+        });
+    }
   }
 
   if (
@@ -264,6 +284,7 @@ function EditSupervisor() {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setFname(e.target.value)}
                       placeholder={supervisor.fname}
+                      value={fname}
                       type="text"
                       label="First Name"
                       // variant="standard"
@@ -277,6 +298,7 @@ function EditSupervisor() {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setMname(e.target.value)}
                       placeholder={supervisor.mname}
+                      value={mname}
                       type="text"
                       label="Middle Name"
                       // variant="standard"
@@ -290,6 +312,7 @@ function EditSupervisor() {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setLname(e.target.value)}
                       placeholder={supervisor.lname}
+                      value={lname}
                       type="select"
                       label="Last Name"
                       // variant="standard"
@@ -301,11 +324,12 @@ function EditSupervisor() {
 
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
+                  <MDBox mb={3}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setAddress(e.target.value)}
                       placeholder={supervisor.address}
+                      value={address}
                       type="text"
                       label="Address"
                       // variant="standard"
@@ -314,7 +338,7 @@ function EditSupervisor() {
                   </MDBox>
                 </Grid>
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
+                  <MDBox mb={3}>
                     <MDInput
                       inputProps={{ readOnly: true }}
                       InputLabelProps={{ shrink: true }}
@@ -328,7 +352,7 @@ function EditSupervisor() {
                   </MDBox>
                 </Grid>
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
+                  <MDBox mb={3}>
                     {/* <MDInput
                       size="large"
                       InputLabelProps={{ shrink: true }}
@@ -365,7 +389,7 @@ function EditSupervisor() {
 
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={3}>
+                  <MDBox mb={1}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setDob(e.target.value)}
@@ -378,22 +402,29 @@ function EditSupervisor() {
                   </MDBox>
                 </Grid>
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
+                  <MDBox mb={1}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setPhoneNo(e.target.value)}
                       placeholder={supervisor.phoneNo}
+                      value={phoneNo}
                       type="text"
                       label="Phone No"
-                      // value={username}
-                      // variant="standard"
+                      FormHelperTextProps={{ className: classes.error }}
+                      // helperText={
+                      //   phoneNo.length !== undefined &&
+                      //   phoneNo.length !== 0 &&
+                      //   phoneNo.length !== 10
+                      //     ? "A contact number should contain 10 digits"
+                      //     : ""
+                      // }
                       fullWidth
                     />
                   </MDBox>
                 </Grid>
 
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={3}>
+                  <MDBox mb={1}>
                     <MDInput
                       size="large"
                       InputLabelProps={{ shrink: true }}
@@ -409,15 +440,33 @@ function EditSupervisor() {
                       }}
                       fullWidth
                     >
-                      <MenuItem value="Foreign">Foreign</MenuItem>
-                      <MenuItem value="Local">Local</MenuItem>
+                      <MenuItem value="Citizen">Citizen</MenuItem>
+                      <MenuItem value="Permanent Resident">Permanent Resident</MenuItem>
+                      <MenuItem value="Temporary Visa">Temporary Visa</MenuItem>
                     </MDInput>
+                  </MDBox>
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <MDBox>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      // onChange={(e) => setProfilePhoto(e.target.value)}
+                      onChange={ProfilePhotoHandler}
+                      placeholder={supervisor.profilePhoto}
+                      type="file"
+                      label="Profile Photo"
+                      // variant="standard"
+                      fullWidth
+                    />
                   </MDBox>
                 </Grid>
               </Grid>
             </MDBox>
 
-            {supervisorType !== "Local" ? (
+            {supervisorType !== "Citizen" ? (
               <MDBox p={2}>
                 <MDBox pb={2}>Visa Details</MDBox>
                 <Grid container spacing={3}>
@@ -427,6 +476,7 @@ function EditSupervisor() {
                         InputLabelProps={{ shrink: true }}
                         onChange={(e) => setVisaNo(e.target.value)}
                         placeholder={supervisor.visaNo}
+                        value={visaNo}
                         type="text"
                         label="Visa No"
                         // variant="standard"
@@ -463,25 +513,9 @@ function EditSupervisor() {
             ) : (
               ""
             )}
-            <MDBox p={2}>
+            {/* <MDBox p={2}>
               <MDBox pb={2}>Other Details</MDBox>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      // onChange={(e) => setProfilePhoto(e.target.value)}
-                      onChange={ProfilePhotoHandler}
-                      placeholder={supervisor.profilePhoto}
-                      type="file"
-                      label="Profile Photo"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-              </Grid>
-            </MDBox>
+            </MDBox> */}
 
             {/* <MDBox p={2}>
               <Grid container spacing={3}>

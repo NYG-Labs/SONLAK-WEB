@@ -48,13 +48,26 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import MenuItem from "@mui/material/MenuItem";
 import { BlobServiceClient } from "@azure/storage-blob";
+import { makeStyles } from "@material-ui/core/styles";
 
 // import InputAdornment from "@mui/material/InputAdornment";
 // import { IconButton } from "@mui/material";
 // import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import "./styles.css";
 
+const helperTextStyles = makeStyles({
+  error: {
+    color: "grey",
+  },
+  success: {
+    color: "green",
+  },
+});
+
 function EditDriver() {
+  const classes = helperTextStyles();
+  // console.log(classes);
+
   const SelectFieldStyle = {
     padding: 12,
     // fontSize: "0.75rem",
@@ -75,32 +88,39 @@ function EditDriver() {
   const baseURLSupervisors =
     "https://sonlakserver.azurewebsites.net/api/Supervisors/GetSupervisorsActive";
   const baseURLDriver = `https://sonlakserver.azurewebsites.net/api/Drivers/${id}`;
-  const [fname, setFname] = useState(driver.fname);
-  const [mname, setMname] = useState(driver.mname);
-  const [lname, setLname] = useState(driver.lname);
-  const [address, setAddress] = useState(driver.address);
-  const [dob, setDob] = useState(driver.dob);
-  const [gender, setGender] = useState(driver.gender);
-  const [ausPostId, setAusPostId] = useState(driver.ausPostId);
-  const [ausPostScan, setAusPostScan] = useState(driver.ausPostScan);
-  const [ausPostExpiry, setAusPostExpiry] = useState(driver.ausPostExpiry);
-  const [vehicleNo, setVehicleNo] = useState(driver.vehicleNo);
-  const [vehicalType, setVehicalType] = useState(driver.vehicalType);
-  const [visaNo, setVisaNo] = useState(driver.visaNo);
-  const [visaScan, setVisaScan] = useState(driver.visaScan);
-  const [visaExpiry, setVisaExpiry] = useState(driver.visaExpiry);
-  const [licenceId, setLicenceId] = useState(driver.licenceId);
-  const [licenceScan, setLicenceScan] = useState(driver.licenceScan);
-  const [licenceExpiry, setLicenceExpiry] = useState(driver.licenceExpiry);
-  const [driverType, setDriverType] = useState(driver.driverType);
-  const [username, setUsername] = useState(driver.username);
-  const [insurancePolicyNo, setPolicyNo] = useState(driver.insurancePolicyNo);
-  const [insuranceExpiry, setInsuaranceExpDate] = useState(driver.insuranceExpiry);
-  const [profilePhoto, setProfilePhoto] = useState(driver.profilePhoto);
-  const [supervisorEmail, setSupervisroEmail] = useState(driver.supervisorEmail);
-  const [workStatus, setWorkstatus] = useState(driver.workStatus);
+  const [fname, setFname] = useState("");
+  const [mname, setMname] = useState("");
+  const [lname, setLname] = useState("");
+  const [address, setAddress] = useState("");
+  const [dob, setDob] = useState("");
+  const [gender, setGender] = useState("");
+  const [ausPostId, setAusPostId] = useState("");
+  const [ausPostScan, setAusPostScan] = useState("");
+  const [ausPostExpiry, setAusPostExpiry] = useState("");
+  const [vehicleNo, setVehicleNo] = useState("");
+  const [vehicalType, setVehicalType] = useState("");
+  const [visaNo, setVisaNo] = useState("");
+  const [visaScan, setVisaScan] = useState("");
+  const [visaExpiry, setVisaExpiry] = useState("");
+  const [licenceId, setLicenceId] = useState("");
+  const [licenceScan, setLicenceScan] = useState("");
+  const [licenceExpiry, setLicenceExpiry] = useState("");
+  const [driverType, setDriverType] = useState("");
+  // const [username, setUsername] = useState(driver.username);
+  const [insurancePolicyNo, setPolicyNo] = useState("");
+  const [insuranceExpiry, setInsuaranceExpDate] = useState("");
+  const [profilePhoto, setProfilePhoto] = useState("");
+  const [supervisorEmail, setSupervisroEmail] = useState("");
+  const [workStatus, setWorkstatus] = useState("");
+  const [userLogInId, setUserLogInId] = useState("");
+  const [userPinNo, setUserPinNo] = useState("");
+  const [route, setRoute] = useState("");
+  const [emergencyName, setEmergencyName] = useState("");
+  const [emergencyNumber, setEmergencyNumber] = useState("");
+  const [emergencyRelationship, setEmergencyRelationship] = useState("");
+  console.log(userLogInId, userPinNo, route, emergencyName, emergencyNumber, emergencyRelationship);
   const [loading, setLoading] = useState(false);
-  const [phoneNo, setPhoneNo] = useState(driver.phoneNo);
+  const [phoneNo, setPhoneNo] = useState("");
 
   // const [open, setOpen] = React.useState(false);
 
@@ -141,7 +161,7 @@ function EditDriver() {
       setLicenceScan(response.data.licenceScan);
       setLicenceExpiry(response.data.licenceExpiry);
       setDriverType(response.data.driverType);
-      setUsername(response.data.username);
+      // setUsername(response.data.username);
       setPolicyNo(response.data.insurancePolicyNo);
       setInsuaranceExpDate(response.data.insuranceExpiry);
       setProfilePhoto(response.data.profilePhoto);
@@ -207,10 +227,21 @@ function EditDriver() {
     driverType,
     workStatus,
     phoneNo,
-    username,
+    username: "test",
     supervisorEmail,
     profilePhoto,
   };
+
+  function calculateAge(dob1) {
+    const today = new Date();
+    const birthDate = new Date(dob1); // create a date object directly from `dob1` argument
+    let ageNow = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      ageNow -= 1;
+    }
+    return ageNow;
+  }
 
   const [ausPostScanFile, setAusPostSanFile] = useState([]);
 
@@ -306,21 +337,33 @@ function EditDriver() {
       await uploadProfilePhoto();
     }
 
-    // console.log(bodyParameters);
-    axios
-      .put(baseURL, bodyParameters, config)
-      .then((response) => {
-        if (response.status === 204) {
-          alert("Driver Updated successfully");
-          navigate(`/drivers/${id}`);
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log("error = ", error.response);
-        console.log(bodyParameters);
-        alert("An unexpected error occured! please check the values and try again");
-      });
+    // console.log(bodyParameters.phoneNo.length, bodyParameters.dob.length);
+    if (
+      phoneNo.length !== undefined &&
+      bodyParameters.phoneNo.length !== 0 &&
+      bodyParameters.phoneNo.length !== 10
+    ) {
+      window.alert("Please enter a valid phone number");
+      setLoading(false);
+    } else if (bodyParameters.dob !== "" && calculateAge(bodyParameters.dob) < 18) {
+      window.alert("Driver should be above 18 years from today’s date");
+      setLoading(false);
+    } else {
+      axios
+        .put(baseURL, bodyParameters, config)
+        .then((response) => {
+          if (response.status === 204) {
+            alert("Driver Updated successfully");
+            navigate(`/drivers/${id}`);
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log("error = ", error.response);
+          console.log(bodyParameters);
+          alert("An unexpected error occured! please check the values and try again");
+        });
+    }
   }
 
   if (
@@ -406,6 +449,7 @@ function EditDriver() {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setFname(e.target.value)}
                       placeholder={driver.fname}
+                      value={fname}
                       type="text"
                       label="First Name"
                       // variant="standard"
@@ -419,6 +463,7 @@ function EditDriver() {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setMname(e.target.value)}
                       placeholder={driver.mname}
+                      value={mname}
                       type="text"
                       label="Middle Name"
                       // variant="standard"
@@ -432,6 +477,7 @@ function EditDriver() {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setLname(e.target.value)}
                       placeholder={driver.lname}
+                      value={lname}
                       type="select"
                       label="Last Name"
                       // variant="standard"
@@ -470,22 +516,9 @@ function EditDriver() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setPhoneNo(e.target.value)}
-                      placeholder={driver.phoneNo}
-                      type="text"
-                      label="Phone No"
-                      // value={username}
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
                       onChange={(e) => setAddress(e.target.value)}
                       placeholder={driver.address}
+                      value={address}
                       type="text"
                       label="Address"
                       // variant="standard"
@@ -507,23 +540,28 @@ function EditDriver() {
                     />
                   </MDBox>
                 </Grid>
-              </Grid>
 
-              <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={1}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setDob(e.target.value)}
-                      helperText={driver.dob}
                       type="date"
                       label="DOB"
-                      // variant="standard"
+                      FormHelperTextProps={{ className: classes.error }}
+                      helperText={
+                        calculateAge(dob) < 18
+                          ? `${driver.dob} A driver should be above 18 years old from today’s date`
+                          : driver.dob
+                      }
                       fullWidth
                     />
                   </MDBox>
                 </Grid>
-                <Grid item xs={12} md={4}>
+              </Grid>
+
+              <Grid container spacing={3}>
+                {/* <Grid item xs={12} md={4}>
                   <MDBox mb={1}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
@@ -536,7 +574,7 @@ function EditDriver() {
                       fullWidth
                     />
                   </MDBox>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} md={4}>
                   <MDBox mb={1}>
                     {/* <MDInput
@@ -582,6 +620,27 @@ function EditDriver() {
                   </MDBox>
                 </Grid>
                 <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setPhoneNo(e.target.value)}
+                      placeholder={driver.phoneNo}
+                      type="text"
+                      label="Phone No"
+                      value={phoneNo}
+                      FormHelperTextProps={{ className: classes.error }}
+                      // helperText={
+                      //   phoneNo.length !== undefined &&
+                      //   phoneNo.length !== 0 &&
+                      //   phoneNo.length !== 10
+                      //     ? "A contact number should contain 10 digits"
+                      //     : ""
+                      // }
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
                     <MDInput
                       size="large"
@@ -591,22 +650,23 @@ function EditDriver() {
                       id="demo-simple-select"
                       onChange={(e) => setDriverType(e.target.value)}
                       value={driverType}
-                      helperText={driverType}
-                      label="Drivet Type"
+                      // helperText={driverType}
+                      label="Residential status"
                       InputProps={{
                         classes: { root: "select-input-styles" },
                       }}
                       fullWidth
                     >
-                      <MenuItem value="Local">Local</MenuItem>
-                      <MenuItem value="Foreign">Foreign</MenuItem>
+                      <MenuItem value="Citizen">Citizen</MenuItem>
+                      <MenuItem value="Permanent Resident">Permanent Resident</MenuItem>
+                      <MenuItem value="Temporary Visa">Temporary Visa</MenuItem>
                     </MDInput>
                   </MDBox>
                 </Grid>
               </Grid>
             </MDBox>
 
-            {driverType !== "Local" ? (
+            {driverType !== "Citizen" ? (
               <MDBox p={2}>
                 <MDBox pb={2}>Visa Details</MDBox>
                 <Grid container spacing={3}>
@@ -616,6 +676,7 @@ function EditDriver() {
                         InputLabelProps={{ shrink: true }}
                         onChange={(e) => setVisaNo(e.target.value)}
                         placeholder={driver.visaNo}
+                        value={visaNo}
                         type="text"
                         label="Visa No"
                         // variant="standard"
@@ -664,8 +725,9 @@ function EditDriver() {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setAusPostId(e.target.value)}
                       placeholder={driver.ausPostId}
+                      value={ausPostId}
                       type="text"
-                      label="ID no"
+                      label="Auspost ID no"
                       // variant="standard"
                       fullWidth
                     />
@@ -699,6 +761,45 @@ function EditDriver() {
                   </MDBox>
                 </Grid>
               </Grid>
+
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setUserLogInId(e.target.value)}
+                      value={userLogInId}
+                      type="text"
+                      label="User Login ID"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setUserPinNo(e.target.value)}
+                      value={userPinNo}
+                      type="text"
+                      label="User Pin No"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={3}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setRoute(e.target.value)}
+                      value={route}
+                      type="text"
+                      label="Route (Contract No)"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+              </Grid>
             </MDBox>
 
             <MDBox p={2}>
@@ -710,6 +811,7 @@ function EditDriver() {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setVehicleNo(e.target.value)}
                       placeholder={driver.vehicleNo}
+                      value={vehicleNo}
                       type="text"
                       label="Vehicle No"
                       // variant="standard"
@@ -718,16 +820,26 @@ function EditDriver() {
                   </MDBox>
                 </Grid>
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
+                  <MDBox mb={3}>
                     <MDInput
+                      size="large"
                       InputLabelProps={{ shrink: true }}
+                      select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
                       onChange={(e) => setVehicalType(e.target.value)}
-                      placeholder={driver.vehicalType}
-                      type="texy"
-                      label="Vehicle type"
-                      // variant="standard"
+                      value={vehicalType}
+                      // helperText={vehicalType}
+                      label="Vehicle Type"
+                      InputProps={{
+                        classes: { root: "select-input-styles" },
+                      }}
                       fullWidth
-                    />
+                    >
+                      <MenuItem value="car">Car</MenuItem>
+                      <MenuItem value="bike">Bike</MenuItem>
+                      <MenuItem value="van">Van</MenuItem>
+                    </MDInput>
                   </MDBox>
                 </Grid>
                 {/* <Grid item xs={12} md={4}>
@@ -754,6 +866,7 @@ function EditDriver() {
                       onChange={(e) => setPolicyNo(e.target.value)}
                       type="text"
                       placeholder={driver.insurancePolicyNo}
+                      value={insurancePolicyNo}
                       label="Policy No"
                       // variant="standard"
                       fullWidth
@@ -766,6 +879,7 @@ function EditDriver() {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setInsuaranceExpDate(e.target.value)}
                       type="date"
+                      // value={insuranceExpiry}
                       helperText={driver.insuranceExpiry}
                       label="Expiery Date"
                       // variant="standard"
@@ -785,8 +899,9 @@ function EditDriver() {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setLicenceId(e.target.value)}
                       placeholder={driver.licenceId}
+                      value={licenceId}
                       type="text"
-                      label="ID no"
+                      label="Driver License No"
                       // variant="standard"
                       fullWidth
                     />
@@ -848,13 +963,16 @@ function EditDriver() {
                       onChange={(e) => setSupervisroEmail(e.target.value)}
                       default={supervisorEmail}
                       helperText={supervisorEmail}
+                      // value={supervisorEmail}
                       type="email"
                       label="Supervisor email"
                       // variant="standard"
                       fullWidth
                     >
                       {allSupervisors.map((supervisor) => (
-                        <MenuItem value={supervisor.email}>{supervisor.email}</MenuItem>
+                        <MenuItem value={supervisor.email}>
+                          {supervisor.fname} {supervisor.lname}
+                        </MenuItem>
                       ))}
                     </MDInput>
                   </MDBox>
@@ -868,6 +986,50 @@ function EditDriver() {
                       placeholder={driver.profilePhoto}
                       type="file"
                       label="Profile Photo"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+              </Grid>
+            </MDBox>
+
+            <MDBox p={2}>
+              <MDBox pb={2}> Emergency Contact Details</MDBox>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setEmergencyName(e.target.value)}
+                      type="text"
+                      label="Name"
+                      value={emergencyName}
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setEmergencyNumber(e.target.value)}
+                      value={emergencyNumber}
+                      type="text"
+                      label="Contact number"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setEmergencyRelationship(e.target.value)}
+                      value={emergencyRelationship}
+                      type="text"
+                      label="Relationship"
                       // variant="standard"
                       fullWidth
                     />

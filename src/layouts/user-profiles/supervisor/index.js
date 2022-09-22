@@ -478,7 +478,7 @@ function SupervisorProfile() {
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {filteredDataToolBox.length === 0 ? (
+                          {filteredComplaints.length === 0 ? (
                             <TableRow key="s">
                               <TableCell align="center">-</TableCell>
                               <TableCell align="center">-</TableCell>

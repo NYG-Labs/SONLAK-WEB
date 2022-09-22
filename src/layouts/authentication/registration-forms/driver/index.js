@@ -420,7 +420,6 @@ function DriverRegistration() {
                 <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
                     <MDInput
-                      // error={calculateAge(dob) < 18}
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setDob(e.target.value)}
                       type="date"
@@ -431,8 +430,6 @@ function DriverRegistration() {
                           ? "A driver should be above 18 years old from today’s date"
                           : ""
                       }
-                      id="outlined-error"
-                      // variant="standard"
                       fullWidth
                     />
                   </MDBox>
@@ -487,7 +484,7 @@ function DriverRegistration() {
                       }}
                       fullWidth
                     >
-                      <MenuItem value="Citizen">Citizen </MenuItem>
+                      <MenuItem value="Citizen">Citizen</MenuItem>
                       <MenuItem value="Permanent Resident">Permanent Resident</MenuItem>
                       <MenuItem value="Temporary Visa">Temporary Visa</MenuItem>
                     </MDInput>
