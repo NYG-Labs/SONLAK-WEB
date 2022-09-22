@@ -37,13 +37,26 @@ import axios from "axios";
 import { BlobServiceClient } from "@azure/storage-blob";
 import MenuItem from "@mui/material/MenuItem";
 import "./styles.css";
+import { makeStyles } from "@material-ui/core/styles";
+
 // Authentication layout components
 // import CoverLayout from "layouts/authentication/components/CoverLayout";
 
 // Images
 // import bgImage from "assets/images/bg-sign-up-cover.jpeg";
 
+const helperTextStyles = makeStyles({
+  error: {
+    color: "red",
+  },
+  success: {
+    color: "green",
+  },
+});
+
 function SupervisorRegistration() {
+  const classes = helperTextStyles();
+
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [fname, setFname] = useState("");
@@ -134,32 +147,6 @@ function SupervisorRegistration() {
     await blobClient.uploadBrowserData(profilePhotoFile, option);
   }
 
-  async function registerSupervisor() {
-    setLoading(true);
-    await uploadVisaScan();
-    await uploadProfilePhoto();
-    // console.log(bodyParameters);
-
-    axios
-      .post(baseURL, bodyParameters, config)
-      .then((response) => {
-        // console.log(response.status);
-        if (response.status === 201) {
-          alert("Supervisor registered successfully");
-          navigate("/supervisors");
-        }
-      })
-      .catch((error) => {
-        if (error.response.status === 409) {
-          setLoading(false);
-          alert("A supervisor with this email is already available");
-        } else {
-          setLoading(false);
-          alert("An unexpected error occured! please check the values and try again");
-        }
-      });
-  }
-
   const [isPasswordMatching, setIsPasswordMatching] = useState("");
 
   const confirmPasswordValidation = (event) => {
@@ -169,6 +156,46 @@ function SupervisorRegistration() {
       setIsPasswordMatching("");
     }
   };
+
+  async function registerSupervisor() {
+    setLoading(true);
+    await uploadVisaScan();
+    await uploadProfilePhoto();
+    // console.log(bodyParameters);
+
+    if (bodyParameters.email.length === 0) {
+      window.alert("Please enter a email to register");
+      setLoading(false);
+    } else if (bodyParameters.password.length === 0) {
+      window.alert("Please enter a password");
+      setLoading(false);
+    } else if (isPasswordMatching === "") {
+      window.alert("Confirm password is incorrect");
+      setLoading(false);
+    } else if (bodyParameters.phoneNo.length !== 0 && bodyParameters.phoneNo.length !== 10) {
+      window.alert("Please enter a valid phone number");
+      setLoading(false);
+    } else {
+      axios
+        .post(baseURL, bodyParameters, config)
+        .then((response) => {
+          // console.log(response.status);
+          if (response.status === 201) {
+            alert("Supervisor registered successfully");
+            navigate("/supervisors");
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 409) {
+            setLoading(false);
+            alert("A supervisor with this email is already available");
+          } else {
+            setLoading(false);
+            alert("An unexpected error occured! please check the values and try again");
+          }
+        });
+    }
+  }
 
   if (
     window.localStorage.getItem("token") === null ||
@@ -244,18 +271,6 @@ function SupervisorRegistration() {
               </Grid>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={3}>
-                    <MDInput
-                      InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setDob(e.target.value)}
-                      type="date"
-                      label="DOB"
-                      // variant="standard"
-                      fullWidth
-                    />
-                  </MDBox>
-                </Grid>
-                <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
@@ -274,12 +289,26 @@ function SupervisorRegistration() {
                       onChange={(e) => setEmail(e.target.value)}
                       type="email"
                       label="Email"
+                      FormHelperTextProps={{ className: classes.error }}
+                      helperText={email.length === 0 ? "Email cannot be empty" : ""}
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={3}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setDob(e.target.value)}
+                      type="date"
+                      label="DOB"
                       // variant="standard"
                       fullWidth
                     />
                   </MDBox>
                 </Grid>
               </Grid>
+
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
@@ -288,6 +317,25 @@ function SupervisorRegistration() {
                       onChange={(e) => setPhoneNumber(e.target.value)}
                       type="text"
                       label="Phone number"
+                      FormHelperTextProps={{ className: classes.error }}
+                      helperText={
+                        phoneNo.length !== 0 && phoneNo.length !== 10
+                          ? "A contact number should contain 10 digits"
+                          : ""
+                      }
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      // onChange={(e) => setProfilePhoto(e.target.value)}
+                      onChange={ProfilePhotoHnadler}
+                      type="file"
+                      label="Profile Photo (JPG/JPEG/PNG)"
                       // variant="standard"
                       fullWidth
                     />
@@ -304,21 +352,22 @@ function SupervisorRegistration() {
                       id="demo-simple-select"
                       onChange={(e) => setSupervisorType(e.target.value)}
                       value={supervisorType}
-                      label="Supervisor Type"
+                      label="Residential status"
                       InputProps={{
                         classes: { root: "select-input-styles" },
                       }}
                       fullWidth
                     >
-                      <MenuItem value="Foreign">Foreign</MenuItem>
-                      <MenuItem value="Local">Local</MenuItem>
+                      <MenuItem value="Citizen">Citizen </MenuItem>
+                      <MenuItem value="Permanent Resident">Permanent Resident</MenuItem>
+                      <MenuItem value="Temporary Visa">Temporary Visa</MenuItem>
                     </MDInput>
                   </MDBox>
                 </Grid>
               </Grid>
             </MDBox>
 
-            {supervisorType !== "Local" ? (
+            {supervisorType !== "Citizen" ? (
               <MDBox p={2}>
                 <MDBox pb={2}>Visa Details</MDBox>
                 <Grid container spacing={3}>
@@ -341,7 +390,7 @@ function SupervisorRegistration() {
                         // onChange={(e) => setVisaScan(e.target.value)}
                         onChange={VisaScanHnadler}
                         type="file"
-                        label="Scanned copy"
+                        label="Scanned copy (PDF)"
                         // variant="standard"
                         fullWidth
                       />
@@ -365,7 +414,7 @@ function SupervisorRegistration() {
               ""
             )}
 
-            <MDBox p={2}>
+            {/* <MDBox p={2}>
               <MDBox pb={2}>Other Details</MDBox>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
@@ -382,9 +431,18 @@ function SupervisorRegistration() {
                   </MDBox>
                 </Grid>
               </Grid>
-            </MDBox>
+            </MDBox> */}
 
-            <MDBox p={2}>
+            <MDBox
+              variant="gradient"
+              bgColor="grey"
+              borderRadius="lg"
+              coloredShadow="dark"
+              // mx={2}
+              p={2}
+              // textAlign="center"
+            >
+              <MDBox pb={2}>Set password</MDBox>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
@@ -393,7 +451,8 @@ function SupervisorRegistration() {
                       onChange={(e) => setPassword(e.target.value)}
                       type="password"
                       label="Password"
-                      // variant="standard"
+                      FormHelperTextProps={{ className: classes.error }}
+                      helperText={password.length === 0 ? "Password cannot be empty" : ""}
                       fullWidth
                     />
                   </MDBox>
@@ -406,6 +465,7 @@ function SupervisorRegistration() {
                       type="password"
                       label="Confirm Password"
                       onChange={(e) => confirmPasswordValidation(e.target.value)}
+                      FormHelperTextProps={{ className: classes.success }}
                       helperText={isPasswordMatching}
                       // variant="standard"
                       fullWidth

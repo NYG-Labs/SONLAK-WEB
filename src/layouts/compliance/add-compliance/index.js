@@ -72,6 +72,9 @@ function AddCompliance() {
   const [attemptToDeliver, setAttemptToDeliver] = useState("");
   const [transfer, setTransfer] = useState("");
   const [allDrivers, setAllDrivers] = useState([]);
+  const [contractId, setContractId] = useState("");
+  const [userLogInId, setUserLogInId] = useState("");
+  console.log(contractId, userLogInId);
   const [loading, setLoading] = useState(false);
 
   const getAllDrivers = () => {
@@ -156,7 +159,7 @@ function AddCompliance() {
               <Grid container spacing={3}>
                 <br />
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={4}>
+                  <MDBox>
                     <MDInput
                       SelectProps={{
                         style: SelectFieldStyle,
@@ -184,6 +187,32 @@ function AddCompliance() {
                 </Grid>
 
                 <Grid item xs={12} md={4}>
+                  <MDBox>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="text"
+                      label="Contract ID"
+                      onChange={(e) => setContractId(e.target.value)}
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+
+                <Grid item xs={12} md={4}>
+                  <MDBox>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="text"
+                      label="User Login ID"
+                      onChange={(e) => setUserLogInId(e.target.value)}
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+
+                <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
@@ -198,12 +227,19 @@ function AddCompliance() {
               </Grid>
 
               <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
+                {/* <Grid item xs={12} md={4}>
+                  <MDBox mt={4} mb={2}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <DateTimePicker
+                        disableClock
+                        isClockOpen={false}
                         renderInput={(props) => (
-                          <TextField fullWidth InputLabelProps={{ shrink: true }} {...props} />
+                          <TextField
+                            disableClock
+                            fullWidth
+                            InputLabelProps={{ shrink: true }}
+                            {...props}
+                          />
                         )}
                         label="Date"
                         value={date}
@@ -213,10 +249,22 @@ function AddCompliance() {
                       />
                     </LocalizationProvider>
                   </MDBox>
+                </Grid> */}
+                <Grid item xs={12} md={4}>
+                  <MDBox mt={4} mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      type="date"
+                      label="Date"
+                      onChange={(e) => setDate(e.target.value)}
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
                 </Grid>
 
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={2}>
+                  <MDBox mt={4} mb={2}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <DateTimePicker
                         fullWidth
@@ -234,7 +282,7 @@ function AddCompliance() {
                 </Grid>
 
                 <Grid item xs={12} md={4}>
-                  <MDBox mb={3}>
+                  <MDBox mt={4} mb={3}>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <DateTimePicker
                         renderInput={(props) => (

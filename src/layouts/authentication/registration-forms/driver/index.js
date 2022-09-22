@@ -64,6 +64,13 @@ function DriverRegistration() {
   const [supervisorEmail, setSupervisroEmail] = useState("");
   const [password, setPassword] = useState("");
   const [allSupervisors, setAllSupervisors] = useState([]);
+  const [userLogInId, setUserLogInId] = useState("");
+  const [userPinNo, setUserPinNo] = useState("");
+  const [route, setRoute] = useState("");
+  const [emergencyName, setEmergencyName] = useState("");
+  const [emergencyNumber, setEmergencyNumber] = useState("");
+  const [emergencyRelationship, setEmergencyRelationship] = useState("");
+  console.log(userLogInId, userPinNo, route, emergencyName, emergencyNumber, emergencyRelationship);
   const [loading, setLoading] = useState(false);
 
   const baseURL = "https://sonlakserver.azurewebsites.net/api/Drivers";
@@ -583,7 +590,7 @@ function DriverRegistration() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      // onChange={(e) => setAusPostId(e.target.value)}
+                      onChange={(e) => setUserLogInId(e.target.value)}
                       type="text"
                       label="User Login ID"
                       fullWidth
@@ -594,7 +601,7 @@ function DriverRegistration() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      // onChange={(e) => setAusPostScan(e.target.value)}
+                      onChange={(e) => setUserPinNo(e.target.value)}
                       type="text"
                       label="User Pin No"
                       fullWidth
@@ -605,7 +612,7 @@ function DriverRegistration() {
                   <MDBox mb={3}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      // onChange={(e) => setAusPostExpiry(e.target.value)}
+                      onChange={(e) => setRoute(e.target.value)}
                       type="text"
                       label="Route (Contract No)"
                       fullWidth
@@ -831,7 +838,7 @@ function DriverRegistration() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      // onChange={(e) => setVisaNo(e.target.value)}
+                      onChange={(e) => setEmergencyName(e.target.value)}
                       type="text"
                       label="Name"
                       // variant="standard"
@@ -843,7 +850,7 @@ function DriverRegistration() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      // onChange={(e) => setVisaScan(e.target.value)}
+                      onChange={(e) => setEmergencyNumber(e.target.value)}
                       type="text"
                       label="Contact number"
                       fullWidth
@@ -854,7 +861,7 @@ function DriverRegistration() {
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
-                      // onChange={(e) => setVisaExpiry(e.target.value)}
+                      onChange={(e) => setEmergencyRelationship(e.target.value)}
                       type="text"
                       label="Relationship"
                       // variant="standard"

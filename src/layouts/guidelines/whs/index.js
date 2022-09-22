@@ -55,6 +55,8 @@ function WHSPlan() {
   const navigate = useNavigate();
   const [allWHSPlan, setAllWHSPlan] = useState([]);
   const [search, setSearch] = useState("");
+  const [topic, setTopic] = useState("");
+  console.log(topic);
   const [loading, setLoading] = useState(false);
 
   const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
@@ -199,6 +201,18 @@ function WHSPlan() {
             <MDBox p={2}>
               <Grid container spacing={3}>
                 <br />
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={3}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      onChange={(e) => setTopic(e.target.value)}
+                      type="text"
+                      label="Topic"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
                     <MDInput
