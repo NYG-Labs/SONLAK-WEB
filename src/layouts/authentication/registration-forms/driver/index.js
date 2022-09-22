@@ -15,11 +15,23 @@ import MenuItem from "@mui/material/MenuItem";
 import "./styles.css";
 import { BlobServiceClient } from "@azure/storage-blob";
 import CircularProgress from "@mui/material/CircularProgress";
+import { makeStyles } from "@material-ui/core/styles";
+
+const helperTextStyles = makeStyles({
+  error: {
+    color: "red",
+  },
+  success: {
+    color: "green",
+  },
+});
 
 function DriverRegistration() {
   const SelectFieldStyle = {
     padding: 12,
   };
+
+  const classes = helperTextStyles();
 
   const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
   const sasToken = process.env.REACT_APP_STORAGESASTOKEN;
@@ -47,7 +59,7 @@ function DriverRegistration() {
   const [licenceId, setLicenceId] = useState("");
   const [licenceExpiry, setLicenceExpiry] = useState("");
   const [driverType, setDriverType] = useState("");
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [supervisorEmail, setSupervisroEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -118,7 +130,7 @@ function DriverRegistration() {
     driverType,
     password,
     supervisorEmail,
-    username,
+    username: "test",
     phoneNo,
     profilePhoto,
   };
@@ -217,6 +229,18 @@ function DriverRegistration() {
     }
   };
 
+  // const [isErrorFname, setIsErrorFname] = useState("");
+  function calculateAge(dob1) {
+    const today = new Date();
+    const birthDate = new Date(dob1); // create a date object directly from `dob1` argument
+    let ageNow = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      ageNow -= 1;
+    }
+    return ageNow;
+  }
+
   async function registerDriver() {
     setLoading(true);
     // console.log(bodyParameters.visaScan);
@@ -226,29 +250,43 @@ function DriverRegistration() {
     await uploadProfilePhoto();
     console.log(bodyParameters);
 
-    // if (bodyParameters.phoneNo.length !== 10) {
-    //   window.alert("Please enter a valid phone number");
-    //   setLoading(false);
-    // } else {
-    axios
-      .post(baseURL, bodyParameters, config)
-      .then((response) => {
-        // console.log(response.status);
-        if (response.status === 201) {
-          alert("Driver registered successfully");
-          navigate("/drivers");
-        }
-      })
-      .catch((error) => {
-        if (error.response.status === 409) {
-          setLoading(false);
-          alert("A driver with this email is already available");
-        } else {
-          setLoading(false);
-          alert("An unexpected error occured! please check the values and try again");
-        }
-      });
-    // }
+    console.log();
+
+    if (bodyParameters.email.length === 0) {
+      window.alert("Please enter a email to register");
+      setLoading(false);
+    } else if (bodyParameters.password.length === 0) {
+      window.alert("Please enter a password");
+      setLoading(false);
+    } else if (isPasswordMatching === "") {
+      window.alert("Confirm password is incorrect");
+      setLoading(false);
+    } else if (bodyParameters.phoneNo.length !== 0 && bodyParameters.phoneNo.length !== 10) {
+      window.alert("Please enter a valid phone number");
+      setLoading(false);
+    } else if (bodyParameters.dob !== "" && calculateAge(bodyParameters.dob) < 18) {
+      window.alert("Driver should be above 18 years from today’s date");
+      setLoading(false);
+    } else {
+      axios
+        .post(baseURL, bodyParameters, config)
+        .then((response) => {
+          // console.log(response.status);
+          if (response.status === 201) {
+            alert("Driver registered successfully");
+            navigate("/drivers");
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 409) {
+            setLoading(false);
+            alert("A driver with this email is already available");
+          } else {
+            setLoading(false);
+            alert("An unexpected error occured! please check the values and try again");
+          }
+        });
+    }
   }
 
   if (
@@ -366,7 +404,8 @@ function DriverRegistration() {
                       onChange={(e) => setEmail(e.target.value)}
                       type="email"
                       label="Email"
-                      // variant="standard"
+                      FormHelperTextProps={{ className: classes.error }}
+                      helperText={email.length === 0 ? "Email cannot be empty" : ""}
                       fullWidth
                     />
                   </MDBox>
@@ -374,10 +413,18 @@ function DriverRegistration() {
                 <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
                     <MDInput
+                      // error={calculateAge(dob) < 18}
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setDob(e.target.value)}
                       type="date"
                       label="DOB"
+                      FormHelperTextProps={{ className: classes.error }}
+                      helperText={
+                        calculateAge(dob) < 18
+                          ? "A driver should be above 18 years old from today’s date"
+                          : ""
+                      }
+                      id="outlined-error"
                       // variant="standard"
                       fullWidth
                     />
@@ -386,7 +433,7 @@ function DriverRegistration() {
               </Grid>
 
               <Grid container spacing={3}>
-                <Grid item xs={12} md={4}>
+                {/* <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
@@ -398,7 +445,7 @@ function DriverRegistration() {
                       fullWidth
                     />
                   </MDBox>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
@@ -406,8 +453,12 @@ function DriverRegistration() {
                       onChange={(e) => setPhoneNo(e.target.value)}
                       type="text"
                       label="Phone No"
-                      // value={username}
-                      // variant="standard"
+                      FormHelperTextProps={{ className: classes.error }}
+                      helperText={
+                        phoneNo.length !== 0 && phoneNo.length !== 10
+                          ? "A contact number should contain 10 digits"
+                          : ""
+                      }
                       fullWidth
                     />
                   </MDBox>
@@ -423,21 +474,22 @@ function DriverRegistration() {
                       id="demo-simple-select"
                       onChange={(e) => setDriverType(e.target.value)}
                       value={driverType}
-                      label="Drivet Type"
+                      label="Residential status"
                       InputProps={{
                         classes: { root: "select-input-styles" },
                       }}
                       fullWidth
                     >
-                      <MenuItem value="Foreign">Foreign</MenuItem>
-                      <MenuItem value="Local">Local</MenuItem>
+                      <MenuItem value="Citizen">Citizen </MenuItem>
+                      <MenuItem value="Permanent Resident">Permanent Resident</MenuItem>
+                      <MenuItem value="Temporary Visa">Temporary Visa</MenuItem>
                     </MDInput>
                   </MDBox>
                 </Grid>
               </Grid>
             </MDBox>
 
-            {driverType !== "Local" ? (
+            {driverType !== "Citizen" ? (
               <MDBox p={2}>
                 <MDBox pb={2}>Visa Details</MDBox>
                 <Grid container spacing={3}>
@@ -460,7 +512,7 @@ function DriverRegistration() {
                         // onChange={(e) => setVisaScan(e.target.value)}
                         onChange={VisaScanHnadler}
                         type="file"
-                        label="Scanned copy"
+                        label="Scanned copy (PDF)"
                         // variant="standard"
                         fullWidth
                       />
@@ -483,6 +535,7 @@ function DriverRegistration() {
             ) : (
               ""
             )}
+
             <MDBox p={2}>
               <MDBox pb={2}>AUSPOST ID Details</MDBox>
               <Grid container spacing={3}>
@@ -492,7 +545,7 @@ function DriverRegistration() {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setAusPostId(e.target.value)}
                       type="text"
-                      label="ID no"
+                      label="Auspost ID no"
                       // variant="standard"
                       fullWidth
                     />
@@ -505,7 +558,7 @@ function DriverRegistration() {
                       // onChange={(e) => setAusPostScan(e.target.value)}
                       onChange={ausPostScanHnadler}
                       type="file"
-                      label="Scanned copy"
+                      label="Scanned copy (PDF)"
                       // variant="standard"
                       fullWidth
                     />
@@ -519,6 +572,42 @@ function DriverRegistration() {
                       type="date"
                       label="Expiery date"
                       // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      // onChange={(e) => setAusPostId(e.target.value)}
+                      type="text"
+                      label="User Login ID"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      // onChange={(e) => setAusPostScan(e.target.value)}
+                      type="text"
+                      label="User Pin No"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={3}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      // onChange={(e) => setAusPostExpiry(e.target.value)}
+                      type="text"
+                      label="Route (Contract No)"
                       fullWidth
                     />
                   </MDBox>
@@ -559,6 +648,7 @@ function DriverRegistration() {
                     >
                       <MenuItem value="car">Car</MenuItem>
                       <MenuItem value="bike">Bike</MenuItem>
+                      <MenuItem value="van">Van</MenuItem>
                     </MDInput>
                   </MDBox>
                 </Grid>
@@ -626,7 +716,7 @@ function DriverRegistration() {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setLicenceId(e.target.value)}
                       type="text"
-                      label="ID no"
+                      label="Driver License No"
                       // variant="standard"
                       fullWidth
                     />
@@ -639,7 +729,7 @@ function DriverRegistration() {
                       onChange={LicenceScanHnadler}
                       // onChange={(e) => setLicenceScan(e.target.value)}
                       type="file"
-                      label="Scanned copy"
+                      label="Scanned copy (PDF)"
                       // variant="standard"
                       fullWidth
                     />
@@ -697,7 +787,7 @@ function DriverRegistration() {
                       // onChange={(e) => setProfilePhoto(e.target.value)}
                       onChange={ProfilePhotoHnadler}
                       type="file"
-                      label="Profile Photo"
+                      label="Profile Photo (JPG/JPEG/PNG)"
                       // variant="standard"
                       fullWidth
                     />
@@ -735,15 +825,67 @@ function DriverRegistration() {
             </MDBox>
 
             <MDBox p={2}>
+              <MDBox pb={2}> Emergency Contact Details</MDBox>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
+                      // onChange={(e) => setVisaNo(e.target.value)}
+                      type="text"
+                      label="Name"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      // onChange={(e) => setVisaScan(e.target.value)}
+                      type="text"
+                      label="Contact number"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <MDBox mb={2}>
+                    <MDInput
+                      InputLabelProps={{ shrink: true }}
+                      // onChange={(e) => setVisaExpiry(e.target.value)}
+                      type="text"
+                      label="Relationship"
+                      // variant="standard"
+                      fullWidth
+                    />
+                  </MDBox>
+                </Grid>
+              </Grid>
+            </MDBox>
+
+            <MDBox
+              variant="gradient"
+              bgColor="grey"
+              borderRadius="lg"
+              coloredShadow="dark"
+              // mx={2}
+              p={2}
+              // textAlign="center"
+            >
+              <MDBox pb={2}>Set password</MDBox>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <MDBox>
+                    <MDInput
+                      // variant="filled"
+                      InputLabelProps={{ shrink: true }}
                       onChange={(e) => setPassword(e.target.value)}
                       type="password"
                       label="Password"
-                      // variant="standard"
+                      FormHelperTextProps={{ className: classes.error }}
+                      helperText={password.length === 0 ? "password cannot be empty" : ""}
                       fullWidth
                       // success
                     />
@@ -753,10 +895,12 @@ function DriverRegistration() {
                 <Grid item xs={12} md={4}>
                   <MDBox mb={2}>
                     <MDInput
+                      // variant="filled"
                       InputLabelProps={{ shrink: true }}
                       type="password"
                       label="Confirm Password"
                       onChange={(e) => confirmPasswordValidation(e.target.value)}
+                      FormHelperTextProps={{ className: classes.success }}
                       helperText={isPasswordMatching}
                       // variant="standard"
                       fullWidth
