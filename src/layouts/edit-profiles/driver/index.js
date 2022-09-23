@@ -93,7 +93,7 @@ function EditDriver() {
   const [lname, setLname] = useState("");
   const [address, setAddress] = useState("");
   const [dob, setDob] = useState("");
-  const [gender, setGender] = useState("");
+  // const [gender, setGender] = useState("");
   const [ausPostId, setAusPostId] = useState("");
   const [ausPostScan, setAusPostScan] = useState("");
   const [ausPostExpiry, setAusPostExpiry] = useState("");
@@ -112,13 +112,13 @@ function EditDriver() {
   const [profilePhoto, setProfilePhoto] = useState("");
   const [supervisorEmail, setSupervisroEmail] = useState("");
   const [workStatus, setWorkstatus] = useState("");
-  const [userLogInId, setUserLogInId] = useState("");
-  const [userPinNo, setUserPinNo] = useState("");
+  const [username, setUserLogInId] = useState("");
+  const [pinNo, setUserPinNo] = useState("");
   const [route, setRoute] = useState("");
   const [emergencyName, setEmergencyName] = useState("");
-  const [emergencyNumber, setEmergencyNumber] = useState("");
-  const [emergencyRelationship, setEmergencyRelationship] = useState("");
-  console.log(userLogInId, userPinNo, route, emergencyName, emergencyNumber, emergencyRelationship);
+  const [emergencyPhoneNo, setEmergencyNumber] = useState("");
+  const [emergencyRelation, setEmergencyRelationship] = useState("");
+  // console.log(userPinNo, route, emergencyName, emergencyNumber, emergencyRelationship);
   const [loading, setLoading] = useState(false);
   const [phoneNo, setPhoneNo] = useState("");
 
@@ -148,7 +148,7 @@ function EditDriver() {
       setLname(response.data.lname);
       setAddress(response.data.address);
       setDob(response.data.dob);
-      setGender(response.data.gender);
+      // setGender(response.data.gender);
       setAusPostId(response.data.ausPostId);
       setAusPostScan(response.data.ausPostScan);
       setAusPostExpiry(response.data.ausPostExpiry);
@@ -161,13 +161,18 @@ function EditDriver() {
       setLicenceScan(response.data.licenceScan);
       setLicenceExpiry(response.data.licenceExpiry);
       setDriverType(response.data.driverType);
-      // setUsername(response.data.username);
+      setUserLogInId(response.data.username);
       setPolicyNo(response.data.insurancePolicyNo);
       setInsuaranceExpDate(response.data.insuranceExpiry);
       setProfilePhoto(response.data.profilePhoto);
       setSupervisroEmail(response.data.supervisorEmail);
       setWorkstatus(response.data.workStatus);
       setPhoneNo(response.data.phoneNo);
+      setUserPinNo(response.data.pinNo);
+      setRoute(response.data.route);
+      setEmergencyName(response.data.emergencyName);
+      setEmergencyNumber(response.data.emergencyPhoneNo);
+      setEmergencyRelationship(response.data.emergencyRelation);
     });
   };
 
@@ -210,7 +215,7 @@ function EditDriver() {
     lname,
     address,
     dob,
-    gender,
+    // gender,
     ausPostId,
     ausPostScan,
     ausPostExpiry,
@@ -227,9 +232,14 @@ function EditDriver() {
     driverType,
     workStatus,
     phoneNo,
-    username: "test",
+    username,
     supervisorEmail,
     profilePhoto,
+    pinNo,
+    route,
+    emergencyName,
+    emergencyPhoneNo,
+    emergencyRelation,
   };
 
   function calculateAge(dob1) {
@@ -337,13 +347,23 @@ function EditDriver() {
       await uploadProfilePhoto();
     }
 
-    // console.log(bodyParameters.phoneNo.length, bodyParameters.dob.length);
+    // console.log(bodyParameters);
     if (
+      phoneNo !== "" &&
+      phoneNo !== null &&
       phoneNo.length !== undefined &&
-      bodyParameters.phoneNo.length !== 0 &&
+      // bodyParameters.phoneNo.length !== 0 &&
       bodyParameters.phoneNo.length !== 10
     ) {
       window.alert("Please enter a valid phone number");
+      setLoading(false);
+    } else if (
+      emergencyPhoneNo !== null &&
+      emergencyPhoneNo.length !== undefined &&
+      // bodyParameters.emergencyPhoneNo.length !== 0 &&
+      bodyParameters.emergencyPhoneNo.length !== 10
+    ) {
+      window.alert("Please enter a valid phone number for emergency contact number");
       setLoading(false);
     } else if (bodyParameters.dob !== "" && calculateAge(bodyParameters.dob) < 18) {
       window.alert("Driver should be above 18 years from today’s date");
@@ -360,7 +380,7 @@ function EditDriver() {
         .catch((error) => {
           setLoading(false);
           console.log("error = ", error.response);
-          console.log(bodyParameters);
+          // console.log(bodyParameters);
           alert("An unexpected error occured! please check the values and try again");
         });
     }
@@ -692,7 +712,7 @@ function EditDriver() {
                         onChange={VisaScanHnadler}
                         placeholder={driver.visaScan}
                         type="file"
-                        label="Scanned copy"
+                        label="Scanned copy (PDF)"
                         // variant="standard"
                         fullWidth
                       />
@@ -741,7 +761,7 @@ function EditDriver() {
                       onChange={ausPostScanHnadler}
                       placeholder={driver.ausPostScan}
                       type="file"
-                      label="Scanned copy"
+                      label="Scanned copy (PDF)"
                       // variant="standard"
                       fullWidth
                     />
@@ -768,7 +788,7 @@ function EditDriver() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setUserLogInId(e.target.value)}
-                      value={userLogInId}
+                      value={username}
                       type="text"
                       label="User Login ID"
                       fullWidth
@@ -780,7 +800,7 @@ function EditDriver() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setUserPinNo(e.target.value)}
-                      value={userPinNo}
+                      value={pinNo}
                       type="text"
                       label="User Pin No"
                       fullWidth
@@ -836,7 +856,7 @@ function EditDriver() {
                       }}
                       fullWidth
                     >
-                      <MenuItem value="car">Car</MenuItem>
+                      {/* <MenuItem value="car">Car</MenuItem> */}
                       <MenuItem value="bike">Bike</MenuItem>
                       <MenuItem value="van">Van</MenuItem>
                     </MDInput>
@@ -915,7 +935,7 @@ function EditDriver() {
                       onChange={LicenceScanHnadler}
                       placeholder={driver.licenceScan}
                       type="file"
-                      label="Scanned copy"
+                      label="Scanned copy (PDF)"
                       // variant="standard"
                       fullWidth
                     />
@@ -985,7 +1005,7 @@ function EditDriver() {
                       onChange={ProfilePhotoHandler}
                       placeholder={driver.profilePhoto}
                       type="file"
-                      label="Profile Photo"
+                      label="Profile Photo (JPG/JPEG/PNG)"
                       // variant="standard"
                       fullWidth
                     />
@@ -1015,7 +1035,7 @@ function EditDriver() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setEmergencyNumber(e.target.value)}
-                      value={emergencyNumber}
+                      value={emergencyPhoneNo}
                       type="text"
                       label="Contact number"
                       fullWidth
@@ -1027,7 +1047,7 @@ function EditDriver() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setEmergencyRelationship(e.target.value)}
-                      value={emergencyRelationship}
+                      value={emergencyRelation}
                       type="text"
                       label="Relationship"
                       // variant="standard"

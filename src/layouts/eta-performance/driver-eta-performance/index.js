@@ -72,13 +72,15 @@ function DriverETAPerformance() {
 
   const deleteDriverETAPerformance = (id) => {
     // console.log(id);
-    axios.delete(`/api/Etaperformances/${id}`, config).then((response) => {
-      navigate(`/ETA-performance`);
-      // window.location.reload(false);
-      console.log(response);
-      // const tempETAPerformance = response.data;
-      // setDriverETAPerformance(tempETAPerformance);
-    });
+    axios
+      .delete(`https://sonlakserver.azurewebsites.net/api/Etaperformances/${id}`, config)
+      .then((response) => {
+        navigate(`/ETA-performance`);
+        // window.location.reload(false);
+        console.log(response);
+        // const tempETAPerformance = response.data;
+        // setDriverETAPerformance(tempETAPerformance);
+      });
   };
 
   useEffect(() => {

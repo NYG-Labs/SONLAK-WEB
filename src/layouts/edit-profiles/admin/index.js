@@ -119,6 +119,8 @@ function EditAdmin() {
       // setMname(response.data.mname);
       setLname(response.data.lname);
       setAdminType(response.data.adminType);
+      setPhoneNo(response.data.phoneNo);
+      setAddress(response.data.address);
       // setAddress(response.data.address);
       // setDob(response.data.dob);
       // setGender(response.data.gender);
@@ -158,6 +160,8 @@ function EditAdmin() {
     // mname,
     lname,
     adminType,
+    phoneNo,
+    address,
     // address,
     // dob,
     // gender,
@@ -186,22 +190,27 @@ function EditAdmin() {
 
   function editAdmin() {
     setLoading(true);
-    axios
-      .put(baseURL, bodyParameters, config)
-      .then((response) => {
-        // console.log("response = ", response.status);
-        // console.log(bodyParameters);
-        if (response.status === 204) {
-          alert("Admin Updated successfully");
-          navigate(`/admins/${id}`);
-        }
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.log("error = ", error.response);
-        // console.log(bodyParameters);
-        alert("An unexpected error occured! please check the values and try again");
-      });
+    if (bodyParameters.phoneNo.length !== 0 && bodyParameters.phoneNo.length !== 10) {
+      window.alert("Please enter a valid phone number");
+      setLoading(false);
+    } else {
+      axios
+        .put(baseURL, bodyParameters, config)
+        .then((response) => {
+          // console.log("response = ", response.status);
+          // console.log(bodyParameters);
+          if (response.status === 204) {
+            alert("Admin Updated successfully");
+            navigate(`/admins/${id}`);
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log("error = ", error.response);
+          // console.log(bodyParameters);
+          alert("An unexpected error occured! please check the values and try again");
+        });
+    }
   }
 
   if (

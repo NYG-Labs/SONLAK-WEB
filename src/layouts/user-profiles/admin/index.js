@@ -163,6 +163,8 @@ function AdminProfile() {
                   // gender: driver.gender,
                   // address: driver.address,
                   email: admin.email,
+                  phoneNo: admin.phoneNo,
+                  address: admin.address,
                   // DOB: driver.dob,
                 }}
                 shadow={false}

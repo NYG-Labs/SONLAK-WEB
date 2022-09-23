@@ -72,10 +72,26 @@ function AddCompliance() {
   const [attemptToDeliver, setAttemptToDeliver] = useState("");
   const [transfer, setTransfer] = useState("");
   const [allDrivers, setAllDrivers] = useState([]);
-  const [contractId, setContractId] = useState("");
-  const [userLogInId, setUserLogInId] = useState("");
-  console.log(contractId, userLogInId);
+  const [route, setRoute] = useState("");
+  const [username, setUserLogInId] = useState("");
+  // console.log(route, userLogInId);
   const [loading, setLoading] = useState(false);
+
+  async function setDriverDetails(identifier) {
+    setDriverEmail(identifier);
+    const getDriverDetailsURL = `https://sonlakserver.azurewebsites.net/api/Drivers/${identifier}`;
+    await axios
+      .get(getDriverDetailsURL, config)
+      .then((response) => {
+        if (response.status === 200) {
+          setRoute(response.data.route);
+          setUserLogInId(response.data.username);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   const getAllDrivers = () => {
     axios.get(getAllDriversURL, config).then((response) => {
@@ -96,6 +112,8 @@ function AddCompliance() {
     deliver,
     attemptToDeliver,
     transfer,
+    route,
+    username,
   };
 
   async function addCompliance() {
@@ -171,7 +189,7 @@ function AddCompliance() {
                         classes: { root: "select-input-styles" },
                       }}
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setDriverEmail(e.target.value)}
+                      onChange={(e) => setDriverDetails(e.target.value)}
                       value={driverEmail}
                       type="email"
                       label="Driver Email"
@@ -179,7 +197,9 @@ function AddCompliance() {
                       fullWidth
                     >
                       {allDrivers.map((driver) => (
-                        <MenuItem value={driver.email}>{driver.email}</MenuItem>
+                        <MenuItem value={driver.email}>
+                          {driver.fname} {driver.lname}
+                        </MenuItem>
                       ))}
                       {/* <MenuItem value="z">driveremail</MenuItem> */}
                     </MDInput>
@@ -191,8 +211,9 @@ function AddCompliance() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       type="text"
-                      label="Contract ID"
-                      onChange={(e) => setContractId(e.target.value)}
+                      label="Route (Contract No)"
+                      value={route}
+                      onChange={(e) => setRoute(e.target.value)}
                       // variant="standard"
                       fullWidth
                     />
@@ -205,6 +226,7 @@ function AddCompliance() {
                       InputLabelProps={{ shrink: true }}
                       type="text"
                       label="User Login ID"
+                      value={username}
                       onChange={(e) => setUserLogInId(e.target.value)}
                       // variant="standard"
                       fullWidth

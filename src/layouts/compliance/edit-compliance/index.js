@@ -66,9 +66,9 @@ function EditCompliance() {
   const [allDrivers, setAllDrivers] = useState([]);
   const [attemptToDeliver, setAttemptToDeliver] = useState("");
   const [transfer, setTransfer] = useState("");
-  const [contractId, setContractId] = useState("");
-  const [userLogInId, setUserLogInId] = useState("");
-  console.log(contractId, userLogInId);
+  const [route, setContractId] = useState("");
+  const [username, setUserLogInId] = useState("");
+  // console.log(contractId, userLogInId);
   const [loading, setLoading] = useState(false);
 
   const getComplainceURL = `https://sonlakserver.azurewebsites.net/api/Compliances/${id}`;
@@ -100,6 +100,8 @@ function EditCompliance() {
       setDeliver(tempComplaince.deliver);
       setAttemptToDeliver(tempComplaince.attemptToDeliver);
       setTransfer(tempComplaince.transfer);
+      setContractId(tempComplaince.route);
+      setUserLogInId(tempComplaince.username);
     });
   };
 
@@ -117,6 +119,8 @@ function EditCompliance() {
     deliver,
     attemptToDeliver,
     transfer,
+    route,
+    username,
   };
 
   async function postCompliance() {
@@ -214,6 +218,7 @@ function EditCompliance() {
                       InputLabelProps={{ shrink: true }}
                       type="text"
                       label="Article Id"
+                      value={articleId}
                       onChange={(e) => setArticleId(e.target.value)}
                       placeholder={complaince.articleId}
                       // variant="standard"
@@ -229,6 +234,7 @@ function EditCompliance() {
                       type="text"
                       label="Contract ID"
                       onChange={(e) => setContractId(e.target.value)}
+                      value={route}
                       // variant="standard"
                       fullWidth
                     />
@@ -244,6 +250,7 @@ function EditCompliance() {
                       type="text"
                       label="User Login ID"
                       onChange={(e) => setUserLogInId(e.target.value)}
+                      value={username}
                       // variant="standard"
                       fullWidth
                     />

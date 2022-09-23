@@ -172,7 +172,7 @@ function SupervisorRegistration() {
     } else if (isPasswordMatching === "") {
       window.alert("Confirm password is incorrect");
       setLoading(false);
-    } else if (bodyParameters.phoneNo.length !== 0 && bodyParameters.phoneNo.length !== 10) {
+    } else if (bodyParameters.phoneNo.length !== 10) {
       window.alert("Please enter a valid phone number");
       setLoading(false);
     } else {
@@ -319,9 +319,7 @@ function SupervisorRegistration() {
                       label="Phone number"
                       FormHelperTextProps={{ className: classes.error }}
                       helperText={
-                        phoneNo.length !== 0 && phoneNo.length !== 10
-                          ? "A contact number should contain 10 digits"
-                          : ""
+                        phoneNo.length !== 10 ? "A contact number should contain 10 digits" : ""
                       }
                       fullWidth
                     />

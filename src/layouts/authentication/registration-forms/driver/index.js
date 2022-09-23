@@ -59,18 +59,17 @@ function DriverRegistration() {
   const [licenceId, setLicenceId] = useState("");
   const [licenceExpiry, setLicenceExpiry] = useState("");
   const [driverType, setDriverType] = useState("");
-  // const [username, setUsername] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [supervisorEmail, setSupervisroEmail] = useState("");
   const [password, setPassword] = useState("");
   const [allSupervisors, setAllSupervisors] = useState([]);
-  const [userLogInId, setUserLogInId] = useState("");
-  const [userPinNo, setUserPinNo] = useState("");
+  const [username, setUserLogInId] = useState("");
+  const [pinNo, setUserPinNo] = useState("");
   const [route, setRoute] = useState("");
   const [emergencyName, setEmergencyName] = useState("");
-  const [emergencyNumber, setEmergencyNumber] = useState("");
-  const [emergencyRelationship, setEmergencyRelationship] = useState("");
-  console.log(userLogInId, userPinNo, route, emergencyName, emergencyNumber, emergencyRelationship);
+  const [emergencyPhoneNo, setEmergencyNumber] = useState("");
+  const [emergencyRelation, setEmergencyRelationship] = useState("");
+  // console.log();
   const [loading, setLoading] = useState(false);
 
   const baseURL = "https://sonlakserver.azurewebsites.net/api/Drivers";
@@ -120,7 +119,7 @@ function DriverRegistration() {
     lname,
     address,
     dob,
-    gender: "male",
+    // gender: "male",
     ausPostId,
     ausPostScan,
     ausPostExpiry,
@@ -137,9 +136,14 @@ function DriverRegistration() {
     driverType,
     password,
     supervisorEmail,
-    username: "test",
+    username,
     phoneNo,
     profilePhoto,
+    pinNo,
+    route,
+    emergencyName,
+    emergencyPhoneNo,
+    emergencyRelation,
   };
 
   const [ausPostScanFile, setAusPostSanFile] = useState([]);
@@ -268,8 +272,14 @@ function DriverRegistration() {
     } else if (isPasswordMatching === "") {
       window.alert("Confirm password is incorrect");
       setLoading(false);
-    } else if (bodyParameters.phoneNo.length !== 0 && bodyParameters.phoneNo.length !== 10) {
+    } else if (bodyParameters.phoneNo.length !== 10) {
       window.alert("Please enter a valid phone number");
+      setLoading(false);
+    } else if (
+      // bodyParameters.emergencyPhoneNo.length !== 0 &&
+      bodyParameters.emergencyPhoneNo.length !== 10
+    ) {
+      window.alert("Please enter a valid emergency phone number");
       setLoading(false);
     } else if (bodyParameters.dob !== "" && calculateAge(bodyParameters.dob) < 18) {
       window.alert("Driver should be above 18 years from today’s date");
@@ -459,9 +469,7 @@ function DriverRegistration() {
                       label="Phone No"
                       FormHelperTextProps={{ className: classes.error }}
                       helperText={
-                        phoneNo.length !== 0 && phoneNo.length !== 10
-                          ? "A contact number should contain 10 digits"
-                          : ""
+                        phoneNo.length !== 10 ? "A contact number should contain 10 digits" : ""
                       }
                       fullWidth
                     />
@@ -612,6 +620,7 @@ function DriverRegistration() {
                       onChange={(e) => setRoute(e.target.value)}
                       type="text"
                       label="Route (Contract No)"
+                      helperText="If there are more than one route seperate them using commas (,)"
                       fullWidth
                     />
                   </MDBox>
@@ -650,7 +659,7 @@ function DriverRegistration() {
                       }}
                       fullWidth
                     >
-                      <MenuItem value="car">Car</MenuItem>
+                      {/* <MenuItem value="car">Car</MenuItem> */}
                       <MenuItem value="bike">Bike</MenuItem>
                       <MenuItem value="van">Van</MenuItem>
                     </MDInput>
@@ -850,6 +859,12 @@ function DriverRegistration() {
                       onChange={(e) => setEmergencyNumber(e.target.value)}
                       type="text"
                       label="Contact number"
+                      FormHelperTextProps={{ className: classes.error }}
+                      helperText={
+                        emergencyPhoneNo.length !== 10
+                          ? "A contact number should contain 10 digits"
+                          : ""
+                      }
                       fullWidth
                     />
                   </MDBox>

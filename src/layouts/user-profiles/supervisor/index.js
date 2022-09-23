@@ -288,7 +288,7 @@ function SupervisorProfile() {
               <ProfileInfoCard
                 title="profile information"
                 info={{
-                  supervisorType: supervisor.supervisorType,
+                  ResidentialStatus: supervisor.supervisorType,
                   address: supervisor.address,
                   email: supervisor.email,
                   DOB: supervisor.dob,
@@ -311,31 +311,35 @@ function SupervisorProfile() {
                 shadow={false}
               />
             </Grid>
-            <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-              <Divider orientation="vertical" sx={{ mx: 0 }} />
-              <ProfileInfoCard
-                title="Visa Details"
-                info={{
-                  VisaScan: (
-                    <a href={supervisor.visaScan}>
-                      {/* <Link to={{ pathname: driver.ausPostScan }}> */}
-                      <MDBadge
-                        badgeContent="view"
-                        color="success"
-                        variant="gradient"
-                        size="sm"
-                        // component={Link}
-                        // to={`/drivers/${row.email}`}
-                      />
-                      {/* </Link> */}
-                    </a>
-                  ),
-                  VisaExpiry: supervisor.visaExpiry,
-                  VisaNo: supervisor.visaNo,
-                }}
-                shadow={false}
-              />
-            </Grid>
+            {supervisor.supervisorType !== "Citizen" ? (
+              <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+                <Divider orientation="vertical" sx={{ mx: 0 }} />
+                <ProfileInfoCard
+                  title="Visa Details"
+                  info={{
+                    VisaScan: (
+                      <a href={supervisor.visaScan}>
+                        {/* <Link to={{ pathname: driver.ausPostScan }}> */}
+                        <MDBadge
+                          badgeContent="view"
+                          color="success"
+                          variant="gradient"
+                          size="sm"
+                          // component={Link}
+                          // to={`/drivers/${row.email}`}
+                        />
+                        {/* </Link> */}
+                      </a>
+                    ),
+                    VisaExpiry: supervisor.visaExpiry,
+                    VisaNo: supervisor.visaNo,
+                  }}
+                  shadow={false}
+                />
+              </Grid>
+            ) : (
+              ""
+            )}
           </Grid>
         </MDBox>
 

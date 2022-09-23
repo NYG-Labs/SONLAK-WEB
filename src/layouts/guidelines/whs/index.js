@@ -55,8 +55,8 @@ function WHSPlan() {
   const navigate = useNavigate();
   const [allWHSPlan, setAllWHSPlan] = useState([]);
   const [search, setSearch] = useState("");
-  const [topic, setTopic] = useState("");
-  console.log(topic);
+  // const [topic, setTopic] = useState("");
+  // console.log(topic);
   const [loading, setLoading] = useState(false);
 
   const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
@@ -190,7 +190,7 @@ function WHSPlan() {
           textAlign="center"
         >
           <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
-            Add Vehicle Safety
+            Add WHS Plan
           </MDTypography>
           {/* <MDTypography display="block" variant="button" color="white" my={1}>
             Enter your email and password to register
@@ -201,7 +201,7 @@ function WHSPlan() {
             <MDBox p={2}>
               <Grid container spacing={3}>
                 <br />
-                <Grid item xs={12} md={4}>
+                {/* <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
                     <MDInput
                       InputLabelProps={{ shrink: true }}
@@ -212,7 +212,7 @@ function WHSPlan() {
                       fullWidth
                     />
                   </MDBox>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} md={4}>
                   <MDBox mb={3}>
                     <MDInput

@@ -694,8 +694,7 @@ function DriverProfile() {
               <ProfileInfoCard
                 title="profile information"
                 info={{
-                  gender: driver.gender,
-                  driverType: driver.driverType,
+                  Residential_Status: driver.driverType,
                   address: driver.address,
                   email: driver.email,
                   phoneNo: driver.phoneNo,
@@ -721,6 +720,9 @@ function DriverProfile() {
                   ),
                   AusPostID: driver.ausPostId,
                   AusPostExpp: ausPostExpDate,
+                  UserLoginId: driver.username,
+                  UserPinNo: driver.pinNo,
+                  Route: driver.route,
                 }}
                 shadow={false}
               />
@@ -758,22 +760,26 @@ function DriverProfile() {
                 shadow={false}
               />
             </Grid>
-            <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
-              <Divider orientation="vertical" sx={{ mx: 0 }} />
-              <ProfileInfoCard
-                title="Visa Details"
-                info={{
-                  VisaScan: (
-                    <a href={driver.visaScan}>
-                      <MDBadge badgeContent="view" color="success" variant="gradient" size="sm" />
-                    </a>
-                  ),
-                  VisaExpiry: visaExp,
-                  VisaNo: driver.visaNo,
-                }}
-                shadow={false}
-              />
-            </Grid>
+            {driver.driverType !== "Citizen" ? (
+              <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+                <Divider orientation="vertical" sx={{ mx: 0 }} />
+                <ProfileInfoCard
+                  title="Visa Details"
+                  info={{
+                    VisaScan: (
+                      <a href={driver.visaScan}>
+                        <MDBadge badgeContent="view" color="success" variant="gradient" size="sm" />
+                      </a>
+                    ),
+                    VisaExpiry: visaExp,
+                    VisaNo: driver.visaNo,
+                  }}
+                  shadow={false}
+                />
+              </Grid>
+            ) : (
+              ""
+            )}
             <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
               <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
               <ProfileInfoCard
@@ -781,6 +787,18 @@ function DriverProfile() {
                 info={{
                   InsurancePolicyNo: driver.insurancePolicyNo,
                   InsuranceExpiry: driver.insuranceExpiry,
+                }}
+                shadow={false}
+              />
+            </Grid>
+            <Grid item xs={12} md={6} xl={4} sx={{ display: "flex" }}>
+              <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
+              <ProfileInfoCard
+                title="Emergency Contact Details"
+                info={{
+                  Name: driver.emergencyName,
+                  ContactNo: driver.emergencyPhoneNo,
+                  Relationship: driver.emergencyRelation,
                 }}
                 shadow={false}
               />

@@ -74,6 +74,22 @@ function AddETAPerformance() {
   const [allDrivers, setAllDrivers] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  async function setDriverDetails(identifier) {
+    setDriverEmail(identifier);
+    const getDriverDetailsURL = `https://sonlakserver.azurewebsites.net/api/Drivers/${identifier}`;
+    await axios
+      .get(getDriverDetailsURL, config)
+      .then((response) => {
+        if (response.status === 200) {
+          setRoute(response.data.route);
+          // setUserLogInId(response.data.username);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   const getAllDrivers = () => {
     axios.get(getAllDriversURL, config).then((response) => {
       const tempDrivers = response.data;
@@ -183,7 +199,7 @@ function AddETAPerformance() {
                         classes: { root: "select-input-styles" },
                       }}
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setDriverEmail(e.target.value)}
+                      onChange={(e) => setDriverDetails(e.target.value)}
                       value={driverEmail}
                       type="email"
                       label="User"
@@ -191,7 +207,9 @@ function AddETAPerformance() {
                       fullWidth
                     >
                       {allDrivers.map((driver) => (
-                        <MenuItem value={driver.email}>{driver.email}</MenuItem>
+                        <MenuItem value={driver.email}>
+                          {driver.fname} {driver.lname}
+                        </MenuItem>
                       ))}
                       {/* <MenuItem value="z">driveremail</MenuItem> */}
                     </MDInput>
@@ -204,6 +222,7 @@ function AddETAPerformance() {
                       type="text"
                       label="Route"
                       onChange={(e) => setRoute(e.target.value)}
+                      value={route}
                       // variant="standard"
                       fullWidth
                     />

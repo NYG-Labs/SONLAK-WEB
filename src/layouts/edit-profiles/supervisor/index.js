@@ -394,6 +394,7 @@ function EditSupervisor() {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setDob(e.target.value)}
                       placeholder={supervisor.dob}
+                      helperText={dob}
                       type="date"
                       label="DOB"
                       // variant="standard"
@@ -457,7 +458,7 @@ function EditSupervisor() {
                       onChange={ProfilePhotoHandler}
                       placeholder={supervisor.profilePhoto}
                       type="file"
-                      label="Profile Photo"
+                      label="Profile Photo (JPG/JPEG/PNG)"
                       // variant="standard"
                       fullWidth
                     />
@@ -491,7 +492,7 @@ function EditSupervisor() {
                         onChange={VisaScanHnadler}
                         placeholder={supervisor.visaScan}
                         type="file"
-                        label="Scanned copy"
+                        label="Scanned copy (PDF)"
                         fullWidth
                       />
                     </MDBox>
@@ -502,6 +503,7 @@ function EditSupervisor() {
                         InputLabelProps={{ shrink: true }}
                         onChange={(e) => setVisaExpiry(e.target.value)}
                         placeholder={supervisor.visaExpiry}
+                        helperText={visaExpiry}
                         type="date"
                         label="Expiery date"
                         fullWidth

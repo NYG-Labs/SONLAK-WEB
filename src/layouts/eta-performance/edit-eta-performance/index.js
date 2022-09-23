@@ -209,7 +209,9 @@ function EditETAPerformance() {
                       fullWidth
                     >
                       {allDrivers.map((driver) => (
-                        <MenuItem value={driver.email}>{driver.email}</MenuItem>
+                        <MenuItem value={driver.email}>
+                          {driver.fname} {driver.lname}
+                        </MenuItem>
                       ))}
                       {/* <MenuItem value="z">driveremail</MenuItem> */}
                     </MDInput>

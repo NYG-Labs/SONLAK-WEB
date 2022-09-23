@@ -68,7 +68,7 @@ function AllCompliance() {
     axios.get(baseURL, config).then((response) => {
       const tempCompliance = response.data;
       setAllCompliance(tempCompliance);
-      console.log(tempCompliance);
+      // console.log(tempCompliance);
     });
   };
 
@@ -107,8 +107,9 @@ function AllCompliance() {
   }
 
   function handleDelete(id) {
+    console.log(id);
     axios
-      .delete(`/api/Compliances/${id}`, config)
+      .delete(`https://sonlakserver.azurewebsites.net/api/Compliances/${id}`, config)
       .then((response) => {
         console.log(response);
         window.alert("Compliance deleted successfully");
@@ -233,6 +234,8 @@ function AllCompliance() {
                       <TableHead>
                         <TableRow>
                           <TableCell align="center">Driver Email</TableCell>
+                          <TableCell align="center">User Login Id</TableCell>
+                          <TableCell align="center">Route</TableCell>
                           <TableCell align="center">Article ID</TableCell>
                           <TableCell align="center">Date</TableCell>
                           <TableCell align="center">Accept</TableCell>
@@ -245,6 +248,8 @@ function AllCompliance() {
                         {filteredData.map((row) => (
                           <TableRow key="s">
                             <TableCell align="center">{row.driverEmail}</TableCell>
+                            <TableCell align="center">{row.username}</TableCell>
+                            <TableCell align="center">{row.route}</TableCell>
                             <TableCell align="center">{row.articleId}</TableCell>
                             <TableCell align="center">{row.date}</TableCell>
                             <TableCell align="center">{row.accept}</TableCell>

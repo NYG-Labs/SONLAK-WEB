@@ -56,7 +56,7 @@ function SafetyDelivery() {
   const [allSafetyDelivery, setAllSafetyDelivery] = useState([]);
   const [search, setSearch] = useState("");
   const [topic, setTopic] = useState("");
-  console.log(topic);
+  // console.log(topic);
   const [loading, setLoading] = useState(false);
 
   const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
@@ -125,6 +125,7 @@ function SafetyDelivery() {
 
   const bodyParameters = {
     pdfUrl,
+    topic,
     createDate: timestamp,
   };
 
@@ -259,6 +260,7 @@ function SafetyDelivery() {
                     <TableHead>
                       <TableRow>
                         <TableCell align="center">Date</TableCell>
+                        <TableCell align="center">Topic</TableCell>
                         {/* <TableCell align="center">Route</TableCell>
                         <TableCell align="center">DeviceID</TableCell>
                         <TableCell align="center">Articles</TableCell>
@@ -284,6 +286,7 @@ function SafetyDelivery() {
                       {filteredData.map((row) => (
                         <TableRow key="s">
                           <TableCell align="center">{row.createDate}</TableCell>
+                          <TableCell align="center">{row.topic}</TableCell>
                           {/* <TableCell align="center">{row.route}</TableCell>
                           <TableCell align="center">{row.deviceId}</TableCell>
                           <TableCell align="center">{row.articles}</TableCell>

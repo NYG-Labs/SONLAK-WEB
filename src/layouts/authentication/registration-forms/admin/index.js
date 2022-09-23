@@ -66,7 +66,6 @@ function AdminRegistration() {
   const [password, setPassword] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [address, setAddress] = useState("");
-  console.log(phoneNo, address);
   const [loading, setLoading] = useState(false);
   const baseURL = "https://sonlakserver.azurewebsites.net/api/Admins";
   const navigate = useNavigate();
@@ -84,6 +83,8 @@ function AdminRegistration() {
     lname,
     adminType,
     password,
+    phoneNo,
+    address,
   };
 
   const [isPasswordMatching, setIsPasswordMatching] = useState("");
@@ -107,6 +108,9 @@ function AdminRegistration() {
       setLoading(false);
     } else if (bodyParameters.adminType.length === 0) {
       window.alert("Please select an admin type");
+      setLoading(false);
+    } else if (bodyParameters.phoneNo.length !== 10) {
+      window.alert("Please enter a valid phone number");
       setLoading(false);
     } else if (isPasswordMatching === "") {
       window.alert("Confirm password is incorrect");
@@ -222,7 +226,10 @@ function AdminRegistration() {
                       onChange={(e) => setPhoneNo(e.target.value)}
                       type="text"
                       label="Phone No"
-                      // variant="standard"
+                      FormHelperTextProps={{ className: classes.error }}
+                      helperText={
+                        phoneNo.length !== 10 ? "A contact number should contain 10 digits" : ""
+                      }
                       fullWidth
                     />
                   </MDBox>
