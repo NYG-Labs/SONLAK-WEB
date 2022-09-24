@@ -67,10 +67,10 @@ function AddCompliance() {
   const [driverEmail, setDriverEmail] = useState("");
   const [articleId, setArticleId] = useState("");
   const [date, setDate] = useState(new Date());
-  const [accept, setAccept] = useState("");
-  const [deliver, setDeliver] = useState("");
-  const [attemptToDeliver, setAttemptToDeliver] = useState("");
-  const [transfer, setTransfer] = useState("");
+  const [accept, setAccept] = useState(new Date());
+  const [deliver, setDeliver] = useState(new Date());
+  const [attemptToDeliver, setAttemptToDeliver] = useState(new Date());
+  const [transfer, setTransfer] = useState(new Date());
   const [allDrivers, setAllDrivers] = useState([]);
   const [route, setRoute] = useState("");
   const [username, setUserLogInId] = useState("");
@@ -118,7 +118,7 @@ function AddCompliance() {
 
   async function addCompliance() {
     setLoading(true);
-    // console.log(bodyParameters);
+    console.log(bodyParameters);
     axios
       .post(baseURL, bodyParameters, config)
       .then((response) => {
@@ -192,7 +192,7 @@ function AddCompliance() {
                       onChange={(e) => setDriverDetails(e.target.value)}
                       value={driverEmail}
                       type="email"
-                      label="Driver Email"
+                      label="Driver"
                       // variant="standard"
                       fullWidth
                     >

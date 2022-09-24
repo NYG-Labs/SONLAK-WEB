@@ -60,145 +60,55 @@ function EditAdmin() {
 
   const navigate = useNavigate();
   const { id } = useParams();
-  //   const [allSupervisors, setAllSupervisors] = useState([]);
   const [admin, setAdmin] = useState([]);
   const baseURL = `https://sonlakserver.azurewebsites.net/api/Admins/${id}`;
-  //   const baseURLSupervisors = "/api/Supervisors";
   const baseURLAdmin = `https://sonlakserver.azurewebsites.net/api/Admins/${id}`;
   const [fname, setFname] = useState(admin.fname);
-  // const [mname, setMname] = useState(admin.mname);
   const [lname, setLname] = useState(admin.lname);
   const [adminType, setAdminType] = useState(admin.adminType);
   const [phoneNo, setPhoneNo] = useState("");
   const [address, setAddress] = useState("");
-  console.log(phoneNo, address);
-  // const [address, setAddress] = useState(admin.address);
-  // const [dob, setDob] = useState(admin.dob);
-  // const [gender, setGender] = useState(admin.gender);
   const [loading, setLoading] = useState(false);
-  //   const [ausPostId, setAusPostId] = useState(admin.ausPostId);
-  //   const [ausPostScan, setAusPostScan] = useState(admin.ausPostScan);
-  //   const [ausPostExpiry, setAusPostExpiry] = useState(admin.ausPostExpiry);
-  //   const [vehicleNo, setVehicleNo] = useState(admin.vehicleNo);
-  //   const [vehicalType, setVehicalType] = useState(admin.vehicalType);
-  //   const [visaNo, setVisaNo] = useState(admin.visaNo);
-  //   const [visaScan, setVisaScan] = useState(admin.visaScan);
-  //   const [visaExpiry, setVisaExpiry] = useState(admin.visaExpiry);
-  //   const [licenceId, setLicenceId] = useState(admin.licenceId);
-  //   const [licenceScan, setLicenceScan] = useState(admin.licenceScan);
-  //   const [licenceExpiry, setLicenceExpiry] = useState(admin.licenceExpiry);
-  //   const [username, setUsername] = useState(admin.username);
-  // const [phoneNo, setPhoneNo] = useState("");
-  //   const [profilePhoto, setProfilePhoto] = useState(admin.profilePhoto);
-  //   const [supervisorEmail, setSupervisroEmail] = useState(admin.supervisorEmail);
-  //   const [workStatus, setWorkstatus] = useState(admin.workStatus);
-  // const [password, setPassword] = useState(admin.password);
-  // const [oldPassword, setOldPassword] = useState("");
-  // const [isPasswordMatching, setIsPasswordMatching] = useState("");
-
-  // const confirmPasswordValidation = (event) => {
-  //   if (password === event) {
-  //     setIsPasswordMatching("Password and Confirm Password is matching");
-  //   } else {
-  //     setIsPasswordMatching("");
-  //   }
-  // };
-
-  //   const getAllSupervisors = () => {
-  //     axios.get(baseURLSupervisors, config).then((response) => {
-  //       const tempSupervisors = response.data;
-  //       setAllSupervisors(tempSupervisors);
-  //     });
-  //   };
 
   const getAdminDetails = async () => {
     await axios.get(baseURLAdmin, config).then((response) => {
       const tempAdmin = response.data;
       setAdmin(tempAdmin);
       setFname(response.data.fname);
-      // setMname(response.data.mname);
       setLname(response.data.lname);
       setAdminType(response.data.adminType);
       setPhoneNo(response.data.phoneNo);
       setAddress(response.data.address);
-      // setAddress(response.data.address);
-      // setDob(response.data.dob);
-      // setGender(response.data.gender);
-      //   setAusPostId(response.data.ausPostId);
-      //   setAusPostScan(response.data.ausPostScan);
-      //   setAusPostExpiry(response.data.ausPostExpiry);
-      //   setVehicleNo(response.data.vehicleNo);
-      //   setVehicalType(response.data.vehicalType);
-      //   setVisaNo(response.data.visaNo);
-      //   setVisaScan(response.data.visaScan);
-      //   setVisaExpiry(response.data.visaExpiry);
-      //   setLicenceId(response.data.licenceId);
-      //   setLicenceScan(response.data.ausPostScan);
-      //   setLicenceExpiry(response.data.licenceExpiry);
-      //   setUsername(response.data.username);
-      //   setProfilePhoto(response.data.profilePhoto);
-      //   setSupervisroEmail(response.data.supervisorEmail);
-      //   setWorkstatus(response.data.workStatus);
     });
   };
 
   useEffect(() => {
     getAdminDetails();
-    // getAllSupervisors();
   }, []);
 
-  //   console.log("Admin = ", Admin);
-  //   console.log("allsupervisors = ", allSupervisors);
-
   const adminEmail = admin.email;
-
-  // console.log("pw = ", oldPassword, password);
 
   const bodyParameters = {
     email: adminEmail,
     fname,
-    // mname,
     lname,
     adminType,
     phoneNo,
     address,
-    // address,
-    // dob,
-    // gender,
-    // ausPostId,
-    // ausPostScan,
-    // ausPostExpiry,
-    // vehicleNo,
-    // vehicalType,
-    // visaNo,
-    // visaScan,
-    // visaExpiry,
-    // licenceId,
-    // licenceScan,
-    // licenceExpiry,
-    // adminType,
-    // workStatus,
-    // password,
-    // supervisorEmail,
-    // username,
-    // phoneNo,
-    // createDate,
-    // profilePhoto,
   };
-
-  //   console.log("==> ", bodyParameters.fname);
 
   function editAdmin() {
     setLoading(true);
-    if (bodyParameters.phoneNo.length !== 0 && bodyParameters.phoneNo.length !== 10) {
+    if (bodyParameters.phoneNo.length !== undefined && bodyParameters.phoneNo.length !== 10) {
       window.alert("Please enter a valid phone number");
+      setLoading(false);
+    } else if (fname !== null && bodyParameters.fname.length === 0) {
+      window.alert("Please enter a firstname");
       setLoading(false);
     } else {
       axios
         .put(baseURL, bodyParameters, config)
         .then((response) => {
-          // console.log("response = ", response.status);
-          // console.log(bodyParameters);
           if (response.status === 204) {
             alert("Admin Updated successfully");
             navigate(`/admins/${id}`);
@@ -207,7 +117,6 @@ function EditAdmin() {
         .catch((error) => {
           setLoading(false);
           console.log("error = ", error.response);
-          // console.log(bodyParameters);
           alert("An unexpected error occured! please check the values and try again");
         });
     }

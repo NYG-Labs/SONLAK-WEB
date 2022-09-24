@@ -253,6 +253,13 @@ function EditDriver() {
     return ageNow;
   }
 
+  function dateValidator(dateParameter) {
+    if (dateParameter === "0001-01-01T00:00:00") {
+      return "";
+    }
+    return dateParameter;
+  }
+
   const [ausPostScanFile, setAusPostSanFile] = useState([]);
 
   const ausPostScanHnadler = (event) => {
@@ -356,6 +363,9 @@ function EditDriver() {
       bodyParameters.phoneNo.length !== 10
     ) {
       window.alert("Please enter a valid phone number");
+      setLoading(false);
+    } else if (fname !== null && bodyParameters.fname.length === 0) {
+      window.alert("Please enter a firstname");
       setLoading(false);
     } else if (
       emergencyPhoneNo !== null &&
@@ -571,8 +581,8 @@ function EditDriver() {
                       FormHelperTextProps={{ className: classes.error }}
                       helperText={
                         calculateAge(dob) < 18
-                          ? `${driver.dob} A driver should be above 18 years old from today’s date`
-                          : driver.dob
+                          ? `A driver should be above 18 years old from today’s date`
+                          : dateValidator(dob)
                       }
                       fullWidth
                     />
@@ -723,7 +733,7 @@ function EditDriver() {
                       <MDInput
                         InputLabelProps={{ shrink: true }}
                         onChange={(e) => setVisaExpiry(e.target.value)}
-                        helperText={driver.visaExpiry}
+                        helperText={dateValidator(visaExpiry)}
                         type="date"
                         label="Expiery date"
                         // variant="standard"
@@ -772,7 +782,7 @@ function EditDriver() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setAusPostExpiry(e.target.value)}
-                      helperText={driver.ausPostExpiry}
+                      helperText={dateValidator(ausPostExpiry)}
                       type="date"
                       label="Expiery date"
                       // variant="standard"
@@ -815,6 +825,7 @@ function EditDriver() {
                       value={route}
                       type="text"
                       label="Route (Contract No)"
+                      helperText="If there are more than one route seperate them using commas (,)"
                       fullWidth
                     />
                   </MDBox>
@@ -900,7 +911,7 @@ function EditDriver() {
                       onChange={(e) => setInsuaranceExpDate(e.target.value)}
                       type="date"
                       // value={insuranceExpiry}
-                      helperText={driver.insuranceExpiry}
+                      helperText={dateValidator(insuranceExpiry)}
                       label="Expiery Date"
                       // variant="standard"
                       fullWidth
@@ -946,7 +957,7 @@ function EditDriver() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setLicenceExpiry(e.target.value)}
-                      helperText={driver.licenceExpiry}
+                      helperText={dateValidator(licenceExpiry)}
                       type="date"
                       label="Expiery date"
                       // variant="standard"

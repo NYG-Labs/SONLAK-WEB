@@ -78,10 +78,10 @@ function DriverProfile() {
   const navigate = useNavigate();
   const { email } = useParams();
   const [driver, setDriver] = useState([]);
-  const [ausPostExpDate, setAusPostExpDate] = useState("");
-  const [dob, setDOB] = useState("");
-  const [licenseExp, setLicenseExp] = useState("");
-  const [visaExp, setVisaExp] = useState("");
+  // const [ausPostExpDate, setAusPostExpDate] = useState("");
+  // const [dob, setDOB] = useState("");
+  // const [licenseExp, setLicenseExp] = useState("");
+  // const [visaExp, setVisaExp] = useState("");
   const [etaStartdate, setETAStartDate] = useState("");
   const [etaEnddate, setETAEndDate] = useState("");
   const [parcelStartdate, setParcelStartdate] = useState("");
@@ -156,10 +156,10 @@ function DriverProfile() {
     axios.get(baseURL, config).then((response) => {
       const tempDriver = response.data;
       setDriver(tempDriver);
-      setAusPostExpDate(tempDriver.ausPostExpiry);
-      setDOB(tempDriver.dob);
-      setLicenseExp(tempDriver.licenceExpiry);
-      setVisaExp(tempDriver.visaExpiry);
+      // setAusPostExpDate(tempDriver.ausPostExpiry);
+      // setDOB(tempDriver.dob);
+      // setLicenseExp(tempDriver.licenceExpiry);
+      // setVisaExp(tempDriver.visaExpiry);
       // console.log("dob = ", dob);
     });
   };
@@ -698,7 +698,7 @@ function DriverProfile() {
                   address: driver.address,
                   email: driver.email,
                   phoneNo: driver.phoneNo,
-                  DOB: dob,
+                  DOB: driver.dob === "0001-01-01T00:00:00" ? "" : driver.dob,
                   ProfilePicture: (
                     <a href={driver.profilePhoto}>
                       <MDBadge badgeContent="view" color="success" variant="gradient" size="sm" />
@@ -719,7 +719,8 @@ function DriverProfile() {
                     </a>
                   ),
                   AusPostID: driver.ausPostId,
-                  AusPostExpp: ausPostExpDate,
+                  AusPostExpp:
+                    driver.ausPostExpiry === "0001-01-01T00:00:00" ? "" : driver.ausPostExpiry,
                   UserLoginId: driver.username,
                   UserPinNo: driver.pinNo,
                   Route: driver.route,
@@ -739,7 +740,8 @@ function DriverProfile() {
                     </a>
                   ),
                   LicenceID: driver.licenceId,
-                  LicenceEXP: licenseExp,
+                  LicenceEXP:
+                    driver.licenceExpiry === "0001-01-01T00:00:00" ? "" : driver.licenceExpiry,
                 }}
                 shadow={false}
               />
@@ -771,7 +773,8 @@ function DriverProfile() {
                         <MDBadge badgeContent="view" color="success" variant="gradient" size="sm" />
                       </a>
                     ),
-                    VisaExpiry: visaExp,
+                    VisaExpiry:
+                      driver.visaExpiry === "0001-01-01T00:00:00" ? "" : driver.visaExpiry,
                     VisaNo: driver.visaNo,
                   }}
                   shadow={false}
@@ -786,7 +789,8 @@ function DriverProfile() {
                 title="insurance Details"
                 info={{
                   InsurancePolicyNo: driver.insurancePolicyNo,
-                  InsuranceExpiry: driver.insuranceExpiry,
+                  InsuranceExpiry:
+                    driver.insuranceExpiry === "0001-01-01T00:00:00" ? "" : driver.insuranceExpiry,
                 }}
                 shadow={false}
               />

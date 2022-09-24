@@ -188,6 +188,12 @@ function EditSupervisor() {
     profilePhoto,
   };
 
+  function dateValidator(dateParameter) {
+    if (dateParameter === "0001-01-01T00:00:00") {
+      return "";
+    }
+    return dateParameter;
+  }
   //   console.log("==> ", bodyParameters.fname);
 
   async function editSupervisor() {
@@ -201,11 +207,14 @@ function EditSupervisor() {
     }
 
     if (
-      phoneNo.length !== undefined &&
+      bodyParameters.phoneNo.length !== undefined &&
       bodyParameters.phoneNo.length !== 0 &&
       bodyParameters.phoneNo.length !== 10
     ) {
       window.alert("Please enter a valid phone number");
+      setLoading(false);
+    } else if (fname !== null && bodyParameters.fname.length === 0) {
+      window.alert("Please enter a firstname");
       setLoading(false);
     } else {
       axios
@@ -394,7 +403,7 @@ function EditSupervisor() {
                       InputLabelProps={{ shrink: true }}
                       onChange={(e) => setDob(e.target.value)}
                       placeholder={supervisor.dob}
-                      helperText={dob}
+                      helperText={dateValidator(dob)}
                       type="date"
                       label="DOB"
                       // variant="standard"
@@ -503,7 +512,7 @@ function EditSupervisor() {
                         InputLabelProps={{ shrink: true }}
                         onChange={(e) => setVisaExpiry(e.target.value)}
                         placeholder={supervisor.visaExpiry}
-                        helperText={visaExpiry}
+                        helperText={dateValidator(visaExpiry)}
                         type="date"
                         label="Expiery date"
                         fullWidth

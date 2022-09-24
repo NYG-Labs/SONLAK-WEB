@@ -219,7 +219,7 @@ function WHSPlan() {
                       InputLabelProps={{ shrink: true }}
                       onChange={WHSPlanHandler}
                       type="file"
-                      label="WHS Plan file"
+                      label="WHS Plan file (PDF)"
                       // variant="standard"
                       fullWidth
                     />

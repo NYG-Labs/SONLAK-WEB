@@ -220,7 +220,7 @@ function SafetyDelivery() {
                       InputLabelProps={{ shrink: true }}
                       onChange={safetyDeliveryHandler}
                       type="file"
-                      label="Safety delivery file"
+                      label="Safety delivery file (PDF)"
                       // variant="standard"
                       fullWidth
                     />

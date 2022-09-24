@@ -46,18 +46,17 @@ function DriverRegistration() {
   const [mname, setMname] = useState("");
   const [lname, setLname] = useState("");
   const [address, setAddress] = useState("");
-  const [dob, setDob] = useState("");
-  // const [gender, setGender] = useState("");
+  const [dob, setDob] = useState("0001-01-01");
   const [ausPostId, setAusPostId] = useState("");
   const [insurancePolicyNo, setPolicyNo] = useState("");
-  const [insuranceExpiry, setInsuaranceExpDate] = useState("");
-  const [ausPostExpiry, setAusPostExpiry] = useState("");
+  const [insuranceExpiry, setInsuaranceExpDate] = useState("0001-01-01");
+  const [ausPostExpiry, setAusPostExpiry] = useState("0001-01-01");
   const [vehicleNo, setVehicleNo] = useState("");
   const [vehicalType, setVehicalType] = useState("");
   const [visaNo, setVisaNo] = useState("");
-  const [visaExpiry, setVisaExpiry] = useState("");
+  const [visaExpiry, setVisaExpiry] = useState("0001-01-01");
   const [licenceId, setLicenceId] = useState("");
-  const [licenceExpiry, setLicenceExpiry] = useState("");
+  const [licenceExpiry, setLicenceExpiry] = useState("0001-01-01");
   const [driverType, setDriverType] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [supervisorEmail, setSupervisroEmail] = useState("");
@@ -119,7 +118,6 @@ function DriverRegistration() {
     lname,
     address,
     dob,
-    // gender: "male",
     ausPostId,
     ausPostScan,
     ausPostExpiry,
@@ -261,10 +259,11 @@ function DriverRegistration() {
     await uploadProfilePhoto();
     console.log(bodyParameters);
 
-    console.log();
-
     if (bodyParameters.email.length === 0) {
       window.alert("Please enter a email to register");
+      setLoading(false);
+    } else if (bodyParameters.fname.length === 0) {
+      window.alert("Please enter a firstname to register");
       setLoading(false);
     } else if (bodyParameters.password.length === 0) {
       window.alert("Please enter a password");
@@ -349,6 +348,8 @@ function DriverRegistration() {
                       onChange={(e) => setFname(e.target.value)}
                       type="text"
                       label="First Name"
+                      FormHelperTextProps={{ className: classes.error }}
+                      helperText={fname.length === 0 ? "Firstname cannot be empty" : ""}
                       // variant="standard"
                       fullWidth
                     />

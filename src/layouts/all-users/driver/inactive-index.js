@@ -43,12 +43,13 @@ function AllInactiveDrivers() {
 
   const filteredData = allInactiveDrivers.filter(
     (driver) =>
-      driver.fname.toLowerCase().includes(search.toLowerCase()) ||
-      driver.mname.toLowerCase().includes(search.toLowerCase()) ||
-      driver.lname.toLowerCase().includes(search.toLowerCase()) ||
-      driver.email.toLowerCase().includes(search.toLowerCase()) ||
-      driver.vehicalType.toLowerCase().includes(search.toLowerCase()) ||
-      driver.vehicleNo.toLowerCase().includes(search.toLowerCase())
+      (driver.fname !== null && driver.fname.toLowerCase().includes(search.toLowerCase())) ||
+      (driver.mname !== null && driver.mname.toLowerCase().includes(search.toLowerCase())) ||
+      (driver.lname !== null && driver.lname.toLowerCase().includes(search.toLowerCase())) ||
+      (driver.email !== null && driver.email.toLowerCase().includes(search.toLowerCase())) ||
+      (driver.vehicalType !== null &&
+        driver.vehicalType.toLowerCase().includes(search.toLowerCase())) ||
+      (driver.vehicleNo !== null && driver.vehicleNo.toLowerCase().includes(search.toLowerCase()))
   );
 
   const navigate = useNavigate();

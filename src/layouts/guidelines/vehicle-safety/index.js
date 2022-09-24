@@ -220,7 +220,7 @@ function VehicleSafety() {
                       InputLabelProps={{ shrink: true }}
                       onChange={vehicleSafetyHandler}
                       type="file"
-                      label="Vehicle Safety file"
+                      label="Vehicle Safety file (PDF)"
                       // variant="standard"
                       fullWidth
                     />

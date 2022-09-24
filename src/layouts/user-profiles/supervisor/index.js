@@ -291,7 +291,7 @@ function SupervisorProfile() {
                   ResidentialStatus: supervisor.supervisorType,
                   address: supervisor.address,
                   email: supervisor.email,
-                  DOB: supervisor.dob,
+                  DOB: supervisor.dob === "0001-01-01T00:00:00" ? "" : supervisor.dob,
                   PhoneNumber: supervisor.phoneNo,
                   ProfilePicture: (
                     <a href={supervisor.profilePhoto}>
@@ -331,7 +331,8 @@ function SupervisorProfile() {
                         {/* </Link> */}
                       </a>
                     ),
-                    VisaExpiry: supervisor.visaExpiry,
+                    VisaExpiry:
+                      supervisor.visaExpiry === "0001-01-01T00:00:00" ? "" : supervisor.visaExpiry,
                     VisaNo: supervisor.visaNo,
                   }}
                   shadow={false}

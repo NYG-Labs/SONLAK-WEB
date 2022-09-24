@@ -140,6 +140,22 @@ function EditETAPerformance() {
       });
   }
 
+  async function setDriverDetails(identifier) {
+    setDriverEmail(identifier);
+    const getDriverDetailsURL = `https://sonlakserver.azurewebsites.net/api/Drivers/${identifier}`;
+    await axios
+      .get(getDriverDetailsURL, config)
+      .then((response) => {
+        if (response.status === 200) {
+          setRoute(response.data.route);
+          // setUserLogInId(response.data.username);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   if (
     window.localStorage.getItem("token") === null ||
     (window.localStorage.getItem("roleKey") !== "SUPERADMIN" &&
@@ -200,11 +216,11 @@ function EditETAPerformance() {
                         classes: { root: "select-input-styles" },
                       }}
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setDriverEmail(e.target.value)}
+                      onChange={(e) => setDriverDetails(e.target.value)}
                       value={driverEmail}
                       type="email"
                       label="User"
-                      helperText={ETAPerformance.driverEmail}
+                      helperText={driverEmail}
                       // variant="standard"
                       fullWidth
                     >
@@ -225,6 +241,7 @@ function EditETAPerformance() {
                       label="Route"
                       onChange={(e) => setRoute(e.target.value)}
                       placeholder={ETAPerformance.route}
+                      value={route}
                       // variant="standard"
                       fullWidth
                     />
@@ -238,6 +255,7 @@ function EditETAPerformance() {
                       label="Device ID"
                       onChange={(e) => setDeviceID(e.target.value)}
                       placeholder={ETAPerformance.deviceId}
+                      value={deviceID}
                       // variant="standard"
                       fullWidth
                     />
@@ -253,6 +271,7 @@ function EditETAPerformance() {
                       label="Articles"
                       onChange={(e) => setArticles(e.target.value)}
                       placeholder={ETAPerformance.articles}
+                      value={articles}
                       // variant="standard"
                       fullWidth
                     />
@@ -266,6 +285,7 @@ function EditETAPerformance() {
                       label="Early"
                       onChange={(e) => setEarly(e.target.value)}
                       placeholder={ETAPerformance.early}
+                      value={early}
                       // variant="standard"
                       fullWidth
                     />
@@ -279,6 +299,7 @@ function EditETAPerformance() {
                       label="On Time"
                       swewonChange={(e) => setOnTime(e.target.value)}
                       placeholder={ETAPerformance.onTime}
+                      value={onTime}
                       // variant="standard"
                       fullWidth
                     />
@@ -292,6 +313,7 @@ function EditETAPerformance() {
                       label="Late"
                       onChange={(e) => setLate(e.target.value)}
                       placeholder={ETAPerformance.late}
+                      value={late}
                       // variant="standard"
                       fullWidth
                     />
@@ -307,6 +329,7 @@ function EditETAPerformance() {
                       label="Not Delivered"
                       onChange={(e) => setNotDelivered(e.target.value)}
                       placeholder={ETAPerformance.notDelivered}
+                      value={notDelivered}
                       // variant="standard"
                       fullWidth
                     />
@@ -320,6 +343,7 @@ function EditETAPerformance() {
                       label="On Time %"
                       onChange={(e) => setOnTimePersentage(e.target.value)}
                       placeholder={ETAPerformance.onTimePresentage}
+                      value={onTimePresentage}
                       // variant="standard"
                       fullWidth
                     />

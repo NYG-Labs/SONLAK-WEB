@@ -63,10 +63,10 @@ function SupervisorRegistration() {
   const [mname, setMname] = useState("");
   const [lname, setLname] = useState("");
   const [address, setAddress] = useState("");
-  const [dob, setDob] = useState("");
+  const [dob, setDob] = useState("0001-01-01");
   const [visaNo, setVisaNo] = useState("");
   // const [visaScan, setVisaScan] = useState("");
-  const [visaExpiry, setVisaExpiry] = useState("");
+  const [visaExpiry, setVisaExpiry] = useState("0001-01-01");
   const [supervisorType, setSupervisorType] = useState("");
   const [phoneNo, setPhoneNumber] = useState("");
   // const [profilePhoto, setProfilePhoto] = useState("");
@@ -166,6 +166,9 @@ function SupervisorRegistration() {
     if (bodyParameters.email.length === 0) {
       window.alert("Please enter a email to register");
       setLoading(false);
+    } else if (bodyParameters.fname.length === 0) {
+      window.alert("Please enter a firstname to register");
+      setLoading(false);
     } else if (bodyParameters.password.length === 0) {
       window.alert("Please enter a password");
       setLoading(false);
@@ -239,6 +242,8 @@ function SupervisorRegistration() {
                       onChange={(e) => setFname(e.target.value)}
                       type="text"
                       label="First Name"
+                      FormHelperTextProps={{ className: classes.error }}
+                      helperText={fname.length === 0 ? "Firstname cannot be empty" : ""}
                       // variant="standard"
                       fullWidth
                     />

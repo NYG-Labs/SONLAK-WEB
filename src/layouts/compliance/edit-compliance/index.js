@@ -146,6 +146,22 @@ function EditCompliance() {
       });
   }
 
+  async function setDriverDetails(identifier) {
+    setDriverEmail(identifier);
+    const getDriverDetailsURL = `https://sonlakserver.azurewebsites.net/api/Drivers/${identifier}`;
+    await axios
+      .get(getDriverDetailsURL, config)
+      .then((response) => {
+        if (response.status === 200) {
+          setContractId(response.data.route);
+          setUserLogInId(response.data.username);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   // console.log(user, route, deviceID, articles, early, onTime, late, notDelivered, onTimePercentage);
   // console.log(Driver);
 
@@ -196,7 +212,7 @@ function EditCompliance() {
                         classes: { root: "select-input-styles" },
                       }}
                       InputLabelProps={{ shrink: true }}
-                      onChange={(e) => setDriverEmail(e.target.value)}
+                      onChange={(e) => setDriverDetails(e.target.value)}
                       value={driverEmail}
                       type="email"
                       label="Driver Email"
@@ -205,7 +221,9 @@ function EditCompliance() {
                       fullWidth
                     >
                       {allDrivers.map((driver) => (
-                        <MenuItem value={driver.email}>{driver.email}</MenuItem>
+                        <MenuItem value={driver.email}>
+                          {driver.fname} {driver.lname}
+                        </MenuItem>
                       ))}
                       {/* <MenuItem value="z">driveremail</MenuItem> */}
                     </MDInput>
@@ -232,7 +250,7 @@ function EditCompliance() {
                     <MDInput
                       InputLabelProps={{ shrink: true }}
                       type="text"
-                      label="Contract ID"
+                      label="Route (Contract No)"
                       onChange={(e) => setContractId(e.target.value)}
                       value={route}
                       // variant="standard"

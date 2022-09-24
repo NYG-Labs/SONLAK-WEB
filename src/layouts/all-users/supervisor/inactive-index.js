@@ -43,12 +43,17 @@ function AllInactiveSupervisors() {
 
   const filteredData = allInactiveSupervisors.filter(
     (Supervisor) =>
-      Supervisor.fname.toLowerCase().includes(search.toLowerCase()) ||
-      Supervisor.mname.toLowerCase().includes(search.toLowerCase()) ||
-      Supervisor.lname.toLowerCase().includes(search.toLowerCase()) ||
-      Supervisor.email.toLowerCase().includes(search.toLowerCase()) ||
-      Supervisor.supervisorType.toLowerCase().includes(search.toLowerCase()) ||
-      Supervisor.visaNo.toLowerCase().includes(search.toLowerCase())
+      (Supervisor.fname !== null &&
+        Supervisor.fname.toLowerCase().includes(search.toLowerCase())) ||
+      (Supervisor.mname !== null &&
+        Supervisor.mname.toLowerCase().includes(search.toLowerCase())) ||
+      (Supervisor.lname !== null &&
+        Supervisor.lname.toLowerCase().includes(search.toLowerCase())) ||
+      (Supervisor.email !== null &&
+        Supervisor.email.toLowerCase().includes(search.toLowerCase())) ||
+      (Supervisor.supervisorType !== null &&
+        Supervisor.supervisorType.toLowerCase().includes(search.toLowerCase())) ||
+      (Supervisor.visaNo !== null && Supervisor.visaNo.toLowerCase().includes(search.toLowerCase()))
   );
 
   const navigate = useNavigate();

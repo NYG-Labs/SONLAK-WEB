@@ -82,9 +82,9 @@ function AdminRegistration() {
     fname,
     lname,
     adminType,
-    password,
     phoneNo,
     address,
+    password,
   };
 
   const [isPasswordMatching, setIsPasswordMatching] = useState("");
@@ -99,9 +99,12 @@ function AdminRegistration() {
 
   function registerAdmin() {
     setLoading(true);
-
+    console.log(bodyParameters);
     if (bodyParameters.email.length === 0) {
       window.alert("Please enter a email to register");
+      setLoading(false);
+    } else if (bodyParameters.fname.length === 0) {
+      window.alert("Please enter a firstname to register");
       setLoading(false);
     } else if (bodyParameters.password.length === 0) {
       window.alert("Please enter a password");
@@ -115,16 +118,11 @@ function AdminRegistration() {
     } else if (isPasswordMatching === "") {
       window.alert("Confirm password is incorrect");
       setLoading(false);
-    }
-    // else if (bodyParameters.phoneNo.length !== 0 && bodyParameters.phoneNo.length !== 10) {
-    //   window.alert("Please enter a valid phone number");
-    //   setLoading(false);
-    // }
-    else {
+    } else {
       axios
         .post(baseURL, bodyParameters, config)
         .then((response) => {
-          // console.log(response.status);
+          console.log(response.status);
           if (response.status === 201) {
             alert("Admin registered successfully");
             navigate("/admins");
@@ -185,6 +183,8 @@ function AdminRegistration() {
                       onChange={(e) => setFname(e.target.value)}
                       type="text"
                       label="First Name"
+                      FormHelperTextProps={{ className: classes.error }}
+                      helperText={fname.length === 0 ? "Firstname cannot be empty" : ""}
                       // variant="standard"
                       fullWidth
                     />
