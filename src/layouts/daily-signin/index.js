@@ -129,7 +129,7 @@ function DriverDailySignIn() {
   }
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyD7_HdHva3M6JreDCXkp4PYhFFttbGr1Ec",
+    googleMapsApiKey: "AIzaSyAWNgrkgCcxTliFL0i6G9mzu8EDH0J3bnk",
   });
 
   if (
