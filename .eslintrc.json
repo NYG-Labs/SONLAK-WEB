@@ -13,11 +13,12 @@
   },
   "plugins": ["react", "prettier"],
   "rules": {
-    "global-require": 0 ,
+    "no-alert": "off",
+    "global-require": 0,
     "import/prefer-default-export": "off",
-    "prefer-destructuring": ["error", {"object": true, "array": false}],
+    "prefer-destructuring": ["error", { "object": true, "array": false }],
     "prettier/prettier": [
-      "error",
+      "warn",
       {
         "endOfLine": "auto"
       }

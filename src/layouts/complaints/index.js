@@ -54,8 +54,8 @@ function AllComplaints() {
   const [toDate, setToDate] = useState("");
   const [searchError, setSearchError] = useState("");
   const [loading, setLoading] = useState(false);
-  const baseURL = `https://sonlakserver.azurewebsites.net/api/Complaints/GetComplaintLast7days`;
-  const baseURLFilter = `https://sonlakserver.azurewebsites.net/api/Complaints/GetComplaintsfilterbyDate/${fromDate}/${toDate}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Complaints/GetComplaintLast7days`;
+  const baseURLFilter = `${process.env.REACT_APP_BACKEND_URL}/api/Complaints/GetComplaintsfilterbyDate/${fromDate}/${toDate}`;
 
   const config = {
     headers: {
@@ -98,9 +98,8 @@ function AllComplaints() {
         setAllComplaints(response.data);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setAllComplaints([]);
-        console.log(error);
         setLoading(false);
       });
   }

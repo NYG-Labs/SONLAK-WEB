@@ -50,13 +50,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function SafetyDelivery() {
-  const baseURL = "https://sonlakserver.azurewebsites.net/api/SafeDeliveryProcedures";
-  const allSafetyDeliveryURL = "https://sonlakserver.azurewebsites.net/api/SafeDeliveryProcedures";
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/SafeDeliveryProcedures`;
+  const allSafetyDeliveryURL = `${process.env.REACT_APP_BACKEND_URL}/api/SafeDeliveryProcedures`;
   const navigate = useNavigate();
   const [allSafetyDelivery, setAllSafetyDelivery] = useState([]);
   const [search, setSearch] = useState("");
   const [topic, setTopic] = useState("");
-  // console.log(topic);
+  //
   const [loading, setLoading] = useState(false);
 
   const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
@@ -73,7 +73,7 @@ function SafetyDelivery() {
   // `${currentDate.getFullYear()}-0${
   //   currentDate.getMonth() + 1
   // }-${currentDate.getDate()}T${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
-  // console.log(timestamp);
+  //
 
   const tempFileNameSafetyDelivery = `${timestamp}_safetyDelivery.pdf`;
   const tempSafetyDeliveryURL = `https://${storageAccountName}.blob.core.windows.net/safetydelivery/${tempFileNameSafetyDelivery}`;
@@ -105,13 +105,12 @@ function SafetyDelivery() {
   };
 
   const deleteSafetyDelivery = (id) => {
-    // console.log(id);
+    //
     axios
-      .delete(`https://sonlakserver.azurewebsites.net/api/SafeDeliveryProcedures/${id}`, config)
-      .then((response) => {
+      .delete(`${process.env.REACT_APP_BACKEND_URL}/api/SafeDeliveryProcedures/${id}`, config)
+      .then(() => {
         // navigate(`/ETA-performance`);
         window.location.reload();
-        console.log(response);
       });
   };
 
@@ -136,20 +135,19 @@ function SafetyDelivery() {
       window.alert("No file to upload");
     } else {
       await uploadsafetyDelivery();
-      // console.log(bodyParameters);
+      //
       axios
         .post(baseURL, bodyParameters, config)
         .then((response) => {
-          // console.log(response.status);
+          //
           if (response.status === 201) {
             alert("Safety delivery added successfully");
             window.location.reload();
           }
         })
-        .catch((error) => {
+        .catch(() => {
           setLoading(false);
           alert("An unexpected error occured! please check the values and try again");
-          console.log(error);
         });
     }
   }

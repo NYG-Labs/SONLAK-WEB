@@ -51,8 +51,8 @@ function AddETAPerformance() {
     // fontSize: "0.75rem",
   };
 
-  const getAllDriversURL = "https://sonlakserver.azurewebsites.net/api/Drivers/GetDriversActive";
-  const baseURL = "https://sonlakserver.azurewebsites.net/api/Etaperformances";
+  const getAllDriversURL = `${process.env.REACT_APP_BACKEND_URL}/api/Drivers/GetDriversActive`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Etaperformances`;
   const config = {
     headers: {
       "content-type": "application/json",
@@ -76,7 +76,7 @@ function AddETAPerformance() {
 
   async function setDriverDetails(identifier) {
     setDriverEmail(identifier);
-    const getDriverDetailsURL = `https://sonlakserver.azurewebsites.net/api/Drivers/${identifier}`;
+    const getDriverDetailsURL = `${process.env.REACT_APP_BACKEND_URL}/api/Drivers/${identifier}`;
     await axios
       .get(getDriverDetailsURL, config)
       .then((response) => {
@@ -85,9 +85,7 @@ function AddETAPerformance() {
           // setUserLogInId(response.data.username);
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   }
 
   const getAllDrivers = () => {
@@ -116,29 +114,28 @@ function AddETAPerformance() {
 
   async function addETAPerformance() {
     setLoading(true);
-    // console.log(bodyParameters);
+    //
     axios
       .post(baseURL, bodyParameters, config)
       .then((response) => {
-        // console.log(response.data);
+        //
         if (response.status === 201) {
           alert("ETA-Performacne added successfully");
           navigate("/ETA-performance");
         }
       })
-      .catch((error) => {
+      .catch(() => {
         setLoading(false);
         // if (error.response.status === 409) {
         //   alert("A supervisor with this email is already available");
         // } else {
-        console.error("Error", error.response.data);
         alert("An unexpected error occured! please check the values and try again");
         // }
       });
   }
 
-  // console.log(user, route, deviceID, articles, early, onTime, late, notDelivered, onTimePercentage);
-  // console.log(allDrivers);
+  //
+  //
 
   if (
     window.localStorage.getItem("token") === null ||

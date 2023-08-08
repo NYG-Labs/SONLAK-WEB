@@ -27,7 +27,7 @@ function ChangePasswordDriver() {
     }
   };
 
-  const baseURL = `https://sonlakserver.azurewebsites.net/api/Drivers/ResetPasswordDriverbyAdmin/${id}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Drivers/ResetPasswordDriverbyAdmin/${id}`;
 
   const config = {
     headers: {
@@ -49,15 +49,13 @@ function ChangePasswordDriver() {
       axios
         .put(baseURL, bodyParameters, config)
         .then((response) => {
-          console.log(response.status);
           if (response.status === 200) {
             alert("Password updated successfully");
             navigate(`/drivers/${id}`);
           }
         })
-        .catch((error) => {
+        .catch(() => {
           setLoading(false);
-          console.log("error = ", error.response);
           alert("An unexpected error occured! please check the values and try again");
         });
     }

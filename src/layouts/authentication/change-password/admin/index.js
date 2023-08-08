@@ -20,7 +20,7 @@ function ChangePasswordAdmin() {
   const [oldPassword, setOldPassword] = useState("");
   const [isPasswordMatching, setIsPasswordMatching] = useState("");
 
-  const baseURL = `https://sonlakserver.azurewebsites.net/api/Admins/ChangePasswordAdminbyAdmin/${id}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Admins/ChangePasswordAdminbyAdmin/${id}`;
 
   const config = {
     headers: {
@@ -56,9 +56,8 @@ function ChangePasswordAdmin() {
             navigate(`/`);
           }
         })
-        .catch((error) => {
+        .catch(() => {
           setLoading(false);
-          console.log("error = ", error.response);
           alert("An unexpected error occured! please check the values and try again");
         });
     }

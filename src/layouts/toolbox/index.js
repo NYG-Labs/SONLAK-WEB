@@ -50,8 +50,8 @@ function AllToolBox() {
   const [toDate, setToDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
-  const baseURL = "https://sonlakserver.azurewebsites.net/api/ToolBox/GetToolBoxToAdminLast7days";
-  const baseURLFilter = `https://sonlakserver.azurewebsites.net/api/ToolBox/GetToolBoxlatestfilterbyDate/${fromDate}/${toDate}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/ToolBox/GetToolBoxToAdminLast7days`;
+  const baseURLFilter = `${process.env.REACT_APP_BACKEND_URL}/api/ToolBox/GetToolBoxlatestfilterbyDate/${fromDate}/${toDate}`;
 
   const config = {
     headers: {
@@ -90,14 +90,14 @@ function AllToolBox() {
         setAllToolBox(response.data);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setAllToolBox([]);
-        console.log(error);
+
         setLoading(false);
       });
   }
 
-  // console.log("ALl ToolBox = ", allToolBox, search);
+  //
 
   const filteredData = allToolBox.filter((allTB) =>
     allTB.supervisorEmail.toLowerCase().includes(search.toLowerCase())

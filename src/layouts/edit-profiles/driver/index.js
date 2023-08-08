@@ -66,7 +66,7 @@ const helperTextStyles = makeStyles({
 
 function EditDriver() {
   const classes = helperTextStyles();
-  // console.log(classes);
+  //
 
   const SelectFieldStyle = {
     padding: 12,
@@ -84,10 +84,9 @@ function EditDriver() {
   const { id } = useParams();
   const [allSupervisors, setAllSupervisors] = useState([]);
   const [driver, setDriver] = useState([]);
-  const baseURL = `https://sonlakserver.azurewebsites.net/api/Drivers/${id}`;
-  const baseURLSupervisors =
-    "https://sonlakserver.azurewebsites.net/api/Supervisors/GetSupervisorsActive";
-  const baseURLDriver = `https://sonlakserver.azurewebsites.net/api/Drivers/${id}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Drivers/${id}`;
+  const baseURLSupervisors = `${process.env.REACT_APP_BACKEND_URL}/api/Supervisors/GetSupervisorsActive`;
+  const baseURLDriver = `${process.env.REACT_APP_BACKEND_URL}/api/Drivers/${id}`;
   const [fname, setFname] = useState("");
   const [mname, setMname] = useState("");
   const [lname, setLname] = useState("");
@@ -118,7 +117,7 @@ function EditDriver() {
   const [emergencyName, setEmergencyName] = useState("");
   const [emergencyPhoneNo, setEmergencyNumber] = useState("");
   const [emergencyRelation, setEmergencyRelationship] = useState("");
-  // console.log(userPinNo, route, emergencyName, emergencyNumber, emergencyRelationship);
+  //
   const [loading, setLoading] = useState(false);
   const [phoneNo, setPhoneNo] = useState("");
 
@@ -266,8 +265,8 @@ function EditDriver() {
     setAusPostSanFile(event.target.files[0]);
     setAusPostScan(tempAusPostScanURL);
     bodyParameters.ausPostScan = tempAusPostScanURL;
-    // console.log("APS = ", ausPostScan);
-    // console.log("bodyParameters = ", bodyParameters);
+    //
+    //
   };
 
   async function uploadAusPostScan() {
@@ -354,7 +353,7 @@ function EditDriver() {
       await uploadProfilePhoto();
     }
 
-    // console.log(bodyParameters);
+    //
     if (
       phoneNo !== "" &&
       phoneNo !== null &&
@@ -387,10 +386,10 @@ function EditDriver() {
             navigate(`/drivers/${id}`);
           }
         })
-        .catch((error) => {
+        .catch(() => {
           setLoading(false);
-          console.log("error = ", error.response);
-          // console.log(bodyParameters);
+
+          //
           alert("An unexpected error occured! please check the values and try again");
         });
     }

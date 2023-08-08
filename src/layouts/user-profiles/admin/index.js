@@ -50,7 +50,7 @@ function AdminProfile() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [admin, setAdmin] = useState([]);
-  const baseURL = `https://sonlakserver.azurewebsites.net/api/admins/${id}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/admins/${id}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
 
@@ -91,7 +91,7 @@ function AdminProfile() {
 
   const handleSetTabValue = (event, newValue) => setTabValue(newValue);
 
-  // console.log("id = ", id, "/n Admin = ", Admin);
+  //
   if (
     window.localStorage.getItem("token") === null ||
     window.localStorage.getItem("roleKey") !== "SUPERADMIN"

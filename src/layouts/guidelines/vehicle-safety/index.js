@@ -50,13 +50,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function VehicleSafety() {
-  const baseURL = "https://sonlakserver.azurewebsites.net/api/VehicleSafeties";
-  const allVehicleSafetyURL = "https://sonlakserver.azurewebsites.net/api/VehicleSafeties";
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/VehicleSafeties`;
+  const allVehicleSafetyURL = `${process.env.REACT_APP_BACKEND_URL}/api/VehicleSafeties`;
   const navigate = useNavigate();
   const [allVehicleSafety, setAllVehicleSafety] = useState([]);
   const [search, setSearch] = useState("");
   const [topic, setTopic] = useState("");
-  // console.log(topic);
+  //
   const [loading, setLoading] = useState(false);
 
   const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
@@ -73,7 +73,7 @@ function VehicleSafety() {
   // `${currentDate.getFullYear()}-0${
   //   currentDate.getMonth() + 1
   // }-${currentDate.getDate()}T${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
-  // console.log(timestamp);
+  //
 
   const tempFileNameVehicleSafety = `${timestamp}_vehicleSafety.pdf`;
   const tempVehicleSafetyURL = `https://${storageAccountName}.blob.core.windows.net/vehiclesafety/${tempFileNameVehicleSafety}`;
@@ -105,13 +105,12 @@ function VehicleSafety() {
   };
 
   const deleteVehicleSafety = (id) => {
-    // console.log(id);
+    //
     axios
-      .delete(`https://sonlakserver.azurewebsites.net/api/VehicleSafeties/${id}`, config)
-      .then((response) => {
+      .delete(`${process.env.REACT_APP_BACKEND_URL}/api/VehicleSafeties/${id}`, config)
+      .then(() => {
         // navigate(`/ETA-performance`);
         window.location.reload();
-        console.log(response);
       });
   };
 
@@ -136,20 +135,18 @@ function VehicleSafety() {
       window.alert("No file to upload");
     } else {
       await uploadVehicleSafety();
-      // console.log(bodyParameters);
+      //
       axios
         .post(baseURL, bodyParameters, config)
         .then((response) => {
-          console.log(response.status);
           if (response.status === 201) {
             alert("Safety delivery added successfully");
             window.location.reload();
           }
         })
-        .catch((error) => {
+        .catch(() => {
           setLoading(false);
           alert("An unexpected error occured! please check the values and try again");
-          console.log(error);
         });
     }
   }

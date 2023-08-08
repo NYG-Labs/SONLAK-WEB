@@ -98,24 +98,24 @@ function DriverProfile() {
   const [complaintsEndDate, setComplaintsEndDate] = useState("");
   const [complianceStartDate, setComplianceStartDate] = useState("");
   const [complianceEndDate, setComplianceEndDate] = useState("");
-  const baseURL = `https://sonlakserver.azurewebsites.net/api/drivers/${email}`;
-  const deleteDriverURL = `https://sonlakserver.azurewebsites.net/api/Drivers/${email}`;
-  const ETAPerformanceURL = `https://sonlakserver.azurewebsites.net/api/Etaperformances/GetEtaperformancelatest7/${email}`;
-  const IncidentReportURL = `https://sonlakserver.azurewebsites.net/api/IncidentReports/GetIncidentReportlatest7/${email}`;
-  const ParcelDeliveryURL = `https://sonlakserver.azurewebsites.net/api/ParcelDeliveries/GetParcelDeliverylatest7/${email}`;
-  const vehicleCheckURL = `https://sonlakserver.azurewebsites.net/api/VehicleChecks/GetVehicleChecklatest7/${email}`;
-  const toolBoxURL = `https://sonlakserver.azurewebsites.net/api/ToolBox/GetToolBoxbyDriverlatest7/${email}`;
-  const signInURL = `https://sonlakserver.azurewebsites.net/api/DriverSignIn/GetDriverSignInbyDriverLast7days/${email}`;
-  const complaintsURL = `https://sonlakserver.azurewebsites.net/api/Complaints/GetComplaintbyDriverLast7days/${email}`;
-  const complianceURL = `https://sonlakserver.azurewebsites.net/api/Compliances/GetCompliancebyDriverLast7days/${email}`;
-  const filterETAURL = `https://sonlakserver.azurewebsites.net/api/Etaperformances/GetEtaperformancebyDriverFilterbyDate/${email}/${etaStartdate}/${etaEnddate}`;
-  const filterParcelDeliveryURL = `https://sonlakserver.azurewebsites.net/api/ParcelDeliveries/GetParcelDeliverybyDriverDate/${email}/${parcelStartdate}/${parcelEnddate}`;
-  const filterIncidentReportURL = `https://sonlakserver.azurewebsites.net/api/IncidentReports/GetIncidentReportbyDriverFilterbyDate/${email}/${incidentStartdate}/${incidentEnddate}`;
-  const filterToolBoxURL = `https://sonlakserver.azurewebsites.net/api/ToolBox/GetToolBoxbyDriverFilterbyDate/${email}/${toolStartDate}/${toolEndDate}`;
-  const filterVehicleCheckURL = `https://sonlakserver.azurewebsites.net/api/VehicleChecks/GetVehicleCheckbyDriver/${email}/${vehicleStartDate}/${vehicleEndDate}`;
-  const filterSignInURL = `https://sonlakserver.azurewebsites.net/api/DriverSignIn/GetDriverSignInbyDriverfilterByDate/${email}/${signInStartDate}/${signInEndDate}`;
-  const filterComplaintsURL = `https://sonlakserver.azurewebsites.net/api/Complaints/GetComplaintbyDriverfilterbyDate/${email}/${complaintsStartDate}/${complaintsEndDate}`;
-  const filterComplianceURL = `https://sonlakserver.azurewebsites.net/api/Compliances/GetCompliancebyDriverfilterbyDate/${email}/${complianceStartDate}/${complianceEndDate}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/drivers/${email}`;
+  const deleteDriverURL = `${process.env.REACT_APP_BACKEND_URL}/api/Drivers/${email}`;
+  const ETAPerformanceURL = `${process.env.REACT_APP_BACKEND_URL}/api/Etaperformances/GetEtaperformancelatest7/${email}`;
+  const IncidentReportURL = `${process.env.REACT_APP_BACKEND_URL}/api/IncidentReports/GetIncidentReportlatest7/${email}`;
+  const ParcelDeliveryURL = `${process.env.REACT_APP_BACKEND_URL}/api/ParcelDeliveries/GetParcelDeliverylatest7/${email}`;
+  const vehicleCheckURL = `${process.env.REACT_APP_BACKEND_URL}/api/VehicleChecks/GetVehicleChecklatest7/${email}`;
+  const toolBoxURL = `${process.env.REACT_APP_BACKEND_URL}/api/ToolBox/GetToolBoxbyDriverlatest7/${email}`;
+  const signInURL = `${process.env.REACT_APP_BACKEND_URL}/api/DriverSignIn/GetDriverSignInbyDriverLast7days/${email}`;
+  const complaintsURL = `${process.env.REACT_APP_BACKEND_URL}/api/Complaints/GetComplaintbyDriverLast7days/${email}`;
+  const complianceURL = `${process.env.REACT_APP_BACKEND_URL}/api/Compliances/GetCompliancebyDriverLast7days/${email}`;
+  const filterETAURL = `${process.env.REACT_APP_BACKEND_URL}/api/Etaperformances/GetEtaperformancebyDriverFilterbyDate/${email}/${etaStartdate}/${etaEnddate}`;
+  const filterParcelDeliveryURL = `${process.env.REACT_APP_BACKEND_URL}/api/ParcelDeliveries/GetParcelDeliverybyDriverDate/${email}/${parcelStartdate}/${parcelEnddate}`;
+  const filterIncidentReportURL = `${process.env.REACT_APP_BACKEND_URL}/api/IncidentReports/GetIncidentReportbyDriverFilterbyDate/${email}/${incidentStartdate}/${incidentEnddate}`;
+  const filterToolBoxURL = `${process.env.REACT_APP_BACKEND_URL}/api/ToolBox/GetToolBoxbyDriverFilterbyDate/${email}/${toolStartDate}/${toolEndDate}`;
+  const filterVehicleCheckURL = `${process.env.REACT_APP_BACKEND_URL}/api/VehicleChecks/GetVehicleCheckbyDriver/${email}/${vehicleStartDate}/${vehicleEndDate}`;
+  const filterSignInURL = `${process.env.REACT_APP_BACKEND_URL}/api/DriverSignIn/GetDriverSignInbyDriverfilterByDate/${email}/${signInStartDate}/${signInEndDate}`;
+  const filterComplaintsURL = `${process.env.REACT_APP_BACKEND_URL}/api/Complaints/GetComplaintbyDriverfilterbyDate/${email}/${complaintsStartDate}/${complaintsEndDate}`;
+  const filterComplianceURL = `${process.env.REACT_APP_BACKEND_URL}/api/Compliances/GetCompliancebyDriverfilterbyDate/${email}/${complianceStartDate}/${complianceEndDate}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
   const [allETAPerformance, setAllETAPerformance] = useState([]);
@@ -160,7 +160,7 @@ function DriverProfile() {
       // setDOB(tempDriver.dob);
       // setLicenseExp(tempDriver.licenceExpiry);
       // setVisaExp(tempDriver.visaExpiry);
-      // console.log("dob = ", dob);
+      //
     });
   };
 
@@ -175,7 +175,7 @@ function DriverProfile() {
     axios.get(IncidentReportURL, config).then((response) => {
       const tempIncidentReport = response.data;
       setAllIncidentReports(tempIncidentReport);
-      // console.log(allIncidentReports);
+      //
     });
   };
 
@@ -183,7 +183,7 @@ function DriverProfile() {
     axios.get(ParcelDeliveryURL, config).then((response) => {
       const tempParcelDelivey = response.data;
       setAllParcelDeliveries(tempParcelDelivey);
-      // console.log(allParcelDeliveries);
+      //
     });
   };
 
@@ -238,13 +238,13 @@ function DriverProfile() {
     axios
       .get(filterETAURL, config)
       .then((response) => {
-        // console.log(response.data);
+        //
         setAllETAPerformance(response.data);
         setEtaLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setAllETAPerformance([]);
-        console.log(error);
+
         setEtaLoading(false);
       });
   }
@@ -268,9 +268,9 @@ function DriverProfile() {
         setAllParcelDeliveries(response.data);
         setParcelLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setAllParcelDeliveries([]);
-        console.log(error);
+
         setParcelLoading(false);
       });
   }
@@ -294,9 +294,9 @@ function DriverProfile() {
         setAllToolBox(response.data);
         setToolBoxLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setAllToolBox([]);
-        console.log(error);
+
         setToolBoxLoading(false);
       });
   }
@@ -320,9 +320,9 @@ function DriverProfile() {
         setAllIncidentReports(response.data);
         setIncidentLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setAllIncidentReports([]);
-        console.log(error);
+
         setIncidentLoading(false);
       });
   }
@@ -346,9 +346,9 @@ function DriverProfile() {
         setAllVehicleCheck(response.data);
         setVehicleLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setAllVehicleCheck([]);
-        console.log(error);
+
         setVehicleLoading(false);
       });
   }
@@ -362,7 +362,6 @@ function DriverProfile() {
 
     if (timeDifference < 0) {
       setSearchSignInError("Invalid date parameteres! Please try again");
-      console.log(searchSignInError);
     } else {
       setSearchSignInError("");
     }
@@ -373,9 +372,9 @@ function DriverProfile() {
         setAllSignIn(response.data);
         setSignInLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setAllSignIn([]);
-        console.log(error);
+
         setSignInLoading(false);
       });
   }
@@ -389,7 +388,6 @@ function DriverProfile() {
 
     if (timeDifference < 0) {
       setSearchComplaintsError("Invalid date parameteres! Please try again");
-      console.log(searchSignInError);
     } else {
       setSearchComplaintsError("");
     }
@@ -400,9 +398,9 @@ function DriverProfile() {
         setAllComplaints(response.data);
         setComplaintsLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setAllComplaints([]);
-        console.log(error);
+
         setComplaintsLoading(false);
       });
   }
@@ -416,7 +414,6 @@ function DriverProfile() {
 
     if (timeDifference < 0) {
       setSearchComplianceError("Invalid date parameteres! Please try again");
-      console.log(searchSignInError);
     } else {
       setSearchComplianceError("");
     }
@@ -427,9 +424,9 @@ function DriverProfile() {
         setAllCompliance(response.data);
         setComplianceLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setAllCompliance([]);
-        console.log(error);
+
         setComplianceLoading(false);
       });
   }
@@ -491,7 +488,7 @@ function DriverProfile() {
     handleTabsOrientation();
 
     // const base64 = convertBase64(driver.profilePhoto.files[0]);
-    // console.log(base64);
+    //
     tempDriverProfilePhoto = driver.profilePhoto;
 
     // Remove event listener on cleanup
@@ -499,9 +496,7 @@ function DriverProfile() {
   }, [tabsOrientation]);
 
   function deleteDriver() {
-    axios.delete(deleteDriverURL, config).then((response) => {
-      console.log(response);
-
+    axios.delete(deleteDriverURL, config).then(() => {
       navigate("/drivers");
       // const tempDriver = response.data;
       // setDriver(tempDriver);

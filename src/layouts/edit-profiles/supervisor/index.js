@@ -80,8 +80,8 @@ function EditSupervisor() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [supervisor, setSupervisor] = useState([]);
-  const baseURL = `https://sonlakserver.azurewebsites.net/api/Supervisors/${id}`;
-  const baseURLSupervisor = `https://sonlakserver.azurewebsites.net/api/Supervisors/${id}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Supervisors/${id}`;
+  const baseURLSupervisor = `${process.env.REACT_APP_BACKEND_URL}/api/Supervisors/${id}`;
   const [fname, setFname] = useState(supervisor.fname);
   const [mname, setMname] = useState(supervisor.mname);
   const [lname, setLname] = useState(supervisor.lname);
@@ -194,7 +194,7 @@ function EditSupervisor() {
     }
     return dateParameter;
   }
-  //   console.log("==> ", bodyParameters.fname);
+  //
 
   async function editSupervisor() {
     setLoading(true);
@@ -220,17 +220,16 @@ function EditSupervisor() {
       axios
         .put(baseURL, bodyParameters, config)
         .then((response) => {
-          // console.log("response = ", response.status);
-          // console.log(bodyParameters);
+          //
+          //
           if (response.status === 204) {
             alert("Supervisor Updated successfully");
             navigate(`/supervisors/${id}`);
           }
         })
-        .catch((error) => {
+        .catch(() => {
           setLoading(false);
-          console.log("error = ", error.response);
-          console.log(bodyParameters);
+
           alert("An unexpected error occured! please check the values and try again");
         });
     }

@@ -48,7 +48,7 @@ function SingleComplaints() {
   // const { rows } = SingleComplaintsData();
   //   const [search, setSearch] = useState("");
   const [singleComplaints, setSingleComplaints] = useState([]);
-  const baseURL = `https://sonlakserver.azurewebsites.net/api/Complaints/${id}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Complaints/${id}`;
 
   const config = {
     headers: {
@@ -67,12 +67,6 @@ function SingleComplaints() {
   useEffect(() => {
     getSingleComplaints();
   }, []);
-
-  //   const filteredData = singleComplaints.filter((Complaints) =>
-  //     Complaints.createDate.toLowerCase().includes(search.toLowerCase())
-  //   );
-
-  console.log(singleComplaints);
 
   if (
     window.localStorage.getItem("token") === null ||

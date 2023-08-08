@@ -21,7 +21,7 @@ import axios from "axios";
 function AllInactiveSupervisors() {
   const [search, setSearch] = useState("");
   const [allInactiveSupervisors, setAllInactiveSupervisors] = useState([]);
-  const baseURL = "https://sonlakserver.azurewebsites.net/api/Supervisors/GetSupervisorsInactive";
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Supervisors/GetSupervisorsInactive`;
 
   const config = {
     headers: {

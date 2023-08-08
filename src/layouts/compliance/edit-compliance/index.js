@@ -1,21 +1,3 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// react-router-dom components
-// import { Link } from "react-router-dom";
-
 // @mui material components
 import Card from "@mui/material/Card";
 // import Checkbox from "@mui/material/Checkbox";
@@ -68,12 +50,12 @@ function EditCompliance() {
   const [transfer, setTransfer] = useState("");
   const [route, setContractId] = useState("");
   const [username, setUserLogInId] = useState("");
-  // console.log(contractId, userLogInId);
+  //
   const [loading, setLoading] = useState(false);
 
-  const getComplainceURL = `https://sonlakserver.azurewebsites.net/api/Compliances/${id}`;
-  const putURL = `https://sonlakserver.azurewebsites.net/api/Compliances/${id}`;
-  const getAllDriversURL = "https://sonlakserver.azurewebsites.net/api/Drivers";
+  const getComplainceURL = `${process.env.REACT_APP_BACKEND_URL}/api/Compliances/${id}`;
+  const putURL = `${process.env.REACT_APP_BACKEND_URL}/api/Compliances/${id}`;
+  const getAllDriversURL = `${process.env.REACT_APP_BACKEND_URL}/api/Drivers`;
   const config = {
     headers: {
       "content-type": "application/json",
@@ -92,7 +74,7 @@ function EditCompliance() {
     axios.get(getComplainceURL, config).then((response) => {
       const tempComplaince = response.data;
       setComplaince(tempComplaince);
-      console.log(tempComplaince);
+
       setDriverEmail(tempComplaince.driverEmail);
       setArticleId(tempComplaince.articleId);
       setDate(tempComplaince.date);
@@ -125,22 +107,21 @@ function EditCompliance() {
 
   async function postCompliance() {
     setLoading(true);
-    console.log(bodyParameters);
+
     axios
       .put(putURL, bodyParameters, config)
       .then((response) => {
-        console.log(response);
         if (successCodes.includes(response.status)) {
           alert("Compliance updated successfully");
           navigate("/compliance");
         }
       })
-      .catch((error) => {
+      .catch(() => {
         setLoading(false);
         // if (error.response.status === 409) {
         //   alert("A supervisor with this email is already available");
         // } else {
-        console.log(error);
+
         alert("An unexpected error occured! please check the values and try again");
         // }
       });
@@ -148,7 +129,7 @@ function EditCompliance() {
 
   async function setDriverDetails(identifier) {
     setDriverEmail(identifier);
-    const getDriverDetailsURL = `https://sonlakserver.azurewebsites.net/api/Drivers/${identifier}`;
+    const getDriverDetailsURL = `${process.env.REACT_APP_BACKEND_URL}/api/Drivers/${identifier}`;
     await axios
       .get(getDriverDetailsURL, config)
       .then((response) => {
@@ -157,13 +138,11 @@ function EditCompliance() {
           setUserLogInId(response.data.username);
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   }
 
-  // console.log(user, route, deviceID, articles, early, onTime, late, notDelivered, onTimePercentage);
-  // console.log(Driver);
+  //
+  //
 
   if (
     window.localStorage.getItem("token") === null ||

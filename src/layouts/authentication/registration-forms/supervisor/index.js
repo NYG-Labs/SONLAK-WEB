@@ -72,11 +72,10 @@ function SupervisorRegistration() {
   // const [profilePhoto, setProfilePhoto] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const baseURL = "https://sonlakserver.azurewebsites.net/api/Supervisors";
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Supervisors`;
 
   const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
   const sasToken = process.env.REACT_APP_STORAGESASTOKEN;
-  // console.log(storageAccountName);
 
   const blobService = new BlobServiceClient(
     `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
@@ -161,7 +160,6 @@ function SupervisorRegistration() {
     setLoading(true);
     await uploadVisaScan();
     await uploadProfilePhoto();
-    // console.log(bodyParameters);
 
     if (bodyParameters.email.length === 0) {
       window.alert("Please enter a email to register");
@@ -182,7 +180,6 @@ function SupervisorRegistration() {
       axios
         .post(baseURL, bodyParameters, config)
         .then((response) => {
-          // console.log(response.status);
           if (response.status === 201) {
             alert("Supervisor registered successfully");
             navigate("/supervisors");

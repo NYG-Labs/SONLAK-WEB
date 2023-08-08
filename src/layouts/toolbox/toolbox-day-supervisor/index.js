@@ -51,7 +51,7 @@ function ToolBoxSupervisorDate() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [toolBoxSupervisorDate, setToolBoxSupervisorDate] = useState([]);
-  const baseURL = `https://sonlakserver.azurewebsites.net/api/ToolBox/GetToolBoxBySupervisorDate/${supervisor}/${date}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/ToolBox/GetToolBoxBySupervisorDate/${supervisor}/${date}`;
 
   const config = {
     headers: {
@@ -74,8 +74,6 @@ function ToolBoxSupervisorDate() {
     getToolBoxSupervisorDate();
   }, []);
 
-  console.log("ALl ToolBox = ", toolBoxSupervisorDate, search);
-
   const filteredData = toolBoxSupervisorDate.filter((tsd) =>
     tsd.fullName.toLowerCase().includes(search.toLowerCase())
   );
@@ -88,7 +86,6 @@ function ToolBoxSupervisorDate() {
     { title: "Timestamp", field: "createDate" },
   ];
   const downloadPDF = () => {
-    console.log("toolBoxSupervisorDate = ", toolBoxSupervisorDate);
     const doc = new JSPDF();
     doc.setFontSize(11);
     doc.text(

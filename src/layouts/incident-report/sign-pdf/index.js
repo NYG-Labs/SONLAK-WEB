@@ -37,7 +37,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 function SignPDF() {
   const { id } = useParams();
-  const baseURL = `https://sonlakserver.azurewebsites.net/api/IncidentReports/${id}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/IncidentReports/${id}`;
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [driverEmail, setEmail] = useState("");
@@ -81,7 +81,7 @@ function SignPDF() {
   const getIncidentReports = () => {
     axios.get(baseURL, config).then((response) => {
       const tempIncidentReport = response.data;
-      console.log(tempIncidentReport);
+
       setEmail(tempIncidentReport.driverEmail);
       setAddress(tempIncidentReport.address);
       setDate(tempIncidentReport.createDate);
@@ -115,10 +115,9 @@ function SignPDF() {
             navigate("/Incident-reports");
           }
         })
-        .catch((error) => {
+        .catch(() => {
           setLoading(false);
           alert("An unexpected error occured! please check the values and try again");
-          console.log(error);
         });
     }
   }

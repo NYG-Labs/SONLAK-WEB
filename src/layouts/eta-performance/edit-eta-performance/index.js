@@ -52,8 +52,8 @@ function EditETAPerformance() {
     // fontSize: "0.75rem",
   };
 
-  const getAllDriversURL = "https://sonlakserver.azurewebsites.net/api/Drivers";
-  const ETAPerformanceURL = `https://sonlakserver.azurewebsites.net/api/Etaperformances/${id}`;
+  const getAllDriversURL = `${process.env.REACT_APP_BACKEND_URL}/api/Drivers`;
+  const ETAPerformanceURL = `${process.env.REACT_APP_BACKEND_URL}/api/Etaperformances/${id}`;
 
   const config = {
     headers: {
@@ -125,24 +125,23 @@ function EditETAPerformance() {
     axios
       .put(ETAPerformanceURL, bodyParameters, config)
       .then((response) => {
-        console.log("response = ", response.status);
-        // console.log(bodyParameters);
+        //
         if (response.status === 204) {
           alert("ETA-Performance Updated successfully");
           navigate(`/ETA-performance/${initCreatedDate.split("T")[0]}`);
         }
       })
-      .catch((error) => {
+      .catch(() => {
         setLoading(false);
-        console.log("error = ", error.response);
-        // console.log(bodyParameters);
+
+        //
         alert("An unexpected error occured! please check the values and try again");
       });
   }
 
   async function setDriverDetails(identifier) {
     setDriverEmail(identifier);
-    const getDriverDetailsURL = `https://sonlakserver.azurewebsites.net/api/Drivers/${identifier}`;
+    const getDriverDetailsURL = `${process.env.REACT_APP_BACKEND_URL}/api/Drivers/${identifier}`;
     await axios
       .get(getDriverDetailsURL, config)
       .then((response) => {
@@ -151,9 +150,7 @@ function EditETAPerformance() {
           // setUserLogInId(response.data.username);
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(() => {});
   }
 
   if (

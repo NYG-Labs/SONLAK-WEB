@@ -1,29 +1,6 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import * as React from "react";
-// @mui material components
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
-
-// @mui icons
-// import FacebookIcon from "@mui/icons-material/Facebook";
-// import TwitterIcon from "@mui/icons-material/Twitter";
-// import InstagramIcon from "@mui/icons-material/Instagram";
-
-// Material Dashboard 2 React components
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -39,10 +16,8 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-// import Paper from "@material-ui/core/Paper";
 import Card from "@mui/material/Card";
 import MDInput from "components/MDInput";
-// Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
@@ -50,25 +25,10 @@ import ProfileInfoCard from "examples/Cards/InfoCards/ProfileInfoCard";
 // import ProfilesList from "examples/Lists/ProfilesList";
 // import DefaultProjectCard from "examples/Cards/ProjectCards/DefaultProjectCard";
 import MDAvatar from "components/MDAvatar";
-// import burceMars from "assets/images/bruce-mars.jpg";
 import breakpoints from "assets/theme/base/breakpoints";
 
-// Overview page components
 import Header from "layouts/profile/components/Header";
-// import PlatformSettings from "layouts/profile/components/PlatformSettings";
 
-// Data
-// import profilesListData from "layouts/profile/data/profilesListData";
-
-// Images
-// import homeDecor1 from "assets/images/home-decor-1.jpg";
-// import homeDecor2 from "assets/images/home-decor-2.jpg";
-// import homeDecor3 from "assets/images/home-decor-3.jpg";
-// import homeDecor4 from "assets/images/home-decor-4.jpeg";
-// import team1 from "assets/images/team-1.jpg";
-// import team2 from "assets/images/team-2.jpg";
-// import team3 from "assets/images/team-3.jpg";
-// import team4 from "assets/images/team-4.jpg";
 import MDBadge from "components/MDBadge";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -81,11 +41,11 @@ function SupervisorProfile() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [supervisor, setSupervisor] = useState([]);
-  const baseURL = `https://sonlakserver.azurewebsites.net/api/supervisors/${id}`;
-  const ToolBoxURL = `https://sonlakserver.azurewebsites.net/api/ToolBox/GetToolBoxBySupervisor/${id}`;
-  const ComplaintsURL = `https://sonlakserver.azurewebsites.net/api/Complaints/GetComplaintbySupervisor/${id}`;
-  const deleteSupervisorURL = `https://sonlakserver.azurewebsites.net/api/Supervisors/${id}`;
-  const driversURL = `https://sonlakserver.azurewebsites.net/api/Drivers/GetSupervisorsDriversList/${id}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/supervisors/${id}`;
+  const ToolBoxURL = `${process.env.REACT_APP_BACKEND_URL}/api/ToolBox/GetToolBoxBySupervisor/${id}`;
+  const ComplaintsURL = `${process.env.REACT_APP_BACKEND_URL}/api/Complaints/GetComplaintbySupervisor/${id}`;
+  const deleteSupervisorURL = `${process.env.REACT_APP_BACKEND_URL}/api/Supervisors/${id}`;
+  const driversURL = `${process.env.REACT_APP_BACKEND_URL}/api/Drivers/GetSupervisorsDriversList/${id}`;
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
   const [tabValue, setTabValue] = useState(0);
   const [searchToolBox, setSearchToolBox] = useState("");
@@ -95,7 +55,6 @@ function SupervisorProfile() {
   const [allComplaints, setAllComplaints] = useState([]);
   const [alldrivers, setDrivers] = useState([]);
   let tempSupervisorProfilePhoto = supervisor.profilePhoto;
-  // console.log(supervisor);
 
   const config = {
     headers: {
@@ -183,9 +142,7 @@ function SupervisorProfile() {
   };
 
   function deleteSupervisor() {
-    axios.delete(deleteSupervisorURL, config).then((response) => {
-      console.log(response);
-
+    axios.delete(deleteSupervisorURL, config).then(() => {
       navigate("/supervisors");
       // const tempDriver = response.data;
       // setDriver(tempDriver);

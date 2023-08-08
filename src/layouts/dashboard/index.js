@@ -68,18 +68,12 @@ function Dashboard() {
   //   labels: days,
   //   datasets: { label: "Sales", data: parcelCount },
   // };
-  const weekdaysDataURL =
-    "https://sonlakserver.azurewebsites.net/api/ParcelDeliveries/GetParcelDeliveryCountforAdmin";
-  const dayWeekMonthURL =
-    "https://sonlakserver.azurewebsites.net/api/ParcelDeliveries/GetParcelDeliveryStatforAdmin";
-  const mostFiveDeliveriesURL =
-    "https://sonlakserver.azurewebsites.net/api/ParcelDeliveries/GetMost5ParcelDeliveryforMonth";
-  const latestIncidentReportsURL =
-    "https://sonlakserver.azurewebsites.net/api/IncidentReports/GetIncidentReportsLatest3";
-  const latestComplaintsURL =
-    "https://sonlakserver.azurewebsites.net/api/Complaints/GetComplaintLatest4";
-  const complaintStatsURL =
-    "https://sonlakserver.azurewebsites.net/api/Complaints/GetComplaintStatAdmin";
+  const weekdaysDataURL = `${process.env.REACT_APP_BACKEND_URL}/api/ParcelDeliveries/GetParcelDeliveryCountforAdmin`;
+  const dayWeekMonthURL = `${process.env.REACT_APP_BACKEND_URL}/api/ParcelDeliveries/GetParcelDeliveryStatforAdmin`;
+  const mostFiveDeliveriesURL = `${process.env.REACT_APP_BACKEND_URL}/api/ParcelDeliveries/GetMost5ParcelDeliveryforMonth`;
+  const latestIncidentReportsURL = `${process.env.REACT_APP_BACKEND_URL}/api/IncidentReports/GetIncidentReportsLatest3`;
+  const latestComplaintsURL = `${process.env.REACT_APP_BACKEND_URL}/api/Complaints/GetComplaintLatest4`;
+  const complaintStatsURL = `${process.env.REACT_APP_BACKEND_URL}/api/Complaints/GetComplaintStatAdmin`;
 
   const config = {
     headers: {
@@ -99,14 +93,14 @@ function Dashboard() {
     });
     // setDays(tempDays);
     // setParcelCount(tempParcelCount);
-    // console.log("DATA = ", data);
+    //
   };
 
   const getDayWeekMonthData = () => {
     axios.get(dayWeekMonthURL, config).then((response) => {
       const tempDayWeekMonth = response.data;
       setDayWeekMonth(tempDayWeekMonth);
-      // console.log("dayweekmonth = ", dayWeekMonth);
+      //
     });
   };
 
@@ -114,7 +108,7 @@ function Dashboard() {
     axios.get(mostFiveDeliveriesURL, config).then((response) => {
       const tempMostFiveDeliveries = response.data;
       setMostFiveDeliveries(tempMostFiveDeliveries);
-      // console.log("most 5 deliveries = ", tempMostFiveDeliveries);
+      //
     });
   };
 
@@ -122,7 +116,7 @@ function Dashboard() {
     axios.get(latestIncidentReportsURL, config).then((response) => {
       const tempLatestIncidentReports = response.data;
       setLatestIncidentReports(tempLatestIncidentReports);
-      // console.log("Latest Incident Reports = ", tempLatestIncidentReports, latestIncidentReports);
+      //
     });
   };
 
@@ -130,7 +124,7 @@ function Dashboard() {
     axios.get(latestComplaintsURL, config).then((response) => {
       const tempLatestComplaints = response.data;
       setLatestComplaints(tempLatestComplaints);
-      // console.log("Latest Complaints = ", tempLatestComplaints, latestComplaints);
+      //
     });
   };
 
@@ -138,7 +132,7 @@ function Dashboard() {
     axios.get(complaintStatsURL, config).then((response) => {
       const tempComplaintsStats = response.data;
       setComplaintStatsURL(tempComplaintsStats);
-      // console.log("Latest Complaints = ", tempComplaintsStats, complaintStats);
+      //
     });
   };
 
@@ -151,7 +145,7 @@ function Dashboard() {
     getComplaintsSats();
   }, []);
 
-  // console.log(window.localStorage.getItem("roleKey"));
+  //
   if (
     window.localStorage.getItem("token") === null ||
     (window.localStorage.getItem("roleKey") !== "SUPERADMIN" &&

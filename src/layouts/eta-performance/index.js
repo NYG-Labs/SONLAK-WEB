@@ -52,8 +52,8 @@ function AllETAPerformance() {
   const [loading, setLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
   const [allETAPerformance, setAllETAPerformance] = useState([]);
-  const baseURL = `https://sonlakserver.azurewebsites.net/api/Etaperformances/GetEtaperformancesLast7days`;
-  const baseURLFilter = `https://sonlakserver.azurewebsites.net/api/Etaperformances/GetEtaperformancesFilterbyDate/${fromDate}/${toDate}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Etaperformances/GetEtaperformancesLast7days`;
+  const baseURLFilter = `${process.env.REACT_APP_BACKEND_URL}/api/Etaperformances/GetEtaperformancesFilterbyDate/${fromDate}/${toDate}`;
 
   const config = {
     headers: {
@@ -97,14 +97,12 @@ function AllETAPerformance() {
         setAllETAPerformance(response.data);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setAllETAPerformance([]);
-        console.log(error);
+
         setLoading(false);
       });
   }
-
-  // console.log(allETAPerformance);
 
   if (
     window.localStorage.getItem("token") === null ||

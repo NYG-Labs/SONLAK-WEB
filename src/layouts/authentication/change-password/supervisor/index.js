@@ -27,7 +27,7 @@ function ChangePasswordSupervisor() {
     }
   };
 
-  const baseURL = `https://sonlakserver.azurewebsites.net/api/Supervisors/ResetPasswordSupervisorbyAdmin/${id}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Supervisors/ResetPasswordSupervisorbyAdmin/${id}`;
 
   const config = {
     headers: {
@@ -54,9 +54,8 @@ function ChangePasswordSupervisor() {
             navigate(`/supervisors/${id}`);
           }
         })
-        .catch((error) => {
+        .catch(() => {
           setLoading(false);
-          console.log("error = ", error.response);
           alert("An unexpected error occured! please check the values and try again");
         });
     }

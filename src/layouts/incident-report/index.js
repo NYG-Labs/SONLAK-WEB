@@ -50,10 +50,9 @@ function AllIncidentReports() {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [searchError, setSearchError] = useState("");
-  const baseURL =
-    "https://sonlakserver.azurewebsites.net/api/IncidentReports/GetIncidentReportsLast7days";
-  const baseURLFilter = `https://sonlakserver.azurewebsites.net/api/IncidentReports/GetIncidentReportsFilterbyDate/${fromDate}/${toDate}`;
-  // console.log(fromDate, toDate);
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/IncidentReports/GetIncidentReportsLast7days`;
+  const baseURLFilter = `${process.env.REACT_APP_BACKEND_URL}/api/IncidentReports/GetIncidentReportsFilterbyDate/${fromDate}/${toDate}`;
+  //
   const config = {
     headers: {
       "content-type": "application/json",
@@ -65,7 +64,7 @@ function AllIncidentReports() {
     axios.get(baseURL, config).then((response) => {
       const tempIncidentReports = response.data;
       setAllIncidentReports(tempIncidentReports);
-      // console.log(allIncidentReports);
+      //
     });
   };
 
@@ -73,7 +72,7 @@ function AllIncidentReports() {
     getAllIncidentReports();
   }, []);
 
-  // console.log("ALl IncidentReports = ", allIncidentReports, search);
+  //
 
   const filteredData = allIncidentReports.filter(
     (IncidentReport) =>
@@ -101,9 +100,8 @@ function AllIncidentReports() {
         setAllIncidentReports(response.data);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setAllIncidentReports([]);
-        console.log(error);
         setLoading(false);
       });
   }

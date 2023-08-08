@@ -21,7 +21,7 @@ import axios from "axios";
 function AllInactiveDrivers() {
   const [search, setSearch] = useState("");
   const [allInactiveDrivers, setAllInactiveDrivers] = useState([]);
-  const baseURL = "https://sonlakserver.azurewebsites.net/api/Drivers/GetDriversInactive";
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Drivers/GetDriversInactive`;
 
   const config = {
     headers: {

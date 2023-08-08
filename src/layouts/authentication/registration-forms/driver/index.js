@@ -68,15 +68,11 @@ function DriverRegistration() {
   const [emergencyName, setEmergencyName] = useState("");
   const [emergencyPhoneNo, setEmergencyNumber] = useState("");
   const [emergencyRelation, setEmergencyRelationship] = useState("");
-  // console.log();
   const [loading, setLoading] = useState(false);
 
-  const baseURL = "https://sonlakserver.azurewebsites.net/api/Drivers";
-  const baseURLSupervisors =
-    "https://sonlakserver.azurewebsites.net/api/Supervisors/GetSupervisorsActive";
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Drivers`;
+  const baseURLSupervisors = `${process.env.REACT_APP_BACKEND_URL}/api/Supervisors/GetSupervisorsActive`;
 
-  // const currentDate = new Date();
-  // const timestamp = currentDate.getTime();
   const tempFileNameAusPostScan = `${email}_auspostscan.pdf`;
   const tempAusPostScanURL = `https://${storageAccountName}.blob.core.windows.net/driverauspostscan/${tempFileNameAusPostScan}`;
   const ausPostScan = tempAusPostScanURL;
@@ -252,12 +248,10 @@ function DriverRegistration() {
 
   async function registerDriver() {
     setLoading(true);
-    // console.log(bodyParameters.visaScan);
     await uploadAusPostScan();
     await uploadLicenceScan();
     await uploadVisaScan();
     await uploadProfilePhoto();
-    console.log(bodyParameters);
 
     if (bodyParameters.email.length === 0) {
       window.alert("Please enter a email to register");
@@ -287,7 +281,6 @@ function DriverRegistration() {
       axios
         .post(baseURL, bodyParameters, config)
         .then((response) => {
-          // console.log(response.status);
           if (response.status === 201) {
             alert("Driver registered successfully");
             navigate("/drivers");

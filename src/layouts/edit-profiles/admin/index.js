@@ -61,8 +61,8 @@ function EditAdmin() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [admin, setAdmin] = useState([]);
-  const baseURL = `https://sonlakserver.azurewebsites.net/api/Admins/${id}`;
-  const baseURLAdmin = `https://sonlakserver.azurewebsites.net/api/Admins/${id}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Admins/${id}`;
+  const baseURLAdmin = `${process.env.REACT_APP_BACKEND_URL}/api/Admins/${id}`;
   const [fname, setFname] = useState(admin.fname);
   const [lname, setLname] = useState(admin.lname);
   const [adminType, setAdminType] = useState(admin.adminType);
@@ -114,9 +114,9 @@ function EditAdmin() {
             navigate(`/admins/${id}`);
           }
         })
-        .catch((error) => {
+        .catch(() => {
           setLoading(false);
-          console.log("error = ", error.response);
+
           alert("An unexpected error occured! please check the values and try again");
         });
     }

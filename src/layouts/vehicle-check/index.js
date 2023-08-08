@@ -27,9 +27,8 @@ function AllVehicleCheck() {
   const [toDate, setToDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
-  const baseURL =
-    "https://sonlakserver.azurewebsites.net/api/VehicleChecks/GetVehicleChecksLast7days";
-  const baseURLFilter = `https://sonlakserver.azurewebsites.net/api/VehicleChecks/GetVehicleChecksfilterbyDate/${fromDate}/${toDate}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/VehicleChecks/GetVehicleChecksLast7days`;
+  const baseURLFilter = `${process.env.REACT_APP_BACKEND_URL}/api/VehicleChecks/GetVehicleChecksfilterbyDate/${fromDate}/${toDate}`;
 
   const config = {
     headers: {
@@ -68,9 +67,8 @@ function AllVehicleCheck() {
         setAllVehicleCheck(response.data);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setAllVehicleCheck([]);
-        console.log(error);
         setLoading(false);
       });
   }

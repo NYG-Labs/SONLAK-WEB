@@ -50,13 +50,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CircularProgress from "@mui/material/CircularProgress";
 
 function WHSPlan() {
-  const baseURL = "https://sonlakserver.azurewebsites.net/api/Whsplans";
-  const allWHSPlanURL = "https://sonlakserver.azurewebsites.net/api/Whsplans";
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Whsplans`;
+  const allWHSPlanURL = `${process.env.REACT_APP_BACKEND_URL}/api/Whsplans`;
   const navigate = useNavigate();
   const [allWHSPlan, setAllWHSPlan] = useState([]);
   const [search, setSearch] = useState("");
   // const [topic, setTopic] = useState("");
-  // console.log(topic);
+  //
   const [loading, setLoading] = useState(false);
 
   const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
@@ -73,7 +73,7 @@ function WHSPlan() {
   // `${currentDate.getFullYear()}-0${
   //   currentDate.getMonth() + 1
   // }-${currentDate.getDate()}T${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
-  // console.log(timestamp);
+  //
 
   const tempFileNameWHSPlan = `${timestamp}_WHSPlan.pdf`;
   const tempWHSPlanURL = `https://${storageAccountName}.blob.core.windows.net/whsplan/${tempFileNameWHSPlan}`;
@@ -105,14 +105,11 @@ function WHSPlan() {
   };
 
   const deleteWHSPlan = (id) => {
-    // console.log(id);
-    axios
-      .delete(`https://sonlakserver.azurewebsites.net/api/Whsplans/${id}`, config)
-      .then((response) => {
-        // navigate(`/ETA-performance`);
-        window.location.reload();
-        console.log(response);
-      });
+    //
+    axios.delete(`${process.env.REACT_APP_BACKEND_URL}/api/Whsplans/${id}`, config).then(() => {
+      // navigate(`/ETA-performance`);
+      window.location.reload();
+    });
   };
 
   const filteredData = allWHSPlan.filter((etaPerformance) =>
@@ -135,20 +132,18 @@ function WHSPlan() {
       window.alert("No file to upload");
     } else {
       await uploadWHSPlan();
-      // console.log(bodyParameters);
+      //
       axios
         .post(baseURL, bodyParameters, config)
         .then((response) => {
-          console.log(response.status);
           if (response.status === 201) {
             alert("Safety delivery added successfully");
             window.location.reload();
           }
         })
-        .catch((error) => {
+        .catch(() => {
           setLoading(false);
           alert("An unexpected error occured! please check the values and try again");
-          console.log(error);
         });
     }
   }

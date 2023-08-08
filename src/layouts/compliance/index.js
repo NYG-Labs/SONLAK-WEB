@@ -54,8 +54,8 @@ function AllCompliance() {
   const [toDate, setToDate] = useState("");
   const [searchError, setSearchError] = useState("");
   const [loading, setLoading] = useState(false);
-  const baseURL = `https://sonlakserver.azurewebsites.net/api/Compliances/GetComplianceLast7days`;
-  const baseURLFilter = `https://sonlakserver.azurewebsites.net/api/Compliances/GetCompliancesfilterbyDate/${fromDate}/${toDate}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Compliances/GetComplianceLast7days`;
+  const baseURLFilter = `${process.env.REACT_APP_BACKEND_URL}/api/Compliances/GetCompliancesfilterbyDate/${fromDate}/${toDate}`;
 
   const config = {
     headers: {
@@ -68,7 +68,6 @@ function AllCompliance() {
     axios.get(baseURL, config).then((response) => {
       const tempCompliance = response.data;
       setAllCompliance(tempCompliance);
-      // console.log(tempCompliance);
     });
   };
 
@@ -99,24 +98,20 @@ function AllCompliance() {
         setAllCompliance(response.data);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setAllCompliance([]);
-        console.log(error);
         setLoading(false);
       });
   }
 
   function handleDelete(id) {
-    console.log(id);
     axios
-      .delete(`https://sonlakserver.azurewebsites.net/api/Compliances/${id}`, config)
-      .then((response) => {
-        console.log(response);
+      .delete(`${process.env.REACT_APP_BACKEND_URL}/api/Compliances/${id}`, config)
+      .then(() => {
         window.alert("Compliance deleted successfully");
         window.location.reload();
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
         window.alert("An unexpected error occuered! please try again");
         window.location.reload();
       });

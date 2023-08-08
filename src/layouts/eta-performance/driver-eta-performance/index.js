@@ -54,7 +54,7 @@ function DriverETAPerformance() {
   const { date } = useParams();
   const [search, setSearch] = useState("");
   const [driverETAPerformance, setDriverETAPerformance] = useState([]);
-  const baseURL = `https://sonlakserver.azurewebsites.net/api/Etaperformances/GetEtaperformancebyDate/${date}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Etaperformances/GetEtaperformancebyDate/${date}`;
 
   const config = {
     headers: {
@@ -71,13 +71,13 @@ function DriverETAPerformance() {
   };
 
   const deleteDriverETAPerformance = (id) => {
-    // console.log(id);
+    //
     axios
-      .delete(`https://sonlakserver.azurewebsites.net/api/Etaperformances/${id}`, config)
-      .then((response) => {
+      .delete(`${process.env.REACT_APP_BACKEND_URL}/api/Etaperformances/${id}`, config)
+      .then(() => {
         navigate(`/ETA-performance`);
         // window.location.reload(false);
-        console.log(response);
+
         // const tempETAPerformance = response.data;
         // setDriverETAPerformance(tempETAPerformance);
       });

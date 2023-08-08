@@ -52,9 +52,8 @@ function AllParcelDeliveries() {
   const [toDate, setToDate] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchError, setSearchError] = useState("");
-  const baseURL =
-    "https://sonlakserver.azurewebsites.net/api/ParcelDeliveries/GetParcelDeliveriesLast7days";
-  const baseURLFilter = `https://sonlakserver.azurewebsites.net/api/ParcelDeliveries/GetParcelDeliveriesFilterbyDate/${fromDate}/${toDate}`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/ParcelDeliveries/GetParcelDeliveriesLast7days`;
+  const baseURLFilter = `${process.env.REACT_APP_BACKEND_URL}/api/ParcelDeliveries/GetParcelDeliveriesFilterbyDate/${fromDate}/${toDate}`;
   const tableRef = useRef(null);
 
   const config = {
@@ -75,7 +74,7 @@ function AllParcelDeliveries() {
     getAllParcelDeliveries();
   }, []);
 
-  // console.log("ALl ParcelDeliveries = ", allParcelDeliveries, search);
+  //
 
   const filteredData = allParcelDeliveries.filter(
     (ParcelDeliveries) =>
@@ -103,9 +102,9 @@ function AllParcelDeliveries() {
         setAllParcelDeliveries(response.data);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setAllParcelDeliveries([]);
-        console.log(error);
+
         setLoading(false);
       });
   }

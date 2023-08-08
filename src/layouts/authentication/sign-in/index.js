@@ -53,7 +53,7 @@ function Basic() {
   const [loading, setLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const baseURL = "https://sonlakserver.azurewebsites.net/api/LoginUsers/Login";
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/LoginUsers/Login`;
 
   async function sendSignInData() {
     setLoading(true);
@@ -63,19 +63,17 @@ function Basic() {
         password,
       })
       .then((response) => {
-        if (response.data.roleKey === "SUPERADMIN" || "OTHERADMIN") {
+        if (response.data.roleKey === "SUPERADMIN" || response.data.roleKey === "OTHERADMIN") {
           window.localStorage.setItem("roleKey", response.data.roleKey);
           window.localStorage.setItem("token", response.data.token);
           navigate("/dashboard");
         } else {
-          console.log("response = ERROR", response);
           setErrorMessage("An unauthorized login");
           setIsError(true);
           navigate("/");
         }
       })
       .catch((error) => {
-        console.log("response = ERROR", error);
         setLoading(false);
         setErrorMessage(error.response.data.errors[0]);
         setIsError(true);

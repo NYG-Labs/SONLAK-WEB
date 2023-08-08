@@ -55,7 +55,7 @@ function DriverDailySignIn() {
   const [allDrivers, setAllDrivers] = useState([]);
   const newDate = new Date();
   const today = `${newDate.getFullYear()}-${newDate.getMonth() + 1}-${newDate.getDate()}`;
-  console.log(today, newDate);
+
   const [fromDate, setFromDate] = useState(today);
   const [toDate, setToDate] = useState(today);
   const [searchError, setSearchError] = useState("");
@@ -63,8 +63,8 @@ function DriverDailySignIn() {
   const [latitute, setLatitue] = useState(-37.8136);
   const [longtitude, setLongtitude] = useState(144.9631);
   // const baseURL = `/api/DriverSignIn`;
-  const baseURLFilter = `https://sonlakserver.azurewebsites.net/api/DriverSignIn/GetDriverSignInsfilterbyDate/${fromDate}/${toDate}`;
-  // console.log(fromDate, toDate);
+  const baseURLFilter = `${process.env.REACT_APP_BACKEND_URL}/api/DriverSignIn/GetDriverSignInsfilterbyDate/${fromDate}/${toDate}`;
+  //
 
   const config = {
     headers: {
@@ -83,8 +83,6 @@ function DriverDailySignIn() {
   useEffect(() => {
     getAllDrivers();
   }, []);
-
-  console.log("ALl Drivers = ", allDrivers, search);
 
   const filteredData = allDrivers.filter((driver) =>
     driver.driverEmail.toLowerCase().includes(search.toLowerCase())
@@ -111,9 +109,9 @@ function DriverDailySignIn() {
         setAllDrivers(response.data);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(() => {
         setAllDrivers([]);
-        console.log(error);
+
         setLoading(false);
       });
   }

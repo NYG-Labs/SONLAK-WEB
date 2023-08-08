@@ -42,8 +42,8 @@ function AddComplaints() {
     // fontSize: "0.75rem",
   };
 
-  const baseURL = "https://sonlakserver.azurewebsites.net/api/complaint";
-  const allDriverURL = "https://sonlakserver.azurewebsites.net/api/Drivers";
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/complaint`;
+  const allDriverURL = `${process.env.REACT_APP_BACKEND_URL}/api/Drivers`;
   //   const allWHSPlanURL = "/api/Whsplans";
   const navigate = useNavigate();
   //   const [allWHSPlan, setAllWHSPlan] = useState([]);
@@ -51,7 +51,6 @@ function AddComplaints() {
   const [loading, setLoading] = useState(false);
   const [driver, setDriver] = useState("");
   const [allDrivers, setAllDrivers] = useState([]);
-  //   console.log(driver);
 
   const storageAccountName = process.env.REACT_APP_STORAGERESOURCENAME;
   const sasToken = process.env.REACT_APP_STORAGESASTOKEN;
@@ -64,7 +63,6 @@ function AddComplaints() {
 
   const currentDate = new Date();
   const timestamp = `${currentDate.getFullYear()}-0${currentDate.getMonth()}-${currentDate.getDate()}T${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
-  console.log(timestamp);
 
   const tempFileNameComplaints = `${timestamp}_Complaints.jpg`;
   const tempComplaintsURL = `https://${storageAccountName}.blob.core.windows.net/complaints/${tempFileNameComplaints}`;
@@ -95,19 +93,6 @@ function AddComplaints() {
     });
   };
 
-  //   const deleteWHSPlan = (id) => {
-  //     // console.log(id);
-  //     axios.delete(`/api/Whsplans/${id}`, config).then((response) => {
-  //       // navigate(`/ETA-performance`);
-  //       window.location.reload();
-  //       console.log(response);
-  //     });
-  //   };
-
-  //   const filteredData = allWHSPlan.filter((etaPerformance) =>
-  //     etaPerformance.createDate.toLowerCase().includes(search.toLowerCase())
-  //   );
-
   useEffect(() => {
     getAllDrivers();
   }, []);
@@ -124,20 +109,17 @@ function AddComplaints() {
       window.alert("No file to upload");
     } else {
       await uploadComplaints();
-      console.log(bodyParameters);
       axios
         .post(baseURL, bodyParameters, config)
         .then((response) => {
-          console.log(response.status);
           if (response.status === 201) {
             alert("Complaint added successfully");
             navigate("/complaints");
           }
         })
-        .catch((error) => {
+        .catch(() => {
           setLoading(false);
           alert("An unexpected error occured! please check the values and try again");
-          console.log(error);
         });
     }
   }

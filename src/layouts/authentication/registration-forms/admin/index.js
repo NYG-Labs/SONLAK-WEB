@@ -67,7 +67,7 @@ function AdminRegistration() {
   const [phoneNo, setPhoneNo] = useState("");
   const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(false);
-  const baseURL = "https://sonlakserver.azurewebsites.net/api/Admins";
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/Admins`;
   const navigate = useNavigate();
 
   const config = {
@@ -99,7 +99,6 @@ function AdminRegistration() {
 
   function registerAdmin() {
     setLoading(true);
-    console.log(bodyParameters);
     if (bodyParameters.email.length === 0) {
       window.alert("Please enter a email to register");
       setLoading(false);
@@ -122,7 +121,6 @@ function AdminRegistration() {
       axios
         .post(baseURL, bodyParameters, config)
         .then((response) => {
-          console.log(response.status);
           if (response.status === 201) {
             alert("Admin registered successfully");
             navigate("/admins");

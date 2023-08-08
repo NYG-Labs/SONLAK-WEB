@@ -44,8 +44,8 @@ function AddParcelDeliveries() {
     // fontSize: "0.75rem",
   };
 
-  const getAllDriversURL = "https://sonlakserver.azurewebsites.net/api/Drivers/GetDriversActive";
-  const baseURL = "https://sonlakserver.azurewebsites.net/api/ParcelDeliveries";
+  const getAllDriversURL = `${process.env.REACT_APP_BACKEND_URL}/api/Drivers/GetDriversActive`;
+  const baseURL = `${process.env.REACT_APP_BACKEND_URL}/api/ParcelDeliveries`;
   const config = {
     headers: {
       "content-type": "application/json",
@@ -81,21 +81,16 @@ function AddParcelDeliveries() {
     axios
       .post(baseURL, bodyParameters, config)
       .then((response) => {
-        console.log(response);
-        if (response.status === 201 || 200) {
+        if (response.status === 201 || response.status === 200) {
           alert("Parcel delivery added successfully");
           navigate("/Parcel-deliveries");
         }
       })
-      .catch((error) => {
+      .catch(() => {
         setLoading(false);
-        console.log(error);
         alert("An unexpected error occured! please check the values and try again");
       });
   }
-
-  // console.log(user, route, deviceID, articles, early, onTime, late, notDelivered, onTimePercentage);
-  // console.log(allDrivers);
 
   if (
     window.localStorage.getItem("token") === null ||
